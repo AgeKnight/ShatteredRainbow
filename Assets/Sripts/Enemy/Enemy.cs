@@ -13,7 +13,14 @@ public class Enemy : MonoBehaviour
     {
         Attack();
     }
-    public virtual void Attack(){}
+    public void Attack()
+    {
+        coroutine = StartCoroutine(UseBarrage());
+    }
+    protected virtual IEnumerator UseBarrage()
+    {
+        yield return new WaitForSeconds(1000);
+    }
     protected void BaseBarrage()
     {
         int indexz = 0;

@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class Boss1Attack : Enemy
 {
-    public override void Attack()
-    {
-        coroutine = StartCoroutine(UseBarrage());
-    }
-    IEnumerator UseBarrage()
+    protected override IEnumerator UseBarrage()
     {
         while (FindObjectOfType<Player>())
         {
