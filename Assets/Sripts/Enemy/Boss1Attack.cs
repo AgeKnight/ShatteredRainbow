@@ -4,19 +4,15 @@ using UnityEngine;
 
 public class Boss1Attack : Enemy
 {
-    protected override IEnumerator UseBarrage()
+    protected override void BarrageMethod()
     {
-        while (FindObjectOfType<Player>())
+        if (gameObject.GetComponent<Death>().hpBar.value < 0.5)
         {
-            if (gameObject.GetComponent<Death>().hpBar.value < 0.5)
-            {
-                Barrage2();
-            }
-            else
-            {
-                Barrage();
-            }
-            yield return new WaitForSeconds(0.3f);
+            Barrage2();
+        }
+        else
+        {
+            Barrage();
         }
     }
     void Barrage()

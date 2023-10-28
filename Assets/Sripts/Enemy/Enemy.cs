@@ -7,8 +7,11 @@ public class Enemy : MonoBehaviour
     protected Coroutine coroutine;
     public GameObject bullet;
     public Transform bulletTransform;
+    #region "Hide"
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
+    public float countTime;
+    #endregion
     void Start()
     {
         Attack();
@@ -16,11 +19,16 @@ public class Enemy : MonoBehaviour
     public void Attack()
     {
         coroutine = StartCoroutine(UseBarrage());
-    }
-    protected virtual IEnumerator UseBarrage()
+    } 
+    IEnumerator UseBarrage()
     {
-        yield return new WaitForSeconds(1000);
+        while (FindObjectOfType<Player>())
+        {
+            BarrageMethod();
+            yield return new WaitForSeconds(countTime);
+        }
     }
+    protected virtual void BarrageMethod(){}
     protected void BaseBarrage()
     {
         int indexz = 0;

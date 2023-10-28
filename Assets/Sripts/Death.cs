@@ -10,9 +10,9 @@ public enum CharatorType
 }
 public class Death : MonoBehaviour
 {
-    float hp;
+    int hp;
     SpriteRenderer sprite;
-    public float totalHp;
+    public int totalHp;
     public CharatorType type;
     public Sprite[] status;
     public Slider hpBar;
@@ -34,12 +34,12 @@ public class Death : MonoBehaviour
             {
                 if (hp > 0)
                 {
-                    sprite.sprite = status[(int)totalHp - (int)hp];
+                    sprite.sprite = status[totalHp - hp];
                 }
             }
             else if (tag == "Enemy" && hpBar != null)
             {
-                hpBar.value = hp / totalHp;
+                hpBar.value = (float)hp / totalHp;
             }
             if (hp <= 0)
             {

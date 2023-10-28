@@ -2,15 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum BulletType
+{
+    Player,
+    Enemy
+}
 public class Bullet : MonoBehaviour
 {
-    
-    public enum BulletType
-    {
-        Player,
-        Enemy
-    }
     public float speed;
     public BulletType bulletType;
     void Update()
@@ -29,10 +27,10 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Death>() != null)
         {
-            if(other.gameObject.GetComponent<Death>().Hurt(other.gameObject.tag,bulletType.GetType().GetEnumName(bulletType)))
+            if (other.gameObject.GetComponent<Death>().Hurt(other.gameObject.tag, bulletType.GetType().GetEnumName(bulletType)))
             {
                 Die();
-            }           
+            }
         }
     }
 }
