@@ -389,6 +389,7 @@ GameObject:
   - component: {fileID: 8505903706345261444}
   - component: {fileID: 3320111845715336476}
   - component: {fileID: 1544667865}
+  - component: {fileID: 1389417295}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
@@ -516,6 +517,7 @@ MonoBehaviour:
   type: 1
   status: []
   hpBar: {fileID: 1607186797}
+  hp: 0
 --- !u!114 &1544667865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,10 +530,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e6fe635f231fe544ba845ea9bc1705c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countTime: 0.3
   bullet: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
   bulletTransform: {fileID: 1966008689791733373}
   Allbullet: []
+  countTime: 0.3
+--- !u!114 &1389417295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5601185290954460713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce8213d54a38da143a7dacab2972c45c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 0
+  score: 114514
+  exp: 114514
 --- !u!1 &7569381269613217192
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,12 +9,29 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get => instance; set => instance = value; }
     #region "Private"
     float resurrectionTime = 0;
+    int playerLevel=1;
     #endregion
     #region "Public"
-    public int playerLife;
     public float AllResurrectionTime;
+    public int totalExp;
     #endregion
-    #region "Hide"
+    #region "Hide"  
+    [HideInInspector]
+    public Text scoreText;
+    [HideInInspector]
+    public Text bottomText;
+    [HideInInspector]
+    public Text Level;
+    [HideInInspector]
+    public Slider expBar;
+    [HideInInspector]
+    public int playerScore;
+    [HideInInspector]
+    public int playerExp;
+    [HideInInspector]
+    public int playerBottom;
+    [HideInInspector]
+    public int playerLife;
     [HideInInspector]
     public GameObject player;
     [HideInInspector]
@@ -27,11 +44,14 @@ public class GameManager : MonoBehaviour
     public Vector3 PlayerDiePosition = new Vector3(0, 0, 0);
     [HideInInspector]
     public List<GameObject> Playerbullet = new List<GameObject>();
+    [HideInInspector]
+    public Item item;
     #endregion
     // Start is called before the first frame update
     void Awake()
     {
         instance = this;
+        item = GetComponent<Item>();
     }
 
     // Update is called once per frame
@@ -84,5 +104,56 @@ public class GameManager : MonoBehaviour
         }
         tempEnemy.Allbullet.Clear();
         Playerbullet.Clear();
+    }
+    public void EatItem(ItemType itemType,int score,int exp)
+    {
+        switch (itemType)
+        {
+            case ItemType.Life:
+                AddLife(1);
+                break;
+            case ItemType.EnemyDie:
+                AddScore(score);
+                AddExp(exp);
+                break;
+            case ItemType.Bottom:
+                AddBottom(1);
+                break;
+            
+        }
+    } 
+    public void AddLife(int life)
+    {
+        playerLife+=life;
+        if(playerLife<0)
+            playerLife=0;
+        LifeText.text = ":"+playerLife.ToString();
+        var tempPlayer = FindObjectOfType<Player>();
+        tempPlayer.gameObject.transform.Find("Image").gameObject.GetComponent<SpriteRenderer>().sprite=player.gameObject.GetComponent<Death>().status[0];
+        if(life>0)
+        {
+            tempPlayer.gameObject.GetComponent<Death>().hp=3;
+        }
+    }
+    void AddBottom(int count)
+    {
+        playerBottom+=count;
+        bottomText.text = ":"+playerBottom.ToString();
+    }
+    void AddScore(int value)
+    {
+        playerScore+=value;
+        scoreText.text = playerScore.ToString();
+    }
+    void AddExp(int value)
+    {
+        playerExp+=value;
+        while(playerExp>=totalExp)
+        {
+            playerExp-=totalExp;
+            playerLevel+=1;
+            Level.text = "Levil "+playerLevel.ToString();
+        }
+        expBar.value = (float)playerExp/totalExp;
     }
 }

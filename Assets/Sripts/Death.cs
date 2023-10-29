@@ -10,12 +10,13 @@ public enum CharatorType
 }
 public class Death : MonoBehaviour
 {
-    int hp;
     SpriteRenderer sprite;
     public int totalHp;
     public CharatorType type;
     public Sprite[] status;
     public Slider hpBar;
+    [HideInInspector]
+    public int hp;
     void Awake()
     {
         if (GameObject.Find("Image"))
@@ -55,8 +56,7 @@ public class Death : MonoBehaviour
         {
             GameManager.Instance.PlayerIsDied = true;
             GameManager.Instance.PlayerDiePosition = gameObject.transform.position;
-            GameManager.Instance.playerLife -= 1;
-            GameManager.Instance.LifeText.text = ":" + GameManager.Instance.playerLife.ToString();
+            GameManager.Instance.AddLife(-1);
             GameManager.Instance.ClearBullet();
             Destroy(this.gameObject);
         }
@@ -69,6 +69,11 @@ public class Death : MonoBehaviour
                 {
                     Destroy(temp.Allbullet[i]);
                 }
+            }
+            if(temp.gameObject.GetComponent<Item>())
+            {
+                var tempItem = temp.gameObject.GetComponent<Item>();
+                GameManager.Instance.EatItem(tempItem.itemType,tempItem.score,tempItem.exp);
             }
             Destroy(this.gameObject);
         }
