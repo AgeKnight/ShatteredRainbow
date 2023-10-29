@@ -5,12 +5,11 @@ using UnityEngine.UI;
 public enum CharatorType
 {
     Player,
-    Boss,
-    Enemy
+    Enemy,
+    Boss
 }
 public class Death : MonoBehaviour
 {
-    SpriteRenderer sprite;
     public int totalHp;
     public CharatorType type;
     public Sprite[] status;
@@ -19,40 +18,31 @@ public class Death : MonoBehaviour
     public int hp;
     void Awake()
     {
-        if (GameObject.Find("Image"))
-        {
-            var chObject = GameObject.Find("Image");
-            sprite = chObject.GetComponent<SpriteRenderer>();
-        }
         hp = totalHp;
     }
-    public bool Hurt(string tag, string type)
+    public void Hurt()
     {
-        if (tag != type)
+        hp -= 1;
+        if (type == CharatorType.Player)
         {
-            hp -= 1;
-            if (tag == "Player" && !gameObject.GetComponent<Player>().isInvincible)
+            if (!gameObject.GetComponent<Player>().isInvincible && hp > 0)
             {
-                if (hp > 0)
-                {
-                    sprite.sprite = status[totalHp - hp];
-                }
+                var sprite = GameObject.Find("Image").GetComponent<SpriteRenderer>(); ;
+                sprite.sprite = status[totalHp - hp];
             }
-            else if (tag == "Enemy" && hpBar != null)
-            {
-                hpBar.value = (float)hp / totalHp;
-            }
-            if (hp <= 0)
-            {
-                Die(tag);
-            }
-            return true;
         }
-        return false;
+        if (type == CharatorType.Boss)
+        {
+            hpBar.value = (float)hp / totalHp;
+        }
+        if (hp <= 0)
+        {
+            Die();
+        }
     }
-    public void Die(string tag)
+    public void Die()
     {
-        if (tag == "Player")
+        if (gameObject.tag == "Player")
         {
             GameManager.Instance.PlayerIsDied = true;
             GameManager.Instance.PlayerDiePosition = gameObject.transform.position;
@@ -60,20 +50,14 @@ public class Death : MonoBehaviour
             GameManager.Instance.ClearBullet();
             Destroy(this.gameObject);
         }
-        else if (tag == "Enemy")
+        if (gameObject.tag == "Enemy")
         {
             var temp = gameObject.GetComponent<Enemy>();
-            for (int i = 0; i < temp.Allbullet.Count; i++)
-            {
-                if (temp.Allbullet[i] != null)
-                {
-                    Destroy(temp.Allbullet[i]);
-                }
-            }
-            if(temp.gameObject.GetComponent<Item>())
+            temp.ClearBarrage();
+            if (temp.gameObject.GetComponent<Item>())
             {
                 var tempItem = temp.gameObject.GetComponent<Item>();
-                GameManager.Instance.EatItem(tempItem.itemType,tempItem.score,tempItem.exp);
+                GameManager.Instance.EatItem(tempItem.itemType, tempItem.score, tempItem.exp);
             }
             Destroy(this.gameObject);
         }

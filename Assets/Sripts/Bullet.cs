@@ -27,10 +27,15 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Death>() != null)
         {
-            if (other.gameObject.GetComponent<Death>().Hurt(other.gameObject.tag, bulletType.GetType().GetEnumName(bulletType)))
+            if(other.gameObject.tag!=bulletType.GetType().GetEnumName(bulletType))
             {
+                other.gameObject.GetComponent<Death>().Hurt();
                 Die();
             }
+        }
+        else if(other.gameObject.tag=="Barrier")
+        {
+            Die();
         }
     }
 }

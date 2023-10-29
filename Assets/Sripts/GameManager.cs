@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour
     public void ClearBullet()
     {
         var tempEnemy = FindObjectOfType<Enemy>();
+        tempEnemy.ClearBarrage();
         for (int i = 0; i < Playerbullet.Count; i++)
         {
             if (Playerbullet[i] != null)
@@ -95,14 +96,6 @@ public class GameManager : MonoBehaviour
                 Destroy(Playerbullet[i]);
             }
         }
-        for (int i = 0; i < tempEnemy.Allbullet.Count; i++)
-        {
-            if (tempEnemy.Allbullet[i] != null)
-            {
-                Destroy(tempEnemy.Allbullet[i]);
-            }
-        }
-        tempEnemy.Allbullet.Clear();
         Playerbullet.Clear();
     }
     public void EatItem(ItemType itemType,int score,int exp)
@@ -125,15 +118,13 @@ public class GameManager : MonoBehaviour
     public void AddLife(int life)
     {
         playerLife+=life;
+        var tempPlayer = FindObjectOfType<Player>();
+        tempPlayer.gameObject.transform.Find("Image").gameObject.GetComponent<SpriteRenderer>().sprite=player.gameObject.GetComponent<Death>().status[0];
+        tempPlayer.gameObject.GetComponent<Death>().hp=3;
         if(playerLife<0)
             playerLife=0;
         LifeText.text = ":"+playerLife.ToString();
-        var tempPlayer = FindObjectOfType<Player>();
-        tempPlayer.gameObject.transform.Find("Image").gameObject.GetComponent<SpriteRenderer>().sprite=player.gameObject.GetComponent<Death>().status[0];
-        if(life>0)
-        {
-            tempPlayer.gameObject.GetComponent<Death>().hp=3;
-        }
+            
     }
     void AddBottom(int count)
     {

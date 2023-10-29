@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     public void Attack()
     {
         coroutine = StartCoroutine(UseBarrage());
-    } 
+    }
     IEnumerator UseBarrage()
     {
         while (FindObjectOfType<Player>())
@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour
             yield return new WaitForSeconds(countTime);
         }
     }
-    protected virtual void BarrageMethod(){}
+    protected virtual void BarrageMethod() { }
     protected void BaseBarrage()
     {
         int indexz = 0;
@@ -39,5 +39,16 @@ public class Enemy : MonoBehaviour
             GameObject temp = Instantiate(bullet, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
             Allbullet.Add(temp);
         }
+    }
+    public void ClearBarrage()
+    {
+        for (int i = 0; i < Allbullet.Count; i++)
+        {
+            if (Allbullet[i] != null)
+            {
+                Destroy(Allbullet[i]);
+            }
+        }
+        Allbullet.Clear();
     }
 }
