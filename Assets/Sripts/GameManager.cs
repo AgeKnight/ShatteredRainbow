@@ -10,12 +10,14 @@ public class GameManager : MonoBehaviour
     #region "Private"
     float resurrectionTime = 0;
     int playerLevel=1;
+    int totalExp = 10;
     #endregion
     #region "Public"
     public float AllResurrectionTime;
-    public int totalExp;
     #endregion
     #region "Hide"  
+    [HideInInspector]
+    public GameObject player;
     [HideInInspector]
     public Text scoreText;
     [HideInInspector]
@@ -32,8 +34,6 @@ public class GameManager : MonoBehaviour
     public int playerBottom;
     [HideInInspector]
     public int playerLife;
-    [HideInInspector]
-    public GameObject player;
     [HideInInspector]
     public Text LifeText;
     [HideInInspector]
@@ -98,21 +98,19 @@ public class GameManager : MonoBehaviour
         }
         Playerbullet.Clear();
     }
-    public void EatItem(ItemType itemType,int score,int exp)
+    public void EatItem(ItemType itemType)
     {
         switch (itemType)
         {
             case ItemType.Life:
                 AddLife(1);
                 break;
-            case ItemType.EnemyDie:
-                AddScore(score);
-                AddExp(exp);
-                break;
-            case ItemType.Bottom:
+            case ItemType.Bomb:
                 AddBottom(1);
                 break;
-            
+            case ItemType.EXP:
+                AddExp(1);
+                break;    
         }
     } 
     public void AddLife(int life)
@@ -124,14 +122,13 @@ public class GameManager : MonoBehaviour
         if(playerLife<0)
             playerLife=0;
         LifeText.text = ":"+playerLife.ToString();
-            
     }
     void AddBottom(int count)
     {
         playerBottom+=count;
         bottomText.text = ":"+playerBottom.ToString();
     }
-    void AddScore(int value)
+    public void AddScore(int value)
     {
         playerScore+=value;
         scoreText.text = playerScore.ToString();

@@ -10,10 +10,18 @@ public class ChooseVaraible : Editor
     List<string> propertyNames;
     SerializedProperty iterator;
     CharatorType charatorType;
+    EnemyType enemyType;
     Dictionary<string,CharatorType> specialPropertys= new Dictionary<string, CharatorType>
         {
             { "status", CharatorType.Player},
-            { "hpBar", CharatorType.Boss },
+            { "enemyType", CharatorType.Enemy},
+            { "score", CharatorType.Enemy},
+            { "items", CharatorType.Enemy},
+            { "probability", CharatorType.Enemy},
+        };
+    Dictionary<string,EnemyType> specialPropertys2= new Dictionary<string, EnemyType>
+        {
+            { "hpBar", EnemyType.Boss},
         };
     void OnEnable()
     {
@@ -34,7 +42,10 @@ public class ChooseVaraible : Editor
         foreach (var name in propertyNames)
         {
             if (specialPropertys.TryGetValue(name, out charatorType) 
-                && charatorType != death.type)
+                && charatorType != death.charatorType)
+                continue;
+            if (specialPropertys2.TryGetValue(name, out enemyType) 
+                && enemyType != death.enemyType)
                 continue;
             EditorGUILayout.PropertyField(obj.FindProperty(name));
             if (!GUI.enabled)

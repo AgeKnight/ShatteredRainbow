@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllResurrectionTime: 1
-  totalExp: 100
+  player: {fileID: 6646415776259885055, guid: 219d3d6265477914e922e01cc667e33c, type: 3}
   scoreText: {fileID: 1562072957}
   bottomText: {fileID: 463728001}
   Level: {fileID: 1360409519}
@@ -433,7 +433,6 @@ MonoBehaviour:
   playerExp: 0
   playerBottom: 0
   playerLife: 3
-  player: {fileID: 6646415776259885055, guid: 219d3d6265477914e922e01cc667e33c, type: 3}
   LifeText: {fileID: 531308842}
   PlayerReallyDeath: 0
   PlayerIsDied: 0
@@ -1815,6 +1814,22 @@ PrefabInstance:
     - target: {fileID: 1475734633, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320111845715336476, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
+      propertyPath: totalHp
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320111845715336476, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
+      propertyPath: probability.Array.data[0]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320111845715336476, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
+      propertyPath: probability.Array.data[1]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320111845715336476, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
+      propertyPath: probability.Array.data[2]
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5601185290954460713, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
       propertyPath: m_Name

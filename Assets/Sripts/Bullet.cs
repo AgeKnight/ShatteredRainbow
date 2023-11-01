@@ -25,15 +25,16 @@ public class Bullet : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<Death>() != null)
+        if (other.gameObject.GetComponent<Death>()&&other.gameObject.tag!=bulletType.GetType().GetEnumName(bulletType))
         {
-            if(other.gameObject.tag!=bulletType.GetType().GetEnumName(bulletType))
-            {
-                other.gameObject.GetComponent<Death>().Hurt();
-                Die();
-            }
+            
+            other.gameObject.GetComponent<Death>().Hurt();
+            Die();
         }
-        else if(other.gameObject.tag=="Barrier")
+    }
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if(other.gameObject.tag=="Barrier")
         {
             Die();
         }

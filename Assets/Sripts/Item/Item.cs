@@ -4,13 +4,12 @@ using UnityEngine;
 
 public enum ItemType
 {
-    EnemyDie,
+    EXP,
     Life,
-    Bottom
+    Bomb,
+    Drone
 }
 public class Item : MonoBehaviour
 {
     public ItemType itemType;
-    public int score;
-    public int exp;
 }
