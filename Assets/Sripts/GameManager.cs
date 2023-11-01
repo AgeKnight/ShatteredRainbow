@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -98,9 +99,9 @@ public class GameManager : MonoBehaviour
         }
         Playerbullet.Clear();
     }
-    public void EatItem(ItemType itemType)
+    public void EatItem(Item item)
     {
-        switch (itemType)
+        switch (item.itemType)
         {
             case ItemType.Life:
                 AddLife(1);
@@ -109,8 +110,11 @@ public class GameManager : MonoBehaviour
                 AddBottom(1);
                 break;
             case ItemType.EXP:
-                AddExp(1);
+                AddExp(item.Exp);
                 break;    
+            case ItemType.Drone:
+                AddDrone();
+                break;  
         }
     } 
     public void AddLife(int life)
@@ -143,5 +147,9 @@ public class GameManager : MonoBehaviour
             Level.text = "Levil "+playerLevel.ToString();
         }
         expBar.value = (float)playerExp/totalExp;
+    }
+    void AddDrone()
+    {
+
     }
 }

@@ -9,7 +9,15 @@ public enum ItemType
     Bomb,
     Drone
 }
+public enum ExpType
+{
+    Small,
+    Middle,
+    Big,
+}
 public class Item : MonoBehaviour
 {
     public ItemType itemType;
+    public ExpType expType;
+    public int Exp;
 }

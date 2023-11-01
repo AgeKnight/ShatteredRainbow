@@ -9,7 +9,7 @@ public class ItemUse : MonoBehaviour
         if(other.gameObject.tag=="Item")
         {
             var temp = other.gameObject.GetComponent<Item>();
-            GameManager.Instance.EatItem(temp.itemType);
+            GameManager.Instance.EatItem(temp);
             Die(temp.gameObject);
         }
     }

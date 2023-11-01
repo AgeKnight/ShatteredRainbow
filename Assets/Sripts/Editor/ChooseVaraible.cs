@@ -16,8 +16,10 @@ public class ChooseVaraible : Editor
             { "status", CharatorType.Player},
             { "enemyType", CharatorType.Enemy},
             { "score", CharatorType.Enemy},
-            { "items", CharatorType.Enemy},
-            { "probability", CharatorType.Enemy},
+            { "itemStruct", CharatorType.Enemy},
+            { "Exps", CharatorType.Enemy},
+            { "hpBar", CharatorType.Enemy},
+            { "totalHp", CharatorType.Enemy},
         };
     Dictionary<string,EnemyType> specialPropertys2= new Dictionary<string, EnemyType>
         {

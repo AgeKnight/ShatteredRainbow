@@ -512,19 +512,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalHp: 50
+  totalHp: 100
   charatorType: 1
   enemyType: 1
   status: []
   hpBar: {fileID: 1607186797}
   hp: 0
   score: 500
-  probability: 640000006400000064000000
-  items:
-  - {fileID: 7518270170160341144, guid: 36e4f9a93861b6748b871b08339538aa, type: 3}
-  - {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
-  - {fileID: 7518270170160341144, guid: 64fa2ac8a88d4f241bdb5d26bb8e6daf, type: 3}
-  - {fileID: 7518270170160341144, guid: f1dd69d2d0789a847ae8612f5d0fbf6b, type: 3}
+  itemStruct:
+  - probability: 10
+    items: {fileID: 7518270170160341144, guid: 36e4f9a93861b6748b871b08339538aa, type: 3}
+  - probability: 10
+    items: {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
+  - probability: 5
+    items: {fileID: 7518270170160341144, guid: 64fa2ac8a88d4f241bdb5d26bb8e6daf, type: 3}
+  Exps: {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
 --- !u!114 &1544667865
 MonoBehaviour:
   m_ObjectHideFlags: 0

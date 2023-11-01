@@ -22,8 +22,14 @@ public class Death : MonoBehaviour
     [HideInInspector]
     public int hp;
     public int score;
-    public int[] probability; //0 生命 1 炸彈 2 小弟 
-    public GameObject[] items;//0 生命 1 炸彈 2 小弟 3 經驗值
+    [System.Serializable]
+    public struct ItemStruct //0 生命 1 炸彈 2 小弟
+    {
+        public int probability;
+        public GameObject items;
+    }
+    public ItemStruct[] itemStruct;
+    public GameObject Exps;
     void Awake()
     {
         hp = totalHp;
@@ -69,14 +75,14 @@ public class Death : MonoBehaviour
         int probabilityExp = Random.Range(1, 5);
         for (int i = 0; i < probabilityExp; i++)
         {
-            Instantiate(items[3], gameObject.transform.position, Quaternion.identity);
+            Instantiate(Exps, gameObject.transform.position, Quaternion.identity);
         }
-        for (int i = 0; i < probability.Length; i++)
+        for (int i = 0; i < itemStruct.Length; i++)
         {
             int tempProbability = Random.Range(1, 100);
-            if(tempProbability<=probability[i])
+            if(tempProbability<=itemStruct[i].probability)
             {
-                Instantiate(items[i], gameObject.transform.position, Quaternion.identity);
+                Instantiate(itemStruct[i].items, gameObject.transform.position, Quaternion.identity);
             }
         }
     }
