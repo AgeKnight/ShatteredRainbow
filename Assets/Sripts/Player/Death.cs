@@ -14,28 +14,32 @@ public enum EnemyType
 }
 public class Death : MonoBehaviour
 {
+    #region Public
+    //難度
+    public float countTime;
+    [System.Serializable]
+    public struct ItemStruct //0 生命 1 炸彈 2 小弟
+    {
+        //難度
+        public float probability;
+        public GameObject items;
+    }
     public int totalHp = 3;
     public CharatorType charatorType;
     public EnemyType enemyType;
     public Sprite[] status;
-    public Slider hpBar;
-    public float countTime;
-    [HideInInspector]
-    public int hp;
+    public Slider hpBar;  
     public int score;
-    [System.Serializable]
-    public struct ItemStruct //0 生命 1 炸彈 2 小弟
-    {
-        public float probability;
-        public GameObject items;
-    }
     public ItemStruct[] itemStruct;
     public GameObject[] Exps;
+    #endregion
+    [HideInInspector]
+    public int hp;
     void Awake()
     {
         hp = totalHp;
     }
-    void Start() 
+    void Start()
     {
         GameManager.Instance.ChangeDifficulty(this.gameObject);
     }

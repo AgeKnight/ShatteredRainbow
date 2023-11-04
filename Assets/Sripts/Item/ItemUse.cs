@@ -10,11 +10,7 @@ public class ItemUse : MonoBehaviour
         {
             var temp = other.gameObject.GetComponent<Item>();
             GameManager.Instance.EatItem(temp);
-            Die(temp.gameObject);
+            temp.Die();
         }
-    }
-    void Die(GameObject temp)
-    {
-        Destroy(temp.gameObject);
     }
 }

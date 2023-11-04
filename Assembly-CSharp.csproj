@@ -36,14 +36,14 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Sripts\Item\Item.cs" />
      <Compile Include="Assets\Sripts\Enemy\Boss1Attack.cs" />
      <Compile Include="Assets\Sripts\Item\ItemUse.cs" />
-     <Compile Include="Assets\Sripts\Player.cs" />
-     <Compile Include="Assets\Sripts\Bullet.cs" />
-     <Compile Include="Assets\Sripts\Enemy\Enemy.cs" />
+     <Compile Include="Assets\Sripts\Player\Player.cs" />
+     <Compile Include="Assets\Sripts\Bullet\Bullet.cs" />
      <Compile Include="Assets\Sripts\GameManager.cs" />
-     <Compile Include="Assets\Sripts\Death.cs" />
+     <Compile Include="Assets\Sripts\Item\Item.cs" />
+     <Compile Include="Assets\Sripts\Enemy\Enemy.cs" />
+     <Compile Include="Assets\Sripts\Player\Death.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.33f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -265,6 +265,15 @@
     </Reference>
     <Reference Include="UnityEditor.UnityConnectModule">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.33f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.StandardEvents">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\PackageCache\com.unity.analytics@3.6.12\AnalyticsStandardEvents\Unity.Analytics.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.Editor">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\PackageCache\com.unity.analytics@3.6.12\Unity.Analytics.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.Tracker">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\PackageCache\com.unity.analytics@3.6.12\Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.33f1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>
@@ -611,8 +620,8 @@
     <Reference Include="System.Xml.Serialization">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.33f1\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.2D.Animation.Editor">
-        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.2D.Animation.Editor.dll</HintPath>
+    <Reference Include="Purchasing.Common">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Purchasing.Common.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InternalAPIEngineBridge.001">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.InternalAPIEngineBridge.001.dll</HintPath>
@@ -623,8 +632,11 @@
     <Reference Include="Unity.2D.PixelPerfect">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.2D.PixelPerfect.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.2D.Tilemap.Editor">
-        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.2D.Tilemap.Editor.dll</HintPath>
+    <Reference Include="Unity.2D.Animation.Editor">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.2D.Animation.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\UnityEngine.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="PsdPlugin">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\PsdPlugin.dll</HintPath>
@@ -641,11 +653,17 @@
     <Reference Include="Unity.TextMeshPro">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Purchasing.SecurityStub">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\UnityEngine.Purchasing.SecurityStub.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Advertisements">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\UnityEngine.Advertisements.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.2D.IK.Editor">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.2D.IK.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.2D.Sprite.Editor">
-        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
+    <Reference Include="Unity.2D.Tilemap.Editor">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.2D.Tilemap.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Psdimporter.Editor">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.2D.Psdimporter.Editor.dll</HintPath>
@@ -656,6 +674,9 @@
     <Reference Include="Unity.InternalAPIEditorBridge.001">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.InternalAPIEditorBridge.001.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.UI">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
@@ -665,14 +686,32 @@
     <Reference Include="Unity.Rider.Editor">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Analytics">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpatialTracking">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.DataPrivacy">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.IK.Runtime">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.2D.IK.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing.SecurityCore">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\UnityEngine.Purchasing.SecurityCore.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing.Codeless">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\UnityEngine.Purchasing.Codeless.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.XR.LegacyInputHelpers">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Animation.Triangle.Editor">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.2D.Animation.Triangle.Editor.dll</HintPath>
@@ -686,8 +725,17 @@
     <Reference Include="Unity.Timeline.Editor">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Purchasing.Stores">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\UnityEngine.Purchasing.Stores.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.XR.LegacyInputHelpers">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Mathematics.Editor">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Monetization">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\UnityEngine.Monetization.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Common.Runtime">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.2D.Common.Runtime.dll</HintPath>
@@ -695,11 +743,20 @@
     <Reference Include="Unity.2D.SpriteShape.Editor">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.2D.SpriteShape.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.2D.Common.Editor">
-        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.2D.Common.Editor.dll</HintPath>
+    <Reference Include="UnityEditor.Purchasing">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\UnityEditor.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.SpatialTracking">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\UnityEditor.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Advertisements.Editor">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\UnityEngine.Advertisements.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Runtime">
         <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.2D.SpriteShape.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Common.Editor">
+        <HintPath>C:\Users\owenb\Desktop\ShatteredRainbow\Library\ScriptAssemblies\Unity.2D.Common.Editor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

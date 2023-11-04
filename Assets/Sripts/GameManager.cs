@@ -206,7 +206,7 @@ public class GameManager : MonoBehaviour
                     death.itemStruct[i].probability *= tempProbability;
                 }
             }
-            else if (gameObject.GetComponent<Item>())
+            if (gameObject.GetComponent<Item>())
             {
                 var item = gameObject.GetComponent<Item>();
                 switch (item.itemType)

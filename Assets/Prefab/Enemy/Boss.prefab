@@ -512,13 +512,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  countTime: 0.3
   totalHp: 10
   charatorType: 1
   enemyType: 1
   status: []
   hpBar: {fileID: 1607186797}
-  countTime: 0.3
-  hp: 0
   score: 500
   itemStruct:
   - probability: 10
@@ -531,6 +530,7 @@ MonoBehaviour:
   - {fileID: 7518270170160341144, guid: f1dd69d2d0789a847ae8612f5d0fbf6b, type: 3}
   - {fileID: 7518270170160341144, guid: a7f6e26a635a43442a287ac9e20e9eab, type: 3}
   - {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
+  hp: 0
 --- !u!114 &1544667865
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -17,15 +17,22 @@ public enum ExpType
 }
 public class Item : MonoBehaviour
 {
+    #region Public
     public ItemType itemType;
     public ExpType expType;
     public float speed=1;
-    //[HideInInspector]
+    public float allAdriftTime=1f;
+    #endregion
+    #region Hide
+    //難度
+    [HideInInspector]
     public bool CanAttract = false;
     [HideInInspector]
     public int Exp=0;
+    #endregion
+    #region private
     float adriftTime=0;
-    float allAdriftTime=1f;
+    #endregion   
     void Awake() 
     {
         switch (expType)
@@ -60,5 +67,16 @@ public class Item : MonoBehaviour
     {
         var player = FindObjectOfType<Player>().gameObject;
         gameObject.transform.position = Vector2.MoveTowards(this.gameObject.transform.position,player.transform.position,10*speed*Time.deltaTime);
+    }
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if(other.gameObject.tag=="Barrier")
+        {
+            Die();
+        }
+    }
+    public void Die()
+    {
+        Destroy(this.gameObject);
     }
 }
