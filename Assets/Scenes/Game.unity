@@ -424,6 +424,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllResurrectionTime: 1
+  difficulty: 2
+  canTrack: 0
   player: {fileID: 6646415776259885055, guid: 219d3d6265477914e922e01cc667e33c, type: 3}
   scoreText: {fileID: 1562072957}
   bottomText: {fileID: 463728001}
@@ -438,7 +440,6 @@ MonoBehaviour:
   PlayerIsDied: 0
   PlayerDiePosition: {x: 0, y: 0, z: 0}
   Playerbullet: []
-  item: {fileID: 0}
 --- !u!4 &331282130
 Transform:
   m_ObjectHideFlags: 0
@@ -1676,7 +1677,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6646415776259885053, guid: 219d3d6265477914e922e01cc667e33c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.06
       objectReference: {fileID: 0}
     - target: {fileID: 6646415776259885053, guid: 219d3d6265477914e922e01cc667e33c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1684,7 +1685,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6646415776259885053, guid: 219d3d6265477914e922e01cc667e33c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6646415776259885053, guid: 219d3d6265477914e922e01cc667e33c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1807,6 +1808,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1475734633, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1475734633, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320111845715336476, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
+      propertyPath: totalHp
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5601185290954460713, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
       propertyPath: m_Name
       value: Enemy

@@ -131,7 +131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4759269267929415212}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,8 +279,9 @@ MonoBehaviour:
   hpBar: {fileID: 0}
   hp: 0
   score: 0
-  probability: 
-  items: []
+  itemStruct: []
+  Exps:
+  - {fileID: 0}
 --- !u!70 &3713487423705177716
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

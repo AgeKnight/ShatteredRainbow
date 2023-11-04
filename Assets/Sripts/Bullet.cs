@@ -13,11 +13,22 @@ public class Bullet : MonoBehaviour
     public BulletType bulletType;
     void Update()
     {
-        Move();
+        if (GameManager.Instance.canTrack && bulletType == BulletType.Player)
+            Track();
+        else
+            Move();
     }
-    void Move()
+    protected virtual void Move()
     {
         transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
+    }
+    void Track()
+    {
+        var enemy = GameObject.FindWithTag("Enemy");
+        if (enemy)
+            gameObject.transform.position = Vector3.MoveTowards(this.gameObject.transform.position, enemy.transform.position, speed * Time.deltaTime);
+        else
+            transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
     }
     void Die()
     {
@@ -25,16 +36,15 @@ public class Bullet : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<Death>()&&other.gameObject.tag!=bulletType.GetType().GetEnumName(bulletType))
+        if (other.gameObject.GetComponent<Death>() && other.gameObject.tag != bulletType.GetType().GetEnumName(bulletType))
         {
-            
             other.gameObject.GetComponent<Death>().Hurt();
             Die();
         }
     }
     void OnTriggerExit2D(Collider2D other)
     {
-        if(other.gameObject.tag=="Barrier")
+        if (other.gameObject.tag == "Barrier")
         {
             Die();
         }

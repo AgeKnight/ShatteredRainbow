@@ -19,5 +19,46 @@ public class Item : MonoBehaviour
 {
     public ItemType itemType;
     public ExpType expType;
-    public int Exp;
+    public float speed=1;
+    //[HideInInspector]
+    public bool CanAttract = false;
+    [HideInInspector]
+    public int Exp=0;
+    float adriftTime=0;
+    float allAdriftTime=1f;
+    void Awake() 
+    {
+        switch (expType)
+        {
+            case ExpType.Small:
+                Exp=1;
+                break;
+            case ExpType.Middle:
+                Exp=3;
+                break;
+            case ExpType.Big:
+                Exp=7;
+                break;
+        }
+        GameManager.Instance.ChangeDifficulty(this.gameObject);
+    }
+    void Update() 
+    {
+        if(CanAttract)
+            Attract();
+        else
+            Move();     
+    }
+    void Move()
+    {
+        if(adriftTime>=allAdriftTime)
+            transform.Translate(Vector3.down*Time.deltaTime*speed,Space.World);
+        else
+            adriftTime+=Time.deltaTime;
+    }
+    void Attract()
+    {
+        var player = FindObjectOfType<Player>().gameObject;
+        gameObject.transform.position = Vector2.MoveTowards(this.gameObject.transform.position,player.transform.position,10*speed*Time.deltaTime);
+    }
 }

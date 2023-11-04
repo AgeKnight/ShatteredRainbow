@@ -390,7 +390,7 @@ GameObject:
   - component: {fileID: 3320111845715336476}
   - component: {fileID: 1544667865}
   m_Layer: 7
-  m_Name: Enemy
+  m_Name: Boss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -512,11 +512,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalHp: 100
+  totalHp: 10
   charatorType: 1
   enemyType: 1
   status: []
   hpBar: {fileID: 1607186797}
+  countTime: 0.3
   hp: 0
   score: 500
   itemStruct:
@@ -526,7 +527,10 @@ MonoBehaviour:
     items: {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
   - probability: 5
     items: {fileID: 7518270170160341144, guid: 64fa2ac8a88d4f241bdb5d26bb8e6daf, type: 3}
-  Exps: {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
+  Exps:
+  - {fileID: 7518270170160341144, guid: f1dd69d2d0789a847ae8612f5d0fbf6b, type: 3}
+  - {fileID: 7518270170160341144, guid: a7f6e26a635a43442a287ac9e20e9eab, type: 3}
+  - {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
 --- !u!114 &1544667865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,9 +544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
-  bulletTransform: {fileID: 1966008689791733373}
   Allbullet: []
-  countTime: 0.3
 --- !u!1 &7569381269613217192
 GameObject:
   m_ObjectHideFlags: 0

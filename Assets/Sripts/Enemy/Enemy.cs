@@ -6,14 +6,14 @@ public class Enemy : MonoBehaviour
 {
     protected Coroutine coroutine;
     public GameObject bullet;
-    public Transform bulletTransform;
+    protected Transform bulletTransform;
     #region "Hide"
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
-    public float countTime;
     #endregion
     void Start()
     {
+        bulletTransform = gameObject.transform.GetChild(0).transform;
         Attack();
     }
     public void Attack()
@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
         while (FindObjectOfType<Player>())
         {
             BarrageMethod();
-            yield return new WaitForSeconds(countTime);
+            yield return new WaitForSeconds(gameObject.GetComponent<Death>().countTime);
         }
     }
     protected virtual void BarrageMethod() { }

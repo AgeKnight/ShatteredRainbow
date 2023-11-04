@@ -19,20 +19,25 @@ public class Death : MonoBehaviour
     public EnemyType enemyType;
     public Sprite[] status;
     public Slider hpBar;
+    public float countTime;
     [HideInInspector]
     public int hp;
     public int score;
     [System.Serializable]
     public struct ItemStruct //0 生命 1 炸彈 2 小弟
     {
-        public int probability;
+        public float probability;
         public GameObject items;
     }
     public ItemStruct[] itemStruct;
-    public GameObject Exps;
+    public GameObject[] Exps;
     void Awake()
     {
         hp = totalHp;
+    }
+    void Start() 
+    {
+        GameManager.Instance.ChangeDifficulty(this.gameObject);
     }
     public void Hurt()
     {
@@ -46,7 +51,7 @@ public class Death : MonoBehaviour
         {
             hpBar.value = (float)hp / totalHp;
         }
-        if (hp <= 0)
+        if (hp == 0)
         {
             Die();
         }
@@ -73,16 +78,25 @@ public class Death : MonoBehaviour
     {
         GameManager.Instance.AddScore(score);
         int probabilityExp = Random.Range(1, 5);
+        float enemyX = gameObject.transform.position.x;
+        float enemyY = gameObject.transform.position.y;
         for (int i = 0; i < probabilityExp; i++)
         {
-            Instantiate(Exps, gameObject.transform.position, Quaternion.identity);
+            float tempx = Random.Range(-1.5f, 1.5f);
+            float tempY = Random.Range(-1.5f, 1.5f);
+            int tempCount = Random.Range(0, 2);
+            var tempPosition = new Vector2(enemyX + tempx, enemyY + tempY);
+            Instantiate(Exps[tempCount], tempPosition, Quaternion.identity);
         }
         for (int i = 0; i < itemStruct.Length; i++)
         {
             int tempProbability = Random.Range(1, 100);
-            if(tempProbability<=itemStruct[i].probability)
+            if (tempProbability <= itemStruct[i].probability)
             {
-                Instantiate(itemStruct[i].items, gameObject.transform.position, Quaternion.identity);
+                float tempx = Random.Range(-1.5f, 1.5f);
+                float tempY = Random.Range(-1.5f, 1.5f);
+                var tempPosition = new Vector2(enemyX + tempx, enemyY + tempY);
+                Instantiate(itemStruct[i].items, tempPosition, Quaternion.identity);
             }
         }
     }
