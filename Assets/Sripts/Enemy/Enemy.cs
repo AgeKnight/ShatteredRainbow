@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    float moveTime = 0;
+    public float allMoveTime=0.6f;
+    protected bool canMove = true;
     protected Coroutine coroutine;
     protected Transform bulletTransform;
     protected Vector3 TargetPosition;
@@ -18,9 +21,23 @@ public class Enemy : MonoBehaviour
         bulletTransform = gameObject.transform.GetChild(0).transform;
         Attack();
     }
-    private void Update() {
+    void Update() 
+    {
         Move();
+        if(!canMove)
+            TimeReturn();
     }
+    void TimeReturn()
+    {
+        moveTime+=Time.deltaTime;
+        if(moveTime>=allMoveTime)
+        {
+            moveTime=0;
+            ReturnMove();
+            canMove=true;
+        }
+    }
+    protected virtual void ReturnMove(){}
     protected virtual void Move() { }
     public void Attack()
     {

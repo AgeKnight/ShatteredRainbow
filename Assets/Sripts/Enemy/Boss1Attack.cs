@@ -26,16 +26,23 @@ public class Boss1Attack : Enemy
     {
         if (transform.position == targetPosition)
         {
-            if (targetPosition == Dot[0].position)
-            {
-                targetPosition = Dot[1].position;
-            }
-            else
-            {
-                targetPosition = Dot[0].position;
-            }
+            canMove=false;
         }
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
+        if(canMove)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
+        }
+    }
+    protected override void ReturnMove()
+    {
+        if (targetPosition == Dot[0].position)
+        {
+            targetPosition = Dot[1].position;
+        }
+        else
+        {
+            targetPosition = Dot[0].position;
+        }
     }
     void Barrage()
     {
@@ -54,7 +61,7 @@ public class Boss1Attack : Enemy
         {
             var player = FindObjectOfType<Player>();
             Vector3 eulerAngle = GetAngle(transform.position, player.transform.position);
-            eulerAngle.z-=24;
+            eulerAngle.z -= 24;
             int count = 5;
             for (int i = 0; i < count; i++)
             {
