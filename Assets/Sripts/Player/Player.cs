@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     #region "Private"
     float InvincibleTime = 0;
+    Transform bulletTransform;
     #endregion
     #region "Public"
     public float AllInvincibleTime;
@@ -15,12 +16,11 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public GameObject Bullet;
     [HideInInspector]
-    public Transform bulletTransform;
-    [HideInInspector]
     public bool isInvincible = true;
     #endregion
     void Start() 
     {   
+        bulletTransform = transform.Find("MiddleTransform");
         StartCoroutine(Attack());   
     }
     void Update() 
@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
     {
         while(true)
         {
-            GameObject tempObject = Instantiate(Bullet,bulletTransform.position,Quaternion.identity);
+            GameObject tempObject = Instantiate(Bullet,gameObject.transform.position,Quaternion.identity);
             GameManager.Instance.Playerbullet.Add(tempObject);
             yield return new WaitForSeconds(0.1f);
         }

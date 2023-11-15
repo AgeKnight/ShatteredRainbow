@@ -524,7 +524,7 @@ MonoBehaviour:
     items: {fileID: 7518270170160341144, guid: 36e4f9a93861b6748b871b08339538aa, type: 3}
   - probability: 10
     items: {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
-  - probability: 5
+  - probability: 100
     items: {fileID: 7518270170160341144, guid: 64fa2ac8a88d4f241bdb5d26bb8e6daf, type: 3}
   Exps:
   - {fileID: 7518270170160341144, guid: f1dd69d2d0789a847ae8612f5d0fbf6b, type: 3}
@@ -544,7 +544,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+  Speed: 3
   Allbullet: []
+  Dot:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &7569381269613217192
 GameObject:
   m_ObjectHideFlags: 0

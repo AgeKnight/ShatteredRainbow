@@ -5,17 +5,23 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     protected Coroutine coroutine;
-    public GameObject bullet;
     protected Transform bulletTransform;
+    protected Vector3 TargetPosition;
+    public GameObject bullet;
+    public float Speed;
     #region "Hide"
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
     #endregion
-    void Start()
+    protected virtual void Start()
     {
         bulletTransform = gameObject.transform.GetChild(0).transform;
         Attack();
     }
+    private void Update() {
+        Move();
+    }
+    protected virtual void Move() { }
     public void Attack()
     {
         coroutine = StartCoroutine(UseBarrage());
