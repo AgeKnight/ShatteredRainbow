@@ -52,8 +52,7 @@ public class GameManager : MonoBehaviour
     public bool PlayerReallyDeath = false;
     [HideInInspector]
     public bool PlayerIsDied = false;
-    [HideInInspector]
-    public Vector3 PlayerDiePosition = new Vector3(0, 0, 0);
+    public Transform PlayerResurrectionPosition;
     [HideInInspector]
     public List<GameObject> Playerbullet = new List<GameObject>();
     #endregion
@@ -90,13 +89,15 @@ public class GameManager : MonoBehaviour
         var tempEnemy = FindObjectOfType<Enemy>();
         resurrectionTime = 0;
         PlayerIsDied = false;
-        Instantiate(player, PlayerDiePosition, Quaternion.identity);
-        tempEnemy.Attack();
+        Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity);
+        if(tempEnemy)
+            tempEnemy.Attack();
     }
     public void ClearBullet()
     {
         var tempEnemy = FindObjectOfType<Enemy>();
-        tempEnemy.ClearBarrage();
+        if(tempEnemy)
+            tempEnemy.ClearBarrage();
         for (int i = 0; i < Playerbullet.Count; i++)
         {
             if (Playerbullet[i] != null)

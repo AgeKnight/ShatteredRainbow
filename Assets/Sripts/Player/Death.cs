@@ -65,7 +65,6 @@ public class Death : MonoBehaviour
         if (gameObject.tag == "Player")
         {
             GameManager.Instance.PlayerIsDied = true;
-            GameManager.Instance.PlayerDiePosition = gameObject.transform.position;
             GameManager.Instance.AddLife(-1);
             GameManager.Instance.ClearBullet();
             Destroy(this.gameObject);

@@ -6,11 +6,22 @@ public class ItemUse : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.tag=="Item")
+        switch (other.gameObject.tag)
         {
-            var temp = other.gameObject.GetComponent<Item>();
-            GameManager.Instance.EatItem(temp);
-            temp.Die();
+            case "Item":
+                var temp = other.gameObject.GetComponent<Item>();
+                GameManager.Instance.EatItem(temp);
+                temp.Die();
+                break;
+            case "Enemy":
+                var tempPlayer = this.transform.parent.gameObject.GetComponent<Death>();
+                if(other.gameObject.GetComponent<TrashAttack1>())
+                {
+                    var tempEnemy = other.gameObject.GetComponent<Death>();
+                    tempEnemy.Die();
+                }
+                tempPlayer.Die();
+                break;
         }
     }
 }

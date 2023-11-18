@@ -2,29 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum UseBarrageType
+{
+    useBarrage,
+    nonUse
+}
+public enum MoveType
+{
+    NotMove,
+    SomeTimesMove,
+    AllwaysMove
+}
 public class Enemy : MonoBehaviour
 {
+    #region "private"
     float moveTime = 0;
-    public float allMoveTime=0.6f;
     protected bool canMove = true;
     protected Coroutine coroutine;
     protected Transform bulletTransform;
-    protected Vector3 TargetPosition;
+    #endregion
+    #region  "public"
+    public UseBarrageType useBarrage;
+    public MoveType moveType;
+    public float allMoveTime=0.6f;
     public GameObject bullet;
     public float Speed;
+    #endregion
     #region "Hide"
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
     #endregion
     protected virtual void Start()
     {
-        bulletTransform = gameObject.transform.GetChild(0).transform;
-        Attack();
+        if(useBarrage==UseBarrageType.useBarrage)
+        {
+            bulletTransform = gameObject.transform.GetChild(0).transform;
+            Attack();
+        }     
     }
     void Update() 
     {
         Move();
-        if(!canMove)
+        if(!canMove&&moveType==MoveType.SomeTimesMove)
             TimeReturn();
     }
     void TimeReturn()

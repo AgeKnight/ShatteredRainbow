@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
         {
             Invincible();
         }
+        
     }
     void FixedUpdate()
     {
