@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class Boss1Attack : Enemy
 {
-    public Transform[] Dot; //開始 結束
-    Vector3 targetPosition;
-    protected override void Start()
-    {
-        base.Start();
-        targetPosition = Dot[0].position;
-    }
     protected override void BarrageMethod()
     {
         if (gameObject.GetComponent<Death>().hpBar.value < 0.5)
@@ -20,17 +13,6 @@ public class Boss1Attack : Enemy
         else
         {
             Barrage();
-        }
-    }
-    protected override void Move()
-    {
-        if (transform.position == targetPosition)
-        {
-            canMove=false;
-        }
-        if(canMove)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
         }
     }
     protected override void ReturnMove()

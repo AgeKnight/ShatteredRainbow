@@ -19,6 +19,7 @@ public class ChooseEnemy : Editor
     Dictionary<string, MoveType> specialPropertys2 = new Dictionary<string, MoveType>
         {
              { "allMoveTime", MoveType.SomeTimesMove},
+             { "Dot", MoveType.SomeTimesMove},
         };
     void OnEnable()
     {

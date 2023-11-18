@@ -15,10 +15,11 @@ public class ItemUse : MonoBehaviour
                 break;
             case "Enemy":
                 var tempPlayer = this.transform.parent.gameObject.GetComponent<Death>();
-                if(other.gameObject.GetComponent<TrashAttack1>())
+                var tempEnemy = other.gameObject.GetComponent<Enemy>();
+                var tempEnemy2 = other.gameObject.GetComponent<Death>();
+                if(tempEnemy.moveType==MoveType.ToPlayerMove)
                 {
-                    var tempEnemy = other.gameObject.GetComponent<Death>();
-                    tempEnemy.Die();
+                    tempEnemy2.Die();
                 }
                 tempPlayer.Die();
                 break;

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1889133247928913466}
   - component: {fileID: 2041855810668007953}
   - component: {fileID: 3320111845715336476}
-  - component: {fileID: 4380400975090549158}
+  - component: {fileID: 5240528303161632813}
   m_Layer: 7
   m_Name: EnemyBoom
   m_TagString: Enemy
@@ -164,7 +164,7 @@ MonoBehaviour:
   - {fileID: 7518270170160341144, guid: a7f6e26a635a43442a287ac9e20e9eab, type: 3}
   - {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
   hp: 0
---- !u!114 &4380400975090549158
+--- !u!114 &5240528303161632813
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,12 +173,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5601185290954460713}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 163480197065dce4ca59677d50e426c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b92334e8a8b8b547bcdf1983353b6a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dot: []
   useBarrage: 1
   moveType: 2
   allMoveTime: 0.6
   bullet: {fileID: 0}
-  Speed: 4
+  Speed: 3
   Allbullet: []

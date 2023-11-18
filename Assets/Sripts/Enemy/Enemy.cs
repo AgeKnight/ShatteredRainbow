@@ -11,12 +11,13 @@ public enum MoveType
 {
     NotMove,
     SomeTimesMove,
-    AllwaysMove
+    ToPlayerMove
 }
 public class Enemy : MonoBehaviour
 {
     #region "private"
     float moveTime = 0;
+    protected Vector3 targetPosition;
     protected bool canMove = true;
     protected Coroutine coroutine;
     protected Transform bulletTransform;
@@ -24,40 +25,68 @@ public class Enemy : MonoBehaviour
     #region  "public"
     public UseBarrageType useBarrage;
     public MoveType moveType;
-    public float allMoveTime=0.6f;
+    public float allMoveTime = 0.6f;
     public GameObject bullet;
+    public Transform[] Dot; //開始 結束
     public float Speed;
     #endregion
     #region "Hide"
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
     #endregion
-    protected virtual void Start()
+    void Start()
     {
-        if(useBarrage==UseBarrageType.useBarrage)
+        if (useBarrage == UseBarrageType.useBarrage)
         {
             bulletTransform = gameObject.transform.GetChild(0).transform;
             Attack();
-        }     
+        }
+        if (Dot.Length!=0)
+        {
+            targetPosition = Dot[0].position;
+        }
     }
-    void Update() 
+    void Update()
     {
         Move();
-        if(!canMove&&moveType==MoveType.SomeTimesMove)
+        if (!canMove && moveType == MoveType.SomeTimesMove)
             TimeReturn();
     }
     void TimeReturn()
     {
-        moveTime+=Time.deltaTime;
-        if(moveTime>=allMoveTime)
+        moveTime += Time.deltaTime;
+        if (moveTime >= allMoveTime)
         {
-            moveTime=0;
+            moveTime = 0;
             ReturnMove();
-            canMove=true;
+            canMove = true;
         }
     }
-    protected virtual void ReturnMove(){}
-    protected virtual void Move() { }
+    protected virtual void ReturnMove() { }
+    void Move()
+    {
+        switch (moveType)
+        {
+            case MoveType.SomeTimesMove:
+                if (transform.position == targetPosition)
+                {
+                    canMove = false;
+                }
+                if (canMove)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
+                }
+                break;
+            case MoveType.ToPlayerMove:
+                if (FindObjectOfType<Player>())
+                {
+                    var temp = FindObjectOfType<Player>().gameObject;
+                    transform.position = Vector3.MoveTowards(transform.position, temp.transform.position, Speed * Time.deltaTime);
+                }
+                break;
+
+        }
+    }
     public void Attack()
     {
         coroutine = StartCoroutine(UseBarrage());
