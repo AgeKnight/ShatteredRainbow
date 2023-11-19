@@ -17,13 +17,13 @@ public class ChooseEnemy : Editor
             { "bullet", UseBarrageType.useBarrage},
             { "allBarragecount", UseBarrageType.useBarrage},
             { "spanCount", UseBarrageType.useBarrage},
-            { "nonUseType", UseBarrageType.nonUse},  
+            { "countTime", UseBarrageType.useBarrage},
+            { "otherAttackType", UseBarrageType.nonUse},
         };
     Dictionary<string, MoveType> specialPropertys2 = new Dictionary<string, MoveType>
         {
              { "allMoveTime", MoveType.SomeTimesMove},
-             { "Dot", MoveType.SomeTimesMove},
-             { "nonUseType", MoveType.NotMove},
+             { "otherAttackType", MoveType.MoveToTarget},
         };
     void OnEnable()
     {

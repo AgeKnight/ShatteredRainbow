@@ -23,13 +23,6 @@ public class Boss1Attack : Enemy
             }
         }
     }
-    protected override void ReturnMove()
-    {
-        if (targetPosition == Dot[0].position)
-            targetPosition = Dot[1].position;
-        else
-            targetPosition = Dot[0].position;
-    }
     void Barrage()
     {
         float angle = Random.Range(90, 220);

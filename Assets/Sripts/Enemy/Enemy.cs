@@ -1,22 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum OtherAttackType
+{
+    Barrier,
+    DieAfter
+}
 public enum UseBarrageType
 {
     useBarrage,
     nonUse
 }
-public enum NonUseType //同時選擇notmove與nonuse
-{
-    Barrier,
-    DeathAfter
-}
 public enum MoveType
 {
-    NotMove,
+    MoveToTarget,
     SomeTimesMove,
-    ToPlayerMove
+    ToPlayerMove,
 }
 public class Enemy : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class Enemy : MonoBehaviour
     #region  "public"
     public UseBarrageType useBarrage;
     public MoveType moveType;
-    public NonUseType nonUseType;
+    public OtherAttackType otherAttackType;
     public float allMoveTime = 0.6f;
     public GameObject bullet;
     public Transform[] Dot; //開始 結束
@@ -46,22 +47,34 @@ public class Enemy : MonoBehaviour
     #endregion
     void Start()
     {
+        if(gameObject.transform.childCount>0)
+            bulletTransform = gameObject.transform.GetChild(0).transform;
         if (useBarrage == UseBarrageType.useBarrage)
         {
             nowUse = "Barrage";
-            bulletTransform = gameObject.transform.GetChild(0).transform;
             Attack();
         }
         if (Dot.Length != 0)
-        {
             targetPosition = Dot[0].position;
-        }
     }
     void Update()
     {
         Move();
     }
-    protected virtual void ReturnMove() { }
+    void ReturnMove() 
+    { 
+        for (int i = 0; i < Dot.Length; i++)
+        {
+            if(targetPosition==Dot[i].position)
+            {
+                if(i==Dot.Length-1)
+                    targetPosition=Dot[0].position;
+                else
+                    targetPosition=Dot[i+1].position;
+                break;
+            }
+        }
+    }
     protected virtual string changeBarrage() { return null; }
     void Move()
     {
@@ -86,6 +99,10 @@ public class Enemy : MonoBehaviour
                     var temp = FindObjectOfType<Player>().gameObject;
                     transform.position = Vector3.MoveTowards(transform.position, temp.transform.position, Speed * Time.deltaTime);
                 }
+                break;
+            case MoveType.MoveToTarget:
+                if(transform.position!=targetPosition)
+                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
                 break;
 
         }
@@ -118,5 +135,13 @@ public class Enemy : MonoBehaviour
             }
         }
         Allbullet.Clear();
+    }
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if(other.gameObject.tag=="Barrier")
+        {
+            ClearBarrage();
+            Destroy(this.gameObject);
+        }
     }
 }
