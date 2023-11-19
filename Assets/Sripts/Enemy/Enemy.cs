@@ -7,6 +7,11 @@ public enum UseBarrageType
     useBarrage,
     nonUse
 }
+public enum NonUseType //同時選擇notmove與nonuse
+{
+    Barrier,
+    DeathAfter
+}
 public enum MoveType
 {
     NotMove,
@@ -17,24 +22,30 @@ public class Enemy : MonoBehaviour
 {
     #region "private"
     float moveTime = 0;
+    protected int barrageCount = 0;
     protected Vector3 targetPosition;
     protected bool canMove = true;
     protected Coroutine coroutine;
     protected Transform bulletTransform;
+    protected bool canChooseBarrage = false;
+    protected string nowUse;
     #endregion
     #region  "public"
     public UseBarrageType useBarrage;
     public MoveType moveType;
+    public NonUseType nonUseType;
     public float allMoveTime = 0.6f;
     public GameObject bullet;
     public Transform[] Dot; //開始 結束
+    public int allBarragecount;
+    public int[] spanCount;
     public float Speed;
     #endregion
     #region "Hide"
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
     #endregion
-    void Start()
+    protected virtual void Start()
     {
         if (useBarrage == UseBarrageType.useBarrage)
         {
@@ -48,9 +59,7 @@ public class Enemy : MonoBehaviour
     }
     void Update()
     {
-        Move();
-        if (!canMove && moveType == MoveType.SomeTimesMove)
-            TimeReturn();
+        Move();           
     }
     void TimeReturn()
     {
@@ -68,11 +77,14 @@ public class Enemy : MonoBehaviour
         switch (moveType)
         {
             case MoveType.SomeTimesMove:
-                if (transform.position == targetPosition)
+                if (transform.position == targetPosition && canChooseBarrage)
                 {
-                    canMove = false;
+                    canChooseBarrage = false;
+                    nowUse = changeBarrage();
+                    ReturnMove();
+                    Attack();
                 }
-                if (canMove)
+                else if (canChooseBarrage)
                 {
                     transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
                 }
@@ -87,30 +99,20 @@ public class Enemy : MonoBehaviour
 
         }
     }
+    protected virtual string changeBarrage(){ return null;}
     public void Attack()
     {
         coroutine = StartCoroutine(UseBarrage());
     }
     IEnumerator UseBarrage()
     {
-        while (FindObjectOfType<Player>())
+        while (FindObjectOfType<Player>()&&!canChooseBarrage)
         {
             BarrageMethod();
             yield return new WaitForSeconds(gameObject.GetComponent<Death>().countTime);
         }
     }
     protected virtual void BarrageMethod() { }
-    protected void BaseBarrage()
-    {
-        int indexz = 0;
-        int count = 30;
-        for (int i = 0; i <= count; i++)
-        {
-            indexz += 360 / count;
-            GameObject temp = Instantiate(bullet, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
-            Allbullet.Add(temp);
-        }
-    }
     public void ClearBarrage()
     {
         for (int i = 0; i < Allbullet.Count; i++)

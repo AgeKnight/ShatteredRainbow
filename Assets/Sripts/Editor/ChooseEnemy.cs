@@ -15,11 +15,15 @@ public class ChooseEnemy : Editor
     Dictionary<string, UseBarrageType> specialPropertys = new Dictionary<string, UseBarrageType>
         {
             { "bullet", UseBarrageType.useBarrage},
+            { "allBarragecount", UseBarrageType.useBarrage},
+            { "spanCount", UseBarrageType.useBarrage},
+            { "nonUseType", UseBarrageType.nonUse},  
         };
     Dictionary<string, MoveType> specialPropertys2 = new Dictionary<string, MoveType>
         {
              { "allMoveTime", MoveType.SomeTimesMove},
              { "Dot", MoveType.SomeTimesMove},
+             { "nonUseType", MoveType.NotMove},
         };
     void OnEnable()
     {

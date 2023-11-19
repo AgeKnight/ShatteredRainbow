@@ -1,36 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.Compression;
 using UnityEngine;
 
 public class Boss1Attack : Enemy
 {
+    protected override void Start()
+    {
+        nowUse = "Barrage";
+        base.Start();
+    }
     protected override void BarrageMethod()
     {
-        if (gameObject.GetComponent<Death>().hpBar.value < 0.5)
+        Invoke(nowUse,0.01f);
+        barrageCount+=1;
+        if(barrageCount>=allBarragecount)
         {
-            Barrage2();
+            barrageCount=0;
+            canChooseBarrage=true;
+        }
+    }
+    protected override string changeBarrage()
+    {
+        if(nowUse=="Barrage"||nowUse=="Barrage2")
+        {
+            return "BaseBarrage";
         }
         else
         {
-            Barrage();
+            if(gameObject.GetComponent<Death>().hpBar.value>0.5)
+            {
+                return "Barrage";
+            }
+            else
+            {
+                return "Barrage2";
+            }
         }
     }
     protected override void ReturnMove()
     {
         if (targetPosition == Dot[0].position)
-        {
             targetPosition = Dot[1].position;
-        }
         else
-        {
             targetPosition = Dot[0].position;
-        }
     }
     void Barrage()
     {
         float angle = Random.Range(90, 220);
-        int count = 5;
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < spanCount[0]; i++)
         {
             GameObject temp = Instantiate(bullet, bulletTransform.position, Quaternion.Euler(0, 0, angle));
             Allbullet.Add(temp);
@@ -44,13 +62,22 @@ public class Boss1Attack : Enemy
             var player = FindObjectOfType<Player>();
             Vector3 eulerAngle = GetAngle(transform.position, player.transform.position);
             eulerAngle.z -= 24;
-            int count = 5;
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < spanCount[0]; i++)
             {
                 GameObject temp = Instantiate(bullet, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
                 Allbullet.Add(temp);
                 eulerAngle.z += 12;
             }
+        }
+    }
+    void BaseBarrage()
+    {
+        int indexz = 0;
+        for (int i = 0; i <= spanCount[1]; i++)
+        {
+            indexz += 360 / spanCount[1];
+            GameObject temp = Instantiate(bullet, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
+            Allbullet.Add(temp);
         }
     }
     Vector3 GetAngle(Vector3 aPoint, Vector3 bPoint)
