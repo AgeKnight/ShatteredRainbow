@@ -11,9 +11,10 @@ public class Bullet : MonoBehaviour
 {
     public float speed;
     public BulletType bulletType;
+    public bool canTrackEnemy;
     void Update()
     {
-        if (GameManager.Instance.canTrack && bulletType == BulletType.Player)
+        if ((GameManager.Instance.canTrack||canTrackEnemy) && bulletType == BulletType.Player)
             Track();
         else
             Move();

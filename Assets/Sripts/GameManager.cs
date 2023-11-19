@@ -201,11 +201,15 @@ public class GameManager : MonoBehaviour
             if (gameObject.GetComponent<Death>())
             {
                 var death = gameObject.GetComponent<Death>();
-                death.countTime *= tempCountTime;
                 for (int i = 0; i < death.itemStruct.Length; i++)
                 {
                     death.itemStruct[i].probability *= tempProbability;
                 }
+            }
+            if (gameObject.GetComponent<Enemy>())
+            {
+                var enemy = gameObject.GetComponent<Enemy>();
+                enemy.countTime *= tempCountTime;
             }
             if (gameObject.GetComponent<Item>())
             {

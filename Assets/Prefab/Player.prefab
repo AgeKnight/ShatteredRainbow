@@ -162,10 +162,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6646415776259885053}
   - component: {fileID: 7419973340821641902}
-  - component: {fileID: 4903596838043073448}
-  - component: {fileID: 4505463060847400331}
   - component: {fileID: 3713487423705177716}
   - component: {fileID: 854775417}
+  - component: {fileID: 4903596838043073448}
+  - component: {fileID: 4505463060847400331}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -240,48 +240,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4903596838043073448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6646415776259885055}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0561c701ecb0d94a91c77677f933e5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AllInvincibleTime: 1
-  speed: 5
-  Bullet: {fileID: 5165513135576572565, guid: 13731d76054547b4a9de378864f5ebd2, type: 3}
-  isInvincible: 1
---- !u!114 &4505463060847400331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6646415776259885055}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  countTime: 0
-  totalHp: 3
-  charatorType: 0
-  enemyType: 0
-  status:
-  - {fileID: 21300000, guid: 185d5cda362ffcd4aa237a91583cd2d7, type: 3}
-  - {fileID: 21300000, guid: 2a067a67b76eb7749ba6e2d0bc882d79, type: 3}
-  - {fileID: 21300000, guid: 0a05ad3744fdfa547a0129a501dd3d65, type: 3}
-  hpBar: {fileID: 0}
-  score: 0
-  itemStruct: []
-  Exps:
-  - {fileID: 0}
-  hp: 0
 --- !u!70 &3713487423705177716
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -319,3 +277,44 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &4903596838043073448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6646415776259885055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0561c701ecb0d94a91c77677f933e5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllInvincibleTime: 1
+  speed: 5
+  Bullet: {fileID: 5165513135576572565, guid: 13731d76054547b4a9de378864f5ebd2, type: 3}
+  isInvincible: 1
+--- !u!114 &4505463060847400331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6646415776259885055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalHp: 3
+  charatorType: 0
+  enemyType: 0
+  status:
+  - {fileID: 21300000, guid: 185d5cda362ffcd4aa237a91583cd2d7, type: 3}
+  - {fileID: 21300000, guid: 2a067a67b76eb7749ba6e2d0bc882d79, type: 3}
+  - {fileID: 21300000, guid: 0a05ad3744fdfa547a0129a501dd3d65, type: 3}
+  hpBar: {fileID: 0}
+  score: 0
+  itemStruct: []
+  Exps:
+  - {fileID: 0}
+  hp: 0

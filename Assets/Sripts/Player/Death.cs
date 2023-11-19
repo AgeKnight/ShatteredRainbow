@@ -16,7 +16,6 @@ public class Death : MonoBehaviour
 {
     #region Public
     //難度
-    public float countTime;
     [System.Serializable]
     public struct ItemStruct //0 生命 1 炸彈 2 小弟
     {

@@ -5,21 +5,6 @@ using UnityEngine;
 
 public class Boss1Attack : Enemy
 {
-    protected override void Start()
-    {
-        nowUse = "Barrage";
-        base.Start();
-    }
-    protected override void BarrageMethod()
-    {
-        Invoke(nowUse,0.01f);
-        barrageCount+=1;
-        if(barrageCount>=allBarragecount)
-        {
-            barrageCount=0;
-            canChooseBarrage=true;
-        }
-    }
     protected override string changeBarrage()
     {
         if(nowUse=="Barrage"||nowUse=="Barrage2")
