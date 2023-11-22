@@ -11,6 +11,7 @@ public class Bullet : MonoBehaviour
 {
     public float speed;
     public BulletType bulletType;
+    [HideInInspector]
     public bool canTrackEnemy;
     void Update()
     {

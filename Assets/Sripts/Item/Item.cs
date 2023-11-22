@@ -33,7 +33,7 @@ public class Item : MonoBehaviour
     #region private
     float adriftTime=0;
     #endregion   
-    void Awake() 
+    void Start() 
     {
         switch (expType)
         {

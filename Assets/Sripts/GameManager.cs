@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get => instance; set => instance = value; }
     #region "Private"
     float resurrectionTime = 0;
-    int playerLevel = 1;
     int totalExp = 10;
     #endregion
     #region "Public"
@@ -26,6 +25,8 @@ public class GameManager : MonoBehaviour
     public Difficulty difficulty;
     #endregion
     #region "Hide"  
+    [HideInInspector]
+    public int playerLevel = 1;
     [HideInInspector]
     public bool canTrack = false;
     [HideInInspector]
@@ -223,10 +224,10 @@ public class GameManager : MonoBehaviour
                         item.CanAttract = tempCanAttract[1];
                         break;
                     case ItemType.Bomb:
-                        item.CanAttract = tempCanAttract[1];
+                        item.CanAttract = tempCanAttract[2];
                         break;
                     case ItemType.Drone:
-                        item.CanAttract = tempCanAttract[1];
+                        item.CanAttract = tempCanAttract[3];
                         break;
                 }
             }

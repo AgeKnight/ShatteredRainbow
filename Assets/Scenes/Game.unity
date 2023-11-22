@@ -425,6 +425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AllResurrectionTime: 1
   difficulty: 1
+  playerLevel: 1
   canTrack: 0
   player: {fileID: 6646415776259885055, guid: 219d3d6265477914e922e01cc667e33c, type: 3}
   scoreText: {fileID: 1562072957}
@@ -1740,36 +1741,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1562072955}
   m_CullTransparentMesh: 1
---- !u!1 &1638817909
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1638817910}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1638817910
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1638817909}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.74, y: 7.28, z: -1.1108813}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1662695281
 GameObject:
   m_ObjectHideFlags: 0
@@ -1937,7 +1908,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6646415776259885053, guid: 219d3d6265477914e922e01cc667e33c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6646415776259885053, guid: 219d3d6265477914e922e01cc667e33c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2076,9 +2047,17 @@ PrefabInstance:
       propertyPath: Dot.Array.data[1]
       value: 
       objectReference: {fileID: 564432931}
+    - target: {fileID: 3320111845715336476, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
+      propertyPath: totalHp
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5601185290954460713, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5601185290954460713, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9102627295658988160, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
       propertyPath: m_RootOrder

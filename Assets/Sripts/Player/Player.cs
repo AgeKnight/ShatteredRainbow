@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     #region "Private"
     float InvincibleTime = 0;
-    Transform bulletTransform;
+    Transform[] bulletTransform = new Transform[5];
     #endregion
     #region "Public"
     public float AllInvincibleTime;
@@ -14,22 +14,25 @@ public class Player : MonoBehaviour
     #endregion
     #region "Hide"
     [HideInInspector]
-    public GameObject Bullet;
+    public GameObject bulletPrefab;
     [HideInInspector]
     public bool isInvincible = true;
     #endregion
-    void Start() 
-    {   
-        bulletTransform = transform.Find("MiddleTransform");
-        StartCoroutine(Attack());   
-    }
-    void Update() 
+    void Start()
     {
-        if(isInvincible)
+        for (int i = 0; i < 5; i++)
+        {
+            bulletTransform[i] = transform.GetChild(i).gameObject.transform;
+        }
+        StartCoroutine(Attack());
+    }
+    void Update()
+    {
+        if (isInvincible)
         {
             Invincible();
         }
-        
+
     }
     void FixedUpdate()
     {
@@ -39,39 +42,45 @@ public class Player : MonoBehaviour
     {
         int vertical = 0;
         int horizontal = 0;
-        if (Input.GetKey(KeyCode.W)||Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             horizontal = 1;
         }
-        if(Input.GetKey(KeyCode.S)||Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             horizontal = -1;
         }
-        if(Input.GetKey(KeyCode.A)||Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             vertical = -1;
         }
-        if(Input.GetKey(KeyCode.D)||Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             vertical = 1;
         }
-        transform.Translate(vertical*speed * Time.deltaTime, horizontal*speed * Time.deltaTime,0);
+        transform.Translate(vertical * speed * Time.deltaTime, horizontal * speed * Time.deltaTime, 0);
     }
     IEnumerator Attack()
     {
-        while(true)
+        while (true)
         {
-            GameObject tempObject = Instantiate(Bullet,gameObject.transform.position,Quaternion.identity);
-            GameManager.Instance.Playerbullet.Add(tempObject);
+            for (int i = 0; i < 5; i++)
+            {
+                if (i <= (GameManager.Instance.playerLevel - 1) * 2)
+                {
+                    GameObject tempObject = Instantiate(bulletPrefab, bulletTransform[i].transform.position, Quaternion.identity);
+                    GameManager.Instance.Playerbullet.Add(tempObject);
+                }
+            }
             yield return new WaitForSeconds(0.1f);
         }
     }
     void Invincible()
     {
-        InvincibleTime+=Time.deltaTime;
-        if(InvincibleTime>=AllInvincibleTime)
+        InvincibleTime += Time.deltaTime;
+        if (InvincibleTime >= AllInvincibleTime)
         {
-            isInvincible=false;
+            isInvincible = false;
         }
-    } 
+    }
 }
