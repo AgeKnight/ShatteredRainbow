@@ -17,7 +17,7 @@ public class Death : MonoBehaviour
     #region Public
     //難度
     [System.Serializable]
-    public struct ItemStruct //0 生命 1 炸彈 2 小弟
+    public struct ItemStruct //0 生命 1 炸彈 2 小弟 3經驗值
     {
         //難度
         public float probability;
@@ -27,10 +27,11 @@ public class Death : MonoBehaviour
     public CharatorType charatorType;
     public EnemyType enemyType;
     public Sprite[] status;
-    public Slider hpBar;  
+    public Slider hpBar;
     public int score;
     public ItemStruct[] itemStruct;
-    public GameObject[] Exps;
+    public int minExp;
+    public int maxExp;
     #endregion
     [HideInInspector]
     public int hp;
@@ -44,19 +45,19 @@ public class Death : MonoBehaviour
     }
     public void Hurt()
     {
-        hp -= 1;
-        if (charatorType == CharatorType.Player && !gameObject.GetComponent<Player>().isInvincible && hp > 0)
+        if (charatorType==CharatorType.Player&&gameObject.GetComponent<Player>().isInvincible){}
+        else
         {
-            var sprite = GameObject.Find("Image").GetComponent<SpriteRenderer>(); ;
-            sprite.sprite = status[3 - hp];
-        }
-        if (enemyType == EnemyType.Boss)
-        {
-            hpBar.value = (float)hp / totalHp;
-        }
-        if (hp == 0)
-        {
-            Die();
+            hp -= 1;
+            if (charatorType == CharatorType.Player && hp > 0)
+            {
+                var sprite = GameObject.Find("Image").GetComponent<SpriteRenderer>();
+                sprite.sprite = status[3 - hp];
+            }
+            if (enemyType == EnemyType.Boss)
+                hpBar.value = (float)hp / totalHp;
+            if (hp == 0)
+                Die();
         }
     }
     public void Die()
@@ -79,20 +80,19 @@ public class Death : MonoBehaviour
     void Enemydeath()
     {
         GameManager.Instance.AddScore(score);
-        int probabilityExp = Random.Range(1, 5);
+        int probabilityExp = Random.Range(minExp, maxExp);
         float enemyX = gameObject.transform.position.x;
         float enemyY = gameObject.transform.position.y;
         for (int i = 0; i < probabilityExp; i++)
         {
             float tempx = Random.Range(-1.5f, 1.5f);
             float tempY = Random.Range(-1.5f, 1.5f);
-            int tempCount = Random.Range(0, 2);
             var tempPosition = new Vector2(enemyX + tempx, enemyY + tempY);
-            Instantiate(Exps[tempCount], tempPosition, Quaternion.identity);
+            Instantiate(itemStruct[3].items, tempPosition, Quaternion.identity);
         }
         for (int i = 0; i < itemStruct.Length; i++)
         {
-            int tempProbability = Random.Range(1, 100);
+            float tempProbability = Random.Range(1, 100);
             if (tempProbability <= itemStruct[i].probability)
             {
                 float tempx = Random.Range(-1.5f, 1.5f);

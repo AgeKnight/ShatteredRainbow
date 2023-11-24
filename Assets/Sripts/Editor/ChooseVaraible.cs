@@ -21,6 +21,8 @@ public class ChooseVaraible : Editor
             { "hpBar", CharatorType.Enemy},
             { "totalHp", CharatorType.Enemy},
             { "countTime", CharatorType.Enemy},
+            { "minExp", CharatorType.Enemy},
+            { "maxExp", CharatorType.Enemy},
         };
     Dictionary<string,EnemyType> specialPropertys2= new Dictionary<string, EnemyType>
         {

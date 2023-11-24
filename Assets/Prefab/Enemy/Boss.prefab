@@ -525,10 +525,10 @@ MonoBehaviour:
     items: {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
   - probability: 5
     items: {fileID: 7518270170160341144, guid: 64fa2ac8a88d4f241bdb5d26bb8e6daf, type: 3}
-  Exps:
-  - {fileID: 7518270170160341144, guid: f1dd69d2d0789a847ae8612f5d0fbf6b, type: 3}
-  - {fileID: 7518270170160341144, guid: a7f6e26a635a43442a287ac9e20e9eab, type: 3}
-  - {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
+  - probability: 100
+    items: {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
+  minExp: 10
+  maxExp: 50
   hp: 0
 --- !u!114 &1544667865
 MonoBehaviour:
@@ -544,17 +544,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useBarrage: 0
   moveType: 1
-  otherAttackType: 0
-  allMoveTime: 0.6
   bullet: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
   Dot:
   - {fileID: 0}
   - {fileID: 0}
-  spanCount: 050000001e000000
-  allBarragecount: 5
   Speed: 3
-  countTime: 0.3
   Allbullet: []
+  spanCount: 050000001e000000
+  countBarrage: 0500000005000000
+  countTime: 0.3
 --- !u!1 &7569381269613217192
 GameObject:
   m_ObjectHideFlags: 0

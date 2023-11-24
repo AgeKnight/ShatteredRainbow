@@ -1,13 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum OtherAttackType
-{
-    Barrier,
-    DieAfter
-}
 public enum UseBarrageType
 {
     useBarrage,
@@ -15,45 +9,50 @@ public enum UseBarrageType
 }
 public enum MoveType
 {
+    NotMove,
     MoveToTarget,
     SomeTimesMove,
+    StayAttackMove,
     ToPlayerMove,
 }
 public class Enemy : MonoBehaviour
 {
     #region "private"
-    protected int barrageCount = 0;
     protected Vector3 targetPosition;
     protected Coroutine coroutine;
     protected Transform bulletTransform;
     protected bool canChooseBarrage = false;
     protected string nowUse;
+    protected int nowIndex = 0;
+    protected int nowCountBarrage = 0;
     #endregion
     #region  "public"
     public UseBarrageType useBarrage;
     public MoveType moveType;
-    public OtherAttackType otherAttackType;
-    public float allMoveTime = 0.6f;
     public GameObject bullet;
-    public Transform[] Dot; //開始 結束
-    public int[] spanCount;
-    public int allBarragecount;
+    //移動的位置
+    public Transform[] Dot; 
     public float Speed;
-    public float countTime;
     #endregion
     #region "Hide"
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
     #endregion
-    void Start()
+    #region "調難度"
+    //生成的彈幕個數
+    public int[] spanCount;
+    //生成的彈幕波數
+    public int[] countBarrage;
+    public float countTime;
+    #endregion
+    protected virtual void Start()
     {
+        if (moveType == MoveType.MoveToTarget)
+            canChooseBarrage = true;
         if(gameObject.transform.childCount>0)
             bulletTransform = gameObject.transform.GetChild(0).transform;
         if (useBarrage == UseBarrageType.useBarrage)
-        {
-            nowUse = "Barrage";
             Attack();
-        }
         if (Dot.Length != 0)
             targetPosition = Dot[0].position;
     }
@@ -84,7 +83,6 @@ public class Enemy : MonoBehaviour
                 if (transform.position == targetPosition && canChooseBarrage)
                 {
                     canChooseBarrage = false;
-                    nowUse = changeBarrage();
                     ReturnMove();
                     Attack();
                 }
@@ -103,8 +101,19 @@ public class Enemy : MonoBehaviour
             case MoveType.MoveToTarget:
                 if(transform.position!=targetPosition)
                     transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
+                else
+                    if(canChooseBarrage)
+                    {
+                        canChooseBarrage=false;
+                        Attack();
+                    }
                 break;
-
+            case MoveType.StayAttackMove:
+                if(transform.position!=targetPosition)
+                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
+                else
+                    ReturnMove();
+                break;
         }
     }
     public void Attack()
@@ -114,13 +123,15 @@ public class Enemy : MonoBehaviour
     IEnumerator UseBarrage()
     {
         while (FindObjectOfType<Player>() && !canChooseBarrage)
-        {
-            Invoke(nowUse,0);
-            barrageCount += 1;
-            if (barrageCount >= allBarragecount)
+        {     
+            StartCoroutine(nowUse,spanCount[nowIndex]);
+            nowCountBarrage+=1;
+            if(nowCountBarrage>=countBarrage[nowIndex])
             {
-                barrageCount = 0;
-                canChooseBarrage = true;
+                nowCountBarrage=0;
+                nowUse = changeBarrage();
+                if(moveType == MoveType.SomeTimesMove)
+                    canChooseBarrage = true;
             }
             yield return new WaitForSeconds(countTime);
         }
@@ -144,4 +155,50 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+    #region "所有彈幕方法"
+    void Shotgun(int count)
+    {
+        float angle = Random.Range(90, 220);
+        for (int i = 0; i < count; i++)
+        {
+            GameObject temp = Instantiate(bullet, bulletTransform.position, Quaternion.Euler(0, 0, angle));
+            Allbullet.Add(temp);
+            angle += 12;
+        }
+    }
+    void TrackShotgun(int count)
+    {
+        if (FindObjectOfType<Player>())
+        {
+            var player = FindObjectOfType<Player>();
+            Vector3 eulerAngle = GetAngle(transform.position, player.transform.position);
+            eulerAngle.z -= 24;
+            for (int i = 0; i < count; i++)
+            {
+                GameObject temp = Instantiate(bullet, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
+                Allbullet.Add(temp);
+                eulerAngle.z += 12;
+            }
+        }
+    }
+    void CircleBarrage(int count)
+    {
+        int indexz = 0;
+        for (int i = 0; i <= count; i++)
+        {
+            indexz += 360 / count;
+            GameObject temp = Instantiate(bullet, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
+            Allbullet.Add(temp);
+        }
+    }
+    Vector3 GetAngle(Vector3 aPoint, Vector3 bPoint)
+    {
+        Vector3 direct = bPoint - aPoint;
+        Vector3 normal = Vector3.Cross(Vector2.up, direct.normalized);
+        float zAngle = Vector2.Angle(Vector2.up, direct.normalized);
+        zAngle = normal.z > 0 ? zAngle : -zAngle;
+        return new Vector3(0, 0, zAngle);
+    }
+    #endregion
+    
 }

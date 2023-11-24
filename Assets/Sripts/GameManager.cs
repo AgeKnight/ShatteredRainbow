@@ -10,6 +10,8 @@ public enum Difficulty
     easy,
     middle,
     Hard,
+    VerryHard,
+    Hell
 }
 public class GameManager : MonoBehaviour
 {
@@ -90,7 +92,8 @@ public class GameManager : MonoBehaviour
         var tempEnemy = FindObjectOfType<Enemy>();
         resurrectionTime = 0;
         PlayerIsDied = false;
-        Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity);
+        var  tempPlayer = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity);
+        tempPlayer.gameObject.GetComponent<Player>().isInvincible = true;
         if(tempEnemy)
             tempEnemy.Attack();
     }
@@ -119,7 +122,7 @@ public class GameManager : MonoBehaviour
                 AddBottom(1);
                 break;
             case ItemType.EXP:
-                AddExp(item.Exp);
+                AddExp();
                 break;
             case ItemType.Drone:
                 AddDrone();
@@ -146,9 +149,9 @@ public class GameManager : MonoBehaviour
         playerScore += value;
         scoreText.text = playerScore.ToString();
     }
-    void AddExp(int value)
+    void AddExp()
     {
-        playerExp += value;
+        playerExp += 1;
         while (playerExp >= totalExp)
         {
             playerLevel += 1;

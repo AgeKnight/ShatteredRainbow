@@ -20,7 +20,7 @@ public class Bullet : MonoBehaviour
         else
             Move();
     }
-    protected virtual void Move()
+    protected void Move()
     {
         transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
     }
@@ -43,9 +43,6 @@ public class Bullet : MonoBehaviour
             other.gameObject.GetComponent<Death>().Hurt();
             Die();
         }
-    }
-    void OnTriggerExit2D(Collider2D other)
-    {
         if (other.gameObject.tag == "Barrier")
         {
             Die();

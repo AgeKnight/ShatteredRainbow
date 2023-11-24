@@ -9,44 +9,19 @@ public enum ItemType
     Bomb,
     Drone
 }
-public enum ExpType
-{
-    Small,
-    Middle,
-    Big,
-}
 public class Item : MonoBehaviour
 {
     #region Public
     public ItemType itemType;
-    public ExpType expType;
     public float speed=1;
-    public float allAdriftTime=1f;
     #endregion
     #region Hide
     //難度
     [HideInInspector]
     public bool CanAttract = false;
-    [HideInInspector]
-    public int Exp=0;
     #endregion
-    #region private
-    float adriftTime=0;
-    #endregion   
     void Start() 
     {
-        switch (expType)
-        {
-            case ExpType.Small:
-                Exp=1;
-                break;
-            case ExpType.Middle:
-                Exp=3;
-                break;
-            case ExpType.Big:
-                Exp=7;
-                break;
-        }
         GameManager.Instance.ChangeDifficulty(this.gameObject);
     }
     void Update() 
@@ -58,10 +33,7 @@ public class Item : MonoBehaviour
     }
     void Move()
     {
-        if(adriftTime>=allAdriftTime)
-            transform.Translate(Vector3.down*Time.deltaTime*speed,Space.World);
-        else
-            adriftTime+=Time.deltaTime;
+        transform.Translate(Vector3.down*Time.deltaTime*speed,Space.World);
     }
     void Attract()
     {

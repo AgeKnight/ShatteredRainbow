@@ -6,7 +6,6 @@ public class Player : MonoBehaviour
 {
     #region "Private"
     float InvincibleTime = 0;
-    Transform[] bulletTransform = new Transform[5];
     #endregion
     #region "Public"
     public float AllInvincibleTime;
@@ -16,14 +15,12 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public GameObject bulletPrefab;
     [HideInInspector]
-    public bool isInvincible = true;
+    public bool isInvincible = false;
+    [HideInInspector]
+    public Transform[] bulletTransform;
     #endregion
     void Start()
     {
-        for (int i = 0; i < 5; i++)
-        {
-            bulletTransform[i] = transform.GetChild(i).gameObject.transform;
-        }
         StartCoroutine(Attack());
     }
     void Update()

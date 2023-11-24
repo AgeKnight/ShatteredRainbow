@@ -18,12 +18,9 @@ public class ChooseEnemy : Editor
             { "allBarragecount", UseBarrageType.useBarrage},
             { "spanCount", UseBarrageType.useBarrage},
             { "countTime", UseBarrageType.useBarrage},
-            { "otherAttackType", UseBarrageType.nonUse},
         };
     Dictionary<string, MoveType> specialPropertys2 = new Dictionary<string, MoveType>
         {
-             { "allMoveTime", MoveType.SomeTimesMove},
-             { "otherAttackType", MoveType.MoveToTarget},
         };
     void OnEnable()
     {
