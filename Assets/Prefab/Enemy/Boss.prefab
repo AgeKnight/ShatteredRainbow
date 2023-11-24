@@ -543,15 +543,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useBarrage: 0
-  moveType: 1
+  moveType: 2
   bullet: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
   Dot:
   - {fileID: 0}
   - {fileID: 0}
   Speed: 3
   Allbullet: []
-  spanCount: 050000001e000000
-  countBarrage: 0500000005000000
+  enemyBarrageCounts:
+  - spanCount: 5
+    countBarrage: 5
+  - spanCount: 30
+    countBarrage: 5
   countTime: 0.3
 --- !u!1 &7569381269613217192
 GameObject:

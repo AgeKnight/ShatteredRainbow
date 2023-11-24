@@ -39,10 +39,15 @@ public class Enemy : MonoBehaviour
     public List<GameObject> Allbullet = new List<GameObject>();
     #endregion
     #region "調難度"
-    //生成的彈幕個數
-    public int[] spanCount;
-    //生成的彈幕波數
-    public int[] countBarrage;
+    [System.Serializable]
+    public struct EnemyBarrageCount 
+    {
+        //生成的彈幕個數
+        public int spanCount;
+        //生成的彈幕波數
+        public int countBarrage;
+    }
+    public EnemyBarrageCount[] enemyBarrageCounts;
     public float countTime;
     #endregion
     protected virtual void Start()
@@ -124,9 +129,9 @@ public class Enemy : MonoBehaviour
     {
         while (FindObjectOfType<Player>() && !canChooseBarrage)
         {     
-            StartCoroutine(nowUse,spanCount[nowIndex]);
+            StartCoroutine(nowUse,enemyBarrageCounts[nowIndex].spanCount);
             nowCountBarrage+=1;
-            if(nowCountBarrage>=countBarrage[nowIndex])
+            if(nowCountBarrage>=enemyBarrageCounts[nowIndex].countBarrage)
             {
                 nowCountBarrage=0;
                 nowUse = changeBarrage();
