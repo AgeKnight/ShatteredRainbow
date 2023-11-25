@@ -20,13 +20,18 @@ public struct ItemStruct //0 生命 1 炸彈 2 小弟 3經驗值
     public float probability;
     public GameObject items;
 }
+[System.Serializable]
+public struct SpriteStruct 
+{
+    public Sprite[] nowStatus;
+}
 public class Death : MonoBehaviour
 {
     #region Public
     public int totalHp = 3;
     public CharatorType charatorType;
     public EnemyType enemyType;
-    public Sprite[] status;
+    public SpriteStruct[] Status;
     public Slider hpBar;
     #region  "調難度"
     [Header("調難度")]
@@ -45,6 +50,14 @@ public class Death : MonoBehaviour
     void Start()
     {
         GameManager.Instance.ChangeDifficulty(this.gameObject);
+    }    
+    void Update()
+    {
+        if (charatorType == CharatorType.Player && hp > 0)
+        {
+            var sprite = GameObject.Find("Image").GetComponent<SpriteRenderer>();
+            sprite.sprite = Status[GameManager.Instance.playerLevel-1].nowStatus[totalHp-hp];
+        }
     }
     public void Hurt(int value = 1)
     {
@@ -53,11 +66,6 @@ public class Death : MonoBehaviour
             value = 0;
         }
         hp -= value;
-        if (charatorType == CharatorType.Player && hp > 0)
-        {
-            var sprite = GameObject.Find("Image").GetComponent<SpriteRenderer>();
-            sprite.sprite = status[3 - hp];
-        }
         if (enemyType == EnemyType.Boss)
             hpBar.value = (float)hp / totalHp;
         if (hp == 0)
@@ -69,11 +77,12 @@ public class Death : MonoBehaviour
         {
             GameManager.Instance.PlayerIsDied = true;
             GameManager.Instance.AddLife(-1);
+            GameManager.Instance.ClearBarrage();
             Destroy(this.gameObject);
         }
         if (gameObject.tag == "Enemy")
         {
-            var temp = gameObject.GetComponent<Enemy>();
+            GameManager.Instance.ClearBarrage();
             Enemydeath();
             Destroy(this.gameObject);
         }

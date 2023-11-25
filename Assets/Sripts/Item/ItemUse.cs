@@ -17,7 +17,7 @@ public class ItemUse : MonoBehaviour
                 var tempPlayer = this.transform.parent.gameObject.GetComponent<Death>();
                 var tempEnemy = other.gameObject.GetComponent<Enemy>();
                 var tempEnemy2 = other.gameObject.GetComponent<Death>();
-                if(tempEnemy.moveType==MoveType.ToPlayerMove)
+                if(tempEnemy.useBarrage==UseBarrageType.suicideAttack)
                 {
                     tempEnemy2.Die();
                 }

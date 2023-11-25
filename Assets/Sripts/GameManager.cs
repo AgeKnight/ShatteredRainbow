@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
     #endregion
     #region "Hide"  
     [HideInInspector]
+    public List<GameObject> playerBullet = new List<GameObject>();
+    [HideInInspector]
     public int playerLevel = 1;
     [HideInInspector]
     public bool canTrack = false;
@@ -108,7 +110,8 @@ public class GameManager : MonoBehaviour
                 AddBottom(1);
                 break;
             case ItemType.EXP:
-                AddExp();
+                if(playerLevel<=3)
+                    AddExp();
                 break;
             case ItemType.Drone:
                 AddDrone();
@@ -119,7 +122,6 @@ public class GameManager : MonoBehaviour
     {
         playerLife += life;
         var tempPlayer = FindObjectOfType<Player>();
-        tempPlayer.gameObject.transform.Find("Image").gameObject.GetComponent<SpriteRenderer>().sprite = player.gameObject.GetComponent<Death>().status[0];
         tempPlayer.gameObject.GetComponent<Death>().hp = 3;
         if (playerLife < 0)
             playerLife = 0;
@@ -148,6 +150,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                playerLevel = 3;
                 Level.text = "Levil Max".ToString();
                 break;
             }
@@ -157,6 +160,31 @@ public class GameManager : MonoBehaviour
     void AddDrone()
     {
 
+    }
+    public void ClearBarrage()
+    {
+        if (PlayerIsDied)
+        {
+            for (int i = 0; i < playerBullet.Count; i++)
+            {
+                if (playerBullet[i] != null)
+                {
+                    Destroy(playerBullet[i]);
+                }
+            }
+            playerBullet.Clear();
+        }
+        var enemy = FindObjectsOfType<Enemy>();
+        for (int i = 0; i < enemy.Length; i++)
+        {
+            for (int j = 0; j < enemy[i].Allbullet.Count; j++)
+            {
+                if (enemy[i].Allbullet[j] != null)
+                {
+                    Destroy(enemy[i].Allbullet[j]);
+                }
+            }
+        }
     }
     public void ChangeDifficulty(GameObject gameObject = null)
     {

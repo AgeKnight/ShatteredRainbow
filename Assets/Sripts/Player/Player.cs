@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
                 if (i <= (GameManager.Instance.playerLevel - 1) * 2)
                 {
                     GameObject tempObject = Instantiate(bulletPrefab, bulletTransform[i].transform.position, Quaternion.identity);
-                    tempObject.transform.parent = gameObject.transform;
+                    GameManager.Instance.playerBullet.Add(tempObject);
                 }
             }
             yield return new WaitForSeconds(0.1f);

@@ -13,7 +13,7 @@ public class ChooseVaraible : Editor
     EnemyType enemyType;
     Dictionary<string,CharatorType> specialPropertys= new Dictionary<string, CharatorType>
         {
-            { "status", CharatorType.Player},
+            { "Status", CharatorType.Player},
             { "enemyType", CharatorType.Enemy},
             { "score", CharatorType.Enemy},
             { "itemStruct", CharatorType.Enemy},

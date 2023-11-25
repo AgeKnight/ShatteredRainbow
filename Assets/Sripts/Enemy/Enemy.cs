@@ -6,6 +6,7 @@ public enum UseBarrageType
 {
     useBarrage,
     deadUseBarrage,
+    suicideAttack,
     nonUse
 }
 public enum MoveType
@@ -55,14 +56,14 @@ public class Enemy : MonoBehaviour
     protected virtual void Start()
     {
         //GameManager.Instance.ChangeDifficulty(this.gameObject);
-        if (moveType == MoveType.MoveToTarget)
-            canChooseBarrage = true;
-        if(useBarrage != UseBarrageType.nonUse)
-            bulletTransform = gameObject.transform.GetChild(0).transform;
-        if (useBarrage == UseBarrageType.useBarrage)
-            Attack();
         if (Dot.Length != 0)
             targetPosition = Dot[0].position;
+        if (moveType == MoveType.MoveToTarget)
+            canChooseBarrage = true;
+        if(useBarrage == UseBarrageType.useBarrage||useBarrage == UseBarrageType.deadUseBarrage)
+            bulletTransform = gameObject.transform.GetChild(0).transform;
+        if (useBarrage == UseBarrageType.useBarrage)
+            Attack();       
     }
     void Update()
     {
@@ -160,7 +161,7 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             GameObject temp = Instantiate(bullet, bulletTransform.position, Quaternion.Euler(0, 0, angle));
-            temp.transform.parent = gameObject.transform;
+            Allbullet.Add(temp);
             angle += 12;
         }
     }
@@ -174,7 +175,7 @@ public class Enemy : MonoBehaviour
             for (int i = 0; i < count; i++)
             {
                 GameObject temp = Instantiate(bullet, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
-                temp.transform.parent = gameObject.transform;
+                Allbullet.Add(temp);
                 eulerAngle.z += 12;
             }
         }
@@ -186,7 +187,7 @@ public class Enemy : MonoBehaviour
         {
             indexz += 360 / count;
             GameObject temp = Instantiate(bullet, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
-            temp.transform.parent = gameObject.transform;
+            Allbullet.Add(temp);
         }
     }
     Vector3 GetAngle(Vector3 aPoint, Vector3 bPoint)
