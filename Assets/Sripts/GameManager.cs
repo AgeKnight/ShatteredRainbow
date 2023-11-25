@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     [Header("調難度")]
     public Difficulty difficulty;
+    public float AllInvincibleTime;
     #endregion
     #region "Hide"  
     [HideInInspector]
@@ -56,8 +57,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public bool PlayerIsDied = false;
     public Transform PlayerResurrectionPosition;
-    [HideInInspector]
-    public List<GameObject> Playerbullet = new List<GameObject>();
     #endregion
     // Start is called before the first frame update
     void Awake()
@@ -92,24 +91,10 @@ public class GameManager : MonoBehaviour
         var tempEnemy = FindObjectOfType<Enemy>();
         resurrectionTime = 0;
         PlayerIsDied = false;
-        var  tempPlayer = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity);
+        var tempPlayer = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity);
         tempPlayer.gameObject.GetComponent<Player>().isInvincible = true;
-        if(tempEnemy)
+        if (tempEnemy)
             tempEnemy.Attack();
-    }
-    public void ClearBullet()
-    {
-        var tempEnemy = FindObjectOfType<Enemy>();
-        if(tempEnemy)
-            tempEnemy.ClearBarrage();
-        for (int i = 0; i < Playerbullet.Count; i++)
-        {
-            if (Playerbullet[i] != null)
-            {
-                Destroy(Playerbullet[i]);
-            }
-        }
-        Playerbullet.Clear();
     }
     public void EatItem(Item item)
     {
@@ -172,31 +157,31 @@ public class GameManager : MonoBehaviour
     {
 
     }
-    public void ChangeDifficulty(GameObject gameObject=null)
+    public void ChangeDifficulty(GameObject gameObject = null)
     {
         //調難度
         float tempCountTime = 1;
         bool tempCanTrack = false;
         float tempProbability = 1; //0 生命 1 炸彈 2 小弟
-        bool[] tempCanAttract = { true, true, true, true }; //0 exp 1 生命 2 炸彈 3 小弟
+        bool[] tempCanAttract = { false, false, false, false }; //0 exp 1 生命 2 炸彈 3 小弟
         switch (difficulty)
         {
             case Difficulty.easy:
                 tempCountTime *= 2;
                 tempCanTrack = true;
                 tempProbability = 2;
+                for (int i = 0; i < tempCanAttract.Length; i++)
+                {
+                    tempCanAttract[i] = true;
+                }
                 break;
             case Difficulty.middle:
-                tempCanAttract[2] = false;
-                tempCanAttract[3] = false;
+                tempCanAttract[0] = true;
+                tempCanAttract[1] = true;
                 break;
             case Difficulty.Hard:
                 tempCountTime *= 0.5f;
                 tempProbability = 0.5f;
-                tempCanAttract[0] = false;
-                tempCanAttract[1] = false;
-                tempCanAttract[2] = false;
-                tempCanAttract[3] = false;
                 break;
         }
         canTrack = tempCanTrack;

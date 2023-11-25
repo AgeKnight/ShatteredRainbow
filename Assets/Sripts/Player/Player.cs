@@ -8,7 +8,6 @@ public class Player : MonoBehaviour
     float InvincibleTime = 0;
     #endregion
     #region "Public"
-    public float AllInvincibleTime;
     public float speed;
     #endregion
     #region "Hide"
@@ -66,7 +65,7 @@ public class Player : MonoBehaviour
                 if (i <= (GameManager.Instance.playerLevel - 1) * 2)
                 {
                     GameObject tempObject = Instantiate(bulletPrefab, bulletTransform[i].transform.position, Quaternion.identity);
-                    GameManager.Instance.Playerbullet.Add(tempObject);
+                    tempObject.transform.parent = gameObject.transform;
                 }
             }
             yield return new WaitForSeconds(0.1f);
@@ -75,7 +74,7 @@ public class Player : MonoBehaviour
     void Invincible()
     {
         InvincibleTime += Time.deltaTime;
-        if (InvincibleTime >= AllInvincibleTime)
+        if (InvincibleTime >= GameManager.Instance.AllInvincibleTime)
         {
             isInvincible = false;
         }

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO.Compression;
 using UnityEngine;
 
 public class Boss1Attack : Enemy
@@ -12,6 +11,7 @@ public class Boss1Attack : Enemy
     }
     protected override string changeBarrage()
     {
+
         if(nowUse=="Shotgun"||nowUse=="TrackShotgun")
         {
             nowIndex = 1;

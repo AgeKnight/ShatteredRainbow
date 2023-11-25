@@ -15,12 +15,12 @@ public class ChooseEnemy : Editor
     Dictionary<string, UseBarrageType> specialPropertys = new Dictionary<string, UseBarrageType>
         {
             { "bullet", UseBarrageType.useBarrage},
-            { "allBarragecount", UseBarrageType.useBarrage},
-            { "spanCount", UseBarrageType.useBarrage},
+            { "enemyBarrageCounts", UseBarrageType.useBarrage},
             { "countTime", UseBarrageType.useBarrage},
         };
     Dictionary<string, MoveType> specialPropertys2 = new Dictionary<string, MoveType>
         {
+            { "Dot", MoveType.ToPlayerMove},
         };
     void OnEnable()
     {
@@ -44,7 +44,7 @@ public class ChooseEnemy : Editor
                 && useBarrage != enemy.useBarrage)
                 continue;
             if (specialPropertys2.TryGetValue(name, out moveType) 
-                && moveType != enemy.moveType)
+                && moveType == enemy.moveType)
                 continue;
             EditorGUILayout.PropertyField(obj.FindProperty(name));
             if (!GUI.enabled)

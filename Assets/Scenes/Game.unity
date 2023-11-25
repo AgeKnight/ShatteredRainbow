@@ -425,6 +425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AllResurrectionTime: 1
   difficulty: 1
+  AllInvincibleTime: 0
   playerLevel: 1
   canTrack: 0
   player: {fileID: 6646415776259885055, guid: 219d3d6265477914e922e01cc667e33c, type: 3}
@@ -440,7 +441,6 @@ MonoBehaviour:
   PlayerReallyDeath: 0
   PlayerIsDied: 0
   PlayerResurrectionPosition: {fileID: 752541158}
-  Playerbullet: []
 --- !u!4 &331282130
 Transform:
   m_ObjectHideFlags: 0
@@ -2031,6 +2031,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1475734633, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1475734633, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1544667865, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
       propertyPath: Dot.Array.data[0]
       value: 

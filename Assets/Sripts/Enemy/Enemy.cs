@@ -5,6 +5,7 @@ using UnityEngine;
 public enum UseBarrageType
 {
     useBarrage,
+    deadUseBarrage,
     nonUse
 }
 public enum MoveType
@@ -14,6 +15,14 @@ public enum MoveType
     SomeTimesMove,
     StayAttackMove,
     ToPlayerMove,
+}
+[System.Serializable]
+public struct EnemyBarrageCount
+{
+    //生成的彈幕個數
+    public int spanCount;
+    //生成的彈幕波數
+    public int countBarrage;
 }
 public class Enemy : MonoBehaviour
 {
@@ -31,7 +40,7 @@ public class Enemy : MonoBehaviour
     public MoveType moveType;
     public GameObject bullet;
     //移動的位置
-    public Transform[] Dot; 
+    public Transform[] Dot;
     public float Speed;
     #endregion
     #region "Hide"
@@ -39,14 +48,7 @@ public class Enemy : MonoBehaviour
     public List<GameObject> Allbullet = new List<GameObject>();
     #endregion
     #region "調難度"
-    [System.Serializable]
-    public struct EnemyBarrageCount 
-    {
-        //生成的彈幕個數
-        public int spanCount;
-        //生成的彈幕波數
-        public int countBarrage;
-    }
+    [Header("調難度")]
     public EnemyBarrageCount[] enemyBarrageCounts;
     public float countTime;
     #endregion
@@ -54,7 +56,7 @@ public class Enemy : MonoBehaviour
     {
         if (moveType == MoveType.MoveToTarget)
             canChooseBarrage = true;
-        if(gameObject.transform.childCount>0)
+        if(useBarrage != UseBarrageType.nonUse)
             bulletTransform = gameObject.transform.GetChild(0).transform;
         if (useBarrage == UseBarrageType.useBarrage)
             Attack();
@@ -65,16 +67,16 @@ public class Enemy : MonoBehaviour
     {
         Move();
     }
-    void ReturnMove() 
-    { 
+    void ReturnMove()
+    {
         for (int i = 0; i < Dot.Length; i++)
         {
-            if(targetPosition==Dot[i].position)
+            if (targetPosition == Dot[i].position)
             {
-                if(i==Dot.Length-1)
-                    targetPosition=Dot[0].position;
+                if (i == Dot.Length - 1)
+                    targetPosition = Dot[0].position;
                 else
-                    targetPosition=Dot[i+1].position;
+                    targetPosition = Dot[i + 1].position;
                 break;
             }
         }
@@ -96,28 +98,30 @@ public class Enemy : MonoBehaviour
                     transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
                 }
                 break;
+            case MoveType.MoveToTarget:
+                if (transform.position != targetPosition)
+                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
+                else
+                {
+                    if (canChooseBarrage)
+                    {
+                        canChooseBarrage = false;
+                        Attack();
+                    }
+                }
+                break;
+            case MoveType.StayAttackMove:
+                if (transform.position != targetPosition)
+                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
+                else
+                    ReturnMove();
+                break;
             case MoveType.ToPlayerMove:
                 if (FindObjectOfType<Player>())
                 {
                     var temp = FindObjectOfType<Player>().gameObject;
                     transform.position = Vector3.MoveTowards(transform.position, temp.transform.position, Speed * Time.deltaTime);
                 }
-                break;
-            case MoveType.MoveToTarget:
-                if(transform.position!=targetPosition)
-                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
-                else
-                    if(canChooseBarrage)
-                    {
-                        canChooseBarrage=false;
-                        Attack();
-                    }
-                break;
-            case MoveType.StayAttackMove:
-                if(transform.position!=targetPosition)
-                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
-                else
-                    ReturnMove();
                 break;
         }
     }
@@ -128,35 +132,23 @@ public class Enemy : MonoBehaviour
     IEnumerator UseBarrage()
     {
         while (FindObjectOfType<Player>() && !canChooseBarrage)
-        {     
-            StartCoroutine(nowUse,enemyBarrageCounts[nowIndex].spanCount);
-            nowCountBarrage+=1;
-            if(nowCountBarrage>=enemyBarrageCounts[nowIndex].countBarrage)
+        {
+            StartCoroutine(nowUse, enemyBarrageCounts[nowIndex].spanCount);
+            nowCountBarrage += 1;
+            if (nowCountBarrage >= enemyBarrageCounts[nowIndex].countBarrage)
             {
-                nowCountBarrage=0;
+                nowCountBarrage = 0;
                 nowUse = changeBarrage();
-                if(moveType == MoveType.SomeTimesMove)
+                if (moveType == MoveType.SomeTimesMove)
                     canChooseBarrage = true;
             }
             yield return new WaitForSeconds(countTime);
         }
     }
-    public void ClearBarrage()
-    {
-        for (int i = 0; i < Allbullet.Count; i++)
-        {
-            if (Allbullet[i] != null)
-            {
-                Destroy(Allbullet[i]);
-            }
-        }
-        Allbullet.Clear();
-    }
     void OnTriggerExit2D(Collider2D other)
     {
-        if(other.gameObject.tag=="Barrier")
+        if (other.gameObject.tag == "Barrier")
         {
-            ClearBarrage();
             Destroy(this.gameObject);
         }
     }
@@ -167,7 +159,7 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             GameObject temp = Instantiate(bullet, bulletTransform.position, Quaternion.Euler(0, 0, angle));
-            Allbullet.Add(temp);
+            temp.transform.parent = gameObject.transform;
             angle += 12;
         }
     }
@@ -181,7 +173,7 @@ public class Enemy : MonoBehaviour
             for (int i = 0; i < count; i++)
             {
                 GameObject temp = Instantiate(bullet, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
-                Allbullet.Add(temp);
+                temp.transform.parent = gameObject.transform;
                 eulerAngle.z += 12;
             }
         }
@@ -193,7 +185,7 @@ public class Enemy : MonoBehaviour
         {
             indexz += 360 / count;
             GameObject temp = Instantiate(bullet, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
-            Allbullet.Add(temp);
+            temp.transform.parent = gameObject.transform;
         }
     }
     Vector3 GetAngle(Vector3 aPoint, Vector3 bPoint)
@@ -205,5 +197,5 @@ public class Enemy : MonoBehaviour
         return new Vector3(0, 0, zAngle);
     }
     #endregion
-    
+
 }

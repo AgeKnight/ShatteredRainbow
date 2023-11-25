@@ -10,9 +10,10 @@ public enum BulletType
 public class Bullet : MonoBehaviour
 {
     public float speed;
-    public BulletType bulletType;
     [HideInInspector]
-    public bool canTrackEnemy;
+    //調難度
+    public bool canTrackEnemy = false;
+    public BulletType bulletType;
     void Update()
     {
         if ((GameManager.Instance.canTrack||canTrackEnemy) && bulletType == BulletType.Player)
@@ -40,7 +41,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Death>() && other.gameObject.tag != bulletType.GetType().GetEnumName(bulletType))
         {
-            other.gameObject.GetComponent<Death>().Hurt();
+            other.gameObject.GetComponent<Death>().Hurt(1);
             Die();
         }
         if (other.gameObject.tag == "Barrier")

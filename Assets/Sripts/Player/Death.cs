@@ -12,26 +12,29 @@ public enum EnemyType
     Trash,
     Boss
 }
+//難度
+[System.Serializable]
+public struct ItemStruct //0 生命 1 炸彈 2 小弟 3經驗值
+{
+    //難度
+    public float probability;
+    public GameObject items;
+}
 public class Death : MonoBehaviour
 {
     #region Public
-    //難度
-    [System.Serializable]
-    public struct ItemStruct //0 生命 1 炸彈 2 小弟 3經驗值
-    {
-        //難度
-        public float probability;
-        public GameObject items;
-    }
     public int totalHp = 3;
     public CharatorType charatorType;
     public EnemyType enemyType;
     public Sprite[] status;
     public Slider hpBar;
-    public int score;
+    #region  "調難度"
+    [Header("調難度")]
     public ItemStruct[] itemStruct;
     public int minExp;
     public int maxExp;
+    public int score;
+    #endregion
     #endregion
     [HideInInspector]
     public int hp;
@@ -43,22 +46,22 @@ public class Death : MonoBehaviour
     {
         GameManager.Instance.ChangeDifficulty(this.gameObject);
     }
-    public void Hurt()
+    public void Hurt(int value)
     {
-        if (charatorType==CharatorType.Player&&gameObject.GetComponent<Player>().isInvincible){}
-        else
+        if(charatorType == CharatorType.Player && gameObject.GetComponent<Player>().isInvincible)
         {
-            hp -= 1;
-            if (charatorType == CharatorType.Player && hp > 0)
-            {
-                var sprite = GameObject.Find("Image").GetComponent<SpriteRenderer>();
-                sprite.sprite = status[3 - hp];
-            }
-            if (enemyType == EnemyType.Boss)
-                hpBar.value = (float)hp / totalHp;
-            if (hp == 0)
-                Die();
+            value = 0;
         }
+        hp -= value;
+        if (charatorType == CharatorType.Player && hp > 0)
+        {
+            var sprite = GameObject.Find("Image").GetComponent<SpriteRenderer>();
+            sprite.sprite = status[3 - hp];
+        }
+        if (enemyType == EnemyType.Boss)
+            hpBar.value = (float)hp / totalHp;
+        if (hp == 0)
+            Die();
     }
     public void Die()
     {
@@ -66,13 +69,11 @@ public class Death : MonoBehaviour
         {
             GameManager.Instance.PlayerIsDied = true;
             GameManager.Instance.AddLife(-1);
-            GameManager.Instance.ClearBullet();
             Destroy(this.gameObject);
         }
         if (gameObject.tag == "Enemy")
         {
             var temp = gameObject.GetComponent<Enemy>();
-            temp.ClearBarrage();
             Enemydeath();
             Destroy(this.gameObject);
         }
