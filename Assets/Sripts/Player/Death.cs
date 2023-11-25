@@ -46,7 +46,7 @@ public class Death : MonoBehaviour
     {
         GameManager.Instance.ChangeDifficulty(this.gameObject);
     }
-    public void Hurt(int value)
+    public void Hurt(int value = 1)
     {
         if(charatorType == CharatorType.Player && gameObject.GetComponent<Player>().isInvincible)
         {

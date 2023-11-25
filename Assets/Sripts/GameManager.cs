@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
     public bool PlayerReallyDeath = false;
     [HideInInspector]
     public bool PlayerIsDied = false;
+    [HideInInspector]
     public Transform PlayerResurrectionPosition;
     #endregion
     // Start is called before the first frame update

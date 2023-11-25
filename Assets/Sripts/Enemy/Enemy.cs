@@ -54,6 +54,7 @@ public class Enemy : MonoBehaviour
     #endregion
     protected virtual void Start()
     {
+        //GameManager.Instance.ChangeDifficulty(this.gameObject);
         if (moveType == MoveType.MoveToTarget)
             canChooseBarrage = true;
         if(useBarrage != UseBarrageType.nonUse)

@@ -41,7 +41,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Death>() && other.gameObject.tag != bulletType.GetType().GetEnumName(bulletType))
         {
-            other.gameObject.GetComponent<Death>().Hurt(1);
+            other.gameObject.GetComponent<Death>().Hurt();
             Die();
         }
         if (other.gameObject.tag == "Barrier")
