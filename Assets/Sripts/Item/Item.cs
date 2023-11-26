@@ -7,7 +7,8 @@ public enum ItemType
     EXP,
     Life,
     Bomb,
-    Drone
+    Drone,
+    HalfLife
 }
 public class Item : MonoBehaviour
 {

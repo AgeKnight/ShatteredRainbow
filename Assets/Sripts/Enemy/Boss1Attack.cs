@@ -4,29 +4,21 @@ using UnityEngine;
 
 public class Boss1Attack : Enemy
 {
-    protected override void Start()
+    protected override void changeBarrage()
     {
-        nowUse = "Shotgun";
-        base.Start();
-    }
-    protected override string changeBarrage()
-    {
-
-        if(nowUse=="Shotgun"||nowUse=="TrackShotgun")
+        if(nowIndex==0||nowIndex==1)
         {
-            nowIndex = 1;
-            return "CircleBarrage";
+            nowIndex=2;
         }
         else
         {
-            nowIndex = 0;
-            if(gameObject.GetComponent<Death>().hpBar.value>0.5)
+            if(gameObject.GetComponent<Death>().hpBar.value<=0.5)
             {
-                return "Shotgun";
+                nowIndex=1;
             }
             else
             {
-                return "TrackShotgun";
+                nowIndex=0;
             }
         }
     }

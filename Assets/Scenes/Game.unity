@@ -438,11 +438,11 @@ MonoBehaviour:
   PlayerReallyDeath: 0
   PlayerIsDied: 0
   PlayerResurrectionPosition: {fileID: 752541158}
-  difficulty: 1
-  playerBottom: 0
   playerLife: 3
-  playerDrone: 3
-  AllInvincibleTime: 0
+  difficulty: 0
+  playerBottom: 0
+  playerDrone: 0
+  AllInvincibleTime: 1
 --- !u!4 &331282130
 Transform:
   m_ObjectHideFlags: 0
@@ -1944,6 +1944,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: udk
       objectReference: {fileID: 0}
+    - target: {fileID: 6646415776259885055, guid: 219d3d6265477914e922e01cc667e33c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 219d3d6265477914e922e01cc667e33c, type: 3}
 --- !u!1 &2105907878
@@ -2050,16 +2054,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 564432931}
     - target: {fileID: 3320111845715336476, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
-      propertyPath: maxExp
-      value: 600
+      propertyPath: itemStruct.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3320111845715336476, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
-      propertyPath: minExp
-      value: 500
-      objectReference: {fileID: 0}
+      propertyPath: itemStruct.Array.data[3].items
+      value: 
+      objectReference: {fileID: 7518270170160341144, guid: e2701d985bbf944449f8e9fec237be0f, type: 3}
     - target: {fileID: 3320111845715336476, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
-      propertyPath: totalHp
-      value: 1000
+      propertyPath: itemStruct.Array.data[3].probability
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5601185290954460713, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
       propertyPath: m_Name

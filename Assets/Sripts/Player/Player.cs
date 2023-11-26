@@ -15,8 +15,9 @@ public class Player : MonoBehaviour
     public GameObject bulletPrefab;
     [HideInInspector]
     public bool isInvincible = false;
-    //[HideInInspector]
+    [HideInInspector]
     public Transform[] bulletTransform;
+    [HideInInspector]
     public GameObject[] DroneBro;
     #endregion
     void Start()

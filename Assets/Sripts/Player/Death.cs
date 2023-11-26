@@ -14,7 +14,7 @@ public enum EnemyType
 }
 //難度
 [System.Serializable]
-public struct ItemStruct //0 生命 1 炸彈 2 小弟 3經驗值
+public struct ItemStruct //0 生命 1 炸彈 2 小弟 3生命碎片
 {
     //難度
     public float probability;
@@ -36,12 +36,13 @@ public class Death : MonoBehaviour
     #region  "調難度"
     [Header("調難度")]
     public ItemStruct[] itemStruct;
+    public GameObject expObject;
     public int minExp;
     public int maxExp;
     public int score;
     #endregion
     #endregion
-    [HideInInspector]
+    // [HideInInspector]
     public int hp;
     void Awake()
     {
@@ -62,9 +63,16 @@ public class Death : MonoBehaviour
     }
     public void Hurt(int value = 1)
     {
-        if(charatorType == CharatorType.Player && gameObject.GetComponent<Player>().isInvincible)
+        if(charatorType == CharatorType.Player)
         {
-            value = 0;
+            if(gameObject.GetComponent<Player>().isInvincible)
+            {
+                value = 0;
+            }
+            else
+            {
+                GameManager.Instance.playerNotHurt = false;
+            }           
         }
         hp -= value;
         if (enemyType == EnemyType.Boss)
@@ -82,9 +90,16 @@ public class Death : MonoBehaviour
             Destroy(this.gameObject);
         }
         if (gameObject.tag == "Enemy")
-        {
-            GameManager.Instance.ClearBarrage();
+        {           
             Enemydeath();
+            var enemy = gameObject.GetComponent<Enemy>();            
+            for (int i = 0; i < enemy.Allbullet.Count; i++)
+            {
+                if (enemy.Allbullet[i] != null)
+                {
+                    Destroy(enemy.Allbullet[i]);
+                }
+            }
             Destroy(this.gameObject);
         }
     }
@@ -99,7 +114,7 @@ public class Death : MonoBehaviour
             float tempx = Random.Range(-1.5f, 1.5f);
             float tempY = Random.Range(-1.5f, 1.5f);
             var tempPosition = new Vector2(enemyX + tempx, enemyY + tempY);
-            Instantiate(itemStruct[3].items, tempPosition, Quaternion.identity);
+            Instantiate(expObject, tempPosition, Quaternion.identity);
         }
         for (int i = 0; i < itemStruct.Length; i++)
         {

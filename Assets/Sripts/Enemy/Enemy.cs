@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum UseBarrageType
+public enum AttackType
 {
     useBarrage,
     deadUseBarrage,
     suicideAttack,
-    nonUse
+    nonAttack
 }
 public enum MoveType
 {
@@ -24,20 +24,20 @@ public struct EnemyBarrageCount
     public int spanCount;
     //生成的彈幕波數
     public int countBarrage;
+    public string nowUseBarrage;
 }
 public class Enemy : MonoBehaviour
 {
     #region "private"
-    protected Vector3 targetPosition;
-    protected Coroutine coroutine;
-    protected Transform bulletTransform;
-    protected bool canChooseBarrage = false;
-    protected string nowUse;
+    int nowCountBarrage = 0;
+    Vector3 targetPosition;
+    Coroutine coroutine;
+    Transform bulletTransform;
+    bool canChooseBarrage = false;
     protected int nowIndex = 0;
-    protected int nowCountBarrage = 0;
     #endregion
     #region  "public"
-    public UseBarrageType useBarrage;
+    public AttackType useBarrage;
     public MoveType moveType;
     public GameObject bullet;
     //移動的位置
@@ -53,16 +53,15 @@ public class Enemy : MonoBehaviour
     public EnemyBarrageCount[] enemyBarrageCounts;
     public float countTime;
     #endregion
-    protected virtual void Start()
+    void Start()
     {
-        //GameManager.Instance.ChangeDifficulty(this.gameObject);
         if (Dot.Length != 0)
             targetPosition = Dot[0].position;
         if (moveType == MoveType.MoveToTarget)
             canChooseBarrage = true;
-        if(useBarrage == UseBarrageType.useBarrage||useBarrage == UseBarrageType.deadUseBarrage)
+        if(useBarrage == AttackType.useBarrage||useBarrage == AttackType.deadUseBarrage)
             bulletTransform = gameObject.transform.GetChild(0).transform;
-        if (useBarrage == UseBarrageType.useBarrage)
+        if (useBarrage == AttackType.useBarrage)
             Attack();       
     }
     void Update()
@@ -83,7 +82,7 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-    protected virtual string changeBarrage() { return null; }
+    protected virtual void changeBarrage() {}
     void Move()
     {
         switch (moveType)
@@ -96,9 +95,7 @@ public class Enemy : MonoBehaviour
                     Attack();
                 }
                 if (canChooseBarrage)
-                {
                     transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
-                }
                 break;
             case MoveType.MoveToTarget:
                 if (transform.position != targetPosition)
@@ -135,23 +132,16 @@ public class Enemy : MonoBehaviour
     {
         while (FindObjectOfType<Player>() && !canChooseBarrage)
         {
-            StartCoroutine(nowUse, enemyBarrageCounts[nowIndex].spanCount);
+            StartCoroutine(enemyBarrageCounts[nowIndex].nowUseBarrage, enemyBarrageCounts[nowIndex].spanCount);
             nowCountBarrage += 1;
             if (nowCountBarrage >= enemyBarrageCounts[nowIndex].countBarrage)
             {
                 nowCountBarrage = 0;
-                nowUse = changeBarrage();
+                changeBarrage();
                 if (moveType == MoveType.SomeTimesMove)
                     canChooseBarrage = true;
             }
             yield return new WaitForSeconds(countTime);
-        }
-    }
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.tag == "Barrier")
-        {
-            Destroy(this.gameObject);
         }
     }
     #region "所有彈幕方法"

@@ -10,13 +10,13 @@ public class ChooseEnemy : Editor
     Enemy enemy;
     List<string> propertyNames;
     SerializedProperty iterator;
-    UseBarrageType useBarrage;
+    AttackType useBarrage;
     MoveType moveType;
-    Dictionary<string, UseBarrageType> specialPropertys = new Dictionary<string, UseBarrageType>
+    Dictionary<string, AttackType> specialPropertys = new Dictionary<string, AttackType>
         {
-            { "bullet", UseBarrageType.useBarrage},
-            { "enemyBarrageCounts", UseBarrageType.useBarrage},
-            { "countTime", UseBarrageType.useBarrage},
+            { "bullet", AttackType.useBarrage},
+            { "enemyBarrageCounts", AttackType.useBarrage},
+            { "countTime", AttackType.useBarrage},
         };
     Dictionary<string, MoveType> specialPropertys2 = new Dictionary<string, MoveType>
         {

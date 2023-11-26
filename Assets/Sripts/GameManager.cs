@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     #endregion
     #region "Hide"  
     [HideInInspector]
+    public bool playerNotHurt = true;
+    [HideInInspector]
     public List<GameObject> playerBullet = new List<GameObject>();
     [HideInInspector]
     public int playerLevel = 0;
@@ -53,12 +55,13 @@ public class GameManager : MonoBehaviour
     public bool PlayerIsDied = false;
     [HideInInspector]
     public Transform PlayerResurrectionPosition;
+    [HideInInspector]
+    public int playerLife;
     #endregion
     #region "難度"
     [Header("調難度")]
     public Difficulty difficulty;
-    public int playerBottom;
-    public int playerLife;
+    public int playerBottom;   
     public int playerDrone;
     public float AllInvincibleTime; //無敵秒數
     #endregion
@@ -122,13 +125,20 @@ public class GameManager : MonoBehaviour
                 if(playerDrone<=3)
                     AddDrone();
                 break;
+            case ItemType.HalfLife:
+                    AddHp();
+                break;
         }
+    }
+    public void AddScore(int value)
+    {
+        playerScore += value;
     }
     public void AddLife(int value)
     {
         playerLife += value;
         var tempPlayer = FindObjectOfType<Player>();
-        tempPlayer.gameObject.GetComponent<Death>().hp = 2;
+        tempPlayer.gameObject.GetComponent<Death>().hp = tempPlayer.gameObject.GetComponent<Death>().totalHp;
         if (playerLife < 0)
             playerLife = 0;
         LifeText.text = ":" + playerLife.ToString();
@@ -137,9 +147,13 @@ public class GameManager : MonoBehaviour
     {
         playerBottom += 1;
     }
-    public void AddScore(int value)
+    void AddHp()
     {
-        playerScore += value;
+        var tempPlayer = FindObjectOfType<Player>().gameObject.GetComponent<Death>();
+        if(tempPlayer.hp<tempPlayer.totalHp)
+            tempPlayer.hp+=1;
+        else
+            AddLife(1);
     }
     void AddExp()
     {
@@ -197,8 +211,8 @@ public class GameManager : MonoBehaviour
         //調難度
         float tempCountTime = 1;
         bool tempCanTrack = false;
-        float tempProbability = 1; //0 生命 1 炸彈 2 小弟
-        bool[] tempCanAttract = { false, false, false, false }; //0 exp 1 生命 2 炸彈 3 小弟
+        float tempProbability = 1; //0 生命 1 炸彈 2 小弟 4生命碎片
+        bool[] tempCanAttract = { false, false, false, false,false }; //0 exp 1 生命 2 炸彈 3 小弟 4 生命碎片
         switch (difficulty)
         {
             case Difficulty.easy:
@@ -251,6 +265,9 @@ public class GameManager : MonoBehaviour
                         break;
                     case ItemType.Drone:
                         item.CanAttract = tempCanAttract[3];
+                        break;
+                    case ItemType.HalfLife:
+                        item.CanAttract = tempCanAttract[4];
                         break;
                 }
             }
