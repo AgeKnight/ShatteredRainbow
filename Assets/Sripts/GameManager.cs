@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
     }
     void Resurrection()
     {
-        if (playerLife <= 0)
+        if (playerLife < 0)
         {
             PlayerReallyDeath = true;
         }
@@ -112,21 +112,37 @@ public class GameManager : MonoBehaviour
         switch (item.itemType)
         {
             case ItemType.Life:
+                AddScore(item.score);
                 AddLife(1);
                 break;
             case ItemType.Bomb:
+                AddScore(item.score);
                 AddBottom();
                 break;
             case ItemType.EXP:
                 if(playerLevel<3)
+                {
                     AddExp();
+                    AddScore(item.score);
+                }                   
+                else
+                {
+                    AddScore(item.overflowScore);
+                }
                 break;
             case ItemType.Drone:
                 if(playerDrone<=3)
+                {
                     AddDrone();
+                    AddScore(item.score);
+                }
+                else
+                {
+                    AddScore(item.overflowScore);
+                }
                 break;
             case ItemType.HalfLife:
-                    AddHp();
+                    AddHp(item);
                 break;
         }
     }
@@ -140,20 +156,31 @@ public class GameManager : MonoBehaviour
         var tempPlayer = FindObjectOfType<Player>();
         tempPlayer.gameObject.GetComponent<Death>().hp = tempPlayer.gameObject.GetComponent<Death>().totalHp;
         if (playerLife < 0)
-            playerLife = 0;
-        LifeText.text = ":" + playerLife.ToString();
+        {
+            LifeText.text = ":0";
+        }
+        else
+        {
+            LifeText.text = ":" + playerLife.ToString();
+        }
     }
     void AddBottom()
     {
         playerBottom += 1;
     }
-    void AddHp()
+    void AddHp(Item item)
     {
         var tempPlayer = FindObjectOfType<Player>().gameObject.GetComponent<Death>();
         if(tempPlayer.hp<tempPlayer.totalHp)
+        {
             tempPlayer.hp+=1;
+            AddScore(item.score);
+        }         
         else
+        {
+            AddScore(item.overflowScore);
             AddLife(1);
+        }
     }
     void AddExp()
     {

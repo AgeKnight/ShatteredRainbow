@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 36610014887414496}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.96, y: 0.64, z: 0}
+  m_LocalPosition: {x: -6.5, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1199216207468421953}
@@ -205,7 +205,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1321190228428600328}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.08, y: 0.68, z: 0}
+  m_LocalPosition: {x: -0.01, y: -0.42, z: 0}
   m_LocalScale: {x: 2.1858702, y: 2.1858702, z: 2.1870182}
   m_Children: []
   m_Father: {fileID: 6646415776259885053}
@@ -251,7 +251,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 185d5cda362ffcd4aa237a91583cd2d7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3ca5b231404f6e944a8b63e23fdf8e23, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -275,18 +275,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.020884514, y: 0.21580553}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.02, y: 3.73}
+    pivot: {x: 0.50443256, y: 0.52364063}
+    oldSize: {x: 4, y: 4}
     newSize: {x: 4.02, y: 3.73}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.02, y: 3.73}
+  m_Size: {x: 2.363171, y: 3.075622}
   m_EdgeRadius: 0
 --- !u!114 &5738360263470474122
 MonoBehaviour:
@@ -355,7 +355,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2026139377406827042}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.61, y: 0.62, z: 0}
+  m_LocalPosition: {x: -4.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1199216207468421953}
@@ -497,7 +497,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4176580411898107173}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.51, y: 0.36, z: 0}
+  m_LocalPosition: {x: 4.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1199216207468421953}
@@ -646,7 +646,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6144791274722703782}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.13, y: 0.36, z: 0}
+  m_LocalPosition: {x: 2.5, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1199216207468421953}
@@ -728,7 +728,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6188522969212027281}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.21, y: 0.62, z: 0}
+  m_LocalPosition: {x: -2.5, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1199216207468421953}
@@ -810,7 +810,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6418102731608730089}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.99, y: 0.39, z: 0}
+  m_LocalPosition: {x: 6.6, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1199216207468421953}
@@ -1040,23 +1040,24 @@ MonoBehaviour:
   enemyType: 0
   Status:
   - nowStatus:
-    - {fileID: 21300000, guid: 185d5cda362ffcd4aa237a91583cd2d7, type: 3}
-    - {fileID: 21300000, guid: 2a067a67b76eb7749ba6e2d0bc882d79, type: 3}
+    - {fileID: 21300000, guid: 3ca5b231404f6e944a8b63e23fdf8e23, type: 3}
+    - {fileID: 21300000, guid: be606786f1821e545a443684576de626, type: 3}
   - nowStatus:
-    - {fileID: 21300000, guid: a0e74d556d148ca4a8e352d57ba20530, type: 3}
-    - {fileID: 21300000, guid: 596df63162b37c04a89e04d38fcad97f, type: 3}
+    - {fileID: 21300000, guid: be606786f1821e545a443684576de626, type: 3}
+    - {fileID: 21300000, guid: be606786f1821e545a443684576de626, type: 3}
   - nowStatus:
-    - {fileID: 21300000, guid: ee5c414583b52664782a464f7f3b413b, type: 3}
-    - {fileID: 21300000, guid: f70c6589e44fab644b265ab8b59ebda0, type: 3}
+    - {fileID: 21300000, guid: 92153f5a05a2d35439edae3f815582d9, type: 3}
+    - {fileID: 21300000, guid: 92153f5a05a2d35439edae3f815582d9, type: 3}
   - nowStatus:
-    - {fileID: 21300000, guid: 0a05ad3744fdfa547a0129a501dd3d65, type: 3}
-    - {fileID: 21300000, guid: 7bdac39d4b6961943881ed203f3429e0, type: 3}
+    - {fileID: 21300000, guid: 92153f5a05a2d35439edae3f815582d9, type: 3}
+    - {fileID: 21300000, guid: 92153f5a05a2d35439edae3f815582d9, type: 3}
   hpBar: {fileID: 0}
+  hp: 0
   itemStruct: []
+  expObject: {fileID: 0}
   minExp: 0
   maxExp: 0
   score: 0
-  hp: 0
 --- !u!1 &7600953823253991413
 GameObject:
   m_ObjectHideFlags: 0

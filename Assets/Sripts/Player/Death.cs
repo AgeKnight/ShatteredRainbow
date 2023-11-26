@@ -33,6 +33,9 @@ public class Death : MonoBehaviour
     public EnemyType enemyType;
     public SpriteStruct[] Status;
     public Slider hpBar;
+    #endregion
+    //[HideInInspector]
+    public int hp;
     #region  "調難度"
     [Header("調難度")]
     public ItemStruct[] itemStruct;
@@ -41,9 +44,6 @@ public class Death : MonoBehaviour
     public int maxExp;
     public int score;
     #endregion
-    #endregion
-    // [HideInInspector]
-    public int hp;
     void Awake()
     {
         hp = totalHp;

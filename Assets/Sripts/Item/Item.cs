@@ -15,6 +15,8 @@ public class Item : MonoBehaviour
     #region Public
     public ItemType itemType;
     public float speed=1;
+    public int score;
+    public int overflowScore;
     #endregion
     #region Hide
     //難度
