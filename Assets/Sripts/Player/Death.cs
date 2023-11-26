@@ -57,8 +57,7 @@ public class Death : MonoBehaviour
         if (charatorType == CharatorType.Player && hp > 0)
         {
             var sprite = GameObject.Find("Image").GetComponent<SpriteRenderer>();
-            sprite.sprite = Status[GameManager.Instance.playerLevel].nowStatus[totalHp-hp];
-            
+            sprite.sprite = Status[GameManager.Instance.playerLevel].nowStatus[totalHp-hp];      
         }
     }
     public void Hurt(int value = 1)

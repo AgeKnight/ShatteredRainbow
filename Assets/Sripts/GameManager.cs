@@ -195,6 +195,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                playerExp= totalExp;
                 playerLevel = 3;
                 Level.text = "Levil Max".ToString();
                 break;

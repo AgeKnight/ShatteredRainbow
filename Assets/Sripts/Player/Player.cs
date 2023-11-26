@@ -17,8 +17,11 @@ public class Player : MonoBehaviour
     public bool isInvincible = false;
     [HideInInspector]
     public Transform[] bulletTransform;
-    [HideInInspector]
-    public GameObject[] DroneBro;
+    //[HideInInspector]
+    public Transform[] DroneBro;
+    public Sprite[] DroneRightSprite;
+    public Sprite[] DroneLeftSprite;
+    public GameObject[] Drone;
     #endregion
     void Start()
     {
@@ -38,15 +41,20 @@ public class Player : MonoBehaviour
     }
     void AddBro()
     {
-        for (int i = 0; i < DroneBro.Length; i++)
+        if(GameManager.Instance.playerDrone<=0)
         {
-            if(GameManager.Instance.playerDrone>i/2)
+            for (int i = 0; i < Drone.Length; i++)
             {
-                DroneBro[i].SetActive(true);
+                Drone[i].SetActive(false);
             }
-            else
+        }
+        else
+        {
+            Drone[0].GetComponent<SpriteRenderer>().sprite =  DroneRightSprite[GameManager.Instance.playerDrone-1];
+            Drone[1].GetComponent<SpriteRenderer>().sprite =  DroneLeftSprite[GameManager.Instance.playerDrone-1];
+            for (int i = 0; i < Drone.Length; i++)
             {
-                DroneBro[i].SetActive(false);
+                Drone[i].SetActive(true);
             }
         }
     }
