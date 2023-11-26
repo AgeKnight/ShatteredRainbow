@@ -424,24 +424,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllResurrectionTime: 1
-  difficulty: 1
-  AllInvincibleTime: 0
   playerBullet: []
-  playerLevel: 1
+  playerLevel: 0
   canTrack: 0
   player: {fileID: 6646415776259885055, guid: 219d3d6265477914e922e01cc667e33c, type: 3}
   scoreText: {fileID: 1562072957}
   bottomText: {fileID: 463728001}
   Level: {fileID: 1360409519}
+  LifeText: {fileID: 531308842}
   expBar: {fileID: 252235400}
   playerScore: 0
   playerExp: 0
-  playerBottom: 0
-  playerLife: 3
-  LifeText: {fileID: 531308842}
   PlayerReallyDeath: 0
   PlayerIsDied: 0
   PlayerResurrectionPosition: {fileID: 752541158}
+  difficulty: 1
+  playerBottom: 0
+  playerLife: 3
+  playerDrone: 3
+  AllInvincibleTime: 0
 --- !u!4 &331282130
 Transform:
   m_ObjectHideFlags: 0
@@ -1470,7 +1471,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Levil  1
+  m_Text: Levil  0
 --- !u!222 &1360409520
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2048,9 +2049,25 @@ PrefabInstance:
       propertyPath: Dot.Array.data[1]
       value: 
       objectReference: {fileID: 564432931}
+    - target: {fileID: 3320111845715336476, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
+      propertyPath: maxExp
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320111845715336476, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
+      propertyPath: minExp
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320111845715336476, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
+      propertyPath: totalHp
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 5601185290954460713, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5601185290954460713, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9102627295658988160, guid: 9aaffc06266635144b79984c673e7b9b, type: 3}
       propertyPath: m_RootOrder

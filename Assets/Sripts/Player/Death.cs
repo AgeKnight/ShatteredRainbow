@@ -28,7 +28,7 @@ public struct SpriteStruct
 public class Death : MonoBehaviour
 {
     #region Public
-    public int totalHp = 3;
+    public int totalHp = 2;
     public CharatorType charatorType;
     public EnemyType enemyType;
     public SpriteStruct[] Status;
@@ -56,7 +56,8 @@ public class Death : MonoBehaviour
         if (charatorType == CharatorType.Player && hp > 0)
         {
             var sprite = GameObject.Find("Image").GetComponent<SpriteRenderer>();
-            sprite.sprite = Status[GameManager.Instance.playerLevel-1].nowStatus[totalHp-hp];
+            sprite.sprite = Status[GameManager.Instance.playerLevel].nowStatus[totalHp-hp];
+            
         }
     }
     public void Hurt(int value = 1)

@@ -15,8 +15,9 @@ public class Player : MonoBehaviour
     public GameObject bulletPrefab;
     [HideInInspector]
     public bool isInvincible = false;
-    [HideInInspector]
+    //[HideInInspector]
     public Transform[] bulletTransform;
+    public GameObject[] DroneBro;
     #endregion
     void Start()
     {
@@ -28,11 +29,25 @@ public class Player : MonoBehaviour
         {
             Invincible();
         }
-
+        AddBro();
     }
     void FixedUpdate()
     {
         Move();
+    }
+    void AddBro()
+    {
+        for (int i = 0; i < DroneBro.Length; i++)
+        {
+            if(GameManager.Instance.playerDrone>i/2)
+            {
+                DroneBro[i].SetActive(true);
+            }
+            else
+            {
+                DroneBro[i].SetActive(false);
+            }
+        }
     }
     void Move()
     {
@@ -60,11 +75,20 @@ public class Player : MonoBehaviour
     {
         while (true)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < bulletTransform.Length; i++)
             {
-                if (i <= (GameManager.Instance.playerLevel - 1) * 2)
+                if (i <= GameManager.Instance.playerLevel * 2)
                 {
                     GameObject tempObject = Instantiate(bulletPrefab, bulletTransform[i].transform.position, Quaternion.identity);
+                    GameManager.Instance.playerBullet.Add(tempObject);
+                }
+            }
+            for (int i = 0; i < DroneBro.Length; i++)
+            {
+                if (GameManager.Instance.playerDrone>i/2)
+                {
+                    GameObject tempObject = Instantiate(bulletPrefab, DroneBro[i].transform.position, Quaternion.identity);
+                    tempObject.GetComponent<Bullet>().canTrackEnemy = true;
                     GameManager.Instance.playerBullet.Add(tempObject);
                 }
             }

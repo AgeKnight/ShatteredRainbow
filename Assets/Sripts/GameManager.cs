@@ -19,19 +19,16 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get => instance; set => instance = value; }
     #region "Private"
     float resurrectionTime = 0;
-    int totalExp = 10;
+    int totalExp = 100;
     #endregion
     #region "Public"
     public float AllResurrectionTime;
-    [Header("調難度")]
-    public Difficulty difficulty;
-    public float AllInvincibleTime;
     #endregion
     #region "Hide"  
     [HideInInspector]
     public List<GameObject> playerBullet = new List<GameObject>();
     [HideInInspector]
-    public int playerLevel = 1;
+    public int playerLevel = 0;
     [HideInInspector]
     public bool canTrack = false;
     [HideInInspector]
@@ -43,17 +40,13 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public Text Level;
     [HideInInspector]
+    public Text LifeText;
+    [HideInInspector]
     public Slider expBar;
     [HideInInspector]
     public int playerScore;
     [HideInInspector]
     public int playerExp;
-    [HideInInspector]
-    public int playerBottom;
-    [HideInInspector]
-    public int playerLife;
-    [HideInInspector]
-    public Text LifeText;
     [HideInInspector]
     public bool PlayerReallyDeath = false;
     [HideInInspector]
@@ -61,18 +54,27 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public Transform PlayerResurrectionPosition;
     #endregion
-    // Start is called before the first frame update
+    #region "難度"
+    [Header("調難度")]
+    public Difficulty difficulty;
+    public int playerBottom;
+    public int playerLife;
+    public int playerDrone;
+    public float AllInvincibleTime; //無敵秒數
+    #endregion
     void Awake()
     {
         instance = this;
     }
-    // Update is called once per frame
     void Update()
     {
         if (PlayerIsDied)
         {
             Resurrection();
         }
+        scoreText.text = playerScore.ToString();
+        bottomText.text = ":" + playerBottom.ToString();
+
     }
     void Resurrection()
     {
@@ -91,13 +93,16 @@ public class GameManager : MonoBehaviour
     }
     void PlayerResurrection()
     {
-        var tempEnemy = FindObjectOfType<Enemy>();
+        var tempEnemy = FindObjectsOfType<Enemy>();
         resurrectionTime = 0;
         PlayerIsDied = false;
         var tempPlayer = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity);
         tempPlayer.gameObject.GetComponent<Player>().isInvincible = true;
-        if (tempEnemy)
-            tempEnemy.Attack();
+        for (int i = 0; i < tempEnemy.Length; i++)
+        {
+            tempEnemy[i].Attack();
+        }
+        
     }
     public void EatItem(Item item)
     {
@@ -107,35 +112,34 @@ public class GameManager : MonoBehaviour
                 AddLife(1);
                 break;
             case ItemType.Bomb:
-                AddBottom(1);
+                AddBottom();
                 break;
             case ItemType.EXP:
-                if(playerLevel<=3)
+                if(playerLevel<3)
                     AddExp();
                 break;
             case ItemType.Drone:
-                AddDrone();
+                if(playerDrone<=3)
+                    AddDrone();
                 break;
         }
     }
-    public void AddLife(int life)
+    public void AddLife(int value)
     {
-        playerLife += life;
+        playerLife += value;
         var tempPlayer = FindObjectOfType<Player>();
-        tempPlayer.gameObject.GetComponent<Death>().hp = 3;
+        tempPlayer.gameObject.GetComponent<Death>().hp = 2;
         if (playerLife < 0)
             playerLife = 0;
         LifeText.text = ":" + playerLife.ToString();
     }
-    void AddBottom(int count)
+    void AddBottom()
     {
-        playerBottom += count;
-        bottomText.text = ":" + playerBottom.ToString();
+        playerBottom += 1;
     }
     public void AddScore(int value)
     {
         playerScore += value;
-        scoreText.text = playerScore.ToString();
     }
     void AddExp()
     {
@@ -159,7 +163,9 @@ public class GameManager : MonoBehaviour
     }
     void AddDrone()
     {
-
+        playerDrone+=1;
+        if(playerDrone>3)
+            playerDrone=3;
     }
     public void ClearBarrage()
     {

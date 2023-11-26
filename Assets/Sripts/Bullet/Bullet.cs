@@ -10,7 +10,6 @@ public enum BulletType
 public class Bullet : MonoBehaviour
 {
     public float speed;
-    [HideInInspector]
     //調難度
     public bool canTrackEnemy = false;
     public BulletType bulletType;
