@@ -16,7 +16,6 @@ public enum AttackType
 }
 public enum MoveType
 {
-    NotMove,
     MoveToTarget,
     SomeTimesMove,
     StayAttackMove,
@@ -37,20 +36,22 @@ public class Enemy : MonoBehaviour
     int nowCountBarrage = 0;
     Vector3 targetPosition;
     Coroutine coroutine;
-    Transform bulletTransform;
     bool canChooseBarrage = true;
+    bool canAttack = false;
     protected int nowIndex = 0;
     #endregion
     #region  "public"
     public AttackType useBarrage;
     public MoveType moveType;
     public GameObject bullet;
+    public Transform bulletTransform;
     //移動的位置
-    public Transform[] Dot;
     public float Speed;
     public bool deadUseBarrage;
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public Transform[] Dot;
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
     #endregion
@@ -63,13 +64,6 @@ public class Enemy : MonoBehaviour
     {
         if (Dot.Length != 0)
             targetPosition = Dot[0].position;
-        if(moveType==MoveType.StayAttackMove)
-            canChooseBarrage = false;
-        if(useBarrage == AttackType.useBarrage)
-        {
-            bulletTransform = gameObject.transform.GetChild(0).transform;
-            Attack();       
-        }
     }
     void Update()
     {
@@ -89,46 +83,49 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-    protected virtual void changeBarrage() {}
+    protected virtual void changeBarrage() { }
     void Move()
     {
-        switch (moveType)
+        if (!canAttack)
         {
-            case MoveType.SomeTimesMove:
-                if (transform.position == targetPosition && canChooseBarrage)
-                {
-                    canChooseBarrage = false;
-                    ReturnMove();
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
+            if (transform.position == targetPosition)
+            {
+                ReturnMove();
+                canAttack = true;
+                canChooseBarrage = false;
+                if(useBarrage==AttackType.useBarrage)
                     Attack();
-                }
-                if (canChooseBarrage)
-                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
-                break;
-            case MoveType.MoveToTarget:
-                if (transform.position != targetPosition)
-                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
-                else
-                {
-                    if (canChooseBarrage)
+            }
+        }
+        else
+        {
+            switch (moveType)
+            {
+                case MoveType.SomeTimesMove:
+                    if (transform.position == targetPosition && canChooseBarrage)
                     {
                         canChooseBarrage = false;
+                        ReturnMove();
                         Attack();
                     }
-                }
-                break;
-            case MoveType.StayAttackMove:
-                if (transform.position != targetPosition)
-                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
-                else
-                    ReturnMove();
-                break;
-            case MoveType.ToPlayerMove:
-                if (FindObjectOfType<Player>())
-                {
-                    var temp = FindObjectOfType<Player>().gameObject;
-                    transform.position = Vector3.MoveTowards(transform.position, temp.transform.position, Speed * Time.deltaTime);
-                }
-                break;
+                    if (canChooseBarrage)
+                        transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
+                    break;
+                case MoveType.StayAttackMove:
+                    if (transform.position != targetPosition)
+                        transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
+                    else
+                        ReturnMove();
+                    break;
+                case MoveType.ToPlayerMove:
+                    if (FindObjectOfType<Player>())
+                    {
+                        var temp = FindObjectOfType<Player>().gameObject;
+                        transform.position = Vector3.MoveTowards(transform.position, temp.transform.position, Speed * Time.deltaTime);
+                    }
+                    break;
+            }
         }
     }
     public void Attack()
@@ -140,7 +137,7 @@ public class Enemy : MonoBehaviour
         while (FindObjectOfType<Player>() && !canChooseBarrage)
         {
 
-            string nowBarrage =  System.Enum.GetName(typeof(BarrageType),enemyBarrageCounts[nowIndex].barrageType);
+            string nowBarrage = System.Enum.GetName(typeof(BarrageType), enemyBarrageCounts[nowIndex].barrageType);
             StartCoroutine(nowBarrage, enemyBarrageCounts[nowIndex].spanCount);
             nowCountBarrage += 1;
             if (nowCountBarrage >= enemyBarrageCounts[nowIndex].countBarrage)

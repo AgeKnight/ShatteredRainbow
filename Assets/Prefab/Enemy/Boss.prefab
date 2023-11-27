@@ -517,6 +517,7 @@ MonoBehaviour:
   enemyType: 1
   Status: []
   hpBar: {fileID: 1607186797}
+  expObject: {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
   hp: 0
   itemStruct:
   - probability: 100
@@ -527,7 +528,6 @@ MonoBehaviour:
     items: {fileID: 7518270170160341144, guid: 64fa2ac8a88d4f241bdb5d26bb8e6daf, type: 3}
   - probability: 100
     items: {fileID: 7518270170160341144, guid: e2701d985bbf944449f8e9fec237be0f, type: 3}
-  expObject: {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
   minExp: 500
   maxExp: 600
   score: 500
@@ -544,13 +544,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useBarrage: 0
-  moveType: 2
+  moveType: 1
   bullet: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+  bulletTransform: {fileID: 1966008689791733373}
+  Speed: 3
+  deadUseBarrage: 0
   Dot:
   - {fileID: 0}
   - {fileID: 0}
-  Speed: 3
-  deadUseBarrage: 0
   Allbullet: []
   enemyBarrageCounts:
   - spanCount: 5

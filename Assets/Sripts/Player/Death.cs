@@ -33,13 +33,13 @@ public class Death : MonoBehaviour
     public EnemyType enemyType;
     public SpriteStruct[] Status;
     public Slider hpBar;
+    public GameObject expObject;
     #endregion
-    //[HideInInspector]
+    [HideInInspector]
     public int hp;
     #region  "調難度"
     [Header("調難度")]
     public ItemStruct[] itemStruct;
-    public GameObject expObject;
     public int minExp;
     public int maxExp;
     public int score;
