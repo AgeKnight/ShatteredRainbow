@@ -517,20 +517,20 @@ MonoBehaviour:
   enemyType: 1
   Status: []
   hpBar: {fileID: 1607186797}
+  hp: 0
   itemStruct:
-  - probability: 10
+  - probability: 100
     items: {fileID: 7518270170160341144, guid: 36e4f9a93861b6748b871b08339538aa, type: 3}
-  - probability: 10
+  - probability: 100
     items: {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
-  - probability: 5
+  - probability: 100
     items: {fileID: 7518270170160341144, guid: 64fa2ac8a88d4f241bdb5d26bb8e6daf, type: 3}
-  - probability: 5
+  - probability: 100
     items: {fileID: 7518270170160341144, guid: e2701d985bbf944449f8e9fec237be0f, type: 3}
   expObject: {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
-  minExp: 10
-  maxExp: 50
+  minExp: 500
+  maxExp: 600
   score: 500
-  hp: 0
 --- !u!114 &1544667865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -544,23 +544,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useBarrage: 0
-  moveType: 0
+  moveType: 2
   bullet: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
   Dot:
   - {fileID: 0}
   - {fileID: 0}
   Speed: 3
+  deadUseBarrage: 0
   Allbullet: []
   enemyBarrageCounts:
   - spanCount: 5
     countBarrage: 5
-    nowUseBarrage: Shotgun
+    barrageType: 0
   - spanCount: 5
     countBarrage: 5
-    nowUseBarrage: TrackShotgun
+    barrageType: 1
   - spanCount: 30
     countBarrage: 5
-    nowUseBarrage: CircleBarrage
+    barrageType: 2
   countTime: 0.3
 --- !u!1 &7569381269613217192
 GameObject:

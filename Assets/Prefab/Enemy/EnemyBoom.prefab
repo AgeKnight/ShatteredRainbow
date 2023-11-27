@@ -148,8 +148,9 @@ MonoBehaviour:
   totalHp: 5
   charatorType: 1
   enemyType: 0
-  status: []
+  Status: []
   hpBar: {fileID: 0}
+  hp: 0
   itemStruct:
   - probability: 10
     items: {fileID: 7518270170160341144, guid: 36e4f9a93861b6748b871b08339538aa, type: 3}
@@ -157,10 +158,10 @@ MonoBehaviour:
     items: {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
   - probability: 10
     items: {fileID: 7518270170160341144, guid: 64fa2ac8a88d4f241bdb5d26bb8e6daf, type: 3}
+  expObject: {fileID: 0}
   minExp: 0
   maxExp: 0
   score: 500
-  hp: 0
 --- !u!114 &5240528303161632813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +180,7 @@ MonoBehaviour:
   Dot:
   - {fileID: 0}
   Speed: 3
+  deadUseBarrage: 0
   Allbullet: []
   enemyBarrageCounts: []
   countTime: 0

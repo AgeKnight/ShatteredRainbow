@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum BarrageType
+{
+    Shotgun,
+    TrackShotgun,
+    CircleBarrage,
+}
 public enum AttackType
 {
     useBarrage,
-    deadUseBarrage,
     suicideAttack,
     nonAttack
 }
@@ -24,7 +29,7 @@ public struct EnemyBarrageCount
     public int spanCount;
     //生成的彈幕波數
     public int countBarrage;
-    public string nowUseBarrage;
+    public BarrageType barrageType;
 }
 public class Enemy : MonoBehaviour
 {
@@ -33,7 +38,7 @@ public class Enemy : MonoBehaviour
     Vector3 targetPosition;
     Coroutine coroutine;
     Transform bulletTransform;
-    bool canChooseBarrage = false;
+    bool canChooseBarrage = true;
     protected int nowIndex = 0;
     #endregion
     #region  "public"
@@ -43,6 +48,7 @@ public class Enemy : MonoBehaviour
     //移動的位置
     public Transform[] Dot;
     public float Speed;
+    public bool deadUseBarrage;
     #endregion
     #region "Hide"
     [HideInInspector]
@@ -57,12 +63,13 @@ public class Enemy : MonoBehaviour
     {
         if (Dot.Length != 0)
             targetPosition = Dot[0].position;
-        if (moveType == MoveType.MoveToTarget)
-            canChooseBarrage = true;
-        if(useBarrage == AttackType.useBarrage||useBarrage == AttackType.deadUseBarrage)
+        if(moveType==MoveType.StayAttackMove)
+            canChooseBarrage = false;
+        if(useBarrage == AttackType.useBarrage)
+        {
             bulletTransform = gameObject.transform.GetChild(0).transform;
-        if (useBarrage == AttackType.useBarrage)
             Attack();       
+        }
     }
     void Update()
     {
@@ -132,7 +139,9 @@ public class Enemy : MonoBehaviour
     {
         while (FindObjectOfType<Player>() && !canChooseBarrage)
         {
-            StartCoroutine(enemyBarrageCounts[nowIndex].nowUseBarrage, enemyBarrageCounts[nowIndex].spanCount);
+
+            string nowBarrage =  System.Enum.GetName(typeof(BarrageType),enemyBarrageCounts[nowIndex].barrageType);
+            StartCoroutine(nowBarrage, enemyBarrageCounts[nowIndex].spanCount);
             nowCountBarrage += 1;
             if (nowCountBarrage >= enemyBarrageCounts[nowIndex].countBarrage)
             {
