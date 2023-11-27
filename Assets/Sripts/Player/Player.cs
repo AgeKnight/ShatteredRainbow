@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Player : MonoBehaviour
     #endregion
     #region "Public"
     public float speed;
+    public bool isAttack = true;
     #endregion
     #region "Hide"
     [HideInInspector]
@@ -18,9 +20,6 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public Transform[] bulletTransform;
     //[HideInInspector]
-    public Transform[] DroneBro;
-    public Sprite[] DroneRightSprite;
-    public Sprite[] DroneLeftSprite;
     public GameObject[] Drone;
     #endregion
     void Start()
@@ -41,20 +40,27 @@ public class Player : MonoBehaviour
     }
     void AddBro()
     {
-        if(GameManager.Instance.playerDrone<=0)
+        for (int i = 0; i < Drone.Length; i++)
         {
-            for (int i = 0; i < Drone.Length; i++)
-            {
-                Drone[i].SetActive(false);
-            }
-        }
-        else
-        {
-            Drone[0].GetComponent<SpriteRenderer>().sprite =  DroneRightSprite[GameManager.Instance.playerDrone-1];
-            Drone[1].GetComponent<SpriteRenderer>().sprite =  DroneLeftSprite[GameManager.Instance.playerDrone-1];
-            for (int i = 0; i < Drone.Length; i++)
+            if (GameManager.Instance.playerDrone > i / 2)
             {
                 Drone[i].SetActive(true);
+                if(i==2)
+                {
+                    if(isAttack)
+                    {
+                        Drone[i].GetComponent<Animator>().Play("Attack");
+
+                    }
+                    else
+                    {
+                        Drone[i].GetComponent<Animator>().Play("NotAttack");
+                    }
+                }
+            }
+            else
+            {
+                Drone[i].SetActive(false);
             }
         }
     }
@@ -82,7 +88,7 @@ public class Player : MonoBehaviour
     }
     IEnumerator Attack()
     {
-        while (true)
+        while (isAttack)
         {
             for (int i = 0; i < bulletTransform.Length; i++)
             {
@@ -92,11 +98,11 @@ public class Player : MonoBehaviour
                     GameManager.Instance.playerBullet.Add(tempObject);
                 }
             }
-            for (int i = 0; i < DroneBro.Length; i++)
+            for (int i = 0; i < Drone.Length; i++)
             {
-                if (GameManager.Instance.playerDrone>i/2)
+                if (GameManager.Instance.playerDrone > i / 2)
                 {
-                    GameObject tempObject = Instantiate(bulletPrefab, DroneBro[i].transform.position, Quaternion.identity);
+                    GameObject tempObject = Instantiate(bulletPrefab, Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
                     tempObject.GetComponent<Bullet>().canTrackEnemy = true;
                     GameManager.Instance.playerBullet.Add(tempObject);
                 }
