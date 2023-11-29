@@ -10,16 +10,17 @@ public class Player : MonoBehaviour
     #endregion
     #region "Public"
     public float speed;
-    public bool isAttack = true;
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public bool isAttack = true;
     [HideInInspector]
     public GameObject bulletPrefab;
     [HideInInspector]
     public bool isInvincible = false;
     [HideInInspector]
     public Transform[] bulletTransform;
-    //[HideInInspector]
+    [HideInInspector]
     public GameObject[] Drone;
     #endregion
     void Start()
@@ -45,7 +46,7 @@ public class Player : MonoBehaviour
             if (GameManager.Instance.playerDrone > i / 2)
             {
                 Drone[i].SetActive(true);
-                if(i==2)
+                if(i>=2)
                 {
                     if(isAttack)
                     {

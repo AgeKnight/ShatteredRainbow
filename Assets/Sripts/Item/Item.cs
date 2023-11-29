@@ -17,6 +17,7 @@ public class Item : MonoBehaviour
     public float speed=1;
     public int score;
     public int overflowScore;
+    float distance = 2f;
     #endregion
     #region Hide
     //難度
@@ -36,7 +37,15 @@ public class Item : MonoBehaviour
     }
     void Move()
     {
-        transform.Translate(Vector3.down*Time.deltaTime*speed,Space.World);
+        var player = FindObjectOfType<Player>().gameObject;
+        if(Vector2.Distance(player.transform.position,gameObject.transform.position)<=distance)
+        {
+            gameObject.transform.position = Vector2.MoveTowards(this.gameObject.transform.position,player.transform.position,10*speed*Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate(Vector3.down*Time.deltaTime*speed,Space.World);
+        }
     }
     void Attract()
     {

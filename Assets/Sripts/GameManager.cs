@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
             Resurrection();
         }
         scoreText.text = playerScore.ToString();
-        bottomText.text = ":" + playerBottom.ToString();
+        bottomText.text = "×" + playerBottom.ToString();
 
     }
     void Resurrection()
@@ -157,11 +157,11 @@ public class GameManager : MonoBehaviour
         tempPlayer.gameObject.GetComponent<Death>().hp = tempPlayer.gameObject.GetComponent<Death>().totalHp;
         if (playerLife < 0)
         {
-            LifeText.text = ":0";
+            LifeText.text = "×0";
         }
         else
         {
-            LifeText.text = ":" + playerLife.ToString();
+            LifeText.text = "×" + playerLife.ToString();
         }
     }
     void AddBottom()
