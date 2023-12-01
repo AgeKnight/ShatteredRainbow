@@ -55,9 +55,7 @@ public class Item : MonoBehaviour
     void OnTriggerExit2D(Collider2D other)
     {
         if(other.gameObject.tag=="Barrier")
-        {
             Die();
-        }
     }
     public void Die()
     {
