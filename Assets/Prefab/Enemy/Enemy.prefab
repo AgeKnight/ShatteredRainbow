@@ -305,24 +305,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useBarrage: 0
-  moveType: 0
+  moveType: 1
   bullet:
   - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
   bulletTransform: {fileID: 8567689766675817040}
   Speed: 3
   deadUseBarrage: 0
   Dot:
-  - {fileID: 8423473847005909446}
+  - {fileID: 0}
   - {fileID: 0}
   Allbullet: []
   enemyBarrageCounts:
-  - count: 08000000010000000a00000001000000
+  - count: 0a000000010000000a00000003000000
     barrageType: 3
   - count: 0500000005000000
     barrageType: 0
   - count: 1e00000005000000
-    barrageType: 1
-  countTime: 2
+    barrageType: 2
+  countTime: 0.6
   indexMax: 3
 --- !u!1 &4184934328038220808
 GameObject:

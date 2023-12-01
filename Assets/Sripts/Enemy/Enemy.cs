@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour
 {
     #region "private"
     Coroutine coroutine;
-    Coroutine[] otherCorotine = new Coroutine[30];
+    Coroutine[] otherCorotine = new Coroutine[10];
     Vector3 targetPosition;
     int nowCountBarrage = 0;
     bool canChooseBarrage = true;
@@ -150,6 +150,10 @@ public class Enemy : MonoBehaviour
             {
                 StartCoroutine(nowBarrage, enemyBarrageCounts[nowIndex].count);
             }
+            if(!isAttack)
+            {
+                ChooseTypeBarrage();
+            }
             yield return new WaitForSeconds(countTime);
         }
     }
@@ -185,7 +189,6 @@ public class Enemy : MonoBehaviour
             Allbullet.Add(temp);
             angle += 12;
         }
-        ChooseTypeBarrage();
     }
     void TrackShotgun(int[] count)
     {
@@ -198,7 +201,6 @@ public class Enemy : MonoBehaviour
             Allbullet.Add(temp);
             eulerAngle.z += 12;
         }
-        ChooseTypeBarrage();
     }
     void CircleBarrage(int[] count)
     {
@@ -209,7 +211,6 @@ public class Enemy : MonoBehaviour
             GameObject temp = Instantiate(bullet[0], bulletTransform.position, Quaternion.Euler(0, 0, indexz));
             Allbullet.Add(temp);
         }
-        ChooseTypeBarrage();
     }
     IEnumerator CircleBarrage(int[] count, Vector3 Barrage)
     {
