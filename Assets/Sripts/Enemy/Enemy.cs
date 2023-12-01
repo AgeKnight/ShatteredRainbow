@@ -24,10 +24,8 @@ public enum MoveType
 [System.Serializable]
 public struct EnemyBarrageCount
 {
-    //生成的彈幕個數
-    public int spanCount;
-    //生成的彈幕波數
-    public int countBarrage;
+    //0 生成的彈幕個數,1 生成的彈幕波數
+    public int[] count;
     public BarrageType barrageType;
 }
 public class Enemy : MonoBehaviour
@@ -38,19 +36,18 @@ public class Enemy : MonoBehaviour
     Coroutine coroutine;
     bool canChooseBarrage = true;
     bool canAttack = false;
-    protected int nowIndex = 0;
+    int nowIndex = 0;
     #endregion
     #region  "public"
     public AttackType useBarrage;
     public MoveType moveType;
-    public GameObject bullet;
+    public GameObject[] bullet;
     public Transform bulletTransform;
-    //移動的位置
     public float Speed;
     public bool deadUseBarrage;
     #endregion
     #region "Hide"
-    [HideInInspector]
+    //[HideInInspector]
     public Transform[] Dot;
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
@@ -59,6 +56,7 @@ public class Enemy : MonoBehaviour
     [Header("調難度")]
     public EnemyBarrageCount[] enemyBarrageCounts;
     public float countTime;
+    public int indexMax = 1;
     #endregion
     void Start()
     {
@@ -83,7 +81,13 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-    protected virtual void changeBarrage() { }
+    void changeBarrage()
+    {
+        if (nowIndex >= indexMax-1)
+            nowIndex = 0;
+        else
+            nowIndex++;
+    }
     void Move()
     {
         if (!canAttack)
@@ -94,7 +98,7 @@ public class Enemy : MonoBehaviour
                 ReturnMove();
                 canAttack = true;
                 canChooseBarrage = false;
-                if(useBarrage==AttackType.useBarrage)
+                if (useBarrage == AttackType.useBarrage)
                     Attack();
             }
         }
@@ -136,53 +140,55 @@ public class Enemy : MonoBehaviour
     {
         while (FindObjectOfType<Player>() && !canChooseBarrage)
         {
-
             string nowBarrage = System.Enum.GetName(typeof(BarrageType), enemyBarrageCounts[nowIndex].barrageType);
-            StartCoroutine(nowBarrage, enemyBarrageCounts[nowIndex].spanCount);
-            nowCountBarrage += 1;
-            if (nowCountBarrage >= enemyBarrageCounts[nowIndex].countBarrage)
+            StartCoroutine(nowBarrage, enemyBarrageCounts[nowIndex].count);
+            if (indexMax >= 1)
             {
-                nowCountBarrage = 0;
-                changeBarrage();
-                if (moveType == MoveType.SomeTimesMove)
-                    canChooseBarrage = true;
+                nowCountBarrage += 1;
+                if (nowCountBarrage >= enemyBarrageCounts[nowIndex].count[1])
+                {
+                    nowCountBarrage = 0;
+                    changeBarrage();
+                    if (moveType == MoveType.SomeTimesMove)
+                        canChooseBarrage = true;
+                }
             }
             yield return new WaitForSeconds(countTime);
         }
     }
     #region "所有彈幕方法"
-    void Shotgun(int count)
+    void Shotgun(int[] count)
     {
         float angle = Random.Range(90, 220);
-        for (int i = 0; i < count; i++)
+        for (int j = 0; j < count[0]; j++)
         {
-            GameObject temp = Instantiate(bullet, bulletTransform.position, Quaternion.Euler(0, 0, angle));
+            GameObject temp = Instantiate(bullet[0], bulletTransform.position, Quaternion.Euler(0, 0, angle));
             Allbullet.Add(temp);
             angle += 12;
         }
     }
-    void TrackShotgun(int count)
+    void TrackShotgun(int[] count)
     {
         if (FindObjectOfType<Player>())
         {
             var player = FindObjectOfType<Player>();
             Vector3 eulerAngle = GetAngle(transform.position, player.transform.position);
             eulerAngle.z -= 24;
-            for (int i = 0; i < count; i++)
+            for (int j = 0; j < count[0]; j++)
             {
-                GameObject temp = Instantiate(bullet, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
+                GameObject temp = Instantiate(bullet[0], bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
                 Allbullet.Add(temp);
                 eulerAngle.z += 12;
             }
         }
     }
-    void CircleBarrage(int count)
+    void CircleBarrage(int[] count)
     {
         int indexz = 0;
-        for (int i = 0; i <= count; i++)
+        for (int j = 0; j <= count[0]; j++)
         {
-            indexz += 360 / count;
-            GameObject temp = Instantiate(bullet, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
+            indexz += 360 / count[0];
+            GameObject temp = Instantiate(bullet[0], bulletTransform.position, Quaternion.Euler(0, 0, indexz));
             Allbullet.Add(temp);
         }
     }
@@ -195,5 +201,4 @@ public class Enemy : MonoBehaviour
         return new Vector3(0, 0, zAngle);
     }
     #endregion
-
 }
