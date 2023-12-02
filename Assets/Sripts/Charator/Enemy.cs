@@ -34,7 +34,8 @@ public class Enemy : MonoBehaviour
 {
     #region "private"
     Coroutine coroutine;
-    public Coroutine[] otherCorotine = new Coroutine[10];
+    Coroutine nowCorotine;
+    Coroutine[] otherCorotine = new Coroutine[10];
     Vector3 targetPosition;
     int nowCountBarrage = 0;
     bool canChooseBarrage = true;
@@ -149,25 +150,30 @@ public class Enemy : MonoBehaviour
             string nowBarrage = System.Enum.GetName(typeof(BarrageType), enemyBarrageCounts[nowIndex].barrageType);
             if (!isAttack)
             {
-                StartCoroutine(nowBarrage, enemyBarrageCounts[nowIndex].count);
-            }
-            if (!isAttack)
-            {
-                ChooseTypeBarrage();
+                nowCorotine = StartCoroutine(nowBarrage, enemyBarrageCounts[nowIndex].count);
+                if (!isAttack)
+                {
+                    ChooseTypeBarrage();
+                }
             }
             yield return new WaitForSeconds(countTime);
         }
     }
     void ChooseTypeBarrage()
     {
+        if (nowCorotine != null)
+        {
+            StopCoroutine(nowCorotine);
+            nowCorotine = null;
+        }
         for (int i = 0; i < otherCorotine.Length; i++)
         {
             if (otherCorotine[i] != null)
             {
                 StopCoroutine(otherCorotine[i]);
+                otherCorotine[i] = null;
             }
         }
-        isAttack = false;
         if (indexMax > 1)
         {
             nowCountBarrage += 1;
@@ -179,6 +185,7 @@ public class Enemy : MonoBehaviour
                     canChooseBarrage = true;
             }
         }
+        isAttack = false;
     }
     #region "所有彈幕方法"
     void Shotgun(int[] count)
@@ -218,7 +225,6 @@ public class Enemy : MonoBehaviour
         int nowCount = 0;
         for (int i = 0; i < count[3]; i++)
         {
-            Debug.Log(nowCount);
             int indexz = 0;
             if (FindObjectOfType<Player>())
             {
@@ -228,12 +234,12 @@ public class Enemy : MonoBehaviour
                     GameObject temp = Instantiate(bullet[0], Barrage, Quaternion.Euler(0, 0, indexz));
                     Allbullet.Add(temp);
                 }
-                nowCount=i;
+                nowCount = i;
                 yield return new WaitForSeconds(countTime);
             }
             else
             {
-                i=nowCount;
+                i = nowCount;
                 yield return null;
             }
         }
