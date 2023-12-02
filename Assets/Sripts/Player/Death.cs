@@ -21,7 +21,7 @@ public struct ItemStruct //0 生命 1 炸彈 2 小弟 3生命碎片
     public GameObject items;
 }
 [System.Serializable]
-public struct SpriteStruct 
+public struct SpriteStruct
 {
     public Sprite[] nowStatus;
 }
@@ -51,27 +51,20 @@ public class Death : MonoBehaviour
     void Start()
     {
         GameManager.Instance.ChangeDifficulty(this.gameObject);
-    }    
+    }
     void Update()
     {
         if (charatorType == CharatorType.Player && hp > 0)
         {
             var sprite = GameObject.Find("Image").GetComponent<SpriteRenderer>();
-            sprite.sprite = Status[GameManager.Instance.playerLevel].nowStatus[totalHp-hp];      
+            sprite.sprite = Status[GameManager.Instance.playerLevel].nowStatus[totalHp - hp];
         }
     }
     public void Hurt(int value = 1)
     {
-        if(charatorType == CharatorType.Player)
+        if (charatorType == CharatorType.Player && gameObject.GetComponent<Player>().isInvincible)
         {
-            if(gameObject.GetComponent<Player>().isInvincible)
-            {
-                value = 0;
-            }
-            else
-            {
-                GameManager.Instance.playerNotHurt = false;
-            }           
+            value = 0;           
         }
         hp -= value;
         if (enemyType == EnemyType.Boss)
@@ -89,9 +82,9 @@ public class Death : MonoBehaviour
             Destroy(this.gameObject);
         }
         if (gameObject.tag == "Enemy")
-        {           
+        {
             Enemydeath();
-            var enemy = gameObject.GetComponent<Enemy>();            
+            var enemy = gameObject.GetComponent<Enemy>();
             for (int i = 0; i < enemy.Allbullet.Count; i++)
             {
                 if (enemy.Allbullet[i] != null)

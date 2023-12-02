@@ -228,12 +228,12 @@ public class Enemy : MonoBehaviour
                     GameObject temp = Instantiate(bullet[0], Barrage, Quaternion.Euler(0, 0, indexz));
                     Allbullet.Add(temp);
                 }
-                nowCount+=1;
+                nowCount=i;
                 yield return new WaitForSeconds(countTime);
             }
             else
             {
-                i=nowCount-1;
+                i=nowCount;
                 yield return null;
             }
         }

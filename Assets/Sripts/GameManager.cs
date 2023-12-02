@@ -26,8 +26,6 @@ public class GameManager : MonoBehaviour
     #endregion
     #region "Hide"  
     [HideInInspector]
-    public bool playerNotHurt = true;
-    [HideInInspector]
     public List<GameObject> playerBullet = new List<GameObject>();
     [HideInInspector]
     public int playerLevel = 0;
