@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour
 {
     #region "private"
     Coroutine coroutine;
+    Coroutine nowCorotine;
     Coroutine[] otherCorotine = new Coroutine[10];
     Vector3 targetPosition;
     int nowCountBarrage = 0;
@@ -148,7 +149,7 @@ public class Enemy : MonoBehaviour
             string nowBarrage = System.Enum.GetName(typeof(BarrageType), enemyBarrageCounts[nowIndex].barrageType);
             if (!isAttack)
             {
-                StartCoroutine(nowBarrage, enemyBarrageCounts[nowIndex].count);
+                nowCorotine = StartCoroutine(nowBarrage, enemyBarrageCounts[nowIndex].count);
             }
             if(!isAttack)
             {
@@ -159,6 +160,8 @@ public class Enemy : MonoBehaviour
     }
     void ChooseTypeBarrage()
     {
+        if(nowCorotine!=null)
+            StopCoroutine(nowCorotine);
         for (int i = 0; i < otherCorotine.Length; i++)
         {
             if(otherCorotine[i]!=null)
@@ -212,7 +215,7 @@ public class Enemy : MonoBehaviour
             Allbullet.Add(temp);
         }
     }
-    IEnumerator CircleBarrage(int[] count, Vector3 Barrage)
+    IEnumerator CircleBarrage(int[] count, Bullet Barrage, List<Bullet> Barrages)
     {
         for (int i = 0; i < count[3]; i++)
         {
@@ -220,11 +223,18 @@ public class Enemy : MonoBehaviour
             for (int j = 0; j <= count[2]; j++)
             {
                 indexz += 360 / count[2];
-                GameObject temp = Instantiate(bullet[0], Barrage, Quaternion.Euler(0, 0, indexz));
+                GameObject temp = Instantiate(bullet[0], Barrage.transform.position, Quaternion.Euler(0, 0, indexz));
                 Allbullet.Add(temp);
             }
             yield return new WaitForSeconds(countTime);
         }
+        for (int i = 0; i < Barrages.Count; i++)
+        {
+            if (Barrages[i])
+            {
+                Destroy(Barrages[i].gameObject);
+            }
+        }   
         ChooseTypeBarrage();
     }
     IEnumerator FirRoundGroup(int[] count)
@@ -242,7 +252,7 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < bullets.Count; i++)
         {
             bullets[i].speed = 0;
-            otherCorotine[i] = StartCoroutine(CircleBarrage(enemyBarrageCounts[nowIndex].count, bullets[i].transform.position));
+            otherCorotine[i] = StartCoroutine(CircleBarrage(enemyBarrageCounts[nowIndex].count,bullets[i],bullets));
         }
     }
     Vector3 GetAngle(Vector3 aPoint, Vector3 bPoint)
