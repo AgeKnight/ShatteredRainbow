@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
     #region "難度"
     [Header("調難度")]
     public Difficulty difficulty;
-    public int playerBottom;   
+    public int playerBottom;
     public int playerDrone;
     public float AllInvincibleTime; //無敵秒數
     #endregion
@@ -105,7 +105,6 @@ public class GameManager : MonoBehaviour
         {
             tempEnemy[i].Attack();
         }
-        
     }
     public void EatItem(Item item)
     {
@@ -120,18 +119,18 @@ public class GameManager : MonoBehaviour
                 AddBottom();
                 break;
             case ItemType.EXP:
-                if(playerLevel<3)
+                if (playerLevel < 3)
                 {
                     AddExp();
                     AddScore(item.score);
-                }                   
+                }
                 else
                 {
                     AddScore(item.overflowScore);
                 }
                 break;
             case ItemType.Drone:
-                if(playerDrone<=3)
+                if (playerDrone <= 3)
                 {
                     AddDrone();
                     AddScore(item.score);
@@ -142,7 +141,7 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case ItemType.HalfLife:
-                    AddHp(item);
+                AddHp(item);
                 break;
         }
     }
@@ -171,11 +170,11 @@ public class GameManager : MonoBehaviour
     void AddHp(Item item)
     {
         var tempPlayer = FindObjectOfType<Player>().gameObject.GetComponent<Death>();
-        if(tempPlayer.hp<tempPlayer.totalHp)
+        if (tempPlayer.hp < tempPlayer.totalHp)
         {
-            tempPlayer.hp+=1;
+            tempPlayer.hp += 1;
             AddScore(item.score);
-        }         
+        }
         else
         {
             AddScore(item.overflowScore);
@@ -195,7 +194,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                playerExp= totalExp;
+                playerExp = totalExp;
                 playerLevel = 3;
                 Level.text = "Levil Max".ToString();
                 break;
@@ -205,9 +204,9 @@ public class GameManager : MonoBehaviour
     }
     void AddDrone()
     {
-        playerDrone+=1;
-        if(playerDrone>3)
-            playerDrone=3;
+        playerDrone += 1;
+        if (playerDrone > 3)
+            playerDrone = 3;
     }
     public void ClearBarrage()
     {
@@ -240,7 +239,7 @@ public class GameManager : MonoBehaviour
         float tempCountTime = 1;
         bool tempCanTrack = false;
         float tempProbability = 1; //0 生命 1 炸彈 2 小弟 4生命碎片
-        bool[] tempCanAttract = { false, false, false, false,false }; //0 exp 1 生命 2 炸彈 3 小弟 4 生命碎片
+        bool[] tempCanAttract = { false, false, false, false, false }; //0 exp 1 生命 2 炸彈 3 小弟 4 生命碎片
         switch (difficulty)
         {
             case Difficulty.easy:
