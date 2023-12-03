@@ -29,6 +29,7 @@ public struct EnemyBarrageCount
     //0 生成的彈幕個數,1 生成的彈幕波數,生成的子彈幕數量,3 生成的子彈幕波數
     public int[] count;
     public BarrageType barrageType;
+    public GameObject barrage;
 }
 public class Enemy : MonoBehaviour
 {
@@ -46,7 +47,6 @@ public class Enemy : MonoBehaviour
     #region  "public"
     public AttackType useBarrage;
     public MoveType moveType;
-    public GameObject[] bullet;
     public Transform bulletTransform;
     public float Speed;
     public bool deadUseBarrage;
@@ -67,6 +67,11 @@ public class Enemy : MonoBehaviour
     {
         if (Dot.Length != 0)
             targetPosition = Dot[0].position;
+        if(indexMax<1)
+            indexMax=1;
+        else if(indexMax>enemyBarrageCounts.Length)
+            indexMax= enemyBarrageCounts.Length;
+
     }
     void Update()
     {
@@ -147,16 +152,14 @@ public class Enemy : MonoBehaviour
     {
         while (FindObjectOfType<Player>() && !canChooseBarrage)
         {
-            string nowBarrage = System.Enum.GetName(typeof(BarrageType), enemyBarrageCounts[nowIndex].barrageType);
             if (!isAttack)
             {
+                string nowBarrage = System.Enum.GetName(typeof(BarrageType), enemyBarrageCounts[nowIndex].barrageType);
                 nowCorotine = StartCoroutine(nowBarrage, enemyBarrageCounts[nowIndex].count);
-                if (!isAttack)
-                {
-                    ChooseTypeBarrage();
-                }
+                yield return new WaitForSeconds(countTime);
             }
-            yield return new WaitForSeconds(countTime);
+            else
+                yield return null;
         }
     }
     void ChooseTypeBarrage()
@@ -193,10 +196,11 @@ public class Enemy : MonoBehaviour
         float angle = Random.Range(90, 220);
         for (int j = 0; j < count[0]; j++)
         {
-            GameObject temp = Instantiate(bullet[0], bulletTransform.position, Quaternion.Euler(0, 0, angle));
+            GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, angle));
             Allbullet.Add(temp);
             angle += 12;
         }
+        ChooseTypeBarrage();
     }
     void TrackShotgun(int[] count)
     {
@@ -205,10 +209,11 @@ public class Enemy : MonoBehaviour
         eulerAngle.z -= 24;
         for (int j = 0; j < count[0]; j++)
         {
-            GameObject temp = Instantiate(bullet[0], bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
+            GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
             Allbullet.Add(temp);
             eulerAngle.z += 12;
         }
+        ChooseTypeBarrage();
     }
     void CircleBarrage(int[] count)
     {
@@ -216,9 +221,10 @@ public class Enemy : MonoBehaviour
         for (int j = 0; j <= count[0]; j++)
         {
             indexz += 360 / count[0];
-            GameObject temp = Instantiate(bullet[0], bulletTransform.position, Quaternion.Euler(0, 0, indexz));
+            GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
             Allbullet.Add(temp);
         }
+        ChooseTypeBarrage();
     }
     IEnumerator CircleBarrage(int[] count, Vector3 Barrage, List<Bullet> Barrages)
     {
@@ -231,7 +237,7 @@ public class Enemy : MonoBehaviour
                 for (int j = 0; j <= count[2]; j++)
                 {
                     indexz += 360 / count[2];
-                    GameObject temp = Instantiate(bullet[0], Barrage, Quaternion.Euler(0, 0, indexz));
+                    GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, Barrage, Quaternion.Euler(0, 0, indexz));
                     Allbullet.Add(temp);
                 }
                 nowCount = i;
@@ -260,10 +266,11 @@ public class Enemy : MonoBehaviour
         List<Bullet> bullets = new List<Bullet>();
         for (int i = 0; i < count[0]; i++)
         {
-            var temp = Instantiate(bullet[0], bulletTransform.position, Quaternion.Euler(0, 0, indexz));
+            var temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
             indexz += 360 / count[0];
             bullets.Add(temp.GetComponent<Bullet>());
             bullets[i].canDie = false;
+            Allbullet.Add(temp);
         }
         yield return new WaitForSeconds(1f);
         for (int i = 0; i < bullets.Count; i++)

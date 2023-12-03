@@ -16,8 +16,7 @@ public enum EnemyType
 [System.Serializable]
 public struct ItemStruct //0 生命 1 炸彈 2 小弟 3生命碎片
 {
-    //難度
-    public float probability;
+    [Range(0f,100f)]public float probability;
     public GameObject items;
 }
 [System.Serializable]
@@ -89,6 +88,7 @@ public class Death : MonoBehaviour
             {
                 if (enemy.Allbullet[i] != null)
                 {
+                    enemy.Allbullet[i].GetComponent<Bullet>().canDie = true;
                     Destroy(enemy.Allbullet[i]);
                 }
             }

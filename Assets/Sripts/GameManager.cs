@@ -53,14 +53,13 @@ public class GameManager : MonoBehaviour
     public bool PlayerIsDied = false;
     [HideInInspector]
     public Transform PlayerResurrectionPosition;
-    [HideInInspector]
-    public int playerLife;
     #endregion
     #region "難度"
     [Header("調難度")]
     public Difficulty difficulty;
     public int playerBottom;
     public int playerDrone;
+    public int playerLife;
     public float AllInvincibleTime; //無敵秒數
     #endregion
     void Awake()
@@ -75,7 +74,10 @@ public class GameManager : MonoBehaviour
         }
         scoreText.text = playerScore.ToString();
         bottomText.text = "×" + playerBottom.ToString();
-
+        if(playerLife<0)
+            LifeText.text = "×0";
+        else
+            LifeText.text = "×" + playerLife.ToString();
     }
     void Resurrection()
     {
@@ -152,14 +154,6 @@ public class GameManager : MonoBehaviour
         playerLife += value;
         var tempPlayer = FindObjectOfType<Player>();
         tempPlayer.gameObject.GetComponent<Death>().hp = tempPlayer.gameObject.GetComponent<Death>().totalHp;
-        if (playerLife < 0)
-        {
-            LifeText.text = "×0";
-        }
-        else
-        {
-            LifeText.text = "×" + playerLife.ToString();
-        }
     }
     void AddBottom()
     {
