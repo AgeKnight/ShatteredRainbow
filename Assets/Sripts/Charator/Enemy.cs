@@ -67,10 +67,10 @@ public class Enemy : MonoBehaviour
     {
         if (Dot.Length != 0)
             targetPosition = Dot[0].position;
-        if(indexMax<1)
-            indexMax=1;
-        else if(indexMax>enemyBarrageCounts.Length)
-            indexMax= enemyBarrageCounts.Length;
+        if (indexMax < 1)
+            indexMax = 1;
+        else if (indexMax > enemyBarrageCounts.Length)
+            indexMax = enemyBarrageCounts.Length;
 
     }
     void Update()
@@ -228,6 +228,7 @@ public class Enemy : MonoBehaviour
     }
     IEnumerator CircleBarrage(int[] count, Vector3 Barrage, List<Bullet> Barrages)
     {
+
         int nowCount = 0;
         for (int i = 0; i < count[3]; i++)
         {
@@ -252,31 +253,42 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < Barrages.Count; i++)
         {
             if (Barrages[i])
-            {
-                Barrages[i].canDie = true;
                 Destroy(Barrages[i].gameObject);
-            }
         }
+
         ChooseTypeBarrage();
     }
     IEnumerator FirRoundGroup(int[] count)
     {
+        bool exist = true;
         isAttack = true;
         int indexz = 0;
         List<Bullet> bullets = new List<Bullet>();
+        List<Transform> transforms = new List<Transform>();
         for (int i = 0; i < count[0]; i++)
         {
             var temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
             indexz += 360 / count[0];
             bullets.Add(temp.GetComponent<Bullet>());
-            bullets[i].canDie = false;
             Allbullet.Add(temp);
         }
         yield return new WaitForSeconds(1f);
         for (int i = 0; i < bullets.Count; i++)
         {
-            bullets[i].speed = 0;
-            otherCorotine[i] = StartCoroutine(CircleBarrage(enemyBarrageCounts[nowIndex].count, bullets[i].transform.position, bullets));
+            if (bullets[i])
+            {
+                bullets[i].speed = 0;
+                otherCorotine[i] = StartCoroutine(CircleBarrage(enemyBarrageCounts[nowIndex].count, bullets[i].transform.position, bullets));
+            }
+            else
+            {
+                exist = false;
+                break;
+            }
+        }
+        if (!exist)
+        {
+            ChooseTypeBarrage();
         }
     }
     Vector3 GetAngle(Vector3 aPoint, Vector3 bPoint)

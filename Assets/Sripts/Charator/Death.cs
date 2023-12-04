@@ -87,10 +87,7 @@ public class Death : MonoBehaviour
             for (int i = 0; i < enemy.Allbullet.Count; i++)
             {
                 if (enemy.Allbullet[i] != null)
-                {
-                    enemy.Allbullet[i].GetComponent<Bullet>().canDie = true;
                     Destroy(enemy.Allbullet[i]);
-                }
             }
             Destroy(this.gameObject);
         }

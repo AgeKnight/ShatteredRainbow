@@ -9,8 +9,6 @@ public enum BulletType
 }
 public class Bullet : MonoBehaviour
 {
-    [HideInInspector]
-    public bool canDie = true;
     public float speed;
     //調難度
     public bool canTrackEnemy = false;
@@ -36,8 +34,7 @@ public class Bullet : MonoBehaviour
     }
     void Die()
     {
-        if(canDie)
-            Destroy(this.gameObject);
+        Destroy(this.gameObject);
     }
     void OnTriggerEnter2D(Collider2D other)
     {
