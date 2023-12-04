@@ -18,6 +18,8 @@ public class ChooseEnemy : Editor
             { "enemyBarrageCounts", AttackType.useBarrage},
             { "countTime", AttackType.useBarrage},
             { "deadUseBarrage", AttackType.useBarrage},
+            { "bulletTransform", AttackType.useBarrage},
+            { "indexMax", AttackType.useBarrage},
         };
     Dictionary<string, MoveType> specialPropertys2 = new Dictionary<string, MoveType>
         {

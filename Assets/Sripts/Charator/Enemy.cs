@@ -177,16 +177,13 @@ public class Enemy : MonoBehaviour
                 otherCorotine[i] = null;
             }
         }
-        if (indexMax > 1)
+        nowCountBarrage += 1;
+        if (nowCountBarrage >= enemyBarrageCounts[nowIndex].count[1])
         {
-            nowCountBarrage += 1;
-            if (nowCountBarrage >= enemyBarrageCounts[nowIndex].count[1])
-            {
-                nowCountBarrage = 0;
-                changeBarrage();
-                if (moveType == MoveType.SomeTimesMove)
-                    canChooseBarrage = true;
-            }
+            nowCountBarrage = 0;
+            changeBarrage();
+            if (moveType == MoveType.SomeTimesMove)
+                canChooseBarrage = true;
         }
         isAttack = false;
     }
