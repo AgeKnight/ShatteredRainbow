@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +11,19 @@ public enum Difficulty
     VerryHard,
     Hell
 }
+public enum Wave
+{
+    Common,
+}
+[System.Serializable]
+public struct WaveMonster
+{
+    public GameObject monsterPrefab;
+    public int count;
+    public float spanTime;
+    public Wave wave;
+    public Transform[] wavePosition;
+}
 public class GameManager : MonoBehaviour
 {
     static GameManager instance;
@@ -20,6 +31,9 @@ public class GameManager : MonoBehaviour
     #region "Private"
     float resurrectionTime = 0;
     int totalExp = 100;
+    int nowIndex = 0;
+    int nowCount = 0;
+    List<GameObject> waveEnemy = new List<GameObject>();
     #endregion
     #region "Public"
     public float AllResurrectionTime;
@@ -57,6 +71,7 @@ public class GameManager : MonoBehaviour
     #region "難度"
     [Header("調難度")]
     public Difficulty difficulty;
+    public WaveMonster[] waveMonster;
     public int playerBottom;
     public int playerDrone;
     public int playerLife;
@@ -65,6 +80,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        StartCoroutine(CreateEnemy());
     }
     void Update()
     {
@@ -74,10 +90,60 @@ public class GameManager : MonoBehaviour
         }
         scoreText.text = playerScore.ToString();
         bottomText.text = "×" + playerBottom.ToString();
-        if(playerLife<0)
+        if (playerLife < 0)
             LifeText.text = "×0";
         else
             LifeText.text = "×" + playerLife.ToString();
+    }
+    IEnumerator CreateEnemy()
+    {
+        while (true)
+        {
+            if (FindObjectOfType<Player>() && nowCount < waveMonster[nowIndex].count)
+            {
+                for (int i = 0; i < waveMonster[nowIndex].count; i++)
+                {
+                    string nowWave = System.Enum.GetName(typeof(Wave), waveMonster[nowIndex].wave);
+                    StartCoroutine(nowWave);
+                    yield return new WaitForSeconds(waveMonster[nowIndex].spanTime);
+                }
+            }
+            else
+            {
+                bool allEnemyDie = true;
+                if (nowCount >= waveMonster[nowIndex].count)
+                {
+                    for (int i = 0; i < waveEnemy.Count; i++)
+                    {
+                        if (waveEnemy[i] != null)
+                        {
+                            allEnemyDie = false;
+                        }
+                    }
+                }
+                if (allEnemyDie)
+                {
+                    nowCount=0;
+                    nowIndex++;
+                    if (nowIndex >= waveMonster.Length)
+                    {
+                        nowIndex = 0;
+                    }
+                }
+                yield return 0.1;
+            }
+        }
+    }
+    void Common()
+    {
+        GameObject enemy = Instantiate(waveMonster[nowIndex].monsterPrefab,waveMonster[nowIndex].wavePosition[0]);
+        GameObject enemy2 = Instantiate(waveMonster[nowIndex].monsterPrefab,waveMonster[nowIndex].wavePosition[1]);
+        enemy.GetComponent<Enemy>().Dot[0] = waveMonster[nowIndex].wavePosition[0];
+        enemy2.GetComponent<Enemy>().Dot[0] = waveMonster[nowIndex].wavePosition[1];
+        enemy.GetComponent<Enemy>().Dot[1] = waveMonster[nowIndex].wavePosition[2];
+        enemy2.GetComponent<Enemy>().Dot[1] = waveMonster[nowIndex].wavePosition[3];
+        waveEnemy.Add(enemy);
+        nowCount++;
     }
     void Resurrection()
     {
@@ -207,22 +273,14 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < playerBullet.Count; i++)
             {
                 if (playerBullet[i] != null)
-                {
-                    Destroy(playerBullet[i]);
-                }
+                    playerBullet[i].GetComponent<Bullet>().Die();
             }
             playerBullet.Clear();
         }
         var enemy = FindObjectsOfType<Enemy>();
         for (int i = 0; i < enemy.Length; i++)
         {
-            for (int j = 0; j < enemy[i].Allbullet.Count; j++)
-            {
-                if (enemy[i].Allbullet[j] != null)
-                {
-                    Destroy(enemy[i].Allbullet[j]);
-                }
-            }
+            enemy[i].ClearBarrage();
         }
     }
     public void ChangeDifficulty(GameObject gameObject = null)

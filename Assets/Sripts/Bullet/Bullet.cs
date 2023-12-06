@@ -32,7 +32,7 @@ public class Bullet : MonoBehaviour
         else
             transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
     }
-    void Die()
+    public void Die()
     {
         Destroy(this.gameObject);
     }

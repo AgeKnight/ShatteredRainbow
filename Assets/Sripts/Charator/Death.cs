@@ -84,11 +84,7 @@ public class Death : MonoBehaviour
         {
             Enemydeath();
             var enemy = gameObject.GetComponent<Enemy>();
-            for (int i = 0; i < enemy.Allbullet.Count; i++)
-            {
-                if (enemy.Allbullet[i] != null)
-                    Destroy(enemy.Allbullet[i]);
-            }
+            enemy.ClearBarrage();
             Destroy(this.gameObject);
         }
     }

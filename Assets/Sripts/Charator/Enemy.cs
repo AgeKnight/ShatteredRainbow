@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
     public bool deadUseBarrage;
     #endregion
     #region "Hide"
-    //[HideInInspector]
+    [HideInInspector]
     public Transform[] Dot;
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
@@ -65,7 +65,7 @@ public class Enemy : MonoBehaviour
     #endregion
     void Start()
     {
-        if (Dot.Length != 0)
+        if (moveType!=MoveType.ToPlayerMove)
             targetPosition = Dot[0].position;
         if (indexMax < 1)
             indexMax = 1;
@@ -77,6 +77,7 @@ public class Enemy : MonoBehaviour
     {
         Move();
     }
+    #region "移動"
     void ReturnMove()
     {
         for (int i = 0; i < Dot.Length; i++)
@@ -91,16 +92,9 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-    void changeBarrage()
-    {
-        if (nowIndex >= indexMax - 1)
-            nowIndex = 0;
-        else
-            nowIndex++;
-    }
     void Move()
     {
-        if (!canAttack)
+        if (!canAttack&&moveType!=MoveType.ToPlayerMove)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
             if (transform.position == targetPosition)
@@ -144,6 +138,8 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+    #endregion
+    #region "攻擊"
     public void Attack()
     {
         coroutine = StartCoroutine(UseBarrage());
@@ -161,6 +157,13 @@ public class Enemy : MonoBehaviour
             else
                 yield return null;
         }
+    }
+    void changeBarrage()
+    {
+        if (nowIndex >= indexMax - 1)
+            nowIndex = 0;
+        else
+            nowIndex++;
     }
     void ChooseTypeBarrage()
     {
@@ -297,4 +300,14 @@ public class Enemy : MonoBehaviour
         return new Vector3(0, 0, zAngle);
     }
     #endregion
+    #endregion
+    public void ClearBarrage()
+    {
+        for (int i = 0; i < Allbullet.Count; i++)
+        {
+            if (Allbullet[i] != null)
+                Allbullet[i].GetComponent<Bullet>().Die();
+        }
+        Allbullet.Clear();
+    }
 }
