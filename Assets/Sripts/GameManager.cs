@@ -11,19 +11,7 @@ public enum Difficulty
     VerryHard,
     Hell
 }
-public enum Wave
-{
-    Common,
-}
-[System.Serializable]
-public struct WaveMonster
-{
-    public GameObject monsterPrefab;
-    public int count;
-    public float spanTime;
-    public Wave wave;
-    public Transform[] wavePosition;
-}
+
 public class GameManager : MonoBehaviour
 {
     static GameManager instance;
@@ -31,12 +19,10 @@ public class GameManager : MonoBehaviour
     #region "Private"
     float resurrectionTime = 0;
     int totalExp = 100;
-    int nowIndex = 0;
-    int nowCount = 0;
-    List<GameObject> waveEnemy = new List<GameObject>();
     #endregion
     #region "Public"
     public float AllResurrectionTime;
+    public EnemyManager enemyManager;
     #endregion
     #region "Hide"  
     [HideInInspector]
@@ -71,7 +57,6 @@ public class GameManager : MonoBehaviour
     #region "難度"
     [Header("調難度")]
     public Difficulty difficulty;
-    public WaveMonster[] waveMonster;
     public int playerBottom;
     public int playerDrone;
     public int playerLife;
@@ -80,7 +65,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        StartCoroutine(CreateEnemy());
+        StartCoroutine(enemyManager.CreateEnemy());
     }
     void Update()
     {
@@ -95,56 +80,7 @@ public class GameManager : MonoBehaviour
         else
             LifeText.text = "×" + playerLife.ToString();
     }
-    IEnumerator CreateEnemy()
-    {
-        while (true)
-        {
-            if (FindObjectOfType<Player>() && nowCount < waveMonster[nowIndex].count)
-            {
-                for (int i = 0; i < waveMonster[nowIndex].count; i++)
-                {
-                    string nowWave = System.Enum.GetName(typeof(Wave), waveMonster[nowIndex].wave);
-                    StartCoroutine(nowWave);
-                    yield return new WaitForSeconds(waveMonster[nowIndex].spanTime);
-                }
-            }
-            else
-            {
-                bool allEnemyDie = true;
-                if (nowCount >= waveMonster[nowIndex].count)
-                {
-                    for (int i = 0; i < waveEnemy.Count; i++)
-                    {
-                        if (waveEnemy[i] != null)
-                        {
-                            allEnemyDie = false;
-                        }
-                    }
-                }
-                if (allEnemyDie)
-                {
-                    nowCount=0;
-                    nowIndex++;
-                    if (nowIndex >= waveMonster.Length)
-                    {
-                        nowIndex = 0;
-                    }
-                }
-                yield return 0.1;
-            }
-        }
-    }
-    void Common()
-    {
-        GameObject enemy = Instantiate(waveMonster[nowIndex].monsterPrefab,waveMonster[nowIndex].wavePosition[0]);
-        GameObject enemy2 = Instantiate(waveMonster[nowIndex].monsterPrefab,waveMonster[nowIndex].wavePosition[1]);
-        enemy.GetComponent<Enemy>().Dot[0] = waveMonster[nowIndex].wavePosition[0];
-        enemy2.GetComponent<Enemy>().Dot[0] = waveMonster[nowIndex].wavePosition[1];
-        enemy.GetComponent<Enemy>().Dot[1] = waveMonster[nowIndex].wavePosition[2];
-        enemy2.GetComponent<Enemy>().Dot[1] = waveMonster[nowIndex].wavePosition[3];
-        waveEnemy.Add(enemy);
-        nowCount++;
-    }
+    
     void Resurrection()
     {
         if (playerLife < 0)
@@ -162,15 +98,10 @@ public class GameManager : MonoBehaviour
     }
     void PlayerResurrection()
     {
-        var tempEnemy = FindObjectsOfType<Enemy>();
         resurrectionTime = 0;
         PlayerIsDied = false;
         var tempPlayer = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity);
         tempPlayer.gameObject.GetComponent<Player>().isInvincible = true;
-        for (int i = 0; i < tempEnemy.Length; i++)
-        {
-            tempEnemy[i].Attack();
-        }
     }
     public void EatItem(Item item)
     {

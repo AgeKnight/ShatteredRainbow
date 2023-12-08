@@ -39,9 +39,10 @@ public class Enemy : MonoBehaviour
     Coroutine[] otherCorotine = new Coroutine[10];
     Vector3 targetPosition;
     int nowCountBarrage = 0;
-    bool canChooseBarrage = true;
+    bool canChooseBarrage = false;
     bool canAttack = false;
     bool isAttack = false;
+    bool canDie = false;
     int nowIndex = 0;
     #endregion
     #region  "public"
@@ -52,7 +53,7 @@ public class Enemy : MonoBehaviour
     public bool deadUseBarrage;
     #endregion
     #region "Hide"
-    [HideInInspector]
+    //[HideInInspector]
     public Transform[] Dot;
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
@@ -65,13 +66,12 @@ public class Enemy : MonoBehaviour
     #endregion
     void Start()
     {
-        if (moveType!=MoveType.ToPlayerMove)
+        if (moveType != MoveType.ToPlayerMove)
             targetPosition = Dot[0].position;
         if (indexMax < 1)
             indexMax = 1;
         else if (indexMax > enemyBarrageCounts.Length)
             indexMax = enemyBarrageCounts.Length;
-
     }
     void Update()
     {
@@ -94,7 +94,7 @@ public class Enemy : MonoBehaviour
     }
     void Move()
     {
-        if (!canAttack&&moveType!=MoveType.ToPlayerMove)
+        if (!canAttack && moveType != MoveType.ToPlayerMove)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
             if (transform.position == targetPosition)
@@ -115,7 +115,6 @@ public class Enemy : MonoBehaviour
                     {
                         canChooseBarrage = false;
                         ReturnMove();
-                        Attack();
                     }
                     if (canChooseBarrage)
                     {
@@ -146,9 +145,9 @@ public class Enemy : MonoBehaviour
     }
     IEnumerator UseBarrage()
     {
-        while (FindObjectOfType<Player>() && !canChooseBarrage)
+        while (true)
         {
-            if (!isAttack)
+            if (FindObjectOfType<Player>() && !canChooseBarrage && !isAttack)
             {
                 string nowBarrage = System.Enum.GetName(typeof(BarrageType), enemyBarrageCounts[nowIndex].barrageType);
                 nowCorotine = StartCoroutine(nowBarrage, enemyBarrageCounts[nowIndex].count);
@@ -309,5 +308,15 @@ public class Enemy : MonoBehaviour
                 Allbullet[i].GetComponent<Bullet>().Die();
         }
         Allbullet.Clear();
+    }
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Barrier")
+        {
+            if (!canDie)
+                canDie = true;
+            else
+                Destroy(this.gameObject);
+        }
     }
 }

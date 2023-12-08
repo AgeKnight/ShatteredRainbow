@@ -47,10 +47,6 @@ public class Death : MonoBehaviour
     {
         hp = totalHp;
     }
-    void Start()
-    {
-        GameManager.Instance.ChangeDifficulty(this.gameObject);
-    }
     void Update()
     {
         if (charatorType == CharatorType.Player && hp > 0)
