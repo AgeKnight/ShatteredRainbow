@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour
     #endregion
     #region "Hide"
     //[HideInInspector]
-    public Transform[] Dot;
+    public Vector3[] Dot;
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
     #endregion
@@ -67,7 +67,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         if (moveType != MoveType.ToPlayerMove)
-            targetPosition = Dot[0].position;
+            targetPosition = Dot[0];
         if (indexMax < 1)
             indexMax = 1;
         else if (indexMax > enemyBarrageCounts.Length)
@@ -82,12 +82,12 @@ public class Enemy : MonoBehaviour
     {
         for (int i = 0; i < Dot.Length; i++)
         {
-            if (targetPosition == Dot[i].position)
+            if (targetPosition == Dot[i])
             {
                 if (i == Dot.Length - 1)
-                    targetPosition = Dot[0].position;
+                    targetPosition = Dot[0];
                 else
-                    targetPosition = Dot[i + 1].position;
+                    targetPosition = Dot[i + 1];
                 break;
             }
         }

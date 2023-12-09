@@ -24,6 +24,8 @@ public class EnemyManager : MonoBehaviour
     int nowCount = 0;
     List<GameObject> waveEnemy = new List<GameObject>();
     public WaveMonster[] waveMonster;
+    //0 左上 1 右下
+    public GameObject[] mapPosition;
     public IEnumerator CreateEnemy()
     {
         while (true)
@@ -69,7 +71,7 @@ public class EnemyManager : MonoBehaviour
         GameObject enemy = Instantiate(waveMonster[nowIndex].monsterPrefab, waveMonster[nowIndex].spanPosition.position, Quaternion.identity);
         for (int i = 0; i < waveMonster[nowIndex].movePosition.Length; i++)
         {
-            enemy.GetComponent<Enemy>().Dot[i] = waveMonster[nowIndex].movePosition[i];
+            enemy.GetComponent<Enemy>().Dot[i] = waveMonster[nowIndex].movePosition[i].position;
         }
         waveEnemy.Add(enemy);
         GameManager.Instance.ChangeDifficulty(enemy);
@@ -77,7 +79,22 @@ public class EnemyManager : MonoBehaviour
     }
     void TwoColumn()
     {
-
+        float tempX = (mapPosition[0].transform.position.x + mapPosition[1].transform.position.x) / 2 - waveMonster[nowIndex].spanPosition.position.x;
+        Vector3 tempTransform = new Vector3(tempX, waveMonster[nowIndex].spanPosition.position.y, waveMonster[nowIndex].spanPosition.position.z);
+        GameObject enemy = Instantiate(waveMonster[nowIndex].monsterPrefab, waveMonster[nowIndex].spanPosition.position, Quaternion.identity);
+        GameObject enemy2 = Instantiate(waveMonster[nowIndex].monsterPrefab, tempTransform, Quaternion.identity);
+        for (int i = 0; i < waveMonster[nowIndex].movePosition.Length; i++)
+        {
+            enemy.GetComponent<Enemy>().Dot[i] = waveMonster[nowIndex].movePosition[i].position;
+            float tempPosition = (mapPosition[0].transform.position.x + mapPosition[1].transform.position.x) / 2 - waveMonster[nowIndex].movePosition[i].position.x;
+            Vector3 newTransform = new Vector3(tempPosition, waveMonster[nowIndex].movePosition[i].position.y, waveMonster[nowIndex].movePosition[i].position.z);
+            enemy2.GetComponent<Enemy>().Dot[i] = newTransform;
+        }
+        waveEnemy.Add(enemy);
+        waveEnemy.Add(enemy2);
+        GameManager.Instance.ChangeDifficulty(enemy);
+        GameManager.Instance.ChangeDifficulty(enemy2);
+        nowCount++;
     }
     void WholeRow()
     {

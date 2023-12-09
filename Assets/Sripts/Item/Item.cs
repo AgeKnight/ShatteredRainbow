@@ -50,7 +50,8 @@ public class Item : MonoBehaviour
     void Attract()
     {
         var player = FindObjectOfType<Player>().gameObject;
-        gameObject.transform.position = Vector2.MoveTowards(this.gameObject.transform.position,player.transform.position,10*speed*Time.deltaTime);
+        if(player)
+            gameObject.transform.position = Vector2.MoveTowards(this.gameObject.transform.position,player.transform.position,10*speed*Time.deltaTime);
     }
     void OnTriggerExit2D(Collider2D other)
     {
