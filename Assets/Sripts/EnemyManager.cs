@@ -73,28 +73,24 @@ public class EnemyManager : MonoBehaviour
         {
             enemy.GetComponent<Enemy>().Dot[i] = waveMonster[nowIndex].movePosition[i].position;
         }
+        nowCount++;
         waveEnemy.Add(enemy);
         GameManager.Instance.ChangeDifficulty(enemy);
-        nowCount++;
     }
     void TwoColumn()
     {
-        float tempX = (mapPosition[0].transform.position.x + mapPosition[1].transform.position.x) / 2 - waveMonster[nowIndex].spanPosition.position.x;
-        Vector3 tempTransform = new Vector3(tempX, waveMonster[nowIndex].spanPosition.position.y, waveMonster[nowIndex].spanPosition.position.z);
         GameObject enemy = Instantiate(waveMonster[nowIndex].monsterPrefab, waveMonster[nowIndex].spanPosition.position, Quaternion.identity);
-        GameObject enemy2 = Instantiate(waveMonster[nowIndex].monsterPrefab, tempTransform, Quaternion.identity);
         for (int i = 0; i < waveMonster[nowIndex].movePosition.Length; i++)
         {
             enemy.GetComponent<Enemy>().Dot[i] = waveMonster[nowIndex].movePosition[i].position;
             float tempPosition = (mapPosition[0].transform.position.x + mapPosition[1].transform.position.x) / 2 - waveMonster[nowIndex].movePosition[i].position.x;
-            Vector3 newTransform = new Vector3(tempPosition, waveMonster[nowIndex].movePosition[i].position.y, waveMonster[nowIndex].movePosition[i].position.z);
-            enemy2.GetComponent<Enemy>().Dot[i] = newTransform;
+            waveMonster[nowIndex].movePosition[i].position = new Vector3(tempPosition, waveMonster[nowIndex].movePosition[i].position.y, waveMonster[nowIndex].movePosition[i].position.z);
         }
-        waveEnemy.Add(enemy);
-        waveEnemy.Add(enemy2);
-        GameManager.Instance.ChangeDifficulty(enemy);
-        GameManager.Instance.ChangeDifficulty(enemy2);
         nowCount++;
+        waveEnemy.Add(enemy);
+        GameManager.Instance.ChangeDifficulty(enemy);
+        float tempX = (mapPosition[0].transform.position.x + mapPosition[1].transform.position.x) / 2 - waveMonster[nowIndex].spanPosition.position.x;
+        waveMonster[nowIndex].spanPosition.position = new Vector3(tempX, waveMonster[nowIndex].spanPosition.position.y, waveMonster[nowIndex].spanPosition.position.z);
     }
     void WholeRow()
     {
