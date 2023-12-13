@@ -53,7 +53,7 @@ public class Enemy : MonoBehaviour
     public bool deadUseBarrage;
     #endregion
     #region "Hide"
-    //[HideInInspector]
+    [HideInInspector]
     public Vector3[] Dot;
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();

@@ -23,6 +23,7 @@ public class EnemyManager : MonoBehaviour
     int nowIndex = 0;
     int nowCount = 0;
     List<GameObject> waveEnemy = new List<GameObject>();
+    GameObject tempEnemy;
     public WaveMonster[] waveMonster;
     //0 左上 1 右下
     public GameObject[] mapPosition;
@@ -36,6 +37,8 @@ public class EnemyManager : MonoBehaviour
                 {
                     string nowWave = System.Enum.GetName(typeof(Wave), waveMonster[nowIndex].wave);
                     StartCoroutine(nowWave);
+                    waveEnemy.Add(tempEnemy);
+                    GameManager.Instance.ChangeDifficulty(tempEnemy);
                     yield return new WaitForSeconds(waveMonster[nowIndex].spanTime);
                 }
             }
@@ -49,6 +52,7 @@ public class EnemyManager : MonoBehaviour
                         if (waveEnemy[i] != null)
                         {
                             allEnemyDie = false;
+                            continue;
                         }
                     }
                 }
@@ -58,37 +62,31 @@ public class EnemyManager : MonoBehaviour
                     nowIndex++;
                     waveEnemy.Clear();
                     if (nowIndex >= waveMonster.Length)
-                    {
                         nowIndex = 0;
-                    }
                 }
-                yield return 0.1;
+                yield return null;
             }
         }
     }
     void OneColumn()
     {
-        GameObject enemy = Instantiate(waveMonster[nowIndex].monsterPrefab, waveMonster[nowIndex].spanPosition.position, Quaternion.identity);
+        tempEnemy = Instantiate(waveMonster[nowIndex].monsterPrefab, waveMonster[nowIndex].spanPosition.position, Quaternion.identity);
         for (int i = 0; i < waveMonster[nowIndex].movePosition.Length; i++)
         {
-            enemy.GetComponent<Enemy>().Dot[i] = waveMonster[nowIndex].movePosition[i].position;
+            tempEnemy.GetComponent<Enemy>().Dot[i] = waveMonster[nowIndex].movePosition[i].position;
         }
         nowCount++;
-        waveEnemy.Add(enemy);
-        GameManager.Instance.ChangeDifficulty(enemy);
     }
     void TwoColumn()
     {
-        GameObject enemy = Instantiate(waveMonster[nowIndex].monsterPrefab, waveMonster[nowIndex].spanPosition.position, Quaternion.identity);
+        tempEnemy = Instantiate(waveMonster[nowIndex].monsterPrefab, waveMonster[nowIndex].spanPosition.position, Quaternion.identity);
         for (int i = 0; i < waveMonster[nowIndex].movePosition.Length; i++)
         {
-            enemy.GetComponent<Enemy>().Dot[i] = waveMonster[nowIndex].movePosition[i].position;
+            tempEnemy.GetComponent<Enemy>().Dot[i] = waveMonster[nowIndex].movePosition[i].position;
             float tempPosition = (mapPosition[0].transform.position.x + mapPosition[1].transform.position.x) / 2 - waveMonster[nowIndex].movePosition[i].position.x;
             waveMonster[nowIndex].movePosition[i].position = new Vector3(tempPosition, waveMonster[nowIndex].movePosition[i].position.y, waveMonster[nowIndex].movePosition[i].position.z);
         }
         nowCount++;
-        waveEnemy.Add(enemy);
-        GameManager.Instance.ChangeDifficulty(enemy);
         float tempX = (mapPosition[0].transform.position.x + mapPosition[1].transform.position.x) / 2 - waveMonster[nowIndex].spanPosition.position.x;
         waveMonster[nowIndex].spanPosition.position = new Vector3(tempX, waveMonster[nowIndex].spanPosition.position.y, waveMonster[nowIndex].spanPosition.position.z);
     }
