@@ -92,6 +92,32 @@ public class EnemyManager : MonoBehaviour
     }
     void WholeRow()
     {
-
+        float distance = 0.4f;
+        tempEnemy = Instantiate(waveMonster[nowIndex].monsterPrefab, waveMonster[nowIndex].spanPosition.position, Quaternion.identity);
+        for (int i = 0; i < waveMonster[nowIndex].movePosition.Length; i++)
+        {
+            tempEnemy.GetComponent<Enemy>().Dot[i] = waveMonster[nowIndex].movePosition[i].position;
+        }
+        nowCount++;
+        if (waveMonster[nowIndex].spanPosition.position.x >= 0)
+        {
+            float tempX = waveMonster[nowIndex].spanPosition.position.x - distance;
+            waveMonster[nowIndex].spanPosition.position = new Vector3(tempX, waveMonster[nowIndex].spanPosition.position.y, waveMonster[nowIndex].spanPosition.position.z);
+            for (int i = 0; i < waveMonster[nowIndex].movePosition.Length; i++)
+            {
+                float tempPosition = waveMonster[nowIndex].movePosition[i].position.x - distance;
+                waveMonster[nowIndex].movePosition[i].position = new Vector3(tempPosition, waveMonster[nowIndex].movePosition[i].position.y, waveMonster[nowIndex].movePosition[i].position.z);
+            }
+        }
+        else
+        {
+            float tempX = waveMonster[nowIndex].spanPosition.position.x + distance;
+            waveMonster[nowIndex].spanPosition.position = new Vector3(tempX, waveMonster[nowIndex].spanPosition.position.y, waveMonster[nowIndex].spanPosition.position.z);
+            for (int i = 0; i < waveMonster[nowIndex].movePosition.Length; i++)
+            {
+                float tempPosition = waveMonster[nowIndex].movePosition[i].position.x + distance;
+                waveMonster[nowIndex].movePosition[i].position = new Vector3(tempPosition, waveMonster[nowIndex].movePosition[i].position.y, waveMonster[nowIndex].movePosition[i].position.z);
+            }
+        }
     }
 }
