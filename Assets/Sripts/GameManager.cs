@@ -80,7 +80,6 @@ public class GameManager : MonoBehaviour
         else
             LifeText.text = "×" + playerLife.ToString();
     }
-    
     void Resurrection()
     {
         if (playerLife < 0)

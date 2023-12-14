@@ -95,7 +95,8 @@ public class Death : MonoBehaviour
             float tempx = Random.Range(-1.5f, 1.5f);
             float tempY = Random.Range(-1.5f, 1.5f);
             var tempPosition = new Vector2(enemyX + tempx, enemyY + tempY);
-            Instantiate(expObject, tempPosition, Quaternion.identity);
+            var tempObject = Instantiate(expObject, tempPosition, Quaternion.identity);
+            GameManager.Instance.ChangeDifficulty(tempObject);
         }
         for (int i = 0; i < itemStruct.Length; i++)
         {
@@ -105,7 +106,8 @@ public class Death : MonoBehaviour
                 float tempx = Random.Range(-1.5f, 1.5f);
                 float tempY = Random.Range(-1.5f, 1.5f);
                 var tempPosition = new Vector2(enemyX + tempx, enemyY + tempY);
-                Instantiate(itemStruct[i].items, tempPosition, Quaternion.identity);
+                var tempObject=Instantiate(itemStruct[i].items, tempPosition, Quaternion.identity);
+                GameManager.Instance.ChangeDifficulty(tempObject);
             }
         }
     }

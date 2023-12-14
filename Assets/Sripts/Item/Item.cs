@@ -14,7 +14,7 @@ public class Item : MonoBehaviour
 {
     #region Public
     public ItemType itemType;
-    public float speed=1;
+    public float speed = 1;
     public int score;
     public int overflowScore;
     float distance = 2f;
@@ -24,38 +24,39 @@ public class Item : MonoBehaviour
     [HideInInspector]
     public bool CanAttract = false;
     #endregion
-    void Start() 
+    void Update()
     {
-        GameManager.Instance.ChangeDifficulty(this.gameObject);
-    }
-    void Update() 
-    {
-        if(CanAttract)
+        if (CanAttract)
             Attract();
         else
-            Move();     
+            Move();
     }
     void Move()
     {
-        var player = FindObjectOfType<Player>().gameObject;
-        if(Vector2.Distance(player.transform.position,gameObject.transform.position)<=distance)
+        if (FindObjectOfType<Player>())
         {
-            gameObject.transform.position = Vector2.MoveTowards(this.gameObject.transform.position,player.transform.position,10*speed*Time.deltaTime);
+            var player = FindObjectOfType<Player>().gameObject;
+            if (Vector2.Distance(player.transform.position, gameObject.transform.position) <= distance)
+                gameObject.transform.position = Vector2.MoveTowards(this.gameObject.transform.position, player.transform.position, 10 * speed * Time.deltaTime);
+            else
+                transform.Translate(Vector3.down * Time.deltaTime * speed, Space.World);
         }
         else
-        {
-            transform.Translate(Vector3.down*Time.deltaTime*speed,Space.World);
-        }
+            transform.Translate(Vector3.down * Time.deltaTime * speed, Space.World);
     }
     void Attract()
     {
-        var player = FindObjectOfType<Player>().gameObject;
-        if(player)
-            gameObject.transform.position = Vector2.MoveTowards(this.gameObject.transform.position,player.transform.position,10*speed*Time.deltaTime);
+        if (FindObjectOfType<Player>())
+        {
+            var player = FindObjectOfType<Player>().gameObject;
+            gameObject.transform.position = Vector2.MoveTowards(this.gameObject.transform.position, player.transform.position, 10 * speed * Time.deltaTime);
+        }
+        else
+            transform.Translate(Vector3.down * Time.deltaTime * speed, Space.World);
     }
     void OnTriggerExit2D(Collider2D other)
     {
-        if(other.gameObject.tag=="Barrier")
+        if (other.gameObject.tag == "Barrier")
             Die();
     }
     public void Die()

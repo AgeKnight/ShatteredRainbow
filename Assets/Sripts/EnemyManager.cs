@@ -36,6 +36,12 @@ public class EnemyManager : MonoBehaviour
                 for (int i = 0; i < waveMonster[nowIndex].count; i++)
                 {
                     string nowWave = System.Enum.GetName(typeof(Wave), waveMonster[nowIndex].wave);
+                    tempEnemy = Instantiate(waveMonster[nowIndex].monsterPrefab, waveMonster[nowIndex].spanPosition.position, Quaternion.identity);
+                    for (int j = 0; j < waveMonster[nowIndex].movePosition.Length; j++)
+                    {
+                        tempEnemy.GetComponent<Enemy>().Dot[j] = waveMonster[nowIndex].movePosition[j].position;
+                    }
+                    nowCount++;
                     StartCoroutine(nowWave);
                     waveEnemy.Add(tempEnemy);
                     GameManager.Instance.ChangeDifficulty(tempEnemy);
@@ -68,56 +74,28 @@ public class EnemyManager : MonoBehaviour
             }
         }
     }
-    void OneColumn()
-    {
-        tempEnemy = Instantiate(waveMonster[nowIndex].monsterPrefab, waveMonster[nowIndex].spanPosition.position, Quaternion.identity);
-        for (int i = 0; i < waveMonster[nowIndex].movePosition.Length; i++)
-        {
-            tempEnemy.GetComponent<Enemy>().Dot[i] = waveMonster[nowIndex].movePosition[i].position;
-        }
-        nowCount++;
-    }
+    void OneColumn() { }
     void TwoColumn()
     {
-        tempEnemy = Instantiate(waveMonster[nowIndex].monsterPrefab, waveMonster[nowIndex].spanPosition.position, Quaternion.identity);
         for (int i = 0; i < waveMonster[nowIndex].movePosition.Length; i++)
         {
-            tempEnemy.GetComponent<Enemy>().Dot[i] = waveMonster[nowIndex].movePosition[i].position;
             float tempPosition = (mapPosition[0].transform.position.x + mapPosition[1].transform.position.x) / 2 - waveMonster[nowIndex].movePosition[i].position.x;
             waveMonster[nowIndex].movePosition[i].position = new Vector3(tempPosition, waveMonster[nowIndex].movePosition[i].position.y, waveMonster[nowIndex].movePosition[i].position.z);
         }
-        nowCount++;
         float tempX = (mapPosition[0].transform.position.x + mapPosition[1].transform.position.x) / 2 - waveMonster[nowIndex].spanPosition.position.x;
         waveMonster[nowIndex].spanPosition.position = new Vector3(tempX, waveMonster[nowIndex].spanPosition.position.y, waveMonster[nowIndex].spanPosition.position.z);
     }
     void WholeRow()
     {
         float distance = 0.4f;
-        tempEnemy = Instantiate(waveMonster[nowIndex].monsterPrefab, waveMonster[nowIndex].spanPosition.position, Quaternion.identity);
+        if (waveMonster[nowIndex].spanPosition.position.x >= 0)
+            distance *= -1;
+        float tempX = waveMonster[nowIndex].spanPosition.position.x + distance;
+        waveMonster[nowIndex].spanPosition.position = new Vector3(tempX, waveMonster[nowIndex].spanPosition.position.y, waveMonster[nowIndex].spanPosition.position.z);
         for (int i = 0; i < waveMonster[nowIndex].movePosition.Length; i++)
         {
-            tempEnemy.GetComponent<Enemy>().Dot[i] = waveMonster[nowIndex].movePosition[i].position;
-        }
-        nowCount++;
-        if (waveMonster[nowIndex].spanPosition.position.x >= 0)
-        {
-            float tempX = waveMonster[nowIndex].spanPosition.position.x - distance;
-            waveMonster[nowIndex].spanPosition.position = new Vector3(tempX, waveMonster[nowIndex].spanPosition.position.y, waveMonster[nowIndex].spanPosition.position.z);
-            for (int i = 0; i < waveMonster[nowIndex].movePosition.Length; i++)
-            {
-                float tempPosition = waveMonster[nowIndex].movePosition[i].position.x - distance;
-                waveMonster[nowIndex].movePosition[i].position = new Vector3(tempPosition, waveMonster[nowIndex].movePosition[i].position.y, waveMonster[nowIndex].movePosition[i].position.z);
-            }
-        }
-        else
-        {
-            float tempX = waveMonster[nowIndex].spanPosition.position.x + distance;
-            waveMonster[nowIndex].spanPosition.position = new Vector3(tempX, waveMonster[nowIndex].spanPosition.position.y, waveMonster[nowIndex].spanPosition.position.z);
-            for (int i = 0; i < waveMonster[nowIndex].movePosition.Length; i++)
-            {
-                float tempPosition = waveMonster[nowIndex].movePosition[i].position.x + distance;
-                waveMonster[nowIndex].movePosition[i].position = new Vector3(tempPosition, waveMonster[nowIndex].movePosition[i].position.y, waveMonster[nowIndex].movePosition[i].position.z);
-            }
-        }
+            float tempPosition = waveMonster[nowIndex].movePosition[i].position.x + distance;
+            waveMonster[nowIndex].movePosition[i].position = new Vector3(tempPosition, waveMonster[nowIndex].movePosition[i].position.y, waveMonster[nowIndex].movePosition[i].position.z);
+        }      
     }
 }
