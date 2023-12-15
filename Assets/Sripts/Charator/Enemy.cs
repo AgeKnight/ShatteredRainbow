@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour
     #endregion
     #region "Hide"
     [HideInInspector]
-    public Vector3[] Dot;
+    public Vector3[] Dot= new Vector3[10];
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
     #endregion

@@ -18,20 +18,33 @@ public struct WaveMonster
     public Transform spanPosition;
     public Transform[] movePosition;
 }
+[System.Serializable]
+public struct WaveBoss
+{
+    public GameObject bossPrefab;
+    public Transform spanPosition;
+    public Transform[] movePosition;
+}
 public class EnemyManager : MonoBehaviour
 {
     int nowIndex = 0;
     int nowCount = 0;
+    int allIndex = 0;
+    int bossIndex = 0;
+    bool isInBossAttack = false;
+    bool isSpanBoss = false;
     List<GameObject> waveEnemy = new List<GameObject>();
     GameObject tempEnemy;
+    public int WaveToBoss;
     public WaveMonster[] waveMonster;
+    public WaveBoss[] waveBosses;
     //0 左上 1 右下
     public GameObject[] mapPosition;
     public IEnumerator CreateEnemy()
     {
         while (true)
         {
-            if (FindObjectOfType<Player>() && nowCount < waveMonster[nowIndex].count)
+            if (FindObjectOfType<Player>() && nowCount < waveMonster[nowIndex].count && !isInBossAttack)
             {
                 for (int i = 0; i < waveMonster[nowIndex].count; i++)
                 {
@@ -47,6 +60,21 @@ public class EnemyManager : MonoBehaviour
                     GameManager.Instance.ChangeDifficulty(tempEnemy);
                     yield return new WaitForSeconds(waveMonster[nowIndex].spanTime);
                 }
+            }
+            else if (isInBossAttack)
+            {
+                isSpanBoss = true;
+                isInBossAttack= false;
+                tempEnemy = Instantiate(waveBosses[bossIndex].bossPrefab, waveBosses[bossIndex].spanPosition.position, Quaternion.identity);
+                for (int i = 0; i < waveBosses[bossIndex].movePosition.Length; i++)
+                {
+                    tempEnemy.GetComponent<Enemy>().Dot[i] = waveBosses[bossIndex].movePosition[i].position;
+                }
+                bossIndex++;
+                nowCount = waveMonster[nowIndex].count + 1;
+                waveEnemy.Add(tempEnemy);
+                GameManager.Instance.ChangeDifficulty(tempEnemy);
+                yield return new WaitForSeconds(0.1f);
             }
             else
             {
@@ -65,10 +93,20 @@ public class EnemyManager : MonoBehaviour
                 if (allEnemyDie)
                 {
                     nowCount = 0;
-                    nowIndex++;
-                    waveEnemy.Clear();
+                    if (!isSpanBoss)
+                        nowIndex++;
+                    else
+                        isSpanBoss = false;
+                    allIndex++;
+                    if (allIndex % (WaveToBoss + 1) == WaveToBoss)
+                        isInBossAttack = true;
                     if (nowIndex >= waveMonster.Length)
                         nowIndex = 0;
+                    waveEnemy.Clear();
+                    if(bossIndex>=waveBosses.Length)
+                    {
+                        break;
+                    }
                 }
                 yield return null;
             }
@@ -96,6 +134,6 @@ public class EnemyManager : MonoBehaviour
         {
             float tempPosition = waveMonster[nowIndex].movePosition[i].position.x + distance;
             waveMonster[nowIndex].movePosition[i].position = new Vector3(tempPosition, waveMonster[nowIndex].movePosition[i].position.y, waveMonster[nowIndex].movePosition[i].position.z);
-        }      
+        }
     }
 }
