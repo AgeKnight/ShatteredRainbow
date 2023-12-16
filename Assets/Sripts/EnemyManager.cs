@@ -21,18 +21,20 @@ public struct WaveMonster
 [System.Serializable]
 public struct WaveBoss
 {
-    public GameObject bossPrefab;
+    public GameObject[] bossPrefab;
     public Transform spanPosition;
     public Transform[] movePosition;
 }
 public class EnemyManager : MonoBehaviour
 {
+    int nowBossStage = 1;
     int nowIndex = 0;
     int nowCount = 0;
     int allIndex = 0;
     int bossIndex = 0;
     bool isInBossAttack = false;
     bool isSpanBoss = false;
+    bool OtherStage = true;
     List<GameObject> waveEnemy = new List<GameObject>();
     GameObject tempEnemy;
     public int WaveToBoss;
@@ -44,37 +46,31 @@ public class EnemyManager : MonoBehaviour
     {
         while (true)
         {
-            if (FindObjectOfType<Player>() && nowCount < waveMonster[nowIndex].count && !isInBossAttack)
+            if (nowCount < waveMonster[nowIndex].count && !isInBossAttack)
             {
                 for (int i = 0; i < waveMonster[nowIndex].count; i++)
                 {
                     string nowWave = System.Enum.GetName(typeof(Wave), waveMonster[nowIndex].wave);
-                    tempEnemy = Instantiate(waveMonster[nowIndex].monsterPrefab, waveMonster[nowIndex].spanPosition.position, Quaternion.identity);
-                    for (int j = 0; j < waveMonster[nowIndex].movePosition.Length; j++)
-                    {
-                        tempEnemy.GetComponent<Enemy>().Dot[j] = waveMonster[nowIndex].movePosition[j].position;
-                    }
-                    nowCount++;
+                    CreateNowEnemy(waveMonster[nowIndex].monsterPrefab, waveMonster[nowIndex].spanPosition, waveMonster[nowIndex].movePosition);
                     StartCoroutine(nowWave);
-                    waveEnemy.Add(tempEnemy);
-                    GameManager.Instance.ChangeDifficulty(tempEnemy);
+                    nowCount++;
                     yield return new WaitForSeconds(waveMonster[nowIndex].spanTime);
                 }
             }
             else if (isInBossAttack)
             {
                 isSpanBoss = true;
-                isInBossAttack= false;
-                tempEnemy = Instantiate(waveBosses[bossIndex].bossPrefab, waveBosses[bossIndex].spanPosition.position, Quaternion.identity);
-                for (int i = 0; i < waveBosses[bossIndex].movePosition.Length; i++)
+                isInBossAttack = false;
+                CreateNowEnemy(waveBosses[bossIndex].bossPrefab[nowBossStage - 1], waveBosses[bossIndex].spanPosition, waveBosses[bossIndex].movePosition);
+                if (nowBossStage >= waveBosses[bossIndex].bossPrefab.Length)
+                    OtherStage = false;
+                else
                 {
-                    tempEnemy.GetComponent<Enemy>().Dot[i] = waveBosses[bossIndex].movePosition[i].position;
+                    nowBossStage++;
+                    waveBosses[bossIndex].spanPosition = waveBosses[bossIndex].movePosition[0];
                 }
-                bossIndex++;
                 nowCount = waveMonster[nowIndex].count + 1;
-                waveEnemy.Add(tempEnemy);
-                GameManager.Instance.ChangeDifficulty(tempEnemy);
-                yield return new WaitForSeconds(0.1f);
+                yield return null;
             }
             else
             {
@@ -92,25 +88,42 @@ public class EnemyManager : MonoBehaviour
                 }
                 if (allEnemyDie)
                 {
+                    if((isSpanBoss&&!OtherStage)||!isSpanBoss)
+                    {
+                        allIndex++;
+                        nowBossStage = 1;
+                        if(isSpanBoss)
+                            bossIndex++;
+                    }
+                    if (bossIndex >= waveBosses.Length)
+                        break;
                     nowCount = 0;
                     if (!isSpanBoss)
                         nowIndex++;
                     else
                         isSpanBoss = false;
-                    allIndex++;
-                    if (allIndex % (WaveToBoss + 1) == WaveToBoss)
-                        isInBossAttack = true;
-                    if (nowIndex >= waveMonster.Length)
-                        nowIndex = 0;
-                    waveEnemy.Clear();
-                    if(bossIndex>=waveBosses.Length)
+                    if (allIndex % (waveMonster.Length/2 + 1) == waveMonster.Length/2)
                     {
-                        break;
-                    }
+                        OtherStage=true;
+                        isInBossAttack = true;
+                    }  
+                    if(nowIndex>=waveMonster.Length)
+                        nowIndex=0;                
+                    waveEnemy.Clear();
                 }
                 yield return null;
             }
         }
+    }
+    void CreateNowEnemy(GameObject prefab, Transform transform, Transform[] movePosition)
+    {
+        tempEnemy = Instantiate(prefab, transform.position, Quaternion.identity);
+        for (int i = 0; i < movePosition.Length; i++)
+        {
+            tempEnemy.GetComponent<Enemy>().Dot[i] = movePosition[i].position;
+        }
+        waveEnemy.Add(tempEnemy);
+        GameManager.Instance.ChangeDifficulty(tempEnemy);
     }
     void OneColumn() { }
     void TwoColumn()
