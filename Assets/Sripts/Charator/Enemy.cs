@@ -34,10 +34,13 @@ public struct EnemyBarrageCount
 public class Enemy : MonoBehaviour
 {
     #region "private"
-    Coroutine coroutine;
+    public Coroutine coroutine;
     Coroutine nowCorotine;
     Coroutine[] otherCorotine = new Coroutine[10];
-    Vector3 targetPosition;
+    [HideInInspector]
+    public Vector3 targetPosition;
+    float
+    ultimateAttackTime = 0;
     int nowCountBarrage = 0;
     bool canChooseBarrage = false;
     bool canAttack = false;
@@ -54,13 +57,14 @@ public class Enemy : MonoBehaviour
     #endregion
     #region "Hide"
     [HideInInspector]
-    public Vector3[] Dot= new Vector3[10];
+    public Vector3[] Dot = new Vector3[10];
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
     #endregion
     #region "調難度"
     [Header("調難度")]
     public EnemyBarrageCount[] enemyBarrageCounts;
+    public EnemyBarrageCount ultimateAttack;
     public float countTime;
     public int indexMax = 1;
     #endregion
@@ -75,6 +79,8 @@ public class Enemy : MonoBehaviour
     }
     void Update()
     {
+        if (FindObjectOfType<EnemyManager>().nowBossStage > 2)
+            ultimateAttackTime += Time.deltaTime;
         Move();
     }
     #region "移動"
@@ -141,9 +147,46 @@ public class Enemy : MonoBehaviour
     #region "攻擊"
     public void Attack()
     {
-        coroutine = StartCoroutine(UseBarrage());
+        if(gameObject.GetComponent<Death>().enemyType==EnemyType.Trash)
+            coroutine = StartCoroutine(UseBarrage());
+        else
+        {
+            Debug.Log("血條出現");
+            Debug.Log("變身動畫");
+            Debug.Log("出現倒數計時");
+            Debug.Log("出現boss頭像");
+            if (FindObjectOfType<EnemyManager>().nowBossStage > 2)
+            {
+                //boss無法被攻擊
+                coroutine = StartCoroutine(UltimateAttack());
+            }
+            else
+            {
+                coroutine = StartCoroutine(UseBarrage());
+            }      
+        }
     }
-    IEnumerator UseBarrage()
+    public IEnumerator UltimateAttack()
+    {
+        while (true)
+        {
+            if (FindObjectOfType<Player>())
+            {
+                string nowBarrage = System.Enum.GetName(typeof(BarrageType), ultimateAttack.barrageType);
+                nowCorotine = StartCoroutine(nowBarrage, ultimateAttack.count);
+                yield return new WaitForSeconds(countTime);
+                if (ultimateAttackTime > 3f)
+                {
+                    coroutine = StartCoroutine(UseBarrage());
+                    //boss可以被攻擊
+                    break;
+                }
+            }
+            else
+                yield return null;
+        }
+    }
+    public IEnumerator UseBarrage()
     {
         while (true)
         {

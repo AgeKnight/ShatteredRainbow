@@ -27,7 +27,7 @@ public struct WaveBoss
 }
 public class EnemyManager : MonoBehaviour
 {
-    int nowBossStage = 1;
+    public int nowBossStage = 1;
     int nowIndex = 0;
     int nowCount = 0;
     int allIndex = 0;
@@ -46,7 +46,7 @@ public class EnemyManager : MonoBehaviour
     {
         while (true)
         {
-            if (nowCount < waveMonster[nowIndex].count && !isInBossAttack)
+            if (!isInBossAttack && nowCount < waveMonster[nowIndex].count)
             {
                 for (int i = 0; i < waveMonster[nowIndex].count; i++)
                 {
@@ -63,7 +63,9 @@ public class EnemyManager : MonoBehaviour
                 isInBossAttack = false;
                 CreateNowEnemy(waveBosses[bossIndex].bossPrefab[nowBossStage - 1], waveBosses[bossIndex].spanPosition, waveBosses[bossIndex].movePosition);
                 if (nowBossStage >= waveBosses[bossIndex].bossPrefab.Length)
+                {
                     OtherStage = false;
+                }
                 else
                 {
                     nowBossStage++;
@@ -88,11 +90,11 @@ public class EnemyManager : MonoBehaviour
                 }
                 if (allEnemyDie)
                 {
-                    if((isSpanBoss&&!OtherStage)||!isSpanBoss)
+                    if ((isSpanBoss && !OtherStage) || !isSpanBoss)
                     {
                         allIndex++;
                         nowBossStage = 1;
-                        if(isSpanBoss)
+                        if (isSpanBoss)
                             bossIndex++;
                     }
                     if (bossIndex >= waveBosses.Length)
@@ -102,14 +104,14 @@ public class EnemyManager : MonoBehaviour
                         nowIndex++;
                     else
                         isSpanBoss = false;
-                    if (allIndex % (waveMonster.Length/2 + 1) == waveMonster.Length/2)
-                    {
-                        OtherStage=true;
-                        isInBossAttack = true;
-                    }  
-                    if(nowIndex>=waveMonster.Length)
-                        nowIndex=0;                
+                    if (nowIndex >= waveMonster.Length)
+                        nowIndex = 0;
                     waveEnemy.Clear();
+                    if (allIndex % (waveMonster.Length / 2 + 1) == waveMonster.Length / 2)
+                    {
+                        StartCoroutine(BossAppear());
+                        break;
+                    }
                 }
                 yield return null;
             }
@@ -124,6 +126,16 @@ public class EnemyManager : MonoBehaviour
         }
         waveEnemy.Add(tempEnemy);
         GameManager.Instance.ChangeDifficulty(tempEnemy);
+    }
+    IEnumerator BossAppear()
+    {
+        //boss進場前準備、吸取在場物品
+        OtherStage = true;
+        isInBossAttack = true;
+        if (nowBossStage == 1)
+            yield return new WaitForSeconds(3f);
+        //boss進場
+        StartCoroutine(CreateEnemy());
     }
     void OneColumn() { }
     void TwoColumn()
