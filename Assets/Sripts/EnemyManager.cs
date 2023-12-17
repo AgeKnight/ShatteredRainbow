@@ -63,14 +63,9 @@ public class EnemyManager : MonoBehaviour
                 isInBossAttack = false;
                 CreateNowEnemy(waveBosses[bossIndex].bossPrefab[nowBossStage - 1], waveBosses[bossIndex].spanPosition, waveBosses[bossIndex].movePosition);
                 if (nowBossStage >= waveBosses[bossIndex].bossPrefab.Length)
-                {
                     OtherStage = false;
-                }
                 else
-                {
-                    nowBossStage++;
                     waveBosses[bossIndex].spanPosition = waveBosses[bossIndex].movePosition[0];
-                }
                 nowCount = waveMonster[nowIndex].count + 1;
                 yield return null;
             }
@@ -97,6 +92,8 @@ public class EnemyManager : MonoBehaviour
                         if (isSpanBoss)
                             bossIndex++;
                     }
+                    if(isSpanBoss&&OtherStage)
+                        nowBossStage++;
                     if (bossIndex >= waveBosses.Length)
                         break;
                     nowCount = 0;

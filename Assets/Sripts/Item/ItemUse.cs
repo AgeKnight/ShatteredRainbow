@@ -18,10 +18,9 @@ public class ItemUse : MonoBehaviour
                 var tempEnemy = other.gameObject.GetComponent<Enemy>();
                 var tempEnemy2 = other.gameObject.GetComponent<Death>();
                 if(tempEnemy.useBarrage==AttackType.suicideAttack)
-                {
                     tempEnemy2.Die();
-                }
-                tempPlayer.Die();
+                if(!tempPlayer.isInvincible)
+                    tempPlayer.Die();
                 break;
         }
     }

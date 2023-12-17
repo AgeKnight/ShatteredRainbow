@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
         resurrectionTime = 0;
         PlayerIsDied = false;
         var tempPlayer = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity);
-        tempPlayer.gameObject.GetComponent<Player>().isInvincible = true;
+        tempPlayer.gameObject.GetComponent<Death>().isInvincible = true;
     }
     public void EatItem(Item item)
     {

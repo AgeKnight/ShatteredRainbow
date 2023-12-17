@@ -17,8 +17,6 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public GameObject bulletPrefab;
     [HideInInspector]
-    public bool isInvincible = false;
-    [HideInInspector]
     public Transform[] bulletTransform;
     [HideInInspector]
     public GameObject[] Drone;
@@ -29,10 +27,8 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        if (isInvincible)
-        {
+        if (gameObject.GetComponent<Death>().isInvincible)
             Invincible();
-        }
         AddBro();
     }
     void FixedUpdate()
@@ -49,20 +45,13 @@ public class Player : MonoBehaviour
                 if(i>=2)
                 {
                     if(isAttack)
-                    {
                         Drone[i].GetComponent<Animator>().Play("Attack");
-
-                    }
                     else
-                    {
                         Drone[i].GetComponent<Animator>().Play("NotAttack");
-                    }
                 }
             }
             else
-            {
                 Drone[i].SetActive(false);
-            }
         }
     }
     void Move()
@@ -70,21 +59,13 @@ public class Player : MonoBehaviour
         int vertical = 0;
         int horizontal = 0;
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-        {
             horizontal = 1;
-        }
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-        {
             horizontal = -1;
-        }
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-        {
             vertical = -1;
-        }
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-        {
             vertical = 1;
-        }
         transform.Translate(vertical * speed * Time.deltaTime, horizontal * speed * Time.deltaTime, 0);
     }
     IEnumerator Attack()
@@ -115,8 +96,6 @@ public class Player : MonoBehaviour
     {
         InvincibleTime += Time.deltaTime;
         if (InvincibleTime >= GameManager.Instance.AllInvincibleTime)
-        {
-            isInvincible = false;
-        }
+            gameObject.GetComponent<Death>().isInvincible = false;
     }
 }

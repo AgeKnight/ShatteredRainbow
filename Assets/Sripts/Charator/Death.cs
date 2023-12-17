@@ -35,6 +35,8 @@ public class Death : MonoBehaviour
     public GameObject expObject;
     #endregion
     [HideInInspector]
+    public bool isInvincible = false;
+    [HideInInspector]
     public int hp;
     #region  "調難度"
     [Header("調難度")]
@@ -57,14 +59,12 @@ public class Death : MonoBehaviour
     }
     public void Hurt(int value = 1)
     {
-        if (charatorType == CharatorType.Player && gameObject.GetComponent<Player>().isInvincible)
-        {
+        if (isInvincible)
             value = 0;           
-        }
         hp -= value;
         if (enemyType == EnemyType.Boss)
             hpBar.value = (float)hp / totalHp;
-        if (hp == 0)
+        if (hp <= 0)
             Die();
     }
     public void Die()
