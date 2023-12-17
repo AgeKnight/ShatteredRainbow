@@ -17,10 +17,10 @@ public class GameManager : MonoBehaviour
     static GameManager instance;
     public static GameManager Instance { get => instance; set => instance = value; }
     #region "Private"
-    float resurrectionTime = 0;
     int totalExp = 100;
     #endregion
     #region "Public"
+    [Header("復活秒數")]
     public float AllResurrectionTime;
     public EnemyManager enemyManager;
     #endregion
@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour
     public int playerBottom;
     public int playerDrone;
     public int playerLife;
+    [Header("無敵時間")]
     public float AllInvincibleTime; //無敵秒數
     #endregion
     void Awake()
@@ -69,10 +70,6 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        if (PlayerIsDied)
-        {
-            Resurrection();
-        }
         scoreText.text = playerScore.ToString();
         bottomText.text = "×" + playerBottom.ToString();
         if (playerLife < 0)
@@ -80,27 +77,25 @@ public class GameManager : MonoBehaviour
         else
             LifeText.text = "×" + playerLife.ToString();
     }
-    void Resurrection()
+    public void Resurrection()
     {
+        Debug.Log("ss");
         if (playerLife < 0)
-        {
             PlayerReallyDeath = true;
-        }
         else
-        {
-            resurrectionTime += Time.deltaTime;
-            if (resurrectionTime >= AllResurrectionTime)
-            {
-                PlayerResurrection();
-            }
-        }
+            Invoke("PlayerResurrection",AllResurrectionTime);
     }
     void PlayerResurrection()
     {
-        resurrectionTime = 0;
-        PlayerIsDied = false;
+        PlayerIsDied=false;
         var tempPlayer = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity);
         tempPlayer.gameObject.GetComponent<Death>().isInvincible = true;
+        Invoke("PlayerNotInvincible",AllInvincibleTime);
+    }
+    void PlayerNotInvincible()
+    {
+        var tempPlayer = FindObjectOfType<Player>();
+        tempPlayer.gameObject.GetComponent<Death>().isInvincible = false;
     }
     public void EatItem(Item item)
     {

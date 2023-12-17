@@ -71,9 +71,10 @@ public class Death : MonoBehaviour
     {
         if (gameObject.tag == "Player")
         {
-            GameManager.Instance.PlayerIsDied = true;
+            GameManager.Instance.PlayerIsDied=true;
             GameManager.Instance.AddLife(-1);
             GameManager.Instance.ClearBarrage();
+            GameManager.Instance.Resurrection();
             Destroy(this.gameObject);
         }
         if (gameObject.tag == "Enemy")

@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    #region "Private"
-    float InvincibleTime = 0;
-    #endregion
     #region "Public"
     public float speed;
     #endregion
@@ -27,8 +24,6 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        if (gameObject.GetComponent<Death>().isInvincible)
-            Invincible();
         AddBro();
     }
     void FixedUpdate()
@@ -91,11 +86,5 @@ public class Player : MonoBehaviour
             }
             yield return new WaitForSeconds(0.1f);
         }
-    }
-    void Invincible()
-    {
-        InvincibleTime += Time.deltaTime;
-        if (InvincibleTime >= GameManager.Instance.AllInvincibleTime)
-            gameObject.GetComponent<Death>().isInvincible = false;
     }
 }
