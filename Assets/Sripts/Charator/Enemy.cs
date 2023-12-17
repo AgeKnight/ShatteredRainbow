@@ -72,6 +72,22 @@ public class Enemy : MonoBehaviour
     {
         if (moveType != MoveType.ToPlayerMove)
             targetPosition = Dot[0];
+        else
+        {         
+            if (FindObjectOfType<Player>())
+            {
+                var temp = FindObjectOfType<Player>().gameObject;
+                Vector3 dir = temp.transform.position - transform.position;
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 0.3f);
+            }
+            else
+            {
+                Vector3 dir = GameManager.Instance.PlayerResurrectionPosition.position - transform.position;
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 0.3f);
+            }
+            if (useBarrage == AttackType.useBarrage)
+                Attack();
+        }
         if (indexMax < 1)
             indexMax = 1;
         else if (indexMax > enemyBarrageCounts.Length)
@@ -123,9 +139,7 @@ public class Enemy : MonoBehaviour
                         ReturnMove();
                     }
                     if (canChooseBarrage)
-                    {
                         transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
-                    }
                     break;
                 case MoveType.StayAttackMove:
                     if (transform.position != targetPosition)
@@ -134,11 +148,7 @@ public class Enemy : MonoBehaviour
                         ReturnMove();
                     break;
                 case MoveType.ToPlayerMove:
-                    if (FindObjectOfType<Player>())
-                    {
-                        var temp = FindObjectOfType<Player>().gameObject;
-                        transform.position = Vector3.MoveTowards(transform.position, temp.transform.position, Speed * Time.deltaTime);
-                    }
+                    transform.Translate(transform.forward*Time.deltaTime*Speed);
                     break;
             }
         }
