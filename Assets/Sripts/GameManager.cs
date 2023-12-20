@@ -83,7 +83,6 @@ public class GameManager : MonoBehaviour
     }
     public void Resurrection()
     {
-        Debug.Log("ss");
         if (playerLife < 0)
             PlayerReallyDeath = true;
         else

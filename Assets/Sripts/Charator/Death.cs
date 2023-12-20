@@ -59,7 +59,7 @@ public class Death : MonoBehaviour
     }
     public void Hurt(int value = 1)
     {
-        if (isInvincible||charatorType==CharatorType.Player)
+        if (isInvincible)
             value = 0;           
         hp -= value;
         if (enemyType == EnemyType.Boss)
