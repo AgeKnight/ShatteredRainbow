@@ -59,7 +59,7 @@ public class Death : MonoBehaviour
     }
     public void Hurt(int value = 1)
     {
-        if (isInvincible)
+        if (isInvincible||charatorType==CharatorType.Player)
             value = 0;           
         hp -= value;
         if (enemyType == EnemyType.Boss)
@@ -79,6 +79,11 @@ public class Death : MonoBehaviour
         }
         if (gameObject.tag == "Enemy")
         {
+            if(enemyType == EnemyType.Boss)
+            {
+                GameManager.Instance.Reciprocal.GetComponent<Reciprocal>().Die();
+                GameManager.Instance.HideBossImage();
+            }
             Enemydeath();
             var enemy = gameObject.GetComponent<Enemy>();
             enemy.ClearBarrage();

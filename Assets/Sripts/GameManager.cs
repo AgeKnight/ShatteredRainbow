@@ -24,7 +24,11 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     public EnemyManager enemyManager;
     #endregion
-    #region "Hide"  
+    #region "Hide" 
+    public GameObject[] stars;
+    public Image BossImage;
+    [HideInInspector]
+    public GameObject Reciprocal; 
     [HideInInspector]
     public List<GameObject> playerBullet = new List<GameObject>();
     [HideInInspector]
@@ -273,6 +277,31 @@ public class GameManager : MonoBehaviour
                         break;
                 }
             }
+        }
+    }
+    public void BeginReciprocal()
+    {
+        Reciprocal.SetActive(true);
+        Reciprocal.GetComponent<Reciprocal>().allTime = 60;
+        Reciprocal.GetComponent<Reciprocal>().isDead = false;
+    }
+    public void ShowBossImage(Sprite sprite)
+    {
+        BossImage.gameObject.SetActive(true);
+        BossImage.sprite = sprite;
+        
+        int tempLength = enemyManager.waveBosses[enemyManager.bossIndex].bossPrefab.Length;
+        for (int i = 0; i < tempLength-enemyManager.nowBossStage; i++)
+        {
+            stars[i].SetActive(true);
+        }
+    }
+    public void HideBossImage()
+    {
+        BossImage.gameObject.SetActive(false);
+        for (int i = 0; i < stars.Length; i++)
+        {
+            stars[i].SetActive(false);
         }
     }
 }

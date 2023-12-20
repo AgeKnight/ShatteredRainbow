@@ -43,9 +43,10 @@ public class Bullet : MonoBehaviour
             other.gameObject.GetComponent<Death>().Hurt();
             Die();
         }
+    }
+    void OnTriggerExit2D(Collider2D other)
+    {
         if (other.gameObject.tag == "Barrier")
-        {
             Die();
-        }
     }
 }

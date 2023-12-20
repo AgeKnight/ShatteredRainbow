@@ -43,7 +43,6 @@ public class Enemy : MonoBehaviour
     bool canChooseBarrage = false;
     bool canAttack = false;
     bool isAttack = false;
-    bool canDie = false;
     int nowIndex = 0;
     #endregion
     #region  "public"
@@ -54,6 +53,8 @@ public class Enemy : MonoBehaviour
     public bool deadUseBarrage;
     #endregion
     #region "Hide"
+    //[HideInInspector]
+    public bool canTouch = true;
     [HideInInspector]
     public bool canCount = false;
     [HideInInspector]
@@ -73,17 +74,17 @@ public class Enemy : MonoBehaviour
         if (moveType != MoveType.ToPlayerMove)
             targetPosition = Dot[0];
         else
-        {         
+        {
             if (FindObjectOfType<Player>())
             {
                 var temp = FindObjectOfType<Player>().gameObject;
                 Vector3 dir = temp.transform.position - transform.position;
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 0.3f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 1);
             }
             else
             {
                 Vector3 dir = GameManager.Instance.PlayerResurrectionPosition.position - transform.position;
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 0.3f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 1);
             }
             if (useBarrage == AttackType.useBarrage)
                 Attack();
@@ -148,7 +149,7 @@ public class Enemy : MonoBehaviour
                         ReturnMove();
                     break;
                 case MoveType.ToPlayerMove:
-                    transform.Translate(transform.forward*Time.deltaTime*Speed);
+                    transform.Translate(transform.forward * Time.deltaTime * Speed);
                     break;
             }
         }
@@ -161,22 +162,25 @@ public class Enemy : MonoBehaviour
             coroutine = StartCoroutine(UseBarrage());
         else
         {
-            Debug.Log("血條出現");
-            Debug.Log("出現boss頭像");
+            gameObject.GetComponent<Death>().hpBar.gameObject.SetActive(true);
+            GameManager.Instance.ShowBossImage(gameObject.GetComponent<SpriteRenderer>().sprite);
             Debug.Log("變身動畫");
+            canTouch = true;
             if (FindObjectOfType<EnemyManager>().nowBossStage > 1)
             {
-                gameObject.GetComponent<Death>().isInvincible = true;
                 canCount = true;
                 coroutine = StartCoroutine(UltimateAttack());
             }
             else
-            {
-                Debug.Log("出現倒數計時");
-                Debug.Log("開始倒數");
-                coroutine = StartCoroutine(UseBarrage());
-            }
+               canBeginAttack();
         }
+    }
+    void canBeginAttack()
+    {
+        GameManager.Instance.BeginReciprocal();
+        gameObject.GetComponent<Death>().isInvincible = false;
+        canCount = false;
+        coroutine = StartCoroutine(UseBarrage());
     }
     IEnumerator UltimateAttack()
     {
@@ -187,11 +191,7 @@ public class Enemy : MonoBehaviour
             yield return new WaitForSeconds(countTime);
             if (ultimateAttackTime > 3f)
             {
-                coroutine = StartCoroutine(UseBarrage());
-                gameObject.GetComponent<Death>().isInvincible = false;
-                canCount = false;
-                Debug.Log("出現倒數計時");
-                Debug.Log("開始倒數");
+                canBeginAttack();
                 break;
             }
         }
@@ -365,11 +365,6 @@ public class Enemy : MonoBehaviour
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.tag == "Barrier")
-        {
-            if (!canDie)
-                canDie = true;
-            else
-                Destroy(this.gameObject);
-        }
+            Destroy(this.gameObject);
     }
 }

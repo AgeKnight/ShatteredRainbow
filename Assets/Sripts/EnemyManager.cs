@@ -31,7 +31,8 @@ public class EnemyManager : MonoBehaviour
     int nowIndex = 0;
     int nowCount = 0;
     int allIndex = 0;
-    int bossIndex = 0;
+    [HideInInspector]
+    public int bossIndex = 0;
     bool isInBossAttack = false;
     bool isSpanBoss = false;
     bool OtherStage = true;
@@ -117,6 +118,11 @@ public class EnemyManager : MonoBehaviour
     void CreateNowEnemy(GameObject prefab, Transform transform, Transform[] movePosition)
     {
         tempEnemy = Instantiate(prefab, transform.position, Quaternion.identity);
+        if(isSpanBoss)
+        {
+            tempEnemy.GetComponent<Enemy>().canTouch = false;
+            tempEnemy.GetComponent<Death>().isInvincible = true;
+        }    
         for (int i = 0; i < movePosition.Length; i++)
         {
             tempEnemy.GetComponent<Enemy>().Dot[i] = movePosition[i].position;
@@ -126,6 +132,11 @@ public class EnemyManager : MonoBehaviour
     }
     IEnumerator BossAppear()
     {
+        var items = FindObjectsOfType<Item>();
+        for (int i = 0; i < items.Length; i++)
+        {
+            items[i].CanAttract = true;
+        }
         //boss進場前準備、吸取在場物品
         OtherStage = true;
         isInBossAttack = true;
