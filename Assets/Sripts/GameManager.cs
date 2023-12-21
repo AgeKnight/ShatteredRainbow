@@ -22,10 +22,13 @@ public class GameManager : MonoBehaviour
     #region "Public"
     [Header("復活秒數")]
     public float AllResurrectionTime;
-    public EnemyManager enemyManager;
     #endregion
     #region "Hide" 
+    [HideInInspector]
+    public EnemyManager enemyManager;
+    [HideInInspector]
     public GameObject[] stars;
+    [HideInInspector]
     public Image BossImage;
     [HideInInspector]
     public GameObject Reciprocal; 

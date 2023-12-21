@@ -7,8 +7,8 @@ public class Reciprocal : MonoBehaviour
 {
     [HideInInspector]
     public bool isDead = false;
-    //[HideInInspector]
-    public float allTime = 60;
+    [HideInInspector]
+    public float allTime;
     void Update()
     {
         gameObject.GetComponent<Text>().text = ((int)allTime).ToString();

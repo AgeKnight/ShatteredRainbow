@@ -27,22 +27,27 @@ public struct WaveBoss
 }
 public class EnemyManager : MonoBehaviour
 {
-    public int nowBossStage = 1;
+    #region "Private"
     int nowIndex = 0;
     int nowCount = 0;
     int allIndex = 0;
-    [HideInInspector]
-    public int bossIndex = 0;
     bool isInBossAttack = false;
     bool isSpanBoss = false;
     bool OtherStage = true;
     List<GameObject> waveEnemy = new List<GameObject>();
     GameObject tempEnemy;
-    public int WaveToBoss;
-    public WaveMonster[] waveMonster;
-    public WaveBoss[] waveBosses;
+    #endregion
+    #region "Hide"
+    [HideInInspector]
+    public int nowBossStage = 1;
+    [HideInInspector]
+    public int bossIndex = 0;
+    [HideInInspector]
     //0 左上 1 右下
     public GameObject[] mapPosition;
+    #endregion
+    public WaveMonster[] waveMonster;
+    public WaveBoss[] waveBosses;
     public IEnumerator CreateEnemy()
     {
         while (true)

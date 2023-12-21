@@ -53,7 +53,7 @@ public class Enemy : MonoBehaviour
     public bool deadUseBarrage;
     #endregion
     #region "Hide"
-    //[HideInInspector]
+    [HideInInspector]
     public bool canTouch = true;
     [HideInInspector]
     public bool canCount = false;
