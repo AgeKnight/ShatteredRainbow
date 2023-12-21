@@ -164,7 +164,7 @@ public class Enemy : MonoBehaviour
         {
             gameObject.GetComponent<Death>().hpBar.gameObject.SetActive(true);
             GameManager.Instance.ShowBossImage(gameObject.GetComponent<SpriteRenderer>().sprite);
-            Debug.Log("變身動畫");
+            //加入變身動畫
             canTouch = true;
             if (FindObjectOfType<EnemyManager>().nowBossStage > 1)
             {
@@ -180,6 +180,7 @@ public class Enemy : MonoBehaviour
         GameManager.Instance.BeginReciprocal();
         gameObject.GetComponent<Death>().isInvincible = false;
         canCount = false;
+        ClearBarrage();
         coroutine = StartCoroutine(UseBarrage());
     }
     IEnumerator UltimateAttack()

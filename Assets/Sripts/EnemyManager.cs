@@ -124,9 +124,7 @@ public class EnemyManager : MonoBehaviour
             tempEnemy.GetComponent<Death>().isInvincible = true;
         }    
         for (int i = 0; i < movePosition.Length; i++)
-        {
             tempEnemy.GetComponent<Enemy>().Dot[i] = movePosition[i].position;
-        }
         waveEnemy.Add(tempEnemy);
         GameManager.Instance.ChangeDifficulty(tempEnemy);
     }
@@ -134,15 +132,11 @@ public class EnemyManager : MonoBehaviour
     {
         var items = FindObjectsOfType<Item>();
         for (int i = 0; i < items.Length; i++)
-        {
             items[i].CanAttract = true;
-        }
-        //boss進場前準備、吸取在場物品
         OtherStage = true;
         isInBossAttack = true;
         if (nowBossStage == 1)
             yield return new WaitForSeconds(3f);
-        //boss進場
         StartCoroutine(CreateEnemy());
     }
     void OneColumn() { }
