@@ -282,16 +282,16 @@ MonoBehaviour:
   isInvincible: 0
   hp: 0
   itemStruct:
-  - probability: 0
+  - probability: 100
     items: {fileID: 7518270170160341144, guid: 36e4f9a93861b6748b871b08339538aa, type: 3}
-  - probability: 0
+  - probability: 100
     items: {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
-  - probability: 0
+  - probability: 100
     items: {fileID: 7518270170160341144, guid: 64fa2ac8a88d4f241bdb5d26bb8e6daf, type: 3}
   - probability: 0
     items: {fileID: 7518270170160341144, guid: e2701d985bbf944449f8e9fec237be0f, type: 3}
-  minExp: 5
-  maxExp: 10
+  minExp: 50
+  maxExp: 100
   score: 500
 --- !u!114 &6272978152685014713
 MonoBehaviour:
@@ -310,6 +310,7 @@ MonoBehaviour:
   bulletTransform: {fileID: 8567689766675817040}
   Speed: 3
   deadUseBarrage: 0
+  canTouch: 1
   canCount: 0
   Dot:
   - {x: 3.35, y: 3.45199, z: 0}

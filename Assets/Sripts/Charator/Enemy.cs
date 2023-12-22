@@ -236,6 +236,8 @@ public class Enemy : MonoBehaviour
         nowCountBarrage += 1;
         if (nowCountBarrage >= enemyBarrageCounts[nowIndex].count[1])
         {
+            if(indexMax == 1 && gameObject.GetComponent<Death>().enemyType == EnemyType.Trash)
+                StopAllCoroutines();
             nowCountBarrage = 0;
             changeBarrage();
             if (moveType == MoveType.SomeTimesMove)
@@ -249,7 +251,10 @@ public class Enemy : MonoBehaviour
         float angle = Random.Range(90, 220);
         for (int j = 0; j < count[0]; j++)
         {
-            GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, angle));
+            Quaternion quaternion = Quaternion.Euler(0,0,angle);
+            if(count[0]==1)
+                quaternion = Quaternion.Euler(0,0,180);
+            GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, quaternion);
             Allbullet.Add(temp);
             angle += 12;
         }
@@ -259,7 +264,8 @@ public class Enemy : MonoBehaviour
     {
         var player = FindObjectOfType<Player>();
         Vector3 eulerAngle = GetAngle(transform.position, player.transform.position);
-        eulerAngle.z -= 24;
+        if(count[0]!=1)
+            eulerAngle.z -= 24;
         for (int j = 0; j < count[0]; j++)
         {
             GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
@@ -340,9 +346,7 @@ public class Enemy : MonoBehaviour
             }
         }
         if (!exist)
-        {
             ChooseTypeBarrage();
-        }
     }
     Vector3 GetAngle(Vector3 aPoint, Vector3 bPoint)
     {

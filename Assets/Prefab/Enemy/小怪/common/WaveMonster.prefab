@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3320111845715336476}
   - component: {fileID: 5240528303161632813}
   m_Layer: 7
-  m_Name: CantMoveEnemy
+  m_Name: WaveMonster
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
-  m_Children: []
+  m_Children:
+  - {fileID: 3784974869271591780}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -154,11 +155,11 @@ MonoBehaviour:
   isInvincible: 0
   hp: 0
   itemStruct:
-  - probability: 10
+  - probability: 1
     items: {fileID: 7518270170160341144, guid: 36e4f9a93861b6748b871b08339538aa, type: 3}
-  - probability: 10
+  - probability: 1
     items: {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
-  - probability: 10
+  - probability: 1
     items: {fileID: 7518270170160341144, guid: 64fa2ac8a88d4f241bdb5d26bb8e6daf, type: 3}
   minExp: 1
   maxExp: 5
@@ -175,22 +176,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b92334e8a8b8b547bcdf1983353b6a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useBarrage: 2
-  moveType: 0
-  bulletTransform: {fileID: 0}
+  useBarrage: 0
+  moveType: 2
+  bulletTransform: {fileID: 3784974869271591780}
   Speed: 3
   deadUseBarrage: 0
+  canTouch: 1
+  canCount: 0
   Dot:
   - {x: 0.000000010790747, y: 5.318565e+22, z: 8.5030156e+20}
   - {x: 0.0000001689267, y: 1.6777952e+22, z: 0.000044153443}
   Allbullet: []
   enemyBarrageCounts:
-  - count: 0500000005000000
-    barrageType: 0
+  - count: 0300000001000000
+    barrageType: 1
     barrage: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
   ultimateAttack:
     count: 
     barrageType: 0
     barrage: {fileID: 0}
-  countTime: 0.6
+  countTime: 0.1
   indexMax: 1
+--- !u!1 &5962880450976580193
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3784974869271591780}
+  m_Layer: 7
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3784974869271591780
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5962880450976580193}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.35, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9102627295658988160}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
