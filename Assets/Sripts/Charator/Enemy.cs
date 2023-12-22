@@ -34,6 +34,7 @@ public struct EnemyBarrageCount
 public class Enemy : MonoBehaviour
 {
     #region "private"
+    Death death;
     Coroutine coroutine;
     Coroutine nowCorotine;
     Coroutine[] otherCorotine = new Coroutine[10];
@@ -65,12 +66,11 @@ public class Enemy : MonoBehaviour
     #region "調難度"
     [Header("調難度")]
     public EnemyBarrageCount[] enemyBarrageCounts;
-    public EnemyBarrageCount ultimateAttack;
     public float countTime;
-    public int indexMax = 1;
     #endregion
     void Start()
     {
+        death= gameObject.GetComponent<Death>();
         if (moveType != MoveType.ToPlayerMove)
             targetPosition = Dot[0];
         else
@@ -89,10 +89,8 @@ public class Enemy : MonoBehaviour
             if (useBarrage == AttackType.useBarrage)
                 Attack();
         }
-        if (indexMax < 1)
-            indexMax = 1;
-        else if (indexMax > enemyBarrageCounts.Length)
-            indexMax = enemyBarrageCounts.Length;
+        if (death.indexMax > enemyBarrageCounts.Length)
+            death.indexMax = enemyBarrageCounts.Length;
     }
     void Update()
     {
@@ -158,11 +156,11 @@ public class Enemy : MonoBehaviour
     #region "攻擊"
     public void Attack()
     {
-        if (gameObject.GetComponent<Death>().enemyType == EnemyType.Trash)
+        if (death.enemyType == EnemyType.Trash)
             coroutine = StartCoroutine(UseBarrage());
         else
         {
-            gameObject.GetComponent<Death>().hpBar.gameObject.SetActive(true);
+            death.hpBar.gameObject.SetActive(true);
             GameManager.Instance.ShowBossImage(gameObject.GetComponent<SpriteRenderer>().sprite);
             //加入變身動畫
             canTouch = true;
@@ -178,7 +176,7 @@ public class Enemy : MonoBehaviour
     void canBeginAttack()
     {
         GameManager.Instance.BeginReciprocal();
-        gameObject.GetComponent<Death>().isInvincible = false;
+        death.isInvincible = false;
         canCount = false;
         ClearBarrage();
         coroutine = StartCoroutine(UseBarrage());
@@ -187,8 +185,8 @@ public class Enemy : MonoBehaviour
     {
         while (true)
         {
-            string nowBarrage = System.Enum.GetName(typeof(BarrageType), ultimateAttack.barrageType);
-            nowCorotine = StartCoroutine(nowBarrage, ultimateAttack.count);
+            string nowBarrage = System.Enum.GetName(typeof(BarrageType), death.ultimateAttack.barrageType);
+            nowCorotine = StartCoroutine(nowBarrage, death.ultimateAttack.count);
             yield return new WaitForSeconds(countTime);
             if (ultimateAttackTime > 3f)
             {
@@ -213,7 +211,7 @@ public class Enemy : MonoBehaviour
     }
     void changeBarrage()
     {
-        if (nowIndex >= indexMax - 1)
+        if (nowIndex >= death.indexMax - 1)
             nowIndex = 0;
         else
             nowIndex++;
@@ -236,7 +234,7 @@ public class Enemy : MonoBehaviour
         nowCountBarrage += 1;
         if (nowCountBarrage >= enemyBarrageCounts[nowIndex].count[1])
         {
-            if(indexMax == 1 && gameObject.GetComponent<Death>().enemyType == EnemyType.Trash)
+            if(death.enemyType == EnemyType.Trash)
                 StopAllCoroutines();
             nowCountBarrage = 0;
             changeBarrage();
@@ -252,8 +250,6 @@ public class Enemy : MonoBehaviour
         for (int j = 0; j < count[0]; j++)
         {
             Quaternion quaternion = Quaternion.Euler(0,0,angle);
-            if(count[0]==1)
-                quaternion = Quaternion.Euler(0,0,180);
             GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, quaternion);
             Allbullet.Add(temp);
             angle += 12;
@@ -264,8 +260,6 @@ public class Enemy : MonoBehaviour
     {
         var player = FindObjectOfType<Player>();
         Vector3 eulerAngle = GetAngle(transform.position, player.transform.position);
-        if(count[0]!=1)
-            eulerAngle.z -= 24;
         for (int j = 0; j < count[0]; j++)
         {
             GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
@@ -314,7 +308,6 @@ public class Enemy : MonoBehaviour
             if (Barrages[i])
                 Destroy(Barrages[i].gameObject);
         }
-
         ChooseTypeBarrage();
     }
     IEnumerator FirRoundGroup(int[] count)

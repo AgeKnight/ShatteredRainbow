@@ -154,6 +154,11 @@ MonoBehaviour:
   expObject: {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
   isInvincible: 0
   hp: 0
+  ultimateAttack:
+    count: 
+    barrageType: 0
+    barrage: {fileID: 0}
+  indexMax: 1
   itemStruct:
   - probability: 1
     items: {fileID: 7518270170160341144, guid: 36e4f9a93861b6748b871b08339538aa, type: 3}
@@ -190,13 +195,8 @@ MonoBehaviour:
   enemyBarrageCounts:
   - count: 0300000001000000
     barrageType: 1
-    barrage: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
-  ultimateAttack:
-    count: 
-    barrageType: 0
-    barrage: {fileID: 0}
+    barrage: {fileID: 5165513135576572565, guid: c9a6ccefda3ea5b44887c4a7c62cc8e3, type: 3}
   countTime: 0.1
-  indexMax: 1
 --- !u!1 &5962880450976580193
 GameObject:
   m_ObjectHideFlags: 0

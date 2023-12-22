@@ -40,6 +40,8 @@ public class Death : MonoBehaviour
     public int hp;
     #region  "調難度"
     [Header("調難度")]
+    public EnemyBarrageCount ultimateAttack;
+    public int indexMax = 1;
     public ItemStruct[] itemStruct;
     public int minExp;
     public int maxExp;
