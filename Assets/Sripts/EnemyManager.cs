@@ -134,14 +134,16 @@ public class EnemyManager : MonoBehaviour
         GameManager.Instance.ChangeDifficulty(tempEnemy);
     }
     IEnumerator BossAppear()
-    {
-        var items = FindObjectsOfType<Item>();
-        for (int i = 0; i < items.Length; i++)
-            items[i].CanAttract = true;
+    {     
         OtherStage = true;
         isInBossAttack = true;
         if (nowBossStage == 1)
+        {
+            var items = FindObjectsOfType<Item>();
+            for (int i = 0; i < items.Length; i++)
+                items[i].CanAttract = true;
             yield return new WaitForSeconds(3f);
+        }
         StartCoroutine(CreateEnemy());
     }
     void OneColumn() { }

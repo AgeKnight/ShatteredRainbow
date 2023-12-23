@@ -149,6 +149,10 @@ public class Enemy : MonoBehaviour
                 case MoveType.ToPlayerMove:
                     transform.Translate(transform.forward * Time.deltaTime * Speed);
                     break;
+                case MoveType.MoveToTarget:
+                    if(canChooseBarrage)
+                        transform.Translate(transform.up*Speed*Time.deltaTime);
+                    break;
             }
         }
     }
@@ -235,7 +239,10 @@ public class Enemy : MonoBehaviour
         if (nowCountBarrage >= enemyBarrageCounts[nowIndex].count[1])
         {
             if(death.enemyType == EnemyType.Trash)
+            {
+                canChooseBarrage = true;
                 StopAllCoroutines();
+            }
             nowCountBarrage = 0;
             changeBarrage();
             if (moveType == MoveType.SomeTimesMove)
@@ -251,7 +258,6 @@ public class Enemy : MonoBehaviour
         {
             Quaternion quaternion = Quaternion.Euler(0,0,angle);
             GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, quaternion);
-            Allbullet.Add(temp);
             angle += 12;
         }
         ChooseTypeBarrage();
@@ -263,7 +269,6 @@ public class Enemy : MonoBehaviour
         for (int j = 0; j < count[0]; j++)
         {
             GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
-            Allbullet.Add(temp);
             eulerAngle.z += 12;
         }
         ChooseTypeBarrage();
@@ -275,11 +280,10 @@ public class Enemy : MonoBehaviour
         {
             indexz += 360 / count[0];
             GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
-            Allbullet.Add(temp);
         }
         ChooseTypeBarrage();
     }
-    IEnumerator CircleBarrage(int[] count, Vector3 Barrage, List<Bullet> Barrages)
+    IEnumerator CircleBarrage(int[] count, Vector3 Barrage)
     {
 
         int nowCount = 0;
@@ -292,7 +296,6 @@ public class Enemy : MonoBehaviour
                 {
                     indexz += 360 / count[2];
                     GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, Barrage, Quaternion.Euler(0, 0, indexz));
-                    Allbullet.Add(temp);
                 }
                 nowCount = i;
                 yield return new WaitForSeconds(countTime);
@@ -302,11 +305,6 @@ public class Enemy : MonoBehaviour
                 i = nowCount;
                 yield return null;
             }
-        }
-        for (int i = 0; i < Barrages.Count; i++)
-        {
-            if (Barrages[i])
-                Destroy(Barrages[i].gameObject);
         }
         ChooseTypeBarrage();
     }
@@ -322,7 +320,6 @@ public class Enemy : MonoBehaviour
             var temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
             indexz += 360 / count[0];
             bullets.Add(temp.GetComponent<Bullet>());
-            Allbullet.Add(temp);
         }
         yield return new WaitForSeconds(1f);
         for (int i = 0; i < bullets.Count; i++)
@@ -330,7 +327,7 @@ public class Enemy : MonoBehaviour
             if (bullets[i])
             {
                 bullets[i].speed = 0;
-                otherCorotine[i] = StartCoroutine(CircleBarrage(enemyBarrageCounts[nowIndex].count, bullets[i].transform.position, bullets));
+                otherCorotine[i] = StartCoroutine(CircleBarrage(enemyBarrageCounts[nowIndex].count, bullets[i].transform.position));
             }
             else
             {

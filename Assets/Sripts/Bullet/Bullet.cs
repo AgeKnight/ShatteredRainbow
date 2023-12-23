@@ -9,16 +9,26 @@ public enum BulletType
 }
 public class Bullet : MonoBehaviour
 {
+    bool cantMove = false;
     public float speed;
     //調難度
     public bool canTrackEnemy = false;
     public BulletType bulletType;
     void Update()
     {
+        if(speed==0&&!cantMove)
+        {
+            cantMove=true;
+            Invoke("SpeedRefre",3f);
+        }
         if ((GameManager.Instance.canTrack||canTrackEnemy) && bulletType == BulletType.Player)
             Track();
         else
             Move();
+    }
+    void SpeedRefre()
+    {
+        speed = 10f;
     }
     protected void Move()
     {

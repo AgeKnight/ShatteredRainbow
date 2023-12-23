@@ -57,8 +57,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public bool PlayerReallyDeath = false;
     [HideInInspector]
-    public bool PlayerIsDied = false;
-    [HideInInspector]
     public Transform PlayerResurrectionPosition;
     #endregion
     #region "難度"
@@ -93,7 +91,6 @@ public class GameManager : MonoBehaviour
     }
     void PlayerResurrection()
     {
-        PlayerIsDied=false;
         var tempPlayer = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity);
         tempPlayer.gameObject.GetComponent<Death>().isInvincible = true;
         Invoke("PlayerNotInvincible",AllInvincibleTime);
@@ -199,20 +196,10 @@ public class GameManager : MonoBehaviour
     }
     public void ClearBarrage()
     {
-        if (PlayerIsDied)
-        {
-            for (int i = 0; i < playerBullet.Count; i++)
-            {
-                if (playerBullet[i] != null)
-                    playerBullet[i].GetComponent<Bullet>().Die();
-            }
-            playerBullet.Clear();
-        }
-        var enemy = FindObjectsOfType<Enemy>();
-        for (int i = 0; i < enemy.Length; i++)
-        {
-            enemy[i].ClearBarrage();
-        }
+        var barrages = FindObjectsOfType<Bullet>();
+        for (int i = 0; i < barrages.Length; i++)
+            if(barrages[i]!=null)
+                barrages[i].Die();
     }
     public void ChangeDifficulty(GameObject gameObject = null)
     {
