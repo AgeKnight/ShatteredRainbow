@@ -19,18 +19,12 @@ public struct ItemStruct //0 生命 1 炸彈 2 小弟 3生命碎片
     [Range(0f,100f)]public float probability;
     public GameObject items;
 }
-[System.Serializable]
-public struct SpriteStruct
-{
-    public Sprite[] nowStatus;
-}
 public class Death : MonoBehaviour
 {
     #region Public
     public int totalHp = 2;
     public CharatorType charatorType;
     public EnemyType enemyType;
-    public SpriteStruct[] Status;
     public Slider hpBar;
     public GameObject expObject;
     #endregion

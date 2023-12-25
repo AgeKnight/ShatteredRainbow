@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class ItemUse : MonoBehaviour
 {
+    public Sprite[] status;
+    void Update() 
+    {
+        gameObject.GetComponent<SpriteRenderer>().sprite= status[GameManager.Instance.playerLevel];
+    }
     void OnTriggerEnter2D(Collider2D other)
     {
         switch (other.gameObject.tag)
