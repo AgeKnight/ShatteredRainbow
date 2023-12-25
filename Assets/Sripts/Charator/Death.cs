@@ -51,23 +51,24 @@ public class Death : MonoBehaviour
     {
         hp = totalHp;
     }
-    void Update()
-    {
-        if (charatorType == CharatorType.Player && hp > 0)
-        {
-            var sprite = GameObject.Find("Image").GetComponent<SpriteRenderer>();
-            sprite.sprite = Status[GameManager.Instance.playerLevel].nowStatus[totalHp - hp];
-        }
-    }
     public void Hurt(int value = 1)
     {
-        if (isInvincible)
-            value = 0;           
-        hp -= value;
-        if (enemyType == EnemyType.Boss)
-            hpBar.value = (float)hp / totalHp;
-        if (hp <= 0)
-            Die();
+        switch (charatorType)
+        {
+            case CharatorType.Player:
+                if(charatorType==CharatorType.Player&&!isInvincible)
+                    Die();
+                break;
+            case CharatorType.Enemy:
+                if (isInvincible)
+                    value = 0;           
+                hp -= value;
+                if (enemyType == EnemyType.Boss)
+                    hpBar.value = (float)hp / totalHp;
+                if (hp == 0)
+                    Die();
+                break;
+        }
     }
     public void Die()
     {

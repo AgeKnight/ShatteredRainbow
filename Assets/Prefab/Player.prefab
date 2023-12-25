@@ -1203,7 +1203,7 @@ Transform:
   m_GameObject: {fileID: 6646415776259885055}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 10}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.1}
   m_Children:
   - {fileID: 1947539255756775474}
   - {fileID: 1199216207468421953}
@@ -1264,7 +1264,6 @@ MonoBehaviour:
   speed: 5
   isAttack: 1
   bulletPrefab: {fileID: 5165513135576572565, guid: 13731d76054547b4a9de378864f5ebd2, type: 3}
-  isInvincible: 0
   bulletTransform:
   - {fileID: 4759269267929415212}
   - {fileID: 3492431317613946584}
@@ -1310,7 +1309,13 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 92153f5a05a2d35439edae3f815582d9, type: 3}
   hpBar: {fileID: 0}
   expObject: {fileID: 0}
+  isInvincible: 0
   hp: 0
+  ultimateAttack:
+    count: 
+    barrageType: 0
+    barrage: {fileID: 0}
+  indexMax: 1
   itemStruct: []
   minExp: 0
   maxExp: 0

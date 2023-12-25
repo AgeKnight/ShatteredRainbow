@@ -134,9 +134,6 @@ public class GameManager : MonoBehaviour
                     AddScore(item.overflowScore);
                 }
                 break;
-            case ItemType.HalfLife:
-                AddHp(item);
-                break;
         }
     }
     public void AddScore(int value)
@@ -152,20 +149,6 @@ public class GameManager : MonoBehaviour
     void AddBottom()
     {
         playerBottom += 1;
-    }
-    void AddHp(Item item)
-    {
-        var tempPlayer = FindObjectOfType<Player>().gameObject.GetComponent<Death>();
-        if (tempPlayer.hp < tempPlayer.totalHp)
-        {
-            tempPlayer.hp += 1;
-            AddScore(item.score);
-        }
-        else
-        {
-            AddScore(item.overflowScore);
-            AddLife(1);
-        }
     }
     void AddExp()
     {
@@ -260,9 +243,6 @@ public class GameManager : MonoBehaviour
                         break;
                     case ItemType.Drone:
                         item.CanAttract = tempCanAttract[3];
-                        break;
-                    case ItemType.HalfLife:
-                        item.CanAttract = tempCanAttract[4];
                         break;
                 }
             }
