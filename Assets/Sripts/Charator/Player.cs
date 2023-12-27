@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    Coroutine coroutine;
     #region "Public"
     public float speed;
+    public bool canMove = false;
+    public bool canControlAttack;
     #endregion
     #region "Hide"
     [HideInInspector]
-    public bool isAttack = true;
+    public bool isAttack = false;
     [HideInInspector]
     public GameObject bulletPrefab;
     [HideInInspector]
@@ -18,28 +22,31 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public GameObject[] Drone;
     #endregion
-    void Start()
-    {
-        StartCoroutine(Attack());
-    }
-    void Update()
-    {
-        AddBro();
-    }
     void FixedUpdate()
     {
-        Move();
+        if (canMove)
+        {
+            Move();   
+        }
     }
-    void AddBro()
+    void Update() 
+    {
+        if(canMove)
+        {
+            UseAttack();
+            AddBro();
+        }
+    }
+    public void AddBro()
     {
         for (int i = 0; i < Drone.Length; i++)
         {
-            if (GameManager.Instance.playerDrone > i / 2)
+            if (GameManager.Instance.playerLevel > i / 2)
             {
                 Drone[i].SetActive(true);
-                if(i>=2)
+                if (i >= 2)
                 {
-                    if(isAttack)
+                    if (isAttack)
                         Drone[i].GetComponent<Animator>().Play("Attack");
                     else
                         Drone[i].GetComponent<Animator>().Play("NotAttack");
@@ -63,25 +70,36 @@ public class Player : MonoBehaviour
             vertical = 1;
         transform.Translate(vertical * speed * Time.deltaTime, horizontal * speed * Time.deltaTime, 0);
     }
-    IEnumerator Attack()
+    void UseAttack()
     {
-        while (isAttack)
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            isAttack = true;
+            coroutine = StartCoroutine(Attack());
+        }
+        if(Input.GetKeyUp(KeyCode.Z))
+        {
+            isAttack = false;
+            StopCoroutine(coroutine);
+        }
+    }
+    public IEnumerator Attack()
+    {
+        while (true)
         {
             for (int i = 0; i < bulletTransform.Length; i++)
             {
                 if (i <= GameManager.Instance.playerLevel * 2)
                 {
                     GameObject tempObject = Instantiate(bulletPrefab, bulletTransform[i].transform.position, Quaternion.identity);
-                    GameManager.Instance.playerBullet.Add(tempObject);
                 }
             }
             for (int i = 0; i < Drone.Length; i++)
             {
-                if (GameManager.Instance.playerDrone > i / 2)
+                if (GameManager.Instance.playerLevel > i / 2)
                 {
                     GameObject tempObject = Instantiate(bulletPrefab, Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
                     tempObject.GetComponent<Bullet>().canTrackEnemy = true;
-                    GameManager.Instance.playerBullet.Add(tempObject);
                 }
             }
             yield return new WaitForSeconds(0.1f);

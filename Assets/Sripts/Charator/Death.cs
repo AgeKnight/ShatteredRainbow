@@ -22,6 +22,7 @@ public struct ItemStruct //0 生命 1 炸彈 2 小弟 3生命碎片
 public class Death : MonoBehaviour
 {
     #region Public
+    bool isDead = false;
     public int totalHp = 2;
     public CharatorType charatorType;
     public EnemyType enemyType;
@@ -50,7 +51,7 @@ public class Death : MonoBehaviour
         switch (charatorType)
         {
             case CharatorType.Player:
-                if(charatorType==CharatorType.Player&&!isInvincible)
+                if(charatorType==CharatorType.Player&&!isInvincible&&!isDead)
                     Die();
                 break;
             case CharatorType.Enemy:
@@ -68,6 +69,7 @@ public class Death : MonoBehaviour
     {
         if (gameObject.tag == "Player")
         {
+            isDead = true;
             GameManager.Instance.AddLife(-1);
             GameManager.Instance.ClearBarrage();
             GameManager.Instance.Resurrection();

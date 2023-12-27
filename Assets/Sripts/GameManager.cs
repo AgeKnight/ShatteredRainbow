@@ -18,12 +18,14 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get => instance; set => instance = value; }
     #region "Private"
     int totalExp = 100;
+    Player playerScript;
     #endregion
     #region "Public"
     [Header("復活秒數")]
     public float AllResurrectionTime;
     #endregion
     #region "Hide" 
+    public Transform playerSpan;
     [HideInInspector]
     public EnemyManager enemyManager;
     [HideInInspector]
@@ -32,8 +34,6 @@ public class GameManager : MonoBehaviour
     public Image BossImage;
     [HideInInspector]
     public GameObject Reciprocal; 
-    [HideInInspector]
-    public List<GameObject> playerBullet = new List<GameObject>();
     [HideInInspector]
     public int playerLevel = 0;
     [HideInInspector]
@@ -63,7 +63,6 @@ public class GameManager : MonoBehaviour
     [Header("調難度")]
     public Difficulty difficulty;
     public int playerBottom;
-    public int playerDrone;
     public int playerLife;
     [Header("無敵時間")]
     public float AllInvincibleTime; //無敵秒數
@@ -71,12 +70,26 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        StartCoroutine(enemyManager.CreateEnemy());
+        //文字顯示
+        //玩家進場
+        StartCoroutine(Begin());
+    }
+    IEnumerator Begin()
+    {
+        playerScript = Instantiate(player,playerSpan.transform.position,Quaternion.identity).gameObject.GetComponent<Player>();
+        playerScript.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = true;
+        while(playerScript.gameObject.transform.position!=PlayerResurrectionPosition.position)
+        {
+            playerScript.gameObject.transform.position = Vector2.MoveTowards(playerScript.gameObject.transform.position,PlayerResurrectionPosition.position,playerScript.speed*Time.deltaTime);
+            yield return 0f;
+        }
+        playerScript.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = false;
+        playerScript.canMove=true;
+        yield return new WaitForSeconds(1);
+        //StartCoroutine(enemyManager.CreateEnemy());
     }
     void Update()
     {
-        scoreText.text = playerScore.ToString();
-        bottomText.text = "×" + playerBottom.ToString();
         if (playerLife < 0)
             LifeText.text = "×0";
         else
@@ -91,14 +104,14 @@ public class GameManager : MonoBehaviour
     }
     void PlayerResurrection()
     {
-        var tempPlayer = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity);
-        tempPlayer.gameObject.GetComponent<Death>().isInvincible = true;
+        playerScript = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity).GetComponent<Player>();
+        playerScript.gameObject.GetComponent<Death>().isInvincible = true;
+        playerScript.canMove = true;
         Invoke("PlayerNotInvincible",AllInvincibleTime);
     }
     void PlayerNotInvincible()
     {
-        var tempPlayer = FindObjectOfType<Player>();
-        tempPlayer.gameObject.GetComponent<Death>().isInvincible = false;
+        playerScript.gameObject.GetComponent<Death>().isInvincible = false;
     }
     public void EatItem(Item item)
     {
@@ -123,32 +136,22 @@ public class GameManager : MonoBehaviour
                     AddScore(item.overflowScore);
                 }
                 break;
-            case ItemType.Drone:
-                if (playerDrone <= 3)
-                {
-                    AddDrone();
-                    AddScore(item.score);
-                }
-                else
-                {
-                    AddScore(item.overflowScore);
-                }
-                break;
         }
     }
     public void AddScore(int value)
     {
         playerScore += value;
+        scoreText.text = playerScore.ToString();
     }
     public void AddLife(int value)
     {
         playerLife += value;
-        var tempPlayer = FindObjectOfType<Player>();
-        tempPlayer.gameObject.GetComponent<Death>().hp = tempPlayer.gameObject.GetComponent<Death>().totalHp;
+        playerScript.gameObject.GetComponent<Death>().hp = playerScript.gameObject.GetComponent<Death>().totalHp;
     }
     void AddBottom()
     {
         playerBottom += 1;
+        bottomText.text = "×" + playerBottom.ToString();
     }
     void AddExp()
     {
@@ -170,12 +173,6 @@ public class GameManager : MonoBehaviour
             }
         }
         expBar.value = (float)playerExp / totalExp;
-    }
-    void AddDrone()
-    {
-        playerDrone += 1;
-        if (playerDrone > 3)
-            playerDrone = 3;
     }
     public void ClearBarrage()
     {

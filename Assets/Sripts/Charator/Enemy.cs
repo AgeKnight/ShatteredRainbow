@@ -236,12 +236,12 @@ public class Enemy : MonoBehaviour
             }
         }
         nowCountBarrage += 1;
-        if (nowCountBarrage >= enemyBarrageCounts[nowIndex].count[1])
+        if (nowCountBarrage == enemyBarrageCounts[nowIndex].count[1])
         {
             if(death.enemyType == EnemyType.Trash)
-            {
-                canChooseBarrage = true;
+            {         
                 StopAllCoroutines();
+                Invoke("canGetAway",1);
             }
             nowCountBarrage = 0;
             changeBarrage();
@@ -249,6 +249,10 @@ public class Enemy : MonoBehaviour
                 canChooseBarrage = true;
         }
         isAttack = false;
+    }
+    void canGetAway()
+    {
+        canChooseBarrage = true;
     }
     #region "所有彈幕方法"
     void Shotgun(int[] count)
@@ -275,23 +279,26 @@ public class Enemy : MonoBehaviour
     }
     void CircleBarrage(int[] count)
     {
-        int indexz = 0;
+        int indexz = count[2];
         for (int j = 0; j <= count[0]; j++)
         {
             indexz += 360 / count[0];
             GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
         }
+        if(nowCountBarrage%3==2)
+            enemyBarrageCounts[nowIndex].count[2]+=20;
         ChooseTypeBarrage();
     }
     IEnumerator CircleBarrage(int[] count, Vector3 Barrage)
     {
-
         int nowCount = 0;
+        int indexz = 0;
         for (int i = 0; i < count[3]; i++)
         {
-            int indexz = 0;
             if (FindObjectOfType<Player>())
             {
+                if(nowCount%3==2)
+                    indexz+=20;
                 for (int j = 0; j <= count[2]; j++)
                 {
                     indexz += 360 / count[2];
