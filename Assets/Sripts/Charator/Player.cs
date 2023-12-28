@@ -26,15 +26,14 @@ public class Player : MonoBehaviour
     {
         if (canMove)
         {
-            Move();   
+            Move();
         }
     }
-    void Update() 
+    void Update()
     {
-        if(canMove)
+        if (canMove)
         {
             UseAttack();
-            AddBro();
         }
     }
     public void AddBro()
@@ -42,16 +41,7 @@ public class Player : MonoBehaviour
         for (int i = 0; i < Drone.Length; i++)
         {
             if (GameManager.Instance.playerLevel > i / 2)
-            {
                 Drone[i].SetActive(true);
-                if (i >= 2)
-                {
-                    if (isAttack)
-                        Drone[i].GetComponent<Animator>().Play("Attack");
-                    else
-                        Drone[i].GetComponent<Animator>().Play("NotAttack");
-                }
-            }
             else
                 Drone[i].SetActive(false);
         }
@@ -72,18 +62,33 @@ public class Player : MonoBehaviour
     }
     void UseAttack()
     {
-        if(Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             isAttack = true;
+            BroAnime();
             coroutine = StartCoroutine(Attack());
         }
-        if(Input.GetKeyUp(KeyCode.Z))
+        if (Input.GetKeyUp(KeyCode.Z))
         {
             isAttack = false;
+            BroAnime();
             StopCoroutine(coroutine);
         }
     }
-    public IEnumerator Attack()
+    void BroAnime()
+    {
+        for (int i = 2; i < Drone.Length; i++)
+        {
+            if (GameManager.Instance.playerLevel > i / 2)
+            {
+                if (isAttack)
+                    Drone[i].GetComponent<Animator>().Play("Attack");
+                else
+                    Drone[i].GetComponent<Animator>().Play("NotAttack");
+            }
+        }
+    }
+    IEnumerator Attack()
     {
         while (true)
         {

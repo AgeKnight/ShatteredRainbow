@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
         playerScript.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = false;
         playerScript.canMove=true;
         yield return new WaitForSeconds(1);
-        //StartCoroutine(enemyManager.CreateEnemy());
+        StartCoroutine(enemyManager.CreateEnemy());
     }
     void Update()
     {
@@ -105,6 +105,7 @@ public class GameManager : MonoBehaviour
     void PlayerResurrection()
     {
         playerScript = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity).GetComponent<Player>();
+        playerScript.AddBro();
         playerScript.gameObject.GetComponent<Death>().isInvincible = true;
         playerScript.canMove = true;
         Invoke("PlayerNotInvincible",AllInvincibleTime);
@@ -129,6 +130,7 @@ public class GameManager : MonoBehaviour
                 if (playerLevel < 3)
                 {
                     AddExp();
+                    playerScript.AddBro();
                     AddScore(item.score);
                 }
                 else
