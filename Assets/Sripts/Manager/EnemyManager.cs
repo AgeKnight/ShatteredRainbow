@@ -39,6 +39,8 @@ public class EnemyManager : MonoBehaviour
     #endregion
     #region "Hide"
     [HideInInspector]
+    public bool isWin = false;
+    [HideInInspector]
     public int nowBossStage = 1;
     [HideInInspector]
     public int bossIndex = 0;
@@ -101,7 +103,10 @@ public class EnemyManager : MonoBehaviour
                     if(isSpanBoss&&OtherStage)
                         nowBossStage++;
                     if (bossIndex >= waveBosses.Length)
+                    {
+                        isWin = true;
                         break;
+                    }
                     nowCount = 0;
                     if (!isSpanBoss)
                         nowIndex++;

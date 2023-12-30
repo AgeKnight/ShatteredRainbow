@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum Difficulty
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get => instance; set => instance = value; }
     #region "Private"
     int totalExp = 100;
+    bool isOnButton = false;
     Player playerScript;
     #endregion
     #region "Public"
@@ -25,6 +27,12 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide" 
+    public GameObject Win;
+    [HideInInspector]
+    public GameObject Menu;
+    [HideInInspector]
+    public Text Title;
+    [HideInInspector]
     public Transform playerSpan;
     [HideInInspector]
     public EnemyManager enemyManager;
@@ -70,12 +78,13 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        //文字顯示
-        //玩家進場
         StartCoroutine(Begin());
     }
     IEnumerator Begin()
     {
+        Title.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2);
+        Title.gameObject.SetActive(false);
         playerScript = Instantiate(player,playerSpan.transform.position,Quaternion.identity).gameObject.GetComponent<Player>();
         playerScript.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = true;
         while(playerScript.gameObject.transform.position!=PlayerResurrectionPosition.position)
@@ -90,21 +99,39 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
+        if(enemyManager.isWin)
+        {
+            playerScript.enabled = false;
+            Win.SetActive(true);
+            Time.timeScale=0;
+        }
         if (playerLife < 0)
             LifeText.text = "×0";
         else
+        {
+            MenuUse();
             LifeText.text = "×" + playerLife.ToString();
+        }           
     }
     public void Resurrection()
     {
         if (playerLife < 0)
+        {
             PlayerReallyDeath = true;
+            Menu.SetActive(true);
+            Time.timeScale = 0;
+        }        
         else
+        {
             Invoke("PlayerResurrection",AllResurrectionTime);
+        }
     }
     void PlayerResurrection()
     {
-        playerScript = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity).GetComponent<Player>();
+        if(!FindObjectOfType<Player>())
+        {
+            playerScript = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity).GetComponent<Player>();
+        }
         playerScript.AddBro();
         playerScript.gameObject.GetComponent<Death>().isInvincible = true;
         playerScript.canMove = true;
@@ -271,5 +298,51 @@ public class GameManager : MonoBehaviour
         {
             stars[i].SetActive(false);
         }
+    }
+    public void MenuUse()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape)&&!PlayerReallyDeath&&enemyManager.isWin)
+        {
+            isOnButton = !isOnButton;
+            Menu.SetActive(isOnButton);
+            if(isOnButton)
+            {
+                if(playerScript)
+                    playerScript.enabled = false;
+                Time.timeScale = 0;
+            }
+            else
+            {
+                if(playerScript)
+                    playerScript.enabled = true;
+                Time.timeScale = 1;
+            }
+        }
+    }
+    public void Replay()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("Game");
+    }
+    public void BackToMenu()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("Main");
+    }
+    public void Return()
+    {
+        isOnButton = false;
+        Menu.SetActive(false);
+        if(playerScript)
+        {
+            playerScript.enabled = true;
+        }           
+        if(PlayerReallyDeath)
+        {
+            playerLife=3;
+            PlayerReallyDeath = false;
+            PlayerResurrection();
+        }
+        Time.timeScale = 1;
     }
 }

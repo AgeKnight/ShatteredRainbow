@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
             BroAnime();
             coroutine = StartCoroutine(Attack());
         }
-        if (Input.GetKeyUp(KeyCode.Z))
+        if (Input.GetKeyUp(KeyCode.Z)&&coroutine!=null)
         {
             isAttack = false;
             BroAnime();
