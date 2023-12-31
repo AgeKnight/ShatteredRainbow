@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
         playerScript.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = false;
         playerScript.canMove=true;
         yield return new WaitForSeconds(1);
-        StartCoroutine(enemyManager.CreateEnemy());
+        //StartCoroutine(enemyManager.CreateEnemy());
     }
     void Update()
     {
@@ -147,10 +147,22 @@ public class GameManager : MonoBehaviour
                 AddScore(item.score);
                 AddBottom();
                 break;
+            case ItemType.Drone:
+                if (playerLevel < 3)
+                {
+                    AddExp(500);
+                    playerScript.AddBro();
+                    AddScore(item.score);
+                }
+                else
+                {
+                    AddScore(item.overflowScore);
+                }
+                break;
             case ItemType.EXP:
                 if (playerLevel < 3)
                 {
-                    AddExp();
+                    AddExp(1);
                     playerScript.AddBro();
                     AddScore(item.score);
                 }
@@ -176,9 +188,9 @@ public class GameManager : MonoBehaviour
         playerBottom += 1;
         bottomText.text = "×" + playerBottom.ToString();
     }
-    void AddExp()
+    void AddExp(int value)
     {
-        playerExp += 1;
+        playerExp += value;
         while (playerExp >= totalExp)
         {
             playerLevel += 1;
