@@ -51,7 +51,7 @@ public class Death : MonoBehaviour
         switch (charatorType)
         {
             case CharatorType.Player:
-                if(charatorType==CharatorType.Player&&!isInvincible&&!isDead)
+                if(charatorType==CharatorType.Player&&!isInvincible&&!isDead&&!GameManager.Instance.enemyManager.isWin)
                     Die();
                 break;
             case CharatorType.Enemy:

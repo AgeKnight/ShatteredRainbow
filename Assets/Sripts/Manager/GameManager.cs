@@ -99,12 +99,6 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        if(enemyManager.isWin)
-        {
-            playerScript.enabled = false;
-            Win.SetActive(true);
-            Time.timeScale=0;
-        }
         if (playerLife < 0)
             LifeText.text = "×0";
         else
@@ -344,5 +338,11 @@ public class GameManager : MonoBehaviour
             PlayerResurrection();
         }
         Time.timeScale = 1;
+    }
+    public void WinGame()
+    {
+        playerScript.enabled = false;
+        Win.SetActive(true);
+        Time.timeScale=0;
     }
 }

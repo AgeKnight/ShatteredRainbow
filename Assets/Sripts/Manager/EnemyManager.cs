@@ -105,6 +105,8 @@ public class EnemyManager : MonoBehaviour
                     if (bossIndex >= waveBosses.Length)
                     {
                         isWin = true;
+                        yield return new WaitForSeconds(1f);
+                        GameManager.Instance.WinGame();
                         break;
                     }
                     nowCount = 0;
