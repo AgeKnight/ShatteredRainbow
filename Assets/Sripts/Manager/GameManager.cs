@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     #region "Public"
     [Header("復活秒數")]
     public float AllResurrectionTime;
+    public int allBomb;
+    public int allLife;
     #endregion
     #region "Hide" 
     public GameObject Win;
@@ -41,7 +43,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public Image BossImage;
     [HideInInspector]
-    public GameObject Reciprocal; 
+    public GameObject Reciprocal;
     [HideInInspector]
     public int playerLevel = 0;
     [HideInInspector]
@@ -85,27 +87,22 @@ public class GameManager : MonoBehaviour
         Title.gameObject.SetActive(true);
         yield return new WaitForSeconds(2);
         Title.gameObject.SetActive(false);
-        playerScript = Instantiate(player,playerSpan.transform.position,Quaternion.identity).gameObject.GetComponent<Player>();
+        playerScript = Instantiate(player, playerSpan.transform.position, Quaternion.identity).gameObject.GetComponent<Player>();
         playerScript.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = true;
-        while(playerScript.gameObject.transform.position!=PlayerResurrectionPosition.position)
+        while (playerScript.gameObject.transform.position != PlayerResurrectionPosition.position)
         {
-            playerScript.gameObject.transform.position = Vector2.MoveTowards(playerScript.gameObject.transform.position,PlayerResurrectionPosition.position,playerScript.speed*Time.deltaTime);
+            playerScript.gameObject.transform.position = Vector2.MoveTowards(playerScript.gameObject.transform.position, PlayerResurrectionPosition.position, playerScript.speed * Time.deltaTime);
             yield return 0f;
         }
         playerScript.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = false;
-        playerScript.canMove=true;
+        playerScript.canMove = true;
         yield return new WaitForSeconds(1);
         //StartCoroutine(enemyManager.CreateEnemy());
     }
     void Update()
     {
-        if (playerLife < 0)
-            LifeText.text = "×0";
-        else
-        {
-            MenuUse();
-            LifeText.text = "×" + playerLife.ToString();
-        }           
+        MenuUse();
+        LifeText.text = playerLife.ToString() + "/" + allLife.ToString();
     }
     public void Resurrection()
     {
@@ -114,22 +111,22 @@ public class GameManager : MonoBehaviour
             PlayerReallyDeath = true;
             Menu.SetActive(true);
             Time.timeScale = 0;
-        }        
+        }
         else
         {
-            Invoke("PlayerResurrection",AllResurrectionTime);
+            Invoke("PlayerResurrection", AllResurrectionTime);
         }
     }
     void PlayerResurrection()
     {
-        if(!FindObjectOfType<Player>())
+        if (!FindObjectOfType<Player>())
         {
             playerScript = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity).GetComponent<Player>();
         }
         playerScript.AddBro();
         playerScript.gameObject.GetComponent<Death>().isInvincible = true;
         playerScript.canMove = true;
-        Invoke("PlayerNotInvincible",AllInvincibleTime);
+        Invoke("PlayerNotInvincible", AllInvincibleTime);
     }
     void PlayerNotInvincible()
     {
@@ -140,12 +137,26 @@ public class GameManager : MonoBehaviour
         switch (item.itemType)
         {
             case ItemType.Life:
-                AddScore(item.score);
-                AddLife(1);
+                if (playerLife < allLife)
+                {
+                    AddScore(item.score);
+                    AddLife(1);
+                }
+                else
+                {
+                    AddScore(item.overflowScore);
+                }
                 break;
             case ItemType.Bomb:
-                AddScore(item.score);
-                AddBottom();
+                if (playerBottom < allBomb)
+                {
+                    AddScore(item.score);
+                    AddBottom();
+                }
+                else
+                {
+                    AddScore(item.overflowScore);
+                }
                 break;
             case ItemType.Drone:
                 if (playerLevel < 3)
@@ -186,7 +197,7 @@ public class GameManager : MonoBehaviour
     void AddBottom()
     {
         playerBottom += 1;
-        bottomText.text = "×" + playerBottom.ToString();
+        bottomText.text = playerBottom.ToString() + "/" + allBomb.ToString();
     }
     void AddExp(int value)
     {
@@ -213,7 +224,7 @@ public class GameManager : MonoBehaviour
     {
         var barrages = FindObjectsOfType<Bullet>();
         for (int i = 0; i < barrages.Length; i++)
-            if(barrages[i]!=null)
+            if (barrages[i] != null)
                 barrages[i].Die();
     }
     public void ChangeDifficulty(GameObject gameObject = null)
@@ -290,9 +301,9 @@ public class GameManager : MonoBehaviour
     {
         BossImage.gameObject.SetActive(true);
         BossImage.sprite = sprite;
-        
+
         int tempLength = enemyManager.waveBosses[enemyManager.bossIndex].bossPrefab.Length;
-        for (int i = 0; i < tempLength-enemyManager.nowBossStage; i++)
+        for (int i = 0; i < tempLength - enemyManager.nowBossStage; i++)
         {
             stars[i].SetActive(true);
         }
@@ -307,19 +318,19 @@ public class GameManager : MonoBehaviour
     }
     public void MenuUse()
     {
-        if(Input.GetKeyDown(KeyCode.Escape)&&!PlayerReallyDeath&&enemyManager.isWin)
+        if (Input.GetKeyDown(KeyCode.Escape) && !PlayerReallyDeath && enemyManager.isWin)
         {
             isOnButton = !isOnButton;
             Menu.SetActive(isOnButton);
-            if(isOnButton)
+            if (isOnButton)
             {
-                if(playerScript)
+                if (playerScript)
                     playerScript.enabled = false;
                 Time.timeScale = 0;
             }
             else
             {
-                if(playerScript)
+                if (playerScript)
                     playerScript.enabled = true;
                 Time.timeScale = 1;
             }
@@ -339,13 +350,13 @@ public class GameManager : MonoBehaviour
     {
         isOnButton = false;
         Menu.SetActive(false);
-        if(playerScript)
+        if (playerScript)
         {
             playerScript.enabled = true;
-        }           
-        if(PlayerReallyDeath)
+        }
+        if (PlayerReallyDeath)
         {
-            playerLife=3;
+            playerLife = 3;
             PlayerReallyDeath = false;
             PlayerResurrection();
         }
@@ -355,6 +366,6 @@ public class GameManager : MonoBehaviour
     {
         playerScript.enabled = false;
         Win.SetActive(true);
-        Time.timeScale=0;
+        Time.timeScale = 0;
     }
 }

@@ -9,10 +9,11 @@ public class Player : MonoBehaviour
     Coroutine coroutine;
     #region "Public"
     public float speed;
-    public bool canMove = false;
     public bool canControlAttack;
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public bool canMove = false;
     [HideInInspector]
     public bool isAttack = false;
     [HideInInspector]
