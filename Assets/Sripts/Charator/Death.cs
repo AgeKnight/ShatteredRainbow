@@ -23,16 +23,16 @@ public class Death : MonoBehaviour
 {
     #region Public
     bool isDead = false;
-    public int totalHp = 2;
+    public int totalHp;
     public CharatorType charatorType;
     public EnemyType enemyType;
-    public Slider hpBar;
     public GameObject expObject;
     #endregion
     [HideInInspector]
-    public bool isInvincible = false;
+    public Slider hpBar;
     [HideInInspector]
-    public int hp;
+    public bool isInvincible = false;
+    int hp;
     #region  "調難度"
     [Header("調難度")]
     public EnemyBarrageCount ultimateAttack;
@@ -58,7 +58,7 @@ public class Death : MonoBehaviour
                 if (isInvincible)
                     value = 0;           
                 hp -= value;
-                if (enemyType == EnemyType.Boss)
+                if (hpBar!=null)
                     hpBar.value = (float)hp / totalHp;
                 if (hp == 0)
                     Die();
@@ -81,6 +81,8 @@ public class Death : MonoBehaviour
             {
                 GameManager.Instance.Reciprocal.GetComponent<Reciprocal>().Die();
                 GameManager.Instance.HideBossImage();
+                hpBar.value = 1;
+                hpBar.gameObject.SetActive(false);
             }
             Enemydeath();
             Destroy(this.gameObject);

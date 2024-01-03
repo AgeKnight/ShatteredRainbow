@@ -21,6 +21,10 @@ public class GameManager : MonoBehaviour
     int totalExp = 100;
     bool isOnButton = false;
     Player playerScript;
+    int boumbCount = 0;
+    int lifeCount = 0;
+    int playerScore;
+    int playerExp;
     #endregion
     #region "Public"
     [Header("復活秒數")]
@@ -28,7 +32,18 @@ public class GameManager : MonoBehaviour
     public int allBomb;
     public int allLife;
     #endregion
-    #region "Hide" 
+    #region "Hide"
+    [HideInInspector]
+    public Sprite[] playerFace;
+    [HideInInspector]
+    public GameObject playerStatus;
+    public Sprite[] LifeImages;//0 空心 1 實心
+    [HideInInspector]
+    public GameObject[] Lifes;
+    public Sprite[] bombImages;//0 空心 1 實心
+    [HideInInspector]
+    public GameObject[] Bombs;
+    [HideInInspector]
     public GameObject Win;
     [HideInInspector]
     public GameObject Menu;
@@ -53,17 +68,9 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public Text scoreText;
     [HideInInspector]
-    public Text bottomText;
-    [HideInInspector]
     public Text Level;
     [HideInInspector]
-    public Text LifeText;
-    [HideInInspector]
     public Slider expBar;
-    [HideInInspector]
-    public int playerScore;
-    [HideInInspector]
-    public int playerExp;
     [HideInInspector]
     public bool PlayerReallyDeath = false;
     [HideInInspector]
@@ -80,6 +87,8 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        AddBottom(playerBottom);
+        AddLife(playerLife);
         StartCoroutine(Begin());
     }
     IEnumerator Begin()
@@ -97,16 +106,15 @@ public class GameManager : MonoBehaviour
         playerScript.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = false;
         playerScript.canMove = true;
         yield return new WaitForSeconds(1);
-        //StartCoroutine(enemyManager.CreateEnemy());
+        StartCoroutine(enemyManager.CreateEnemy());
     }
     void Update()
     {
         MenuUse();
-        LifeText.text = playerLife.ToString() + "/" + allLife.ToString();
     }
     public void Resurrection()
     {
-        if (playerLife < 0)
+        if (lifeCount < 0)
         {
             PlayerReallyDeath = true;
             Menu.SetActive(true);
@@ -137,7 +145,7 @@ public class GameManager : MonoBehaviour
         switch (item.itemType)
         {
             case ItemType.Life:
-                if (playerLife < allLife)
+                if (lifeCount < allLife)
                 {
                     AddScore(item.score);
                     AddLife(1);
@@ -148,10 +156,10 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case ItemType.Bomb:
-                if (playerBottom < allBomb)
+                if (boumbCount < allBomb)
                 {
                     AddScore(item.score);
-                    AddBottom();
+                    AddBottom(1);
                 }
                 else
                 {
@@ -187,17 +195,34 @@ public class GameManager : MonoBehaviour
     public void AddScore(int value)
     {
         playerScore += value;
-        scoreText.text = playerScore.ToString();
+        scoreText.text = "     Score:"+playerScore.ToString();
     }
     public void AddLife(int value)
     {
-        playerLife += value;
-        playerScript.gameObject.GetComponent<Death>().hp = playerScript.gameObject.GetComponent<Death>().totalHp;
+        lifeCount += value;
+        for (int i = 0; i < allLife; i++)
+        {
+            Lifes[i].gameObject.GetComponent<Image>().sprite = LifeImages[0];
+        }
+        for (int i = 0; i < lifeCount; i++)
+        {
+            Lifes[i].gameObject.GetComponent<Image>().sprite = LifeImages[1];
+        }
     }
-    void AddBottom()
+    void AddBottom(int value)
     {
-        playerBottom += 1;
-        bottomText.text = playerBottom.ToString() + "/" + allBomb.ToString();
+        if (boumbCount < playerBottom)
+        {
+            boumbCount += value;
+            for (int i = 0; i < allBomb; i++)
+            {
+                Bombs[i].gameObject.GetComponent<Image>().sprite = bombImages[0];
+            }
+            for (int i = 0; i < boumbCount; i++)
+            {
+                Bombs[i].gameObject.GetComponent<Image>().sprite = bombImages[1];
+            }
+        }
     }
     void AddExp(int value)
     {
@@ -205,6 +230,7 @@ public class GameManager : MonoBehaviour
         while (playerExp >= totalExp)
         {
             playerLevel += 1;
+            playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
             if (playerLevel < 3)
             {
                 playerExp -= totalExp;
@@ -219,6 +245,17 @@ public class GameManager : MonoBehaviour
             }
         }
         expBar.value = (float)playerExp / totalExp;
+    }
+    void MinusLevel()
+    {
+        playerExp = 0;
+        if (playerLevel > 0)
+        {
+            playerLevel -= 1;
+            playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
+            expBar.value = (float)playerExp / totalExp;
+            Level.text = "Levil " + playerLevel.ToString();
+        }
     }
     public void ClearBarrage()
     {
@@ -318,7 +355,7 @@ public class GameManager : MonoBehaviour
     }
     public void MenuUse()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !PlayerReallyDeath && enemyManager.isWin)
+        if (Input.GetKeyDown(KeyCode.Escape) && !PlayerReallyDeath && !enemyManager.isWin)
         {
             isOnButton = !isOnButton;
             Menu.SetActive(isOnButton);
@@ -356,8 +393,9 @@ public class GameManager : MonoBehaviour
         }
         if (PlayerReallyDeath)
         {
-            playerLife = 3;
             PlayerReallyDeath = false;
+            MinusLevel();
+            AddLife(playerLife);
             PlayerResurrection();
         }
         Time.timeScale = 1;

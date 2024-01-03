@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum Wave
 {
@@ -38,6 +39,7 @@ public class EnemyManager : MonoBehaviour
     GameObject tempEnemy;
     #endregion
     #region "Hide"
+    public Slider BossBar;
     [HideInInspector]
     public bool isWin = false;
     [HideInInspector]
@@ -70,6 +72,7 @@ public class EnemyManager : MonoBehaviour
                 isSpanBoss = true;
                 isInBossAttack = false;
                 CreateNowEnemy(waveBosses[bossIndex].bossPrefab[nowBossStage - 1], waveBosses[bossIndex].spanPosition, waveBosses[bossIndex].movePosition);
+                
                 if (nowBossStage >= waveBosses[bossIndex].bossPrefab.Length)
                     OtherStage = false;
                 else
@@ -134,6 +137,7 @@ public class EnemyManager : MonoBehaviour
         {
             tempEnemy.GetComponent<Enemy>().canTouch = false;
             tempEnemy.GetComponent<Death>().isInvincible = true;
+            tempEnemy.GetComponent<Death>().hpBar = BossBar;
         }    
         for (int i = 0; i < movePosition.Length; i++)
             tempEnemy.GetComponent<Enemy>().Dot[i] = movePosition[i].position;
