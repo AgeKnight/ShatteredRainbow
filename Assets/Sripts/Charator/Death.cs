@@ -78,12 +78,7 @@ public class Death : MonoBehaviour
         if (gameObject.tag == "Enemy")
         {
             if(enemyType == EnemyType.Boss)
-            {
-                GameManager.Instance.Reciprocal.GetComponent<Reciprocal>().Die();
-                GameManager.Instance.HideBossImage();
-                hpBar.value = 1;
-                hpBar.gameObject.SetActive(false);
-            }
+                GameManager.Instance.BossNext();
             Enemydeath();
             Destroy(this.gameObject);
         }

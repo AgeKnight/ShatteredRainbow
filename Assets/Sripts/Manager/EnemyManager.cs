@@ -72,7 +72,6 @@ public class EnemyManager : MonoBehaviour
                 isSpanBoss = true;
                 isInBossAttack = false;
                 CreateNowEnemy(waveBosses[bossIndex].bossPrefab[nowBossStage - 1], waveBosses[bossIndex].spanPosition, waveBosses[bossIndex].movePosition);
-                
                 if (nowBossStage >= waveBosses[bossIndex].bossPrefab.Length)
                     OtherStage = false;
                 else
@@ -83,6 +82,7 @@ public class EnemyManager : MonoBehaviour
             else
             {
                 bool allEnemyDie = true;
+                //尋找敵人是否全部死亡
                 if (nowCount >= waveMonster[nowIndex].count)
                 {
                     for (int i = 0; i < waveEnemy.Count; i++)
@@ -96,6 +96,7 @@ public class EnemyManager : MonoBehaviour
                 }
                 if (allEnemyDie)
                 {
+                    //是否可以前往下一階段
                     if ((isSpanBoss && !OtherStage) || !isSpanBoss)
                     {
                         allIndex++;
@@ -103,23 +104,31 @@ public class EnemyManager : MonoBehaviour
                         if (isSpanBoss)
                             bossIndex++;
                     }
+                    //boss進入二階段
                     if(isSpanBoss&&OtherStage)
                         nowBossStage++;
+                    //完全勝利
                     if (bossIndex >= waveBosses.Length)
                     {
                         isWin = true;
                         yield return new WaitForSeconds(1f);
+                        //出現stage clear或進入下一個stage
+                        yield return new WaitForSeconds(1f);
+                        //出現勝利介面
                         GameManager.Instance.WinGame();
                         break;
                     }
                     nowCount = 0;
+                    //進入下一階段
                     if (!isSpanBoss)
                         nowIndex++;
                     else
                         isSpanBoss = false;
+                    //防止溢出
                     if (nowIndex >= waveMonster.Length)
                         nowIndex = 0;
                     waveEnemy.Clear();
+                    //開始進入boss戰
                     if (allIndex % (waveMonster.Length / 2 + 1) == waveMonster.Length / 2)
                     {
                         StartCoroutine(BossAppear());

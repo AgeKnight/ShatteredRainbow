@@ -345,8 +345,12 @@ public class GameManager : MonoBehaviour
             stars[i].SetActive(true);
         }
     }
-    public void HideBossImage()
+    //階段顯示
+    public void BossNext()
     {
+        enemyManager.BossBar.value = 1;
+        enemyManager.BossBar.gameObject.SetActive(false);
+        Reciprocal.GetComponent<Reciprocal>().Die();
         BossImage.gameObject.SetActive(false);
         for (int i = 0; i < stars.Length; i++)
         {
