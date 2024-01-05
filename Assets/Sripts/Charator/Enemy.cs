@@ -261,7 +261,7 @@ public class Enemy : MonoBehaviour
         for (int j = 0; j < count[0]; j++)
         {
             Quaternion quaternion = Quaternion.Euler(0,0,angle);
-            GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, quaternion);
+            Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, quaternion);
             angle += 12;
         }
         ChooseTypeBarrage();
@@ -272,7 +272,7 @@ public class Enemy : MonoBehaviour
         Vector3 eulerAngle = GetAngle(transform.position, player.transform.position);
         for (int j = 0; j < count[0]; j++)
         {
-            GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
+            Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
             eulerAngle.z += 12;
         }
         ChooseTypeBarrage();
@@ -283,7 +283,7 @@ public class Enemy : MonoBehaviour
         for (int j = 0; j <= count[0]; j++)
         {
             indexz += 360 / count[0];
-            GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
+            Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
         }
         if(nowCountBarrage%3==2)
             enemyBarrageCounts[nowIndex].count[2]+=20;
@@ -302,7 +302,7 @@ public class Enemy : MonoBehaviour
                 for (int j = 0; j <= count[2]; j++)
                 {
                     indexz += 360 / count[2];
-                    GameObject temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, Barrage, Quaternion.Euler(0, 0, indexz));
+                    Instantiate(enemyBarrageCounts[nowIndex].barrage, Barrage, Quaternion.Euler(0, 0, indexz));
                 }
                 nowCount = i;
                 yield return new WaitForSeconds(countTime);
@@ -321,7 +321,6 @@ public class Enemy : MonoBehaviour
         isAttack = true;
         int indexz = 0;
         List<Bullet> bullets = new List<Bullet>();
-        List<Transform> transforms = new List<Transform>();
         for (int i = 0; i < count[0]; i++)
         {
             var temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz));

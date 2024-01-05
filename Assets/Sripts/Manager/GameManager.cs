@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,7 +13,12 @@ public enum Difficulty
     VerryHard,
     Hell
 }
-
+public enum StatusType
+{
+    Pause,
+    Lose,
+    Win
+}
 public class GameManager : MonoBehaviour
 {
     static GameManager instance;
@@ -31,22 +37,22 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     public int allBomb;
     public int allLife;
+    public Sprite[] LifeImages;//0 空心 1 實心
+    public Sprite[] bombImages;//0 空心 1 實心
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public StatusType statusType = StatusType.Pause;
     [HideInInspector]
     public Sprite[] playerFace;
     [HideInInspector]
     public GameObject playerStatus;
-    public Sprite[] LifeImages;//0 空心 1 實心
     [HideInInspector]
     public GameObject[] Lifes;
-    public Sprite[] bombImages;//0 空心 1 實心
     [HideInInspector]
     public GameObject[] Bombs;
     [HideInInspector]
-    public GameObject Win;
-    [HideInInspector]
-    public GameObject Menu;
+    public GameObject[] Menus;//0 暫停 1 輸 2贏
     [HideInInspector]
     public Text Title;
     [HideInInspector]
@@ -71,8 +77,6 @@ public class GameManager : MonoBehaviour
     public Text Level;
     [HideInInspector]
     public Slider expBar;
-    [HideInInspector]
-    public bool PlayerReallyDeath = false;
     [HideInInspector]
     public Transform PlayerResurrectionPosition;
     #endregion
@@ -110,15 +114,25 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        MenuUse();
+        switch (statusType)
+        {
+            case StatusType.Pause:
+                MenuUse();
+                break;          
+            case StatusType.Win:
+                WinGame();
+                break;             
+            case StatusType.Lose:
+                LoseGame();
+                break;
+        }
     }
+    #region "復活"
     public void Resurrection()
     {
         if (lifeCount < 0)
         {
-            PlayerReallyDeath = true;
-            Menu.SetActive(true);
-            Time.timeScale = 0;
+            statusType = StatusType.Lose;
         }
         else
         {
@@ -127,10 +141,7 @@ public class GameManager : MonoBehaviour
     }
     void PlayerResurrection()
     {
-        if (!FindObjectOfType<Player>())
-        {
-            playerScript = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity).GetComponent<Player>();
-        }
+        playerScript = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity).GetComponent<Player>();
         playerScript.AddBro();
         playerScript.gameObject.GetComponent<Death>().isInvincible = true;
         playerScript.canMove = true;
@@ -140,6 +151,8 @@ public class GameManager : MonoBehaviour
     {
         playerScript.gameObject.GetComponent<Death>().isInvincible = false;
     }
+    #endregion
+    #region "吃東西"
     public void EatItem(Item item)
     {
         switch (item.itemType)
@@ -246,6 +259,7 @@ public class GameManager : MonoBehaviour
         }
         expBar.value = (float)playerExp / totalExp;
     }
+    #endregion
     void MinusLevel()
     {
         playerExp = 0;
@@ -328,6 +342,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    #region "boss戰"
     public void BeginReciprocal()
     {
         Reciprocal.SetActive(true);
@@ -338,7 +353,6 @@ public class GameManager : MonoBehaviour
     {
         BossImage.gameObject.SetActive(true);
         BossImage.sprite = sprite;
-
         int tempLength = enemyManager.waveBosses[enemyManager.bossIndex].bossPrefab.Length;
         for (int i = 0; i < tempLength - enemyManager.nowBossStage; i++)
         {
@@ -357,24 +371,19 @@ public class GameManager : MonoBehaviour
             stars[i].SetActive(false);
         }
     }
+    #endregion
     public void MenuUse()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !PlayerReallyDeath && !enemyManager.isWin)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             isOnButton = !isOnButton;
-            Menu.SetActive(isOnButton);
+            Menus[0].SetActive(isOnButton);
+            if (playerScript)
+                playerScript.enabled = !isOnButton;
             if (isOnButton)
-            {
-                if (playerScript)
-                    playerScript.enabled = false;
                 Time.timeScale = 0;
-            }
             else
-            {
-                if (playerScript)
-                    playerScript.enabled = true;
                 Time.timeScale = 1;
-            }
         }
     }
     public void Replay()
@@ -389,25 +398,22 @@ public class GameManager : MonoBehaviour
     }
     public void Return()
     {
-        isOnButton = false;
-        Menu.SetActive(false);
-        if (playerScript)
-        {
-            playerScript.enabled = true;
-        }
-        if (PlayerReallyDeath)
-        {
-            PlayerReallyDeath = false;
-            MinusLevel();
-            AddLife(playerLife);
-            PlayerResurrection();
-        }
+        Menus[1].SetActive(false);
+        statusType=StatusType.Pause;
+        //MinusLevel();
+        AddLife(playerLife);
+        PlayerResurrection();
         Time.timeScale = 1;
     }
-    public void WinGame()
+    void WinGame()
     {
         playerScript.enabled = false;
-        Win.SetActive(true);
+        Menus[2].SetActive(true);
+        Time.timeScale = 0;
+    }
+    void LoseGame()
+    {
+        Menus[1].SetActive(true);
         Time.timeScale = 0;
     }
 }

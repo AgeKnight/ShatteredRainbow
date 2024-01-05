@@ -39,6 +39,8 @@ public class EnemyManager : MonoBehaviour
     GameObject tempEnemy;
     #endregion
     #region "Hide"
+    public GameObject StageClear;
+    public GameObject StageBonus;
     public Slider BossBar;
     [HideInInspector]
     public bool isWin = false;
@@ -112,10 +114,10 @@ public class EnemyManager : MonoBehaviour
                     {
                         isWin = true;
                         yield return new WaitForSeconds(1f);
-                        //出現stage clear或進入下一個stage
+                        StageClear.SetActive(true);
                         yield return new WaitForSeconds(1f);
-                        //出現勝利介面
-                        GameManager.Instance.WinGame();
+                        StageClear.SetActive(false);
+                        GameManager.Instance.statusType = StatusType.Win;
                         break;
                     }
                     nowCount = 0;
@@ -123,7 +125,12 @@ public class EnemyManager : MonoBehaviour
                     if (!isSpanBoss)
                         nowIndex++;
                     else
+                    {
+                        StageBonus.SetActive(true);
+                        yield return new WaitForSeconds(1f);
+                        StageBonus.SetActive(false);
                         isSpanBoss = false;
+                    }      
                     //防止溢出
                     if (nowIndex >= waveMonster.Length)
                         nowIndex = 0;
