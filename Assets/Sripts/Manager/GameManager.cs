@@ -37,8 +37,13 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     public Sprite[] LifeImages;//0 空心 1 實心
     public Sprite[] bombImages;//0 空心 1 實心
+    public Sprite[] bossImages;//0 空心 1 實心
     #endregion
     #region "Hide"
+    public GameObject[] bossStaire;
+    [HideInInspector]
+    //0 左上 1 右下
+    public GameObject[] mapPosition;
     [HideInInspector]
     public int allBomb;
     [HideInInspector]
@@ -67,10 +72,6 @@ public class GameManager : MonoBehaviour
     public Transform playerSpan;
     [HideInInspector]
     public EnemyManager enemyManager;
-    [HideInInspector]
-    public GameObject[] stars;
-    [HideInInspector]
-    public Image BossImage;
     [HideInInspector]
     public GameObject Reciprocal;
     [HideInInspector]
@@ -357,14 +358,13 @@ public class GameManager : MonoBehaviour
         Reciprocal.GetComponent<Reciprocal>().allTime = 60;
         Reciprocal.GetComponent<Reciprocal>().isDead = false;
     }
-    public void ShowBossImage(Sprite sprite)
+    public void ShowBossStaire(int count,int nowStage)
     {
-        BossImage.gameObject.SetActive(true);
-        BossImage.sprite = sprite;
-        int tempLength = enemyManager.waveBosses[enemyManager.bossIndex].bossPrefab.Length;
-        for (int i = 0; i < tempLength - enemyManager.nowBossStage; i++)
+        for (int i = 0; i < count-1; i++)
         {
-            stars[i].SetActive(true);
+            bossStaire[i].SetActive(true);
+            if(i<count-nowStage)
+                bossStaire[i].GetComponent<Image>().sprite = bossImages[1];
         }
     }
     //階段顯示
@@ -373,10 +373,10 @@ public class GameManager : MonoBehaviour
         BossBar.value = 1;
         BossBar.gameObject.SetActive(false);
         Reciprocal.GetComponent<Reciprocal>().Die();
-        BossImage.gameObject.SetActive(false);
-        for (int i = 0; i < stars.Length; i++)
+        for (int i = 0; i <  bossStaire.Length; i++)
         {
-            stars[i].SetActive(false);
+            bossStaire[i].GetComponent<Image>().sprite = bossImages[0];
+            bossStaire[i].SetActive(false);
         }
     }
     #endregion

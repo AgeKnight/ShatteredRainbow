@@ -165,10 +165,10 @@ public class Enemy : MonoBehaviour
         else
         {
             death.hpBar.gameObject.SetActive(true);
-            GameManager.Instance.ShowBossImage(gameObject.GetComponent<SpriteRenderer>().sprite);
+            GameManager.Instance.ShowBossStaire(GameManager.Instance.enemyManager.AllBossStaire,GameManager.Instance.enemyManager.nowBossStage);
             //加入變身動畫
             canTouch = true;
-            if (FindObjectOfType<EnemyManager>().nowBossStage > 1)
+            if (GameManager.Instance.enemyManager.nowBossStage > 1)
             {
                 canCount = true;
                 coroutine = StartCoroutine(UltimateAttack());

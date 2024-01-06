@@ -45,8 +45,8 @@ public class EnemyManager : MonoBehaviour
     public int nowBossStage = 1;
     [HideInInspector]
     public int bossIndex = 0;
-    //0 左上 1 右下
-    public GameObject[] mapPosition;
+    [HideInInspector]
+    public int AllBossStaire;
     #endregion
     public WaveMonster[] waveMonster;
     public WaveBoss[] waveBosses;
@@ -158,6 +158,7 @@ public class EnemyManager : MonoBehaviour
     }
     IEnumerator BossAppear()
     {     
+        AllBossStaire = waveBosses[bossIndex].bossPrefab.Length;
         OtherStage = true;
         isInBossAttack = true;
         if (nowBossStage == 1)
@@ -174,10 +175,10 @@ public class EnemyManager : MonoBehaviour
     {
         for (int i = 0; i < waveMonster[nowIndex].movePosition.Length; i++)
         {
-            float tempPosition = (mapPosition[0].transform.position.x + mapPosition[1].transform.position.x) / 2 - waveMonster[nowIndex].movePosition[i].position.x;
+            float tempPosition = (GameManager.Instance.mapPosition[0].transform.position.x + GameManager.Instance.mapPosition[1].transform.position.x) / 2 - waveMonster[nowIndex].movePosition[i].position.x;
             waveMonster[nowIndex].movePosition[i].position = new Vector3(tempPosition, waveMonster[nowIndex].movePosition[i].position.y, waveMonster[nowIndex].movePosition[i].position.z);
         }
-        float tempX = (mapPosition[0].transform.position.x + mapPosition[1].transform.position.x) / 2 - waveMonster[nowIndex].spanPosition.position.x;
+        float tempX = (GameManager.Instance.mapPosition[0].transform.position.x + GameManager.Instance.mapPosition[1].transform.position.x) / 2 - waveMonster[nowIndex].spanPosition.position.x;
         waveMonster[nowIndex].spanPosition.position = new Vector3(tempX, waveMonster[nowIndex].spanPosition.position.y, waveMonster[nowIndex].spanPosition.position.z);
     }
     void WholeRow()
