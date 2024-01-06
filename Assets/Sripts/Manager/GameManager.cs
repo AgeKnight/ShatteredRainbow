@@ -35,12 +35,20 @@ public class GameManager : MonoBehaviour
     #region "Public"
     [Header("復活秒數")]
     public float AllResurrectionTime;
-    public int allBomb;
-    public int allLife;
     public Sprite[] LifeImages;//0 空心 1 實心
     public Sprite[] bombImages;//0 空心 1 實心
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public int allBomb;
+    [HideInInspector]
+    public int allLife;
+    [HideInInspector]
+    public GameObject StageClear;
+    [HideInInspector]
+    public GameObject StageBonus;
+    [HideInInspector]
+    public Slider BossBar;
     [HideInInspector]
     public StatusType statusType = StatusType.Pause;
     [HideInInspector]
@@ -362,8 +370,8 @@ public class GameManager : MonoBehaviour
     //階段顯示
     public void BossNext()
     {
-        enemyManager.BossBar.value = 1;
-        enemyManager.BossBar.gameObject.SetActive(false);
+        BossBar.value = 1;
+        BossBar.gameObject.SetActive(false);
         Reciprocal.GetComponent<Reciprocal>().Die();
         BossImage.gameObject.SetActive(false);
         for (int i = 0; i < stars.Length; i++)

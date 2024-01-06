@@ -39,16 +39,12 @@ public class EnemyManager : MonoBehaviour
     GameObject tempEnemy;
     #endregion
     #region "Hide"
-    public GameObject StageClear;
-    public GameObject StageBonus;
-    public Slider BossBar;
     [HideInInspector]
     public bool isWin = false;
     [HideInInspector]
     public int nowBossStage = 1;
     [HideInInspector]
     public int bossIndex = 0;
-    [HideInInspector]
     //0 左上 1 右下
     public GameObject[] mapPosition;
     #endregion
@@ -114,9 +110,9 @@ public class EnemyManager : MonoBehaviour
                     {
                         isWin = true;
                         yield return new WaitForSeconds(1f);
-                        StageClear.SetActive(true);
+                        GameManager.Instance.StageClear.SetActive(true);
                         yield return new WaitForSeconds(1f);
-                        StageClear.SetActive(false);
+                        GameManager.Instance.StageClear.SetActive(false);
                         GameManager.Instance.statusType = StatusType.Win;
                         break;
                     }
@@ -126,9 +122,9 @@ public class EnemyManager : MonoBehaviour
                         nowIndex++;
                     else
                     {
-                        StageBonus.SetActive(true);
+                        GameManager.Instance.StageBonus.SetActive(true);
                         yield return new WaitForSeconds(1f);
-                        StageBonus.SetActive(false);
+                        GameManager.Instance.StageBonus.SetActive(false);
                         isSpanBoss = false;
                     }      
                     //防止溢出
@@ -153,7 +149,7 @@ public class EnemyManager : MonoBehaviour
         {
             tempEnemy.GetComponent<Enemy>().canTouch = false;
             tempEnemy.GetComponent<Death>().isInvincible = true;
-            tempEnemy.GetComponent<Death>().hpBar = BossBar;
+            tempEnemy.GetComponent<Death>().hpBar = GameManager.Instance.BossBar;
         }    
         for (int i = 0; i < movePosition.Length; i++)
             tempEnemy.GetComponent<Enemy>().Dot[i] = movePosition[i].position;

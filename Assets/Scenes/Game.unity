@@ -1684,14 +1684,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllResurrectionTime: 1
-  allBomb: 10
-  allLife: 10
   LifeImages:
   - {fileID: 21300000, guid: e447ca60c62820d499f3cd1457147b33, type: 3}
   - {fileID: 21300000, guid: 65520c83c170dc14c872932c52d7b5c9, type: 3}
   bombImages:
   - {fileID: 21300000, guid: ddf6bb46b691fe545acd67332adeb613, type: 3}
   - {fileID: 21300000, guid: 1964ea45631ed7242ae32b91d90e33c8, type: 3}
+  allBomb: 10
+  allLife: 10
+  StageClear: {fileID: 616345319}
+  StageBonus: {fileID: 591626949}
+  BossBar: {fileID: 796921415}
   statusType: 0
   playerFace:
   - {fileID: 21300000, guid: 3ca5b231404f6e944a8b63e23fdf8e23, type: 3}
@@ -1772,9 +1775,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83936b1c3461c46449cd68ef3b3ec3d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StageClear: {fileID: 616345319}
-  StageBonus: {fileID: 591626949}
-  BossBar: {fileID: 796921415}
   isWin: 0
   nowBossStage: 1
   bossIndex: 0
