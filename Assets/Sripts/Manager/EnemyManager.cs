@@ -7,7 +7,8 @@ public enum Wave
 {
     OneColumn,
     TwoColumn,
-    WholeRow
+    WholeLeftRow,
+    WholeRightRow
 }
 [System.Serializable]
 public struct WaveMonster
@@ -103,7 +104,7 @@ public class EnemyManager : MonoBehaviour
                             bossIndex++;
                     }
                     //boss進入二階段
-                    if(isSpanBoss&&OtherStage)
+                    if (isSpanBoss && OtherStage)
                         nowBossStage++;
                     //完全勝利
                     if (bossIndex >= waveBosses.Length)
@@ -126,7 +127,7 @@ public class EnemyManager : MonoBehaviour
                         yield return new WaitForSeconds(1f);
                         GameManager.Instance.StageBonus.SetActive(false);
                         isSpanBoss = false;
-                    }      
+                    }
                     //防止溢出
                     if (nowIndex >= waveMonster.Length)
                         nowIndex = 0;
@@ -145,19 +146,20 @@ public class EnemyManager : MonoBehaviour
     void CreateNowEnemy(GameObject prefab, Transform transform, Transform[] movePosition)
     {
         tempEnemy = Instantiate(prefab, transform.position, Quaternion.identity);
-        if(isSpanBoss)
+        if (isSpanBoss)
         {
             tempEnemy.GetComponent<Enemy>().canTouch = false;
             tempEnemy.GetComponent<Death>().isInvincible = true;
+            GameManager.Instance.BossBar.value = 1;
             tempEnemy.GetComponent<Death>().hpBar = GameManager.Instance.BossBar;
-        }    
+        }
         for (int i = 0; i < movePosition.Length; i++)
             tempEnemy.GetComponent<Enemy>().Dot[i] = movePosition[i].position;
         waveEnemy.Add(tempEnemy);
         GameManager.Instance.ChangeDifficulty(tempEnemy);
     }
     IEnumerator BossAppear()
-    {     
+    {
         AllBossStaire = waveBosses[bossIndex].bossPrefab.Length;
         OtherStage = true;
         isInBossAttack = true;
@@ -181,11 +183,20 @@ public class EnemyManager : MonoBehaviour
         float tempX = (GameManager.Instance.mapPosition[0].transform.position.x + GameManager.Instance.mapPosition[1].transform.position.x) / 2 - waveMonster[nowIndex].spanPosition.position.x;
         waveMonster[nowIndex].spanPosition.position = new Vector3(tempX, waveMonster[nowIndex].spanPosition.position.y, waveMonster[nowIndex].spanPosition.position.z);
     }
-    void WholeRow()
+    void WholeLeftRow()
     {
-        float distance = 0.4f;
-        if (waveMonster[nowIndex].spanPosition.position.x >= 0)
-            distance *= -1;
+        float distance = -0.6f;
+        float tempX = waveMonster[nowIndex].spanPosition.position.x + distance;
+        waveMonster[nowIndex].spanPosition.position = new Vector3(tempX, waveMonster[nowIndex].spanPosition.position.y, waveMonster[nowIndex].spanPosition.position.z);
+        for (int i = 0; i < waveMonster[nowIndex].movePosition.Length; i++)
+        {
+            float tempPosition = waveMonster[nowIndex].movePosition[i].position.x + distance;
+            waveMonster[nowIndex].movePosition[i].position = new Vector3(tempPosition, waveMonster[nowIndex].movePosition[i].position.y, waveMonster[nowIndex].movePosition[i].position.z);
+        }
+    }
+    void WholeRightRow()
+    {
+        float distance = 0.6f;
         float tempX = waveMonster[nowIndex].spanPosition.position.x + distance;
         waveMonster[nowIndex].spanPosition.position = new Vector3(tempX, waveMonster[nowIndex].spanPosition.position.y, waveMonster[nowIndex].spanPosition.position.z);
         for (int i = 0; i < waveMonster[nowIndex].movePosition.Length; i++)

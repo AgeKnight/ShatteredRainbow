@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour
     #region "Private"
     int totalExp = 100;
     bool isOnButton = false;
-    Player playerScript;
     int boumbCount = 0;
     int lifeCount = 0;
     int playerScore;
@@ -40,6 +39,8 @@ public class GameManager : MonoBehaviour
     public Sprite[] bossImages;//0 空心 1 實心
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public Player playerScript;
     public GameObject[] bossStaire;
     [HideInInspector]
     //0 左上 1 右下
@@ -127,10 +128,10 @@ public class GameManager : MonoBehaviour
         {
             case StatusType.Pause:
                 MenuUse();
-                break;          
+                break;
             case StatusType.Win:
                 WinGame();
-                break;             
+                break;
             case StatusType.Lose:
                 LoseGame();
                 break;
@@ -217,7 +218,7 @@ public class GameManager : MonoBehaviour
     public void AddScore(int value)
     {
         playerScore += value;
-        scoreText.text = "     Score:"+playerScore.ToString();
+        scoreText.text = "     Score:" + playerScore.ToString();
     }
     public void AddLife(int value)
     {
@@ -233,17 +234,14 @@ public class GameManager : MonoBehaviour
     }
     void AddBottom(int value)
     {
-        if (boumbCount < playerBottom)
+        boumbCount += value;
+        for (int i = 0; i < allBomb; i++)
         {
-            boumbCount += value;
-            for (int i = 0; i < allBomb; i++)
-            {
-                Bombs[i].gameObject.GetComponent<Image>().sprite = bombImages[0];
-            }
-            for (int i = 0; i < boumbCount; i++)
-            {
-                Bombs[i].gameObject.GetComponent<Image>().sprite = bombImages[1];
-            }
+            Bombs[i].gameObject.GetComponent<Image>().sprite = bombImages[0];
+        }
+        for (int i = 0; i < boumbCount; i++)
+        {
+            Bombs[i].gameObject.GetComponent<Image>().sprite = bombImages[1];
         }
     }
     void AddExp(int value)
@@ -358,12 +356,12 @@ public class GameManager : MonoBehaviour
         Reciprocal.GetComponent<Reciprocal>().allTime = 60;
         Reciprocal.GetComponent<Reciprocal>().isDead = false;
     }
-    public void ShowBossStaire(int count,int nowStage)
+    public void ShowBossStaire(int count, int nowStage)
     {
-        for (int i = 0; i < count-1; i++)
+        for (int i = 0; i < count - 1; i++)
         {
             bossStaire[i].SetActive(true);
-            if(i<count-nowStage)
+            if (i < count - nowStage)
                 bossStaire[i].GetComponent<Image>().sprite = bossImages[1];
         }
     }
@@ -373,7 +371,7 @@ public class GameManager : MonoBehaviour
         BossBar.value = 1;
         BossBar.gameObject.SetActive(false);
         Reciprocal.GetComponent<Reciprocal>().Die();
-        for (int i = 0; i <  bossStaire.Length; i++)
+        for (int i = 0; i < bossStaire.Length; i++)
         {
             bossStaire[i].GetComponent<Image>().sprite = bossImages[0];
             bossStaire[i].SetActive(false);
@@ -397,17 +395,19 @@ public class GameManager : MonoBehaviour
     public void Replay()
     {
         Time.timeScale = 1;
+        statusType = StatusType.Pause;
         SceneManager.LoadScene("Game");
     }
     public void BackToMenu()
     {
         Time.timeScale = 1;
+        statusType = StatusType.Pause;
         SceneManager.LoadScene("Main");
     }
     public void Return()
     {
         Menus[1].SetActive(false);
-        statusType=StatusType.Pause;
+        statusType = StatusType.Pause;
         //MinusLevel();
         AddLife(playerLife);
         PlayerResurrection();

@@ -34,7 +34,15 @@ public class Player : MonoBehaviour
     {
         if (canMove)
         {
-            UseAttack();
+            if(canControlAttack)
+            {
+                UseAttack();
+            }
+            else if(!canControlAttack&&!isAttack)
+            {
+                isAttack = true;
+                coroutine = StartCoroutine(Attack());
+            }
         }
     }
     public void AddBro()
@@ -73,7 +81,6 @@ public class Player : MonoBehaviour
         {
             isAttack = false;
             BroAnime();
-            StopCoroutine(coroutine);
         }
     }
     void BroAnime()
@@ -91,7 +98,7 @@ public class Player : MonoBehaviour
     }
     IEnumerator Attack()
     {
-        while (true)
+        while (isAttack)
         {
             for (int i = 0; i < bulletTransform.Length; i++)
             {

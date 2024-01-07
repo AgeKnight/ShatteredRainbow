@@ -234,88 +234,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.23313808, y: 9.996544}
   m_EdgeRadius: 0
---- !u!1 &102795587
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 102795589}
-  - component: {fileID: 102795588}
-  m_Layer: 0
-  m_Name: Bg
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!212 &102795588
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 102795587}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: -10
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0.18867922, g: 0.065216, b: 0.020291904, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!4 &102795589
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 102795587}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 10.5, y: 10, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &115602132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1619,6 +1537,7 @@ MonoBehaviour:
   bossImages:
   - {fileID: 21300000, guid: 61d764d9dd8164f4aa25016e8f250e5c, type: 3}
   - {fileID: 21300000, guid: 2b8458ae456d8c2408ce69a06c6ae1c1, type: 3}
+  playerScript: {fileID: 0}
   bossStaire:
   - {fileID: 1815714224}
   - {fileID: 1389281837}
@@ -1683,7 +1602,7 @@ MonoBehaviour:
   expBar: {fileID: 252235400}
   PlayerResurrectionPosition: {fileID: 752541158}
   difficulty: 1
-  playerBottom: 5
+  playerBottom: 2
   playerLife: 3
   AllInvincibleTime: 1
 --- !u!4 &331282130
@@ -1749,7 +1668,7 @@ MonoBehaviour:
     - {fileID: 604373939}
     - {fileID: 1796432334}
   - monsterPrefab: {fileID: 5601185290954460713, guid: dd34154162508ed4c95a7858dae39729, type: 3}
-    count: 10
+    count: 15
     spanTime: 0.3
     wave: 2
     spanPosition: {fileID: 1185985675}
@@ -1787,9 +1706,9 @@ MonoBehaviour:
     - {fileID: 604373939}
     - {fileID: 1796432334}
   - monsterPrefab: {fileID: 5601185290954460713, guid: dd34154162508ed4c95a7858dae39729, type: 3}
-    count: 10
+    count: 15
     spanTime: 0.3
-    wave: 2
+    wave: 3
     spanPosition: {fileID: 626639479}
     movePosition:
     - {fileID: 1539721863}
@@ -2773,7 +2692,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 604373938}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.33, y: 3.08, z: 0}
+  m_LocalPosition: {x: -0.14, y: 2.09, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 176434956}
@@ -5019,7 +4938,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1106777134}
   m_Layer: 0
-  m_Name: "\u4E00\u6574\u6392\u653B\u64CA\u9EDE"
+  m_Name: "\u4E00\u6574\u6392\u653B\u64CA\u9EDE1"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

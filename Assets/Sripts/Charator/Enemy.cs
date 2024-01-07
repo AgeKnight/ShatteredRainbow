@@ -8,7 +8,8 @@ public enum BarrageType
     Shotgun,
     TrackShotgun,
     CircleBarrage,
-    FirRoundGroup
+    FirRoundGroup,
+    MachineGun
 }
 public enum AttackType
 {
@@ -203,7 +204,7 @@ public class Enemy : MonoBehaviour
     {
         while (true)
         {
-            if (FindObjectOfType<Player>() && !canChooseBarrage && !isAttack)
+            if (GameManager.Instance.playerScript && !canChooseBarrage && !isAttack)
             {
                 string nowBarrage = System.Enum.GetName(typeof(BarrageType), enemyBarrageCounts[nowIndex].barrageType);
                 nowCorotine = StartCoroutine(nowBarrage, enemyBarrageCounts[nowIndex].count);
@@ -268,8 +269,11 @@ public class Enemy : MonoBehaviour
     }
     void TrackShotgun(int[] count)
     {
-        var player = FindObjectOfType<Player>();
-        Vector3 eulerAngle = GetAngle(transform.position, player.transform.position);
+        Vector3 eulerAngle = new Vector3();
+        if(GameManager.Instance.playerScript)
+            eulerAngle = GetAngle(transform.position, GameManager.Instance.playerScript.transform.position);
+        else
+            eulerAngle = GetAngle(transform.position, GameManager.Instance.PlayerResurrectionPosition.transform.position);
         for (int j = 0; j < count[0]; j++)
         {
             Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
@@ -287,6 +291,20 @@ public class Enemy : MonoBehaviour
         }
         if(nowCountBarrage%3==2)
             enemyBarrageCounts[nowIndex].count[2]+=20;
+        ChooseTypeBarrage();
+    }
+    IEnumerator MachineGun(int[] count)
+    {
+        Vector3 eulerAngle = new Vector3();
+        if(GameManager.Instance.playerScript)
+            eulerAngle = GetAngle(transform.position, GameManager.Instance.playerScript.transform.position);
+        else
+            eulerAngle = GetAngle(transform.position, GameManager.Instance.PlayerResurrectionPosition.transform.position);
+        for (int i = 0; i < count[0]; i++)
+        {
+            Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
+            yield return new WaitForSeconds(0.1f);
+        }
         ChooseTypeBarrage();
     }
     IEnumerator CircleBarrage(int[] count, Vector3 Barrage)
