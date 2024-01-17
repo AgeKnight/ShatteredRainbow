@@ -363,10 +363,12 @@ public class GameManager : MonoBehaviour
             bossStaire[i].SetActive(true);
             if (i < count - nowStage)
                 bossStaire[i].GetComponent<Image>().sprite = bossImages[1];
+            else
+                break;
         }
     }
     //階段顯示
-    public void BossNext()
+    public void BossNext(int count,int allIndex)
     {
         BossBar.value = 1;
         BossBar.gameObject.SetActive(false);
@@ -374,7 +376,8 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < bossStaire.Length; i++)
         {
             bossStaire[i].GetComponent<Image>().sprite = bossImages[0];
-            bossStaire[i].SetActive(false);
+            if(allIndex-count==0)
+                bossStaire[i].SetActive(false);
         }
     }
     #endregion

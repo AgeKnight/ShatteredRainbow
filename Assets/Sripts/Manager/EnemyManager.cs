@@ -122,12 +122,7 @@ public class EnemyManager : MonoBehaviour
                     if (!isSpanBoss)
                         nowIndex++;
                     else
-                    {
-                        GameManager.Instance.StageBonus.SetActive(true);
-                        yield return new WaitForSeconds(1f);
-                        GameManager.Instance.StageBonus.SetActive(false);
                         isSpanBoss = false;
-                    }
                     //防止溢出
                     if (nowIndex >= waveMonster.Length)
                         nowIndex = 0;
