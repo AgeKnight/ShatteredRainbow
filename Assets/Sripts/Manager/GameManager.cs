@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
     public Slider BossBar;
     [HideInInspector]
     public StatusType statusType = StatusType.Pause;
-    [HideInInspector]
+    //[HideInInspector]
     public Sprite[] playerFace;
     [HideInInspector]
     public GameObject playerStatus;
