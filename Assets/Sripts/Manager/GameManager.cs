@@ -36,9 +36,11 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     public Sprite[] LifeImages;//0 空心 1 實心
     public Sprite[] bombImages;//0 空心 1 實心
-    public Sprite[] bossImages;//0 空心 1 實心
+    public Sprite[] bossImages;//0 空心 1 實心 
     #endregion
     #region "Hide"
+    public GameObject[] Triangles;
+    public Animator BarUse;
     [HideInInspector]
     public Player playerScript;
     public GameObject[] bossStaire;
@@ -363,21 +365,22 @@ public class GameManager : MonoBehaviour
             bossStaire[i].SetActive(true);
             if (i < count - nowStage)
                 bossStaire[i].GetComponent<Image>().sprite = bossImages[1];
-            else
-                break;
         }
     }
     //階段顯示
-    public void BossNext(int count,int allIndex)
+    public void BossNext()
     {
         BossBar.value = 1;
-        BossBar.gameObject.SetActive(false);
         Reciprocal.GetComponent<Reciprocal>().Die();
+        //播放血條動畫<關>
+        BarUse.Play("Close");
         for (int i = 0; i < bossStaire.Length; i++)
         {
             bossStaire[i].GetComponent<Image>().sprite = bossImages[0];
-            if(allIndex-count==0)
-                bossStaire[i].SetActive(false);
+            bossStaire[i].SetActive(false);
+            BossBar.gameObject.SetActive(false);
+            Triangles[0].SetActive(false);
+            Triangles[1].SetActive(false);
         }
     }
     #endregion

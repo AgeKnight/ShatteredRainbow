@@ -78,7 +78,7 @@ public class Death : MonoBehaviour
         if (gameObject.tag == "Enemy")
         {
             if(enemyType == EnemyType.Boss)
-                GameManager.Instance.BossNext(GameManager.Instance.enemyManager.AllBossStaire,GameManager.Instance.enemyManager.nowBossStage);
+                GameManager.Instance.BossNext();
             Enemydeath();
             Destroy(this.gameObject);
         }

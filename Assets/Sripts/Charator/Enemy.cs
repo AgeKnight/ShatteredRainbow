@@ -56,8 +56,10 @@ public class Enemy : MonoBehaviour
     #endregion
     #region "Hide"
     [HideInInspector]
+    //觸碰到會不會死
     public bool canTouch = true;
     [HideInInspector]
+    //可不可以記數
     public bool canCount = false;
     [HideInInspector]
     public Vector3[] Dot = new Vector3[10];
@@ -166,8 +168,11 @@ public class Enemy : MonoBehaviour
         else
         {
             death.hpBar.gameObject.SetActive(true);
+            GameManager.Instance.Triangles[0].SetActive(true);
+            GameManager.Instance.Triangles[1].SetActive(true);          
             GameManager.Instance.ShowBossStaire(GameManager.Instance.enemyManager.AllBossStaire,GameManager.Instance.enemyManager.nowBossStage);
-            //加入變身動畫
+            //播放血條動畫(開)
+            GameManager.Instance.BarUse.Play("Open");
             canTouch = true;
             if (GameManager.Instance.enemyManager.nowBossStage > 1)
             {
