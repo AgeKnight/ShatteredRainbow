@@ -16,7 +16,7 @@ public enum EnemyType
 [System.Serializable]
 public struct ItemStruct //0 生命 1 炸彈 2 小弟 3生命碎片
 {
-    [Range(0f,100f)]public float probability;
+    [Range(0f, 100f)] public float probability;
     public GameObject items;
 }
 public class Death : MonoBehaviour
@@ -41,6 +41,7 @@ public class Death : MonoBehaviour
     public int minExp;
     public int maxExp;
     public int score;
+    public int bonusScore;
     #endregion
     void Awake()
     {
@@ -51,14 +52,14 @@ public class Death : MonoBehaviour
         switch (charatorType)
         {
             case CharatorType.Player:
-                if(charatorType==CharatorType.Player&&!isInvincible&&!isDead&&!GameManager.Instance.enemyManager.isWin)
+                if (charatorType == CharatorType.Player && !isInvincible && !isDead && !GameManager.Instance.enemyManager.isWin)
                     Die();
                 break;
             case CharatorType.Enemy:
                 if (isInvincible)
-                    value = 0;           
+                    value = 0;
                 hp -= value;
-                if (hpBar!=null)
+                if (hpBar != null)
                     hpBar.value = (float)hp / totalHp;
                 if (hp == 0)
                     Die();
@@ -70,16 +71,20 @@ public class Death : MonoBehaviour
         if (gameObject.tag == "Player")
         {
             isDead = true;
+            GameManager.Instance.isHurted = true;
             GameManager.Instance.AddLife(-1);
             GameManager.Instance.ClearBarrage();
             GameManager.Instance.Resurrection();
             Destroy(this.gameObject);
         }
-        if (gameObject.tag == "Enemy")
+        if (gameObject.tag == "Enemy" && !isDead)
         {
-            if(enemyType == EnemyType.Boss)
+            isDead = true;
+            if (enemyType == EnemyType.Boss)
                 GameManager.Instance.BossNext();
             Enemydeath();
+            if(!GameManager.Instance.isHurted)
+                GameManager.Instance.AddScore(bonusScore);
             Destroy(this.gameObject);
         }
     }
@@ -97,16 +102,22 @@ public class Death : MonoBehaviour
             var tempObject = Instantiate(expObject, tempPosition, Quaternion.identity);
             GameManager.Instance.ChangeDifficulty(tempObject);
         }
-        for (int i = 0; i < itemStruct.Length; i++)
+        if (GameManager.Instance.Reciprocal.gameObject.GetComponent<Reciprocal>().allTime > 0)
         {
-            float tempProbability = Random.Range(1, 100);
-            if (tempProbability <= itemStruct[i].probability)
+            //0 生命 1 炸彈 2 滿等
+            for (int i = 0; i < itemStruct.Length; i++)
             {
-                float tempx = Random.Range(-1.5f, 1.5f);
-                float tempY = Random.Range(-1.5f, 1.5f);
-                var tempPosition = new Vector2(enemyX + tempx, enemyY + tempY);
-                var tempObject=Instantiate(itemStruct[i].items, tempPosition, Quaternion.identity);
-                GameManager.Instance.ChangeDifficulty(tempObject);
+                if(i==1&&GameManager.Instance.isHurted)
+                    break;
+                float tempProbability = Random.Range(1, 100);
+                if (tempProbability <= itemStruct[i].probability)
+                {
+                    float tempx = Random.Range(-1.5f, 1.5f);
+                    float tempY = Random.Range(-1.5f, 1.5f);
+                    var tempPosition = new Vector2(enemyX + tempx, enemyY + tempY);
+                    var tempObject = Instantiate(itemStruct[i].items, tempPosition, Quaternion.identity);
+                    GameManager.Instance.ChangeDifficulty(tempObject);
+                }
             }
         }
     }

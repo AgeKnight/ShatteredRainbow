@@ -34,15 +34,22 @@ public class GameManager : MonoBehaviour
     #region "Public"
     [Header("復活秒數")]
     public float AllResurrectionTime;
-    public Sprite[] LifeImages;//0 空心 1 實心
-    public Sprite[] bombImages;//0 空心 1 實心
-    public Sprite[] bossImages;//0 空心 1 實心 
     #endregion
     #region "Hide"
+    public bool isHurted = false;
+    [HideInInspector]
+    public Sprite[] LifeImages;//0 空心 1 實心
+    [HideInInspector]
+    public Sprite[] bombImages;//0 空心 1 實心
+    [HideInInspector]
+    public Sprite[] bossImages;//0 空心 1 實心 
+    [HideInInspector]
     public GameObject[] Triangles;
+    [HideInInspector]
     public Animator BarUse;
     [HideInInspector]
     public Player playerScript;
+    [HideInInspector]
     public GameObject[] bossStaire;
     [HideInInspector]
     //0 左上 1 右下
@@ -59,7 +66,7 @@ public class GameManager : MonoBehaviour
     public Slider BossBar;
     [HideInInspector]
     public StatusType statusType = StatusType.Pause;
-    //[HideInInspector]
+    [HideInInspector]
     public Sprite[] playerFace;
     [HideInInspector]
     public GameObject playerStatus;
