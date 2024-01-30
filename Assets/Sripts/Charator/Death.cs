@@ -71,7 +71,8 @@ public class Death : MonoBehaviour
         if (gameObject.tag == "Player")
         {
             isDead = true;
-            GameManager.Instance.isHurted = true;
+            if(GameManager.Instance.enemyManager.isSpanBoss)
+                GameManager.Instance.isHurted = true;
             GameManager.Instance.AddLife(-1);
             GameManager.Instance.ClearBarrage();
             GameManager.Instance.Resurrection();
@@ -108,7 +109,10 @@ public class Death : MonoBehaviour
             for (int i = 0; i < itemStruct.Length; i++)
             {
                 if(i==1&&GameManager.Instance.isHurted)
+                {
+                    GameManager.Instance.isHurted = false;
                     break;
+                }
                 float tempProbability = Random.Range(1, 100);
                 if (tempProbability <= itemStruct[i].probability)
                 {

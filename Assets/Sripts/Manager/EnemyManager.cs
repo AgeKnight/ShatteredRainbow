@@ -34,12 +34,14 @@ public class EnemyManager : MonoBehaviour
     int nowCount = 0;
     int allIndex = 0;
     bool isInBossAttack = false;
-    bool isSpanBoss = false;
     bool OtherStage = true;
     List<GameObject> waveEnemy = new List<GameObject>();
     GameObject tempEnemy;
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public bool isSpanBoss = false;
+
     [HideInInspector]
     public bool isWin = false;
     [HideInInspector]
