@@ -84,7 +84,7 @@ public class Death : MonoBehaviour
             if (enemyType == EnemyType.Boss)
                 GameManager.Instance.BossNext();
             Enemydeath();
-            if(!GameManager.Instance.isHurted)
+            if(!GameManager.Instance.isHurted&&GameManager.Instance.Reciprocal.gameObject.GetComponent<Reciprocal>().allTime > 0)
                 GameManager.Instance.AddScore(bonusScore);
             Destroy(this.gameObject);
         }
