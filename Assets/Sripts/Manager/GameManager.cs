@@ -19,6 +19,12 @@ public enum StatusType
     Lose,
     Win
 }
+public enum AwardType
+{
+    Bonus,
+    Common,
+    Failed
+}
 public class GameManager : MonoBehaviour
 {
     static GameManager instance;
@@ -36,7 +42,7 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
-    public bool isHurted = false;
+    public AwardType awardType = AwardType.Bonus;
     [HideInInspector]
     public Sprite[] LifeImages;//0 空心 1 實心
     [HideInInspector]

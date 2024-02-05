@@ -72,7 +72,7 @@ public class Death : MonoBehaviour
         {
             isDead = true;
             if(GameManager.Instance.enemyManager.isSpanBoss)
-                GameManager.Instance.isHurted = true;
+                GameManager.Instance.awardType = AwardType.Common;
             GameManager.Instance.AddLife(-1);
             GameManager.Instance.ClearBarrage();
             GameManager.Instance.Resurrection();
@@ -84,7 +84,7 @@ public class Death : MonoBehaviour
             if (enemyType == EnemyType.Boss)
                 GameManager.Instance.BossNext();
             Enemydeath();
-            if(!GameManager.Instance.isHurted&&GameManager.Instance.Reciprocal.gameObject.GetComponent<Reciprocal>().allTime > 0)
+            if(GameManager.Instance.awardType==AwardType.Bonus)
                 GameManager.Instance.AddScore(bonusScore);
             Destroy(this.gameObject);
         }
@@ -103,14 +103,14 @@ public class Death : MonoBehaviour
             var tempObject = Instantiate(expObject, tempPosition, Quaternion.identity);
             GameManager.Instance.ChangeDifficulty(tempObject);
         }
-        if (GameManager.Instance.Reciprocal.gameObject.GetComponent<Reciprocal>().allTime > 0)
+        if (GameManager.Instance.awardType != AwardType.Failed)
         {
             //0 生命 1 炸彈 2 滿等
             for (int i = 0; i < itemStruct.Length; i++)
             {
-                if(i==1&&GameManager.Instance.isHurted)
+                if(i==1&&GameManager.Instance.awardType==AwardType.Common)
                 {
-                    GameManager.Instance.isHurted = false;
+                    GameManager.Instance.awardType=AwardType.Bonus;
                     break;
                 }
                 float tempProbability = Random.Range(1, 100);
@@ -124,5 +124,6 @@ public class Death : MonoBehaviour
                 }
             }
         }
+        GameManager.Instance.awardType=AwardType.Bonus;
     }
 }

@@ -13,7 +13,10 @@ public class Reciprocal : MonoBehaviour
     {
         gameObject.GetComponent<Text>().text = ((int)allTime).ToString();
         if (allTime <= 0)
+        {
+            GameManager.Instance.awardType = AwardType.Failed;
             Die();
+        }
         else
             allTime -= Time.deltaTime;
     }
