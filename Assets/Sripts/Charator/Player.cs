@@ -1,15 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    bool isUseBomb = false;
     Coroutine coroutine;
     #region "Public"
     public float speed;
     public bool canControlAttack;
+    public float useBombTime;
     #endregion
     #region "Hide"
     [HideInInspector]
@@ -43,6 +42,7 @@ public class Player : MonoBehaviour
                 isAttack = true;
                 coroutine = StartCoroutine(Attack());
             }
+            UseButton();
         }
     }
     public void AddBro()
@@ -117,5 +117,25 @@ public class Player : MonoBehaviour
             }
             yield return new WaitForSeconds(0.1f);
         }
+    }
+    void UseButton()
+    {
+        if(Input.GetKeyDown(KeyCode.X)&&GameManager.Instance.boumbCount>0&&!isUseBomb)
+        {
+            if(GameManager.Instance.enemyManager.isSpanBoss)
+            {
+                GameManager.Instance.awardType = AwardType.Common;
+            }
+            isUseBomb = true;
+            GameManager.Instance.AddBottom(-1);
+            gameObject.GetComponent<Death>().isInvincible = true;
+            Invoke("againUseBomb",useBombTime);
+            Debug.Log("使用炸彈");
+        }
+    }
+    void againUseBomb()
+    {
+        isUseBomb = false;
+        gameObject.GetComponent<Death>().isInvincible = false;
     }
 }

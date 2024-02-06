@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -32,7 +30,6 @@ public class GameManager : MonoBehaviour
     #region "Private"
     int totalExp = 100;
     bool isOnButton = false;
-    int boumbCount = 0;
     int lifeCount = 0;
     int playerScore;
     int playerExp;
@@ -43,6 +40,8 @@ public class GameManager : MonoBehaviour
     #endregion
     #region "Hide"
     public AwardType awardType = AwardType.Bonus;
+    [HideInInspector]
+    public int boumbCount = 0;
     [HideInInspector]
     public Sprite[] LifeImages;//0 空心 1 實心
     [HideInInspector]
@@ -247,7 +246,7 @@ public class GameManager : MonoBehaviour
             Lifes[i].gameObject.GetComponent<Image>().sprite = LifeImages[1];
         }
     }
-    void AddBottom(int value)
+    public void AddBottom(int value)
     {
         boumbCount += value;
         for (int i = 0; i < allBomb; i++)
