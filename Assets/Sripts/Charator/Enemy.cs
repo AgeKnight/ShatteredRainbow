@@ -19,7 +19,6 @@ public enum AttackType
 }
 public enum MoveType
 {
-    MoveToTarget,
     SomeTimesMove,
     StayAttackMove,
     ToPlayerMove,
@@ -61,7 +60,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector]
     //可不可以記數
     public bool canCount = false;
-    [HideInInspector]
+    //[HideInInspector]
     public Vector3[] Dot = new Vector3[10];
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
@@ -123,7 +122,6 @@ public class Enemy : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
             if (transform.position == targetPosition)
             {
-                ReturnMove();
                 canAttack = true;
                 canChooseBarrage = false;
                 if (useBarrage == AttackType.useBarrage)
@@ -135,13 +133,10 @@ public class Enemy : MonoBehaviour
             switch (moveType)
             {
                 case MoveType.SomeTimesMove:
-                    if (transform.position == targetPosition && canChooseBarrage)
-                    {
-                        canChooseBarrage = false;
-                        ReturnMove();
-                    }
-                    if (canChooseBarrage)
+                    if (transform.position != targetPosition)
                         transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
+                    else
+                        canChooseBarrage = false;
                     break;
                 case MoveType.StayAttackMove:
                     if (transform.position != targetPosition)
@@ -151,10 +146,6 @@ public class Enemy : MonoBehaviour
                     break;
                 case MoveType.ToPlayerMove:
                     transform.Translate(transform.forward * Time.deltaTime * Speed);
-                    break;
-                case MoveType.MoveToTarget:
-                    if(canChooseBarrage)
-                        transform.Translate(transform.up*Speed*Time.deltaTime);
                     break;
             }
         }
@@ -225,6 +216,7 @@ public class Enemy : MonoBehaviour
             nowIndex = 0;
         else
             nowIndex++;
+        ReturnMove();
     }
     void ChooseTypeBarrage()
     {
@@ -244,21 +236,12 @@ public class Enemy : MonoBehaviour
         nowCountBarrage += 1;
         if (nowCountBarrage == enemyBarrageCounts[nowIndex].count[1])
         {
-            if(death.enemyType == EnemyType.Trash)
-            {         
-                StopAllCoroutines();
-                Invoke("canGetAway",1);
-            }
             nowCountBarrage = 0;
-            changeBarrage();
-            if (moveType == MoveType.SomeTimesMove)
+            if (moveType != MoveType.StayAttackMove)
                 canChooseBarrage = true;
+            changeBarrage();
         }
         isAttack = false;
-    }
-    void canGetAway()
-    {
-        canChooseBarrage = true;
     }
     #region "所有彈幕方法"
     void Shotgun(int[] count)
@@ -301,6 +284,7 @@ public class Enemy : MonoBehaviour
     IEnumerator MachineGun(int[] count)
     {
         Vector3 eulerAngle = new Vector3();
+        isAttack = true;
         if(GameManager.Instance.playerScript)
             eulerAngle = GetAngle(transform.position, GameManager.Instance.playerScript.transform.position);
         else

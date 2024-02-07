@@ -165,6 +165,7 @@ MonoBehaviour:
   minExp: 1
   maxExp: 5
   score: 500
+  bonusScore: 0
 --- !u!114 &5240528303161632813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,15 +179,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useBarrage: 0
-  moveType: 2
+  moveType: 0
   bulletTransform: {fileID: 3784974869271591780}
   Speed: 3
   deadUseBarrage: 0
   canTouch: 1
   canCount: 0
-  Dot:
-  - {x: 0.000000010790747, y: 5.318565e+22, z: 8.5030156e+20}
-  - {x: 0.0000001689267, y: 1.6777952e+22, z: 0.000044153443}
+  Dot: []
   Allbullet: []
   enemyBarrageCounts:
   - count: 0100000001000000

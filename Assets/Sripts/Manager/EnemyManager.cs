@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+
 
 public enum Wave
 {
@@ -150,7 +152,11 @@ public class EnemyManager : MonoBehaviour
             tempEnemy.GetComponent<Death>().hpBar = GameManager.Instance.BossBar;
         }
         for (int i = 0; i < movePosition.Length; i++)
-            tempEnemy.GetComponent<Enemy>().Dot[i] = movePosition[i].position;
+        {
+            List<Vector3> list = new List<Vector3>(tempEnemy.GetComponent<Enemy>().Dot.ToList());
+            list.Add(movePosition[i].position);
+            tempEnemy.GetComponent<Enemy>().Dot = list.ToArray();
+        }
         waveEnemy.Add(tempEnemy);
         GameManager.Instance.ChangeDifficulty(tempEnemy);
     }

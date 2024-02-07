@@ -32,7 +32,6 @@ public class ChooseVaraible : Editor
         {
             { "bonusScore", EnemyType.Boss},
             { "hpBar", EnemyType.Boss},
-            { "indexMax", EnemyType.Boss},
             { "ultimateAttack", EnemyType.Boss},
         };
     void OnEnable()
