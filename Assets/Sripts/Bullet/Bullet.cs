@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
 {
     bool cantMove = false;
     public float speed;
+    public float hurt;
     //調難度
     public bool canTrackEnemy = false;
     public BulletType bulletType;
@@ -47,7 +48,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Death>() && other.gameObject.tag != bulletType.GetType().GetEnumName(bulletType))
         {
-            other.gameObject.GetComponent<Death>().Hurt();
+            other.gameObject.GetComponent<Death>().Hurt(hurt);
             Die();
         }
     }

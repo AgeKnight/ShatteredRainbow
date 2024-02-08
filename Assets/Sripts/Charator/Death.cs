@@ -19,9 +19,10 @@ public struct ItemStruct //0 生命 1 炸彈 2 小弟 3生命碎片
 }
 public class Death : MonoBehaviour
 {
-    #region Public
     bool isDead = false;
-    public int totalHp;
+    float hp;
+    #region Public
+    public float totalHp;
     public CharatorType charatorType;
     public EnemyType enemyType;
     public GameObject expObject;
@@ -30,7 +31,6 @@ public class Death : MonoBehaviour
     public Slider hpBar;
     [HideInInspector]
     public bool isInvincible = false;
-    int hp;
     #region  "調難度"
     [Header("調難度")]
     public EnemyBarrageCount ultimateAttack;
@@ -45,7 +45,7 @@ public class Death : MonoBehaviour
     {
         hp = totalHp;
     }
-    public void Hurt(int value = 1)
+    public void Hurt(float value = 1)
     {
         switch (charatorType)
         {
@@ -58,8 +58,8 @@ public class Death : MonoBehaviour
                     value = 0;
                 hp -= value;
                 if (hpBar != null)
-                    hpBar.value = (float)hp / totalHp;
-                if (hp == 0)
+                    hpBar.value = hp / totalHp;
+                if (hp <= 0 && !isDead)
                     Die();
                 break;
         }
@@ -76,7 +76,7 @@ public class Death : MonoBehaviour
             GameManager.Instance.Resurrection();
             Destroy(this.gameObject);
         }
-        if (gameObject.tag == "Enemy" && !isDead)
+        if (gameObject.tag == "Enemy")
         {
             isDead = true;
             if (enemyType == EnemyType.Boss)
