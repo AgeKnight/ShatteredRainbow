@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 
@@ -72,22 +73,17 @@ public class Enemy : MonoBehaviour
     #endregion
     void Start()
     {
-        death= gameObject.GetComponent<Death>();
+        death = gameObject.GetComponent<Death>();
         if (moveType != MoveType.ToPlayerMove)
             targetPosition = Dot[0];
         else
         {
-            if (FindObjectOfType<Player>())
-            {
-                var temp = FindObjectOfType<Player>().gameObject;
-                Vector3 dir = temp.transform.position - transform.position;
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 1);
-            }
+            Vector3 eulerAngle = new Vector3();
+            if (GameManager.Instance.playerScript)
+                eulerAngle = GetAngle(transform.position, GameManager.Instance.playerScript.transform.position);
             else
-            {
-                Vector3 dir = GameManager.Instance.PlayerResurrectionPosition.position - transform.position;
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 1);
-            }
+                eulerAngle = GetAngle(transform.position, GameManager.Instance.PlayerResurrectionPosition.transform.position);
+            transform.Rotate(eulerAngle);
             if (useBarrage == AttackType.useBarrage)
                 Attack();
         }
@@ -142,10 +138,10 @@ public class Enemy : MonoBehaviour
                     if (transform.position != targetPosition)
                         transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
                     else
-                        ReturnMove();
+                        changeBarrage();
                     break;
                 case MoveType.ToPlayerMove:
-                    transform.Translate(transform.forward * Time.deltaTime * Speed);
+                    transform.Translate(Vector3.up * Time.deltaTime * Speed,Space.Self);
                     break;
             }
         }
@@ -160,8 +156,8 @@ public class Enemy : MonoBehaviour
         {
             death.hpBar.gameObject.SetActive(true);
             GameManager.Instance.Triangles[0].SetActive(true);
-            GameManager.Instance.Triangles[1].SetActive(true);          
-            GameManager.Instance.ShowBossStaire(GameManager.Instance.enemyManager.AllBossStaire,GameManager.Instance.enemyManager.nowBossStage);
+            GameManager.Instance.Triangles[1].SetActive(true);
+            GameManager.Instance.ShowBossStaire(GameManager.Instance.enemyManager.AllBossStaire, GameManager.Instance.enemyManager.nowBossStage);
             //播放血條動畫(開)
             GameManager.Instance.BarUse.Play("Open");
             canTouch = true;
@@ -171,7 +167,7 @@ public class Enemy : MonoBehaviour
                 coroutine = StartCoroutine(UltimateAttack());
             }
             else
-               canBeginAttack();
+                canBeginAttack();
         }
     }
     void canBeginAttack()
@@ -237,9 +233,11 @@ public class Enemy : MonoBehaviour
         if (nowCountBarrage == enemyBarrageCounts[nowIndex].count[1])
         {
             nowCountBarrage = 0;
-            if (moveType != MoveType.StayAttackMove)
+            if (moveType == MoveType.SomeTimesMove)
+            {
                 canChooseBarrage = true;
-            changeBarrage();
+                changeBarrage();
+            }
         }
         isAttack = false;
     }
@@ -249,7 +247,7 @@ public class Enemy : MonoBehaviour
         float angle = Random.Range(90, 220);
         for (int j = 0; j < count[0]; j++)
         {
-            Quaternion quaternion = Quaternion.Euler(0,0,angle);
+            Quaternion quaternion = Quaternion.Euler(0, 0, angle);
             Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, quaternion);
             angle += 12;
         }
@@ -258,7 +256,7 @@ public class Enemy : MonoBehaviour
     void TrackShotgun(int[] count)
     {
         Vector3 eulerAngle = new Vector3();
-        if(GameManager.Instance.playerScript)
+        if (GameManager.Instance.playerScript)
             eulerAngle = GetAngle(transform.position, GameManager.Instance.playerScript.transform.position);
         else
             eulerAngle = GetAngle(transform.position, GameManager.Instance.PlayerResurrectionPosition.transform.position);
@@ -277,15 +275,15 @@ public class Enemy : MonoBehaviour
             indexz += 360 / count[0];
             Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
         }
-        if(nowCountBarrage%3==2)
-            enemyBarrageCounts[nowIndex].count[2]+=20;
+        if (nowCountBarrage % 3 == 2)
+            enemyBarrageCounts[nowIndex].count[2] += 20;
         ChooseTypeBarrage();
     }
     IEnumerator MachineGun(int[] count)
     {
         Vector3 eulerAngle = new Vector3();
         isAttack = true;
-        if(GameManager.Instance.playerScript)
+        if (GameManager.Instance.playerScript)
             eulerAngle = GetAngle(transform.position, GameManager.Instance.playerScript.transform.position);
         else
             eulerAngle = GetAngle(transform.position, GameManager.Instance.PlayerResurrectionPosition.transform.position);
@@ -304,8 +302,8 @@ public class Enemy : MonoBehaviour
         {
             if (FindObjectOfType<Player>())
             {
-                if(nowCount%3==2)
-                    indexz+=20;
+                if (nowCount % 3 == 2)
+                    indexz += 20;
                 for (int j = 0; j <= count[2]; j++)
                 {
                     indexz += 360 / count[2];
