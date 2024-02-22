@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 public enum CharatorType
@@ -31,6 +32,10 @@ public class Death : MonoBehaviour
     public Slider hpBar;
     [HideInInspector]
     public bool isInvincible = false;
+    [HideInInspector]
+    public bool isInBomb;
+    [HideInInspector]
+    public bool canInBomb;
     #region  "調難度"
     [Header("調難度")]
     public EnemyBarrageCount ultimateAttack;
@@ -44,6 +49,8 @@ public class Death : MonoBehaviour
     void Awake()
     {
         hp = totalHp;
+        isInBomb=true;
+        canInBomb=true;
     }
     public void Hurt(float value = 1)
     {
@@ -123,5 +130,20 @@ public class Death : MonoBehaviour
             }
         }
         GameManager.Instance.awardType=AwardType.Bonus;
+    }
+    public IEnumerator BeBombDamage(int hurt,float time)
+    {
+        canInBomb = false;
+        isInBomb = true;
+        while(isInBomb)
+        {
+            Hurt(hurt);
+            yield return new WaitForSeconds(time);
+        }       
+    }
+    public void ExitBomb()
+    {
+        canInBomb = true;
+        isInBomb = false;
     }
 }

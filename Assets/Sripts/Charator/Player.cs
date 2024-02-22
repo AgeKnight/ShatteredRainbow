@@ -5,10 +5,13 @@ public class Player : MonoBehaviour
 {
     bool isUseBomb = false;
     Coroutine coroutine;
+    GameObject myBomb;
     #region "Public"
     public float speed;
     public bool canControlAttack;
     public float useBombTime;
+    public GameObject Bomb;
+    public Transform BombPosition;
     #endregion
     #region "Hide"
     [HideInInspector]
@@ -130,11 +133,12 @@ public class Player : MonoBehaviour
             GameManager.Instance.AddBottom(-1);
             gameObject.GetComponent<Death>().isInvincible = true;
             Invoke("againUseBomb",useBombTime);
-            Debug.Log("使用炸彈");
+            myBomb = Instantiate(Bomb,BombPosition.position,Quaternion.identity);
         }
     }
     void againUseBomb()
     {
+        Destroy(myBomb);
         isUseBomb = false;
         gameObject.GetComponent<Death>().isInvincible = false;
     }
