@@ -131,7 +131,7 @@ public class Death : MonoBehaviour
         }
         GameManager.Instance.awardType=AwardType.Bonus;
     }
-    public IEnumerator BeBombDamage(int hurt,float time)
+    public IEnumerator BeBombDamage(float hurt,float time)
     {
         canInBomb = false;
         isInBomb = true;

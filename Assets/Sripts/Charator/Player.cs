@@ -4,8 +4,9 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     bool isUseBomb = false;
+    bool BombAttack = true;
     Coroutine coroutine;
-    GameObject myBomb;
+    Bomb myBomb;
     #region "Public"
     public float speed;
     public bool canControlAttack;
@@ -34,7 +35,7 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        if (canMove)
+        if (canMove&&BombAttack)
         {
             if(canControlAttack)
             {
@@ -46,6 +47,10 @@ public class Player : MonoBehaviour
                 coroutine = StartCoroutine(Attack());
             }
             UseButton();
+        }
+        if(!BombAttack)
+        {
+            isAttack=false;
         }
     }
     public void AddBro()
@@ -70,7 +75,10 @@ public class Player : MonoBehaviour
             vertical = -1;
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             vertical = 1;
-        transform.Translate(vertical * speed * Time.deltaTime, horizontal * speed * Time.deltaTime, 0);
+        if(isUseBomb)
+            transform.Translate(vertical*speed *myBomb.SlowSpeed* Time.deltaTime, horizontal*speed*myBomb.SlowSpeed*Time.deltaTime, 0);
+        else
+            transform.Translate(vertical*speed* Time.deltaTime, horizontal*speed*Time.deltaTime, 0);   
     }
     void UseAttack()
     {
@@ -107,7 +115,7 @@ public class Player : MonoBehaviour
             {
                 if (i <= GameManager.Instance.playerLevel * 2)
                 {
-                    GameObject tempObject = Instantiate(bulletPrefab, bulletTransform[i].transform.position, Quaternion.identity);
+                    Instantiate(bulletPrefab, bulletTransform[i].transform.position, Quaternion.identity);
                 }
             }
             for (int i = 0; i < Drone.Length; i++)
@@ -125,21 +133,23 @@ public class Player : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.X)&&GameManager.Instance.boumbCount>0&&!isUseBomb)
         {
-            if(GameManager.Instance.enemyManager.isSpanBoss)
-            {
-                GameManager.Instance.awardType = AwardType.Common;
-            }
+            myBomb = Instantiate(Bomb,BombPosition.position,Quaternion.identity).GetComponent<Bomb>();
+            myBomb.gameObject.transform.parent = this.gameObject.transform;  
             isUseBomb = true;
+            BombAttack = myBomb.canUseAttack;
+
+            if(GameManager.Instance.enemyManager.isSpanBoss)
+                GameManager.Instance.awardType = AwardType.Common;
             GameManager.Instance.AddBottom(-1);
             gameObject.GetComponent<Death>().isInvincible = true;
-            Invoke("againUseBomb",useBombTime);
-            myBomb = Instantiate(Bomb,BombPosition.position,Quaternion.identity);
+            Invoke("againUseBomb",useBombTime);           
         }
     }
     void againUseBomb()
     {
-        Destroy(myBomb);
+        Destroy(myBomb.gameObject);
         isUseBomb = false;
+        BombAttack = true;
         gameObject.GetComponent<Death>().isInvincible = false;
     }
 }
