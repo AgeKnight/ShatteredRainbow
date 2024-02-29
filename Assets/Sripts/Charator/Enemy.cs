@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 
@@ -99,6 +98,7 @@ public class Enemy : MonoBehaviour
     #region "移動"
     void ReturnMove()
     {
+        Debug.Log(1);
         for (int i = 0; i < Dot.Length; i++)
         {
             if (targetPosition == Dot[i])
@@ -135,7 +135,7 @@ public class Enemy : MonoBehaviour
                         canChooseBarrage = false;
                     break;
                 case MoveType.StayAttackMove:
-                    if (transform.position != targetPosition)
+                     if (transform.position != targetPosition)
                         transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
                     else
                         changeBarrage();
@@ -196,7 +196,7 @@ public class Enemy : MonoBehaviour
     {
         while (true)
         {
-            if (GameManager.Instance.playerScript && !canChooseBarrage && !isAttack)
+            if (!canChooseBarrage && !isAttack)
             {
                 string nowBarrage = System.Enum.GetName(typeof(BarrageType), enemyBarrageCounts[nowIndex].barrageType);
                 StartCoroutine(nowBarrage, enemyBarrageCounts[nowIndex].count);
