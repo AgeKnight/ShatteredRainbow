@@ -98,7 +98,6 @@ public class Enemy : MonoBehaviour
     #region "移動"
     void ReturnMove()
     {
-        Debug.Log(1);
         for (int i = 0; i < Dot.Length; i++)
         {
             if (targetPosition == Dot[i])

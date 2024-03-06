@@ -61,6 +61,7 @@ public class Death : MonoBehaviour
                     Die();
                 break;
             case CharatorType.Enemy:
+                GameManager.Instance.playerScript.AddTimeBarrage(1);
                 if (isInvincible)
                     value = 0;
                 hp -= value;

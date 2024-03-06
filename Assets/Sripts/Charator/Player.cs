@@ -1,16 +1,23 @@
+using System;
 using System.Collections;
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     bool isUseBomb = false;
+    bool isUseTimeBarrage = false;
     bool BombAttack = true;
+    float invokeTime;
     Coroutine coroutine;
     Bomb myBomb;
     #region "Public"
+    public float SlowSpeed;
     public float speed;
+    public float timeRegain;
     public bool canControlAttack;
     public float useBombTime;
+    public float MaxBarrageTime;
     public GameObject Bomb;
     public Transform BombPosition;
     #endregion
@@ -26,12 +33,9 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public GameObject[] Drone;
     #endregion
-    void FixedUpdate()
+    void Awake() 
     {
-        if (canMove)
-        {
-            Move();
-        }
+        invokeTime = MaxBarrageTime;
     }
     void Update()
     {
@@ -52,6 +56,21 @@ public class Player : MonoBehaviour
         {
             isAttack=false;
         }
+        if(isUseTimeBarrage)
+        {
+            invokeTime -= Time.unscaledDeltaTime;
+            if(invokeTime<=0)
+            {
+                isUseTimeBarrage=false;
+                Time.timeScale=1;
+            }
+        }
+        if (canMove)
+        {
+            Move();
+        }
+        UseTimeBarrage();
+        RegainTimeBarrage();
     }
     public void AddBro()
     {
@@ -131,7 +150,7 @@ public class Player : MonoBehaviour
     }
     void UseButton()
     {
-        if(Input.GetKeyDown(KeyCode.X)&&GameManager.Instance.boumbCount>0&&!isUseBomb)
+        if(Input.GetKeyDown(KeyCode.X)&&GameManager.Instance.boumbCount>0&&!isUseBomb&&!isUseTimeBarrage)
         {
             myBomb = Instantiate(Bomb,BombPosition.position,Quaternion.identity).GetComponent<Bomb>();
             myBomb.gameObject.transform.parent = this.gameObject.transform;  
@@ -151,5 +170,33 @@ public class Player : MonoBehaviour
         isUseBomb = false;
         BombAttack = true;
         gameObject.GetComponent<Death>().isInvincible = false;
+    }
+    void UseTimeBarrage()
+    {
+        if(Input.GetKeyDown(KeyCode.C)&&!isUseBomb&&invokeTime>0)
+        {
+            isUseTimeBarrage=true;
+            Time.timeScale = SlowSpeed;            
+        }
+        if(Input.GetKeyUp(KeyCode.C))
+        {
+            isUseTimeBarrage=false;
+            Time.timeScale=1;
+        }
+    }
+    void RegainTimeBarrage()
+    {
+        if(invokeTime<MaxBarrageTime&&!isUseTimeBarrage)
+        {
+            invokeTime+=(Time.deltaTime)/timeRegain;
+        }
+    }
+    public void AddTimeBarrage(int value)
+    {
+        invokeTime+=value;
+        if(invokeTime>=MaxBarrageTime)
+        {
+            invokeTime=MaxBarrageTime;
+        }
     }
 }
