@@ -27,7 +27,9 @@ public class Death : MonoBehaviour
     public CharatorType charatorType;
     public EnemyType enemyType;
     public GameObject expObject;
+    public float[] GetTime; //0受傷 1死亡
     #endregion
+    #region "Hide"
     [HideInInspector]
     public Slider hpBar;
     [HideInInspector]
@@ -36,6 +38,7 @@ public class Death : MonoBehaviour
     public bool isInBomb;
     [HideInInspector]
     public bool canInBomb;
+    #endregion
     #region  "調難度"
     [Header("調難度")]
     public EnemyBarrageCount ultimateAttack;
@@ -61,7 +64,7 @@ public class Death : MonoBehaviour
                     Die();
                 break;
             case CharatorType.Enemy:
-                GameManager.Instance.playerScript.AddTimeBarrage(1);
+                GameManager.Instance.playerScript.AddTimeBarrage(GetTime[0]);
                 if (isInvincible)
                     value = 0;
                 hp -= value;
@@ -86,6 +89,7 @@ public class Death : MonoBehaviour
         }
         if (gameObject.tag == "Enemy")
         {
+            GameManager.Instance.playerScript.AddTimeBarrage(GetTime[1]);
             isDead = true;
             if (enemyType == EnemyType.Boss)
                 GameManager.Instance.BossNext();

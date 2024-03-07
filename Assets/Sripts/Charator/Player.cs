@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
+        Debug.Log(invokeTime);
         if (canMove&&BombAttack)
         {
             if(canControlAttack)
@@ -173,7 +174,7 @@ public class Player : MonoBehaviour
     }
     void UseTimeBarrage()
     {
-        if(Input.GetKeyDown(KeyCode.C)&&!isUseBomb&&invokeTime>0)
+        if(Input.GetKey(KeyCode.C)&&!isUseBomb&&invokeTime>0)
         {
             isUseTimeBarrage=true;
             Time.timeScale = SlowSpeed;            
@@ -191,7 +192,7 @@ public class Player : MonoBehaviour
             invokeTime+=(Time.deltaTime)/timeRegain;
         }
     }
-    public void AddTimeBarrage(int value)
+    public void AddTimeBarrage(float value)
     {
         invokeTime+=value;
         if(invokeTime>=MaxBarrageTime)

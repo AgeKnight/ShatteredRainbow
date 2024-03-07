@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector]
     //可不可以記數
     public bool canCount = false;
-    //[HideInInspector]
+    [HideInInspector]
     public Vector3[] Dot;
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();

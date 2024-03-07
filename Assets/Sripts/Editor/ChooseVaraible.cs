@@ -27,6 +27,7 @@ public class ChooseVaraible : Editor
             { "indexMax", CharatorType.Enemy},
             { "ultimateAttack", CharatorType.Enemy},
             { "bonusScore", CharatorType.Enemy},
+            { "GetTime", CharatorType.Enemy},
         };
     Dictionary<string,EnemyType> specialPropertys2= new Dictionary<string, EnemyType>
         {
