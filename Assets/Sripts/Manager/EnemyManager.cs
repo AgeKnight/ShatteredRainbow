@@ -56,6 +56,7 @@ public class EnemyManager : MonoBehaviour
     public WaveBoss[] waveBosses;
     public IEnumerator CreateEnemy()
     {
+        GameManager.Instance.coroutine = null;
         while (true)
         {
             if (!isInBossAttack && nowCount < waveMonster[nowIndex].count)

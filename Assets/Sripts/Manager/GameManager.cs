@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     int playerExp;
     #endregion
     #region "Public"
+    public Coroutine coroutine;
     [Header("復活秒數")]
     public float AllResurrectionTime;
     #endregion
@@ -117,7 +118,7 @@ public class GameManager : MonoBehaviour
         instance = this;
         AddBottom(playerBottom);
         AddLife(playerLife);
-        StartCoroutine(Begin());
+        coroutine = StartCoroutine(Begin());
     }
     IEnumerator Begin()
     {

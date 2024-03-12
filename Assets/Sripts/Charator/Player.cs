@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -11,6 +10,7 @@ public class Player : MonoBehaviour
     float invokeTime;
     Coroutine coroutine;
     Bomb myBomb;
+    AnnularSlider annular;
     #region "Public"
     public float SlowSpeed;
     public float speed;
@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     public float useBombTime;
     public float MaxBarrageTime;
     public GameObject Bomb;
+    public GameObject SliderTime;
     public Transform BombPosition;
     #endregion
     #region "Hide"
@@ -33,37 +34,38 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public GameObject[] Drone;
     #endregion
-    void Awake() 
+    void Awake()
     {
         invokeTime = MaxBarrageTime;
+        StartCoroutine(RegainTimeBarrage());
     }
     void Update()
     {
-        Debug.Log(invokeTime);
-        if (canMove&&BombAttack)
+        if (canMove && BombAttack)
         {
-            if(canControlAttack)
+            if (canControlAttack)
             {
                 UseAttack();
             }
-            else if(!canControlAttack&&!isAttack)
+            else if (!canControlAttack && !isAttack)
             {
                 isAttack = true;
                 coroutine = StartCoroutine(Attack());
             }
             UseButton();
         }
-        if(!BombAttack)
+        if (!BombAttack)
         {
-            isAttack=false;
+            isAttack = false;
         }
-        if(isUseTimeBarrage)
+        if (isUseTimeBarrage)
         {
             invokeTime -= Time.unscaledDeltaTime;
-            if(invokeTime<=0)
+            annular.Value = invokeTime / MaxBarrageTime;
+            if (invokeTime <= 0)
             {
-                isUseTimeBarrage=false;
-                Time.timeScale=1;
+                isUseTimeBarrage = false;
+                Time.timeScale = 1;
             }
         }
         if (canMove)
@@ -71,7 +73,6 @@ public class Player : MonoBehaviour
             Move();
         }
         UseTimeBarrage();
-        RegainTimeBarrage();
     }
     public void AddBro()
     {
@@ -95,10 +96,10 @@ public class Player : MonoBehaviour
             vertical = -1;
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             vertical = 1;
-        if(isUseBomb)
-            transform.Translate(vertical*speed *myBomb.SlowSpeed* Time.deltaTime, horizontal*speed*myBomb.SlowSpeed*Time.deltaTime, 0);
+        if (isUseBomb)
+            transform.Translate(vertical * speed * myBomb.SlowSpeed * Time.deltaTime, horizontal * speed * myBomb.SlowSpeed * Time.deltaTime, 0);
         else
-            transform.Translate(vertical*speed* Time.deltaTime, horizontal*speed*Time.deltaTime, 0);   
+            transform.Translate(vertical * speed * Time.deltaTime, horizontal * speed * Time.deltaTime, 0);
     }
     void UseAttack()
     {
@@ -108,7 +109,7 @@ public class Player : MonoBehaviour
             BroAnime();
             coroutine = StartCoroutine(Attack());
         }
-        if (Input.GetKeyUp(KeyCode.Z)&&coroutine!=null)
+        if (Input.GetKeyUp(KeyCode.Z) && coroutine != null)
         {
             isAttack = false;
             BroAnime();
@@ -151,18 +152,18 @@ public class Player : MonoBehaviour
     }
     void UseButton()
     {
-        if(Input.GetKeyDown(KeyCode.X)&&GameManager.Instance.boumbCount>0&&!isUseBomb&&!isUseTimeBarrage)
+        if (Input.GetKeyDown(KeyCode.X) && GameManager.Instance.boumbCount > 0 && !isUseBomb && !isUseTimeBarrage)
         {
-            myBomb = Instantiate(Bomb,BombPosition.position,Quaternion.identity).GetComponent<Bomb>();
-            myBomb.gameObject.transform.parent = this.gameObject.transform;  
+            myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();
+            myBomb.gameObject.transform.parent = this.gameObject.transform;
             isUseBomb = true;
             BombAttack = myBomb.canUseAttack;
 
-            if(GameManager.Instance.enemyManager.isSpanBoss)
+            if (GameManager.Instance.enemyManager.isSpanBoss)
                 GameManager.Instance.awardType = AwardType.Common;
             GameManager.Instance.AddBottom(-1);
             gameObject.GetComponent<Death>().isInvincible = true;
-            Invoke("againUseBomb",useBombTime);           
+            Invoke("againUseBomb", useBombTime);
         }
     }
     void againUseBomb()
@@ -174,30 +175,40 @@ public class Player : MonoBehaviour
     }
     void UseTimeBarrage()
     {
-        if(Input.GetKey(KeyCode.C)&&!isUseBomb&&invokeTime>0)
+        if (Input.GetKey(KeyCode.C) && !isUseBomb && invokeTime > 0)
         {
-            isUseTimeBarrage=true;
-            Time.timeScale = SlowSpeed;            
+            SliderTime.SetActive(true);
+            annular = SliderTime.GetComponent<AnnularSlider>();
+            isUseTimeBarrage = true;
+            Time.timeScale = SlowSpeed;
         }
-        if(Input.GetKeyUp(KeyCode.C))
+        if (Input.GetKeyUp(KeyCode.C))
         {
-            isUseTimeBarrage=false;
-            Time.timeScale=1;
+            SliderTime.SetActive(false);
+            isUseTimeBarrage = false;
+            Time.timeScale = 1;
         }
     }
-    void RegainTimeBarrage()
+    IEnumerator RegainTimeBarrage()
     {
-        if(invokeTime<MaxBarrageTime&&!isUseTimeBarrage)
+        while (true)
         {
-            invokeTime+=(Time.deltaTime)/timeRegain;
+            if (invokeTime < MaxBarrageTime && !isUseTimeBarrage)
+            {
+                AddTimeBarrage(timeRegain);
+                yield return new WaitForSeconds(1f);
+            }
+            else
+                yield return null;
         }
     }
     public void AddTimeBarrage(float value)
     {
-        invokeTime+=value;
-        if(invokeTime>=MaxBarrageTime)
+        invokeTime += value;
+        annular.Value = invokeTime / MaxBarrageTime;
+        if (invokeTime >= MaxBarrageTime)
         {
-            invokeTime=MaxBarrageTime;
+            invokeTime = MaxBarrageTime;
         }
     }
 }
