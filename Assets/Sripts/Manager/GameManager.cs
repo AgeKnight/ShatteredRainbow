@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     #endregion
     #region "Hide"
     [HideInInspector]
-    public SpriteRenderer backTimeBarrage;
+    public Image backTimeBarrage;
     public GameObject BackGround;
     public AwardType awardType = AwardType.Bonus;
     [HideInInspector]
@@ -120,7 +120,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        backTimeBarrage = BackGround.GetComponent<SpriteRenderer>();
+        backTimeBarrage = BackGround.GetComponent<Image>();
         AddBottom(playerBottom);
         AddLife(playerLife);
         coroutine = StartCoroutine(Begin());

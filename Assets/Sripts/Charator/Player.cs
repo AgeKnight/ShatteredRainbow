@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         invokeTime = MaxBarrageTime;
+        annular = SliderTime.GetComponent<AnnularSlider>();
         StartCoroutine(RegainTimeBarrage());
     }
     void Update()
@@ -177,16 +178,13 @@ public class Player : MonoBehaviour
     void UseTimeBarrage()
     {
         if (Input.GetKeyDown(KeyCode.C) && !isUseBomb && invokeTime > 0)
-        {
-            SliderTime.SetActive(true);
-            annular = SliderTime.GetComponent<AnnularSlider>();
+        {   
             isUseTimeBarrage = true;
             Time.timeScale = SlowSpeed;
             GameManager.Instance.backTimeBarrage.color = new Color(1,1,0,1);
         }
         if (Input.GetKeyUp(KeyCode.C))
         {
-            SliderTime.SetActive(false);
             isUseTimeBarrage = false;
             Time.timeScale = 1;
             GameManager.Instance.backTimeBarrage.color = new Color(1,1,1,1);
