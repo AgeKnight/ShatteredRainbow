@@ -66,6 +66,7 @@ public class Player : MonoBehaviour
             {
                 isUseTimeBarrage = false;
                 Time.timeScale = 1;
+                GameManager.Instance.backTimeBarrage.color = new Color(1,1,1,1);
             }
         }
         if (canMove)
@@ -175,18 +176,20 @@ public class Player : MonoBehaviour
     }
     void UseTimeBarrage()
     {
-        if (Input.GetKey(KeyCode.C) && !isUseBomb && invokeTime > 0)
+        if (Input.GetKeyDown(KeyCode.C) && !isUseBomb && invokeTime > 0)
         {
             SliderTime.SetActive(true);
             annular = SliderTime.GetComponent<AnnularSlider>();
             isUseTimeBarrage = true;
             Time.timeScale = SlowSpeed;
+            GameManager.Instance.backTimeBarrage.color = new Color(1,1,0,1);
         }
         if (Input.GetKeyUp(KeyCode.C))
         {
             SliderTime.SetActive(false);
             isUseTimeBarrage = false;
             Time.timeScale = 1;
+            GameManager.Instance.backTimeBarrage.color = new Color(1,1,1,1);
         }
     }
     IEnumerator RegainTimeBarrage()

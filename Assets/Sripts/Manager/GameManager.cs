@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     static GameManager instance;
     public static GameManager Instance { get => instance; set => instance = value; }
     #region "Private"
+
     int totalExp = 100;
     bool isOnButton = false;
     int lifeCount = 0;
@@ -40,6 +41,9 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public SpriteRenderer backTimeBarrage;
+    public GameObject BackGround;
     public AwardType awardType = AwardType.Bonus;
     [HideInInspector]
     public int boumbCount = 0;
@@ -116,6 +120,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        backTimeBarrage = BackGround.GetComponent<SpriteRenderer>();
         AddBottom(playerBottom);
         AddLife(playerLife);
         coroutine = StartCoroutine(Begin());
