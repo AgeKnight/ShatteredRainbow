@@ -9,6 +9,7 @@ public class BackImageMove : MonoBehaviour
     RectTransform rt;
     public float speed;
     public GameObject BackImages;
+    public GameObject nextImage;
     public float[] ImageTransform;
     public Sprite[] Images;
     void Awake() {
@@ -20,7 +21,8 @@ public class BackImageMove : MonoBehaviour
     }
     void Move()
     {
-        rt.transform.Translate(0,-1*speed*Time.deltaTime,0);
+        BackImages.transform.Translate(0,-1*speed*Time.deltaTime,0);
+        nextImage.transform.Translate(0,-1*speed*Time.deltaTime,0);
         if(rt.anchoredPosition3D.y<=ImageTransform[0]&&!isChanged)
         {
             isChanged=true;
@@ -29,7 +31,6 @@ public class BackImageMove : MonoBehaviour
     }
     void InfinityMove()
     {
-        GameObject temp = BackImages.transform.GetChild(0).gameObject;
         if(GameManager.Instance.enemyManager.isSpanBoss)
         {
             BackImages.GetComponent<Image>().sprite = Images[2];
@@ -38,10 +39,10 @@ public class BackImageMove : MonoBehaviour
         {
             BackImages.GetComponent<Image>().sprite = Images[1];
         }
-        rt.transform.GetChild(0).SetParent(rt.transform.parent);
         rt.anchoredPosition3D = new Vector3 (0, ImageTransform[1], 0);
-        rt.SetParent(temp.transform);
-        BackImages = temp;
+        GameObject temp = BackImages;
+        BackImages = nextImage;
+        nextImage = temp;
         rt = BackImages.GetComponent<RectTransform>();
         isChanged=false;
     }
