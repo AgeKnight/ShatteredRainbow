@@ -41,6 +41,10 @@ public class EnemyManager : MonoBehaviour
     #endregion
     #region "Hide"
     [HideInInspector]
+    public float nowEveryStairTime = 0;
+    [HideInInspector]
+    public bool canGoNext = true;
+    [HideInInspector]
     public bool isSpanBoss = false;
 
     [HideInInspector]
@@ -54,12 +58,18 @@ public class EnemyManager : MonoBehaviour
     #endregion
     public WaveMonster[] waveMonster;
     public WaveBoss[] waveBosses;
+    public float everyStairTime;
+    void Update()
+    {
+        if(!canGoNext&&!isInBossAttack&&!isSpanBoss)
+            nowEveryStairTime += Time.deltaTime;
+    }
     public IEnumerator CreateEnemy()
     {
         GameManager.Instance.coroutine = null;
         while (true)
         {
-            if (!isInBossAttack && nowCount < waveMonster[nowIndex].count)
+            if (!isInBossAttack&&!isSpanBoss && nowCount < waveMonster[nowIndex].count)
             {
                 for (int i = 0; i < waveMonster[nowIndex].count; i++)
                 {
@@ -84,21 +94,9 @@ public class EnemyManager : MonoBehaviour
             }
             else
             {
-                bool allEnemyDie = true;
-                //尋找敵人是否全部死亡
-                if (nowCount >= waveMonster[nowIndex].count)
-                {
-                    for (int i = 0; i < waveEnemy.Count; i++)
-                    {
-                        if (waveEnemy[i] != null)
-                        {
-                            allEnemyDie = false;
-                            continue;
-                        }
-                    }
-                }
-                if (allEnemyDie)
-                {
+                if(nowEveryStairTime>=everyStairTime)
+                {       
+                    nowEveryStairTime = 0;
                     //是否可以前往下一階段
                     if ((isSpanBoss && !OtherStage) || !isSpanBoss)
                     {
@@ -210,25 +208,25 @@ public class EnemyManager : MonoBehaviour
     {
         GameManager.Instance.MapBonusScores[1].text = GameManager.Instance.playerScore.ToString();
         GameManager.Instance.MapBonusScores[0].text = GameManager.Instance.thisMapScore.ToString();
-        if(!GameManager.Instance.thisMapBomb)
+        if (!GameManager.Instance.thisMapBomb)
         {
-            yield return new WaitForSeconds(3f);
-            GameManager.Instance.thisMapScore*=1.5f;
+            yield return new WaitForSeconds(1.5f);
+            GameManager.Instance.thisMapScore *= 1.5f;
             GameManager.Instance.BonusScores[0].SetActive(true);
-        }   
-        if(!GameManager.Instance.thisMapHurt)
+        }
+        if (!GameManager.Instance.thisMapHurt)
         {
-            yield return new WaitForSeconds(3f);
-            GameManager.Instance.thisMapScore*=1.5f;
+            yield return new WaitForSeconds(1.5f);
+            GameManager.Instance.thisMapScore *= 1.5f;
             GameManager.Instance.BonusScores[1].SetActive(true);
-        }       
+        }
         GameManager.Instance.thisMapBomb = false;
         GameManager.Instance.thisMapHurt = false;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.5f);
         GameManager.Instance.AddScore(GameManager.Instance.thisMapScore);
         GameManager.Instance.MapBonusScores[1].text = GameManager.Instance.playerScore.ToString();
         GameManager.Instance.thisMapScore = 0;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.5f);
         GameManager.Instance.StageClear.SetActive(false);
         GameManager.Instance.statusType = StatusType.Win;
     }

@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     bool isOnButton = false;
     int lifeCount = 0;
     int playerExp;
+    float sideA = 0;
+    float sideB = 0;
     #endregion
     #region "Public"
     public float playerScore;
@@ -40,6 +42,7 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
+    public GameObject[] LightSide;
     public GameObject[] BonusScores;//0炸彈 1生命
     public Text[] MapBonusScores;//0 本關分數 1 加成分數
     [HideInInspector]
@@ -148,10 +151,12 @@ public class GameManager : MonoBehaviour
         playerScript.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = false;
         playerScript.canMove = true;
         yield return new WaitForSeconds(1);
+        enemyManager.canGoNext = false;
         StartCoroutine(enemyManager.CreateEnemy());
     }
     void Update()
     {
+        SideAdjustment();
         switch (statusType)
         {
             case StatusType.Pause:
@@ -409,6 +414,7 @@ public class GameManager : MonoBehaviour
             Triangles[0].SetActive(false);
             Triangles[1].SetActive(false);
         }
+        enemyManager.nowEveryStairTime = enemyManager.everyStairTime;
     }
     #endregion
     public void MenuUse()
@@ -456,5 +462,25 @@ public class GameManager : MonoBehaviour
     {
         Menus[1].SetActive(true);
         Time.timeScale = 0;
+    }
+    void SideAdjustment()
+    {
+        if(!enemyManager.canGoNext)
+        {
+            if(LightSide[0].gameObject.GetComponent<Image>().color.a<=0.5&&!enemyManager.isSpanBoss&&enemyManager.bossIndex==0||enemyManager.isSpanBoss)
+            {
+                if(enemyManager.bossIndex!=0)
+                {
+                    sideB+=Time.deltaTime/25;
+                }
+                sideA+=Time.deltaTime/50;
+            }
+            else if(LightSide[0].gameObject.GetComponent<Image>().color.a>=0.5&&!enemyManager.isSpanBoss&&enemyManager.bossIndex==1)
+            {
+                sideA-=Time.deltaTime/50;
+            }
+            LightSide[0].gameObject.GetComponent<Image>().color = new Color(1,1,1,sideA);
+            LightSide[1].gameObject.GetComponent<Image>().color = new Color(1,1,1,sideB);
+        }
     }
 }
