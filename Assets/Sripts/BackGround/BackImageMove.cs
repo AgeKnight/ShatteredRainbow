@@ -39,7 +39,7 @@ public class BackImageMove : MonoBehaviour
         {
             BackImages.GetComponent<Image>().sprite = Images[1];
         }
-        rt.anchoredPosition3D = new Vector3 (0, ImageTransform[1], 0);
+        BackImages.GetComponent<RectTransform>().anchoredPosition3D  = new Vector3(0,ImageTransform[1],0);
         GameObject temp = BackImages;
         BackImages = nextImage;
         nextImage = temp;

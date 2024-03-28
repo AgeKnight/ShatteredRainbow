@@ -40,11 +40,17 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
+    public GameObject[] BonusScores;//0炸彈 1生命
+    public Text[] MapBonusScores;//0 本關分數 1 加成分數
+    [HideInInspector]
+    public float thisMapScore = 0;
     [HideInInspector]
     public bool thisMapBomb = false;
+    [HideInInspector]
     public bool thisMapHurt = false;
     [HideInInspector]
     public Image backTimeBarrage;
+    [HideInInspector]
     public GameObject BackGround;
     public AwardType awardType = AwardType.Bonus;
     [HideInInspector]
@@ -237,9 +243,10 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-    public void AddScore(int value)
+    public void AddScore(float value)
     {
         playerScore += value;
+        thisMapScore = playerScore;
         scoreText.text = "     Score:" + playerScore.ToString();
     }
     public void AddLife(int value)
@@ -391,7 +398,7 @@ public class GameManager : MonoBehaviour
     public void BossNext()
     {
         BossBar.value = 1;
-        Reciprocal.GetComponent<Reciprocal>().Die();
+        Reciprocal.GetComponent<Reciprocal>().gameObject.SetActive(false);
         //播放血條動畫<關>
         BarUse.Play("Close");
         for (int i = 0; i < bossStaire.Length; i++)
