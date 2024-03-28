@@ -28,19 +28,21 @@ public class GameManager : MonoBehaviour
     static GameManager instance;
     public static GameManager Instance { get => instance; set => instance = value; }
     #region "Private"
-
     int totalExp = 100;
     bool isOnButton = false;
     int lifeCount = 0;
-    int playerScore;
     int playerExp;
     #endregion
     #region "Public"
+    public float playerScore;
     public Coroutine coroutine;
     [Header("復活秒數")]
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public bool thisMapBomb = false;
+    public bool thisMapHurt = false;
     [HideInInspector]
     public Image backTimeBarrage;
     public GameObject BackGround;
@@ -68,7 +70,7 @@ public class GameManager : MonoBehaviour
     public int allBomb;
     [HideInInspector]
     public int allLife;
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject StageClear;
     [HideInInspector]
     public GameObject StageBonus;

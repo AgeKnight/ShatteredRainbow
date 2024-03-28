@@ -156,6 +156,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.X) && GameManager.Instance.boumbCount > 0 && !isUseBomb && !isUseTimeBarrage)
         {
+            GameManager.Instance.thisMapBomb = true;
             myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();
             myBomb.gameObject.transform.parent = this.gameObject.transform;
             isUseBomb = true;

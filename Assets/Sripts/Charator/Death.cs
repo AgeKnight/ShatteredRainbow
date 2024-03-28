@@ -79,6 +79,7 @@ public class Death : MonoBehaviour
         if (gameObject.tag == "Player")
         {
             isDead = true;
+            GameManager.Instance.thisMapHurt = true;
             if(GameManager.Instance.enemyManager.isSpanBoss)
                 GameManager.Instance.awardType = AwardType.Common;
             GameManager.Instance.AddLife(-1);

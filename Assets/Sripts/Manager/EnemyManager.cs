@@ -115,6 +115,7 @@ public class EnemyManager : MonoBehaviour
                     {
                         isWin = true;
                         yield return new WaitForSeconds(1f);
+                        scoreBonus();
                         GameManager.Instance.StageClear.SetActive(true);
                         yield return new WaitForSeconds(1f);
                         GameManager.Instance.StageClear.SetActive(false);
@@ -207,5 +208,14 @@ public class EnemyManager : MonoBehaviour
             float tempPosition = waveMonster[nowIndex].movePosition[i].position.x + distance;
             waveMonster[nowIndex].movePosition[i].position = new Vector3(tempPosition, waveMonster[nowIndex].movePosition[i].position.y, waveMonster[nowIndex].movePosition[i].position.z);
         }
+    }
+    void scoreBonus()
+    {
+        if(!GameManager.Instance.thisMapBomb)
+            GameManager.Instance.playerScore*=1.5f;
+        if(!GameManager.Instance.thisMapHurt)
+            GameManager.Instance.playerScore*=1.5f;
+        GameManager.Instance.thisMapBomb = true;
+        GameManager.Instance.thisMapHurt = true;    
     }
 }
