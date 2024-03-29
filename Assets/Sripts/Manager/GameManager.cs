@@ -240,7 +240,7 @@ public class GameManager : MonoBehaviour
     public void AddScore(int value)
     {
         playerScore += value;
-        scoreText.text = "     Score:" + playerScore.ToString();
+        scoreText.text = "     Score : " + playerScore.ToString();
     }
     public void AddLife(int value)
     {
@@ -276,13 +276,13 @@ public class GameManager : MonoBehaviour
             if (playerLevel < 3)
             {
                 playerExp -= totalExp;
-                Level.text = "Levil " + playerLevel.ToString();
+                Level.text = "Level " + playerLevel.ToString();
             }
             else
             {
                 playerExp = totalExp;
                 playerLevel = 3;
-                Level.text = "Levil Max".ToString();
+                Level.text = "Level Max".ToString();
                 break;
             }
         }
@@ -297,7 +297,7 @@ public class GameManager : MonoBehaviour
             playerLevel -= 1;
             playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
             expBar.value = (float)playerExp / totalExp;
-            Level.text = "Levil " + playerLevel.ToString();
+            Level.text = "Level " + playerLevel.ToString();
         }
     }
     public void ClearBarrage()
