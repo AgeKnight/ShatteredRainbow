@@ -1324,6 +1324,7 @@ MonoBehaviour:
   Bomb: {fileID: 1712112157250610083, guid: 3bf635b6629ce204383568d23b05080c, type: 3}
   SliderTime: {fileID: 2887989388698943693}
   BombPosition: {fileID: 5473399651417196600}
+  AnnularCircle: {fileID: 2888811622229721021}
   canMove: 0
   isAttack: 0
   bulletPrefab: {fileID: 5165513135576572565, guid: 13731d76054547b4a9de378864f5ebd2, type: 3}
@@ -1536,41 +1537,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnnularSlider
       objectReference: {fileID: 0}
-    - target: {fileID: 1628759486999086, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1628759486999086, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1940123782452574, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114740184064139250, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
-      propertyPath: _value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114740184064139250, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
-      propertyPath: m_Colors.m_NormalColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114740184064139250, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
-      propertyPath: m_Colors.m_NormalColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114740184064139250, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
-      propertyPath: m_Colors.m_NormalColor.r
+    - target: {fileID: 114938810371981128, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
+      propertyPath: m_Color.a
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114938810371981128, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 114938810371981128, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
       propertyPath: m_Color.g
-      value: 0.9504634
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 114938810371981128, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
       propertyPath: m_Color.r
@@ -1611,18 +1588,6 @@ PrefabInstance:
     - target: {fileID: 224232043675362298, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
       propertyPath: m_SizeDelta.y
       value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 224232043675362298, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 224232043675362298, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 224232043675362298, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 224232043675362298, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1672,7 +1637,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4832053025034939143, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
 --- !u!1 &2887989388698943693 stripped
 GameObject:
@@ -1682,5 +1648,10 @@ GameObject:
 --- !u!224 &3102236384515950873 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224232043675362298, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
+  m_PrefabInstance: {fileID: 2887364079685085923}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2888811622229721021 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1940123782452574, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
   m_PrefabInstance: {fileID: 2887364079685085923}
   m_PrefabAsset: {fileID: 0}

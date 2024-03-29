@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224232043675362298}
   - component: {fileID: 114740184064139250}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AnnularSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ RectTransform:
   m_GameObject: {fileID: 1628759486999086}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 224255426038686544}
   m_Father: {fileID: 0}
@@ -112,7 +112,8 @@ GameObject:
   - component: {fileID: 224255426038686544}
   - component: {fileID: 222755611490704286}
   - component: {fileID: 114938810371981128}
-  m_Layer: 0
+  - component: {fileID: 4832053025034939143}
+  m_Layer: 6
   m_Name: FillImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.83921576, g: 0.83921576, b: 0.83921576, a: 1}
+  m_Color: {r: 0.9339623, g: 0, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -176,3 +177,22 @@ MonoBehaviour:
   m_FillOrigin: 3
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4832053025034939143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940123782452574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8b2ed11d675446c5a49da1ea296d490, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectFactor: 0
+  m_ColorFactor: 0
+  m_BlurFactor: 0.822
+  m_EffectMode: 1
+  m_ColorMode: 1
+  m_BlurMode: 0
+  m_AdvancedBlur: 0

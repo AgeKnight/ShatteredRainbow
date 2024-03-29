@@ -36,12 +36,13 @@ public class GameManager : MonoBehaviour
     float sideB = 0;
     #endregion
     #region "Public"
-    public float playerScore;
     public Coroutine coroutine;
     [Header("復活秒數")]
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public float playerScore;
     [HideInInspector]
     public GameObject[] LightSide;
     [HideInInspector]
@@ -55,9 +56,8 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public bool thisMapHurt = false;
     [HideInInspector]
-    public Image backTimeBarrage;
-    [HideInInspector]
     public GameObject BackGround;
+    [HideInInspector]
     public AwardType awardType = AwardType.Bonus;
     [HideInInspector]
     public int boumbCount = 0;
@@ -100,8 +100,8 @@ public class GameManager : MonoBehaviour
     public GameObject[] Bombs;
     [HideInInspector]
     public GameObject[] Menus;//0 暫停 1 輸 2贏
-    [HideInInspector]
-    public Text Title;
+    //[HideInInspector]
+    public GameObject Title;
     [HideInInspector]
     public Transform playerSpan;
     [HideInInspector]
@@ -134,16 +134,15 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        backTimeBarrage = BackGround.GetComponent<Image>();
         AddBottom(playerBottom);
         AddLife(playerLife);
         coroutine = StartCoroutine(Begin());
     }
     IEnumerator Begin()
     {
-        Title.gameObject.SetActive(true);
+        Title.SetActive(true);
         yield return new WaitForSeconds(2);
-        Title.gameObject.SetActive(false);
+        Title.SetActive(false);
         playerScript = Instantiate(player, playerSpan.transform.position, Quaternion.identity).gameObject.GetComponent<Player>();
         playerScript.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = true;
         while (playerScript.gameObject.transform.position != PlayerResurrectionPosition.position)

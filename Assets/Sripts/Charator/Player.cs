@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    float[] annularColor = {1,0.4f,0.4f,1};
     bool isUseBomb = false;
     bool isUseTimeBarrage = false;
     bool BombAttack = true;
@@ -11,6 +13,7 @@ public class Player : MonoBehaviour
     Coroutine coroutine;
     Bomb myBomb;
     AnnularSlider annular;
+    Image Annular;
     #region "Public"
     public float SlowSpeed;
     public float speed;
@@ -23,6 +26,7 @@ public class Player : MonoBehaviour
     public Transform BombPosition;
     #endregion
     #region "Hide"
+    public GameObject AnnularCircle;
     [HideInInspector]
     public bool canMove = false;
     [HideInInspector]
@@ -36,12 +40,17 @@ public class Player : MonoBehaviour
     #endregion
     void Awake()
     {
+        Annular = AnnularCircle.GetComponent<Image>();
         invokeTime = MaxBarrageTime;
         annular = SliderTime.GetComponent<AnnularSlider>();
         StartCoroutine(RegainTimeBarrage());
     }
     void Update()
     {
+        if(invokeTime>=MaxBarrageTime)
+        {
+            Annular.color = new Color(1,1,1,0);
+        }
         if (canMove && BombAttack)
         {
             if (canControlAttack)
@@ -63,11 +72,11 @@ public class Player : MonoBehaviour
         {
             invokeTime -= Time.unscaledDeltaTime;
             annular.Value = invokeTime / MaxBarrageTime;
+            ChangeColorAnnular();
             if (invokeTime <= 0)
             {
                 isUseTimeBarrage = false;
                 Time.timeScale = 1;
-                GameManager.Instance.backTimeBarrage.color = new Color(1,1,1,1);
             }
         }
         if (canMove)
@@ -75,6 +84,16 @@ public class Player : MonoBehaviour
             Move();
         }
         UseTimeBarrage();
+    }
+    void ChangeColorAnnular()
+    {
+        annularColor[1] -= 0.4f/MaxBarrageTime*Time.unscaledDeltaTime*2;
+        annularColor[2] -= 0.4f/MaxBarrageTime*Time.unscaledDeltaTime*2;
+        if(annularColor[1]<=0&&annularColor[2]<=0)
+        {
+            annularColor[0] -= 1/MaxBarrageTime*Time.unscaledDeltaTime*0.5f;
+        }
+        Annular.color = new Color(annularColor[0],annularColor[1],annularColor[2],1);
     }
     public void AddBro()
     {
@@ -179,16 +198,14 @@ public class Player : MonoBehaviour
     void UseTimeBarrage()
     {
         if (Input.GetKeyDown(KeyCode.C) && !isUseBomb && invokeTime > 0)
-        {   
+        {
             isUseTimeBarrage = true;
             Time.timeScale = SlowSpeed;
-            // GameManager.Instance.backTimeBarrage.color = new Color(1,1,0,1);
         }
         if (Input.GetKeyUp(KeyCode.C))
         {
             isUseTimeBarrage = false;
             Time.timeScale = 1;
-            // GameManager.Instance.backTimeBarrage.color = new Color(1,1,1,1);
         }
     }
     IEnumerator RegainTimeBarrage()
