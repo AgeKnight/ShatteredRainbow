@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6921743423912708975}
   - component: {fileID: 6272978152685014713}
   m_Layer: 7
-  m_Name: BigBoss1_1
+  m_Name: MiddleBoss1_2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 3044012784260657736}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 3, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.5}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 8567689766675817040}
   m_Father: {fileID: 0}
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b6a3a4266cdc8fa4fb94f991289fe805, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6d15c95b17d66634db853bd63d9a143e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -121,9 +121,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.033745367, y: 0.006042719}
+  m_Offset: {x: 0.07827771, y: -0.05880308}
   serializedVersion: 2
-  m_Radius: 1.462813
+  m_Radius: 0.8984302
 --- !u!114 &6921743423912708975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,7 +216,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9065009563149562638}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8423473847005909446}

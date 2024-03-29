@@ -5,33 +5,40 @@ using UnityEngine.UI;
 
 public class BackImageMove : MonoBehaviour
 {
-    bool isChanged = false ;
+    bool isChanged = false;
     RectTransform rt;
+    RectTransform rtNext;
     public float speed;
     public GameObject BackImages;
     public GameObject nextImage;
     public float[] ImageTransform;
     public Sprite[] Images;
-    void Awake() {
+    void Awake()
+    {
         rt = BackImages.GetComponent<RectTransform>();
+        rtNext = nextImage.GetComponent<RectTransform>();
     }
     void Update()
     {
-        Move();
+        if(!GameManager.Instance.enemyManager.canGoNext)
+            Move();
     }
     void Move()
     {
-        BackImages.transform.Translate(0,-1*speed*Time.deltaTime,0);
-        nextImage.transform.Translate(0,-1*speed*Time.deltaTime,0);
-        if(rt.anchoredPosition3D.y<=ImageTransform[0]&&!isChanged)
+        if (rtNext.anchoredPosition3D.y <= ImageTransform[0] && !isChanged)
         {
-            isChanged=true;
+            isChanged = true;
             InfinityMove();
         }
+        if(!isChanged)
+        {
+            BackImages.transform.Translate(new Vector3(0,-1*speed*Time.deltaTime),Space.World);
+            nextImage.transform.Translate(new Vector3(0,-1*speed*Time.deltaTime),Space.World);
+        }   
     }
     void InfinityMove()
     {
-        if(GameManager.Instance.enemyManager.isSpanBoss)
+        if (GameManager.Instance.enemyManager.isSpanBoss)
         {
             BackImages.GetComponent<Image>().sprite = Images[2];
         }
@@ -39,11 +46,12 @@ public class BackImageMove : MonoBehaviour
         {
             BackImages.GetComponent<Image>().sprite = Images[1];
         }
-        BackImages.GetComponent<RectTransform>().anchoredPosition3D  = new Vector3(0,ImageTransform[1],0);
+        rt.anchoredPosition3D = new Vector3(0, ImageTransform[1], 0);
         GameObject temp = BackImages;
         BackImages = nextImage;
         nextImage = temp;
         rt = BackImages.GetComponent<RectTransform>();
-        isChanged=false;
+        rtNext = nextImage.GetComponent<RectTransform>();
+        isChanged = false;
     }
 }

@@ -182,13 +182,13 @@ public class Player : MonoBehaviour
         {   
             isUseTimeBarrage = true;
             Time.timeScale = SlowSpeed;
-            GameManager.Instance.backTimeBarrage.color = new Color(1,1,0,1);
+            // GameManager.Instance.backTimeBarrage.color = new Color(1,1,0,1);
         }
         if (Input.GetKeyUp(KeyCode.C))
         {
             isUseTimeBarrage = false;
             Time.timeScale = 1;
-            GameManager.Instance.backTimeBarrage.color = new Color(1,1,1,1);
+            // GameManager.Instance.backTimeBarrage.color = new Color(1,1,1,1);
         }
     }
     IEnumerator RegainTimeBarrage()
