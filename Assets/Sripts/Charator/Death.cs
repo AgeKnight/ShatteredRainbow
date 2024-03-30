@@ -70,15 +70,17 @@ public class Death : MonoBehaviour
                 if (hpBar != null)
                     hpBar.value = hp / totalHp;
                 if (hp <= 0 && !isDead)
+                {
                     Die();
+                }                  
                 break;
         }
     }
     public void Die()
     {
+        isDead = true;
         if (gameObject.tag == "Player")
         {
-            isDead = true;
             GameManager.Instance.thisMapHurt = true;
             if(GameManager.Instance.enemyManager.isSpanBoss)
                 GameManager.Instance.awardType = AwardType.Common;
@@ -87,9 +89,8 @@ public class Death : MonoBehaviour
             GameManager.Instance.Resurrection();
             Destroy(this.gameObject);
         }
-        if (gameObject.tag == "Enemy")
+        else 
         {
-            isDead = true;
             if (enemyType == EnemyType.Boss)
                 GameManager.Instance.BossNext();
             Enemydeath();

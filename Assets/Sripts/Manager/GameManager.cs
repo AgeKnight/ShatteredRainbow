@@ -32,20 +32,32 @@ public class GameManager : MonoBehaviour
     bool isOnButton = false;
     int lifeCount = 0;
     int playerExp;
+    float sideA = 0;
+    float sideB = 0;
     #endregion
     #region "Public"
-    public float playerScore;
     public Coroutine coroutine;
     [Header("復活秒數")]
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
     [HideInInspector]
+    public float playerScore;
+    [HideInInspector]
+    public GameObject[] LightSide;
+    [HideInInspector]
+    public GameObject[] BonusScores;//0炸彈 1生命
+    [HideInInspector]
+    public Text[] MapBonusScores;//0 本關分數 1 加成分數
+    [HideInInspector]
+    public float thisMapScore = 0;
+    [HideInInspector]
     public bool thisMapBomb = false;
+    [HideInInspector]
     public bool thisMapHurt = false;
     [HideInInspector]
-    public Image backTimeBarrage;
     public GameObject BackGround;
+    [HideInInspector]
     public AwardType awardType = AwardType.Bonus;
     [HideInInspector]
     public int boumbCount = 0;
@@ -70,7 +82,7 @@ public class GameManager : MonoBehaviour
     public int allBomb;
     [HideInInspector]
     public int allLife;
-    //[HideInInspector]
+    [HideInInspector]
     public GameObject StageClear;
     [HideInInspector]
     public GameObject StageBonus;
@@ -88,8 +100,8 @@ public class GameManager : MonoBehaviour
     public GameObject[] Bombs;
     [HideInInspector]
     public GameObject[] Menus;//0 暫停 1 輸 2贏
-    [HideInInspector]
-    public Text Title;
+    //[HideInInspector]
+    public GameObject Title;
     [HideInInspector]
     public Transform playerSpan;
     [HideInInspector]
@@ -122,16 +134,15 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        backTimeBarrage = BackGround.GetComponent<Image>();
         AddBottom(playerBottom);
         AddLife(playerLife);
         coroutine = StartCoroutine(Begin());
     }
     IEnumerator Begin()
     {
-        Title.gameObject.SetActive(true);
+        Title.SetActive(true);
         yield return new WaitForSeconds(2);
-        Title.gameObject.SetActive(false);
+        Title.SetActive(false);
         playerScript = Instantiate(player, playerSpan.transform.position, Quaternion.identity).gameObject.GetComponent<Player>();
         playerScript.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = true;
         while (playerScript.gameObject.transform.position != PlayerResurrectionPosition.position)
@@ -142,10 +153,12 @@ public class GameManager : MonoBehaviour
         playerScript.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = false;
         playerScript.canMove = true;
         yield return new WaitForSeconds(1);
+        enemyManager.canGoNext = false;
         StartCoroutine(enemyManager.CreateEnemy());
     }
     void Update()
     {
+        SideAdjustment();
         switch (statusType)
         {
             case StatusType.Pause:
@@ -237,10 +250,11 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-    public void AddScore(int value)
+    public void AddScore(float value)
     {
         playerScore += value;
-        scoreText.text = "     Score : " + playerScore.ToString();
+        thisMapScore = playerScore;
+        scoreText.text = "     Score:" + playerScore.ToString();
     }
     public void AddLife(int value)
     {
@@ -276,13 +290,13 @@ public class GameManager : MonoBehaviour
             if (playerLevel < 3)
             {
                 playerExp -= totalExp;
-                Level.text = "Level " + playerLevel.ToString();
+                Level.text = "Levil " + playerLevel.ToString();
             }
             else
             {
                 playerExp = totalExp;
                 playerLevel = 3;
-                Level.text = "Level Max".ToString();
+                Level.text = "Levil Max".ToString();
                 break;
             }
         }
@@ -297,7 +311,7 @@ public class GameManager : MonoBehaviour
             playerLevel -= 1;
             playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
             expBar.value = (float)playerExp / totalExp;
-            Level.text = "Level " + playerLevel.ToString();
+            Level.text = "Levil " + playerLevel.ToString();
         }
     }
     public void ClearBarrage()
@@ -391,7 +405,7 @@ public class GameManager : MonoBehaviour
     public void BossNext()
     {
         BossBar.value = 1;
-        Reciprocal.GetComponent<Reciprocal>().Die();
+        Reciprocal.GetComponent<Reciprocal>().gameObject.SetActive(false);
         //播放血條動畫<關>
         BarUse.Play("Close");
         for (int i = 0; i < bossStaire.Length; i++)
@@ -402,6 +416,7 @@ public class GameManager : MonoBehaviour
             Triangles[0].SetActive(false);
             Triangles[1].SetActive(false);
         }
+        enemyManager.nowEveryStairTime = enemyManager.everyStairTime;
     }
     #endregion
     public void MenuUse()
@@ -449,5 +464,25 @@ public class GameManager : MonoBehaviour
     {
         Menus[1].SetActive(true);
         Time.timeScale = 0;
+    }
+    void SideAdjustment()
+    {
+        if(!enemyManager.canGoNext)
+        {
+            if(LightSide[0].gameObject.GetComponent<Image>().color.a<=0.5&&!enemyManager.isSpanBoss&&enemyManager.bossIndex==0||enemyManager.isSpanBoss)
+            {
+                if(enemyManager.bossIndex!=0)
+                {
+                    sideB+=Time.deltaTime/25;
+                }
+                sideA+=Time.deltaTime/50;
+            }
+            else if(LightSide[0].gameObject.GetComponent<Image>().color.a>=0.5&&!enemyManager.isSpanBoss&&enemyManager.bossIndex==1)
+            {
+                sideA-=Time.deltaTime/50;
+            }
+            LightSide[0].gameObject.GetComponent<Image>().color = new Color(1,1,1,sideA);
+            LightSide[1].gameObject.GetComponent<Image>().color = new Color(1,1,1,sideB);
+        }
     }
 }
