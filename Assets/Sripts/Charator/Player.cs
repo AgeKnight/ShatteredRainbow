@@ -11,11 +11,13 @@ public class Player : MonoBehaviour
     bool isUseTimeBarrage = false;
     bool BombAttack = true;
     bool isUseDrone = false;
+    bool isPlayTimeMusic = true;
     float invokeTime;
     Coroutine coroutine;
     Bomb myBomb;
     AnnularSlider annular;
     Image Annular;
+    GameObject shootEffect;
     #region "Public"
     public float maxUseDroneTime = 20;
     public float SlowSpeed;
@@ -27,6 +29,7 @@ public class Player : MonoBehaviour
     public GameObject Bomb;
     public GameObject SliderTime;
     public Transform BombPosition;
+    public AudioSource[] musicEffect;
     #endregion
     #region "Hide"
     public GameObject AnnularCircle;
@@ -46,6 +49,7 @@ public class Player : MonoBehaviour
         Annular = AnnularCircle.GetComponent<Image>();
         invokeTime = MaxBarrageTime;
         annular = SliderTime.GetComponent<AnnularSlider>();
+        Annular.color = new Color(1, 1, 1, 0);
         StartCoroutine(RegainTimeBarrage());
     }
     void Update()
@@ -61,10 +65,6 @@ public class Player : MonoBehaviour
                 }
                 isUseDrone = false;
             }
-        }
-        if (invokeTime >= MaxBarrageTime)
-        {
-            Annular.color = new Color(1, 1, 1, 0);
         }
         if (canMove && BombAttack)
         {
@@ -140,12 +140,15 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            shootEffect = GameManager.Instance.AudioPlay(musicEffect[1]);
+            shootEffect.transform.parent = this.transform;
             isAttack = true;
             BroAnime();
             coroutine = StartCoroutine(Attack());
         }
         if (Input.GetKeyUp(KeyCode.Z) && coroutine != null)
         {
+            Destroy(shootEffect.gameObject);
             isAttack = false;
             BroAnime();
         }
@@ -214,6 +217,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C) && !isUseBomb && invokeTime > 0)
         {
             isUseTimeBarrage = true;
+            isPlayTimeMusic = false;
             Time.timeScale = SlowSpeed;
         }
         if (Input.GetKeyUp(KeyCode.C))
@@ -241,7 +245,14 @@ public class Player : MonoBehaviour
         annular.Value = invokeTime / MaxBarrageTime;
         if (invokeTime >= MaxBarrageTime)
         {
+            if(!isPlayTimeMusic)
+            {
+                GameObject temp =  GameManager.Instance.AudioPlay(musicEffect[0]);
+                Destroy(temp,2f);
+                isPlayTimeMusic = true;
+            }
             invokeTime = MaxBarrageTime;
+            Annular.color = new Color(1, 1, 1, 0);
         }
     }
 }

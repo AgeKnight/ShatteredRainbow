@@ -482,4 +482,10 @@ public class GameManager : MonoBehaviour
             LightSide[1].gameObject.GetComponent<Image>().color = new Color(1,1,1,sideB);
         }
     }
+    public GameObject AudioPlay(AudioSource audio)
+    {
+        GameObject temp = Instantiate(audio.gameObject);
+        audio.Play();
+        return temp;
+    }
 }
