@@ -90,7 +90,6 @@ public class GameManager : MonoBehaviour
     public Slider BossBar;
     [HideInInspector]
     public StatusType statusType = StatusType.Pause;
-    [HideInInspector]
     public Sprite[] playerFace;
     [HideInInspector]
     public GameObject playerStatus;
@@ -287,13 +286,13 @@ public class GameManager : MonoBehaviour
             if (playerLevel < 3)
             {
                 playerExp -= totalExp;
-                Level.text = "Levil " + playerLevel.ToString();
+                Level.text = "Level " + playerLevel.ToString();
             }
             else
             {
                 playerExp = totalExp;
                 playerLevel = 3;
-                Level.text = "Levil Max".ToString();
+                Level.text = "Level Max".ToString();
                 break;
             }
         }
@@ -432,6 +431,7 @@ public class GameManager : MonoBehaviour
     }
     public void Replay()
     {
+        Debug.Log("暫停");
         Time.timeScale = 1;
         statusType = StatusType.Pause;
         SceneManager.LoadScene("Game");

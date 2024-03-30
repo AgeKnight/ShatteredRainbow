@@ -1256,7 +1256,7 @@ Transform:
   m_GameObject: {fileID: 6646415776259885055}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 10}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.05}
   m_Children:
   - {fileID: 1947539255756775474}
   - {fileID: 1199216207468421953}
@@ -1541,17 +1541,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnnularSlider
       objectReference: {fileID: 0}
+    - target: {fileID: 114740184064139250, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
+      propertyPath: _value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114938810371981128, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
       propertyPath: m_Color.a
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114938810371981128, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
       propertyPath: m_Color.b
-      value: 0.4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114938810371981128, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
       propertyPath: m_Color.g
-      value: 0.4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114938810371981128, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
       propertyPath: m_Color.r
@@ -1594,6 +1598,14 @@ PrefabInstance:
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 224232043675362298, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 224232043675362298, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 224232043675362298, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1607,7 +1619,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224232043675362298, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 224232043675362298, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1615,11 +1627,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224232043675362298, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 224232043675362298, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 224232043675362298, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1639,7 +1651,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224232043675362298, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 270
+      objectReference: {fileID: 0}
+    - target: {fileID: 224255426038686544, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 305
+      objectReference: {fileID: 0}
+    - target: {fileID: 224255426038686544, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 305
+      objectReference: {fileID: 0}
+    - target: {fileID: 224255426038686544, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 224255426038686544, guid: 7660791ff75889244bd665fe398ff56c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.09
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4832053025034939143, guid: 7660791ff75889244bd665fe398ff56c, type: 3}

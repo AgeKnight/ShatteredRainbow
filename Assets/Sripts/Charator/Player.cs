@@ -177,9 +177,9 @@ public class Player : MonoBehaviour
                     Instantiate(bulletPrefab, bulletTransform[i].transform.position, Quaternion.identity);
                 }
             }
-            for (int i = 0; i < Drone.Length; i++)
+            if (isUseDrone)
             {
-                if (GameManager.Instance.playerLevel > i / 2)
+                for (int i = 0; i < Drone.Length; i++)
                 {
                     GameObject tempObject = Instantiate(bulletPrefab, Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
                     tempObject.GetComponent<Bullet>().canTrackEnemy = true;
@@ -245,10 +245,10 @@ public class Player : MonoBehaviour
         annular.Value = invokeTime / MaxBarrageTime;
         if (invokeTime >= MaxBarrageTime)
         {
-            if(!isPlayTimeMusic)
+            if (!isPlayTimeMusic)
             {
-                GameObject temp =  GameManager.Instance.AudioPlay(musicEffect[0]);
-                Destroy(temp,2f);
+                GameObject temp = GameManager.Instance.AudioPlay(musicEffect[0]);
+                Destroy(temp, 2f);
                 isPlayTimeMusic = true;
             }
             invokeTime = MaxBarrageTime;
