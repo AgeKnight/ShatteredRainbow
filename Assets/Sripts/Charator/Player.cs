@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     float useDroneTime = 0;
-    float[] annularColor = { 1, 0.4f, 0.4f, 1 };
+    float[] annularColor = { 0.8f, 0.8f};
     bool isUseBomb = false;
     bool isUseTimeBarrage = false;
     bool BombAttack = true;
@@ -87,7 +87,6 @@ public class Player : MonoBehaviour
         {
             invokeTime -= Time.unscaledDeltaTime;
             annular.Value = invokeTime / MaxBarrageTime;
-            ChangeColorAnnular();
             if (invokeTime <= 0)
             {
                 isUseTimeBarrage = false;
@@ -99,16 +98,20 @@ public class Player : MonoBehaviour
             Move();
         }
         UseTimeBarrage();
+        ChangeColorAnnular();
     }
     void ChangeColorAnnular()
     {
-        annularColor[1] -= 0.4f / MaxBarrageTime * Time.unscaledDeltaTime * 2;
-        annularColor[2] -= 0.4f / MaxBarrageTime * Time.unscaledDeltaTime * 2;
-        if (annularColor[1] <= 0 && annularColor[2] <= 0)
+        if(invokeTime >= MaxBarrageTime)
         {
-            annularColor[0] -= 1 / MaxBarrageTime * Time.unscaledDeltaTime * 0.5f;
+            Annular.color = new Color(1, 1, 1, 0);
         }
-        Annular.color = new Color(annularColor[0], annularColor[1], annularColor[2], 1);
+        else
+        {
+            annularColor[0] =  invokeTime / MaxBarrageTime*0.8f;
+            annularColor[1] = invokeTime / MaxBarrageTime*0.8f;
+            Annular.color = new Color(1, annularColor[0], annularColor[1], 1);
+        }      
     }
     public void AddBro()
     {
@@ -197,7 +200,6 @@ public class Player : MonoBehaviour
             myBomb.gameObject.transform.parent = this.gameObject.transform;
             isUseBomb = true;
             BombAttack = myBomb.canUseAttack;
-
             if (GameManager.Instance.enemyManager.isSpanBoss)
                 GameManager.Instance.awardType = AwardType.Common;
             GameManager.Instance.AddBottom(-1);
@@ -252,7 +254,6 @@ public class Player : MonoBehaviour
                 isPlayTimeMusic = true;
             }
             invokeTime = MaxBarrageTime;
-            Annular.color = new Color(1, 1, 1, 0);
         }
     }
 }
