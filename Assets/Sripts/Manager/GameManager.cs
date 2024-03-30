@@ -187,7 +187,6 @@ public class GameManager : MonoBehaviour
     void PlayerResurrection()
     {
         playerScript = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity).GetComponent<Player>();
-        playerScript.AddBro();
         playerScript.gameObject.GetComponent<Death>().isInvincible = true;
         playerScript.canMove = true;
         Invoke("PlayerNotInvincible", AllInvincibleTime);
@@ -227,7 +226,6 @@ public class GameManager : MonoBehaviour
             case ItemType.Drone:
                 if (playerLevel < 3)
                 {
-                    AddExp(500);
                     playerScript.AddBro();
                     AddScore(item.score);
                 }
@@ -240,7 +238,6 @@ public class GameManager : MonoBehaviour
                 if (playerLevel < 3)
                 {
                     AddExp(1);
-                    playerScript.AddBro();
                     AddScore(item.score);
                 }
                 else
