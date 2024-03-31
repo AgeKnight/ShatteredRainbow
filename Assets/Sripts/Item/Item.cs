@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public enum ItemType
 {
     EXP,
@@ -10,6 +11,7 @@ public enum ItemType
 public class Item : MonoBehaviour
 {
     #region Public
+    public GameObject usk;
     public ItemType itemType;
     public float speed = 1;
     public int score;

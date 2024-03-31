@@ -431,7 +431,6 @@ public class GameManager : MonoBehaviour
     }
     public void Replay()
     {
-        Debug.Log("暫停");
         Time.timeScale = 1;
         statusType = StatusType.Pause;
         SceneManager.LoadScene("Game");
