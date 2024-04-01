@@ -42,6 +42,10 @@ public class GameManager : MonoBehaviour
     #endregion
     #region "Hide"
     [HideInInspector]
+    public GameObject nowMusic;
+    public AudioSource[] BackMusic;
+    public AudioSource[] MenuSound;
+    [HideInInspector]
     public float playerScore;
     [HideInInspector]
     public GameObject[] LightSide;
@@ -90,6 +94,7 @@ public class GameManager : MonoBehaviour
     public Slider BossBar;
     [HideInInspector]
     public StatusType statusType = StatusType.Pause;
+    [HideInInspector]
     public Sprite[] playerFace;
     [HideInInspector]
     public GameObject playerStatus;
@@ -99,7 +104,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] Bombs;
     [HideInInspector]
     public GameObject[] Menus;//0 暫停 1 輸 2贏
-    //[HideInInspector]
+    [HideInInspector]
     public GameObject Title;
     [HideInInspector]
     public Transform playerSpan;
@@ -133,6 +138,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        nowMusic = AudioPlay(BackMusic[0]);
         AddBottom(playerBottom);
         AddLife(playerLife);
         coroutine = StartCoroutine(Begin());
@@ -307,7 +313,7 @@ public class GameManager : MonoBehaviour
             playerLevel -= 1;
             playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
             expBar.value = (float)playerExp / totalExp;
-            Level.text = "Levil " + playerLevel.ToString();
+            Level.text = "Level " + playerLevel.ToString();
         }
     }
     public void ClearBarrage()
@@ -413,6 +419,11 @@ public class GameManager : MonoBehaviour
             Triangles[1].SetActive(false);
         }
         enemyManager.nowEveryStairTime = enemyManager.everyStairTime;
+        if(enemyManager.nowBossStage == enemyManager.waveBosses[enemyManager.bossIndex].bossPrefab.Length)
+        {
+            Destroy(nowMusic);
+            nowMusic = AudioPlay(BackMusic[0]);
+        }
     }
     #endregion
     public void MenuUse()
@@ -424,9 +435,17 @@ public class GameManager : MonoBehaviour
             if (playerScript)
                 playerScript.enabled = !isOnButton;
             if (isOnButton)
+            {
+                GameObject temp = AudioPlay(MenuSound[0]);
+                Destroy(temp,1f);
                 Time.timeScale = 0;
+            }  
             else
+            {
+                GameObject temp = AudioPlay(MenuSound[1]);
+                Destroy(temp,1f);
                 Time.timeScale = 1;
+            }
         }
     }
     public void Replay()

@@ -37,8 +37,7 @@ public class Player : MonoBehaviour
     public bool canMove = false;
     [HideInInspector]
     public bool isAttack = false;
-    [HideInInspector]
-    public GameObject bulletPrefab;
+    public GameObject[] bulletPrefab;
     [HideInInspector]
     public Transform[] bulletTransform;
     [HideInInspector]
@@ -57,7 +56,7 @@ public class Player : MonoBehaviour
         if (isUseDrone)
         {
             useDroneTime += Time.deltaTime;
-            if (useDroneTime > +maxUseDroneTime)
+            if (useDroneTime >=maxUseDroneTime)
             {
                 for (int i = 0; i < Drone.Length; i++)
                 {
@@ -177,14 +176,14 @@ public class Player : MonoBehaviour
             {
                 if (i <= GameManager.Instance.playerLevel * 2)
                 {
-                    Instantiate(bulletPrefab, bulletTransform[i].transform.position, Quaternion.identity);
+                    Instantiate(bulletPrefab[0], bulletTransform[i].transform.position, Quaternion.identity);
                 }
             }
             if (isUseDrone)
             {
                 for (int i = 0; i < Drone.Length; i++)
                 {
-                    GameObject tempObject = Instantiate(bulletPrefab, Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
+                    GameObject tempObject = Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
                     tempObject.GetComponent<Bullet>().canTrackEnemy = true;
                 }
             }
