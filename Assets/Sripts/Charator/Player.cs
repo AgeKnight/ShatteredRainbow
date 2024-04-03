@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
     bool isUseTimeBarrage = false;
     bool BombAttack = true;
     bool isUseDrone = false;
-    bool isPlayTimeMusic = true;
     float invokeTime;
     Coroutine coroutine;
     Bomb myBomb;
@@ -142,7 +141,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            shootEffect = GameManager.Instance.AudioPlay(musicEffect[1]);
+            shootEffect = GameManager.Instance.AudioPlay(musicEffect[1],false);
             shootEffect.transform.parent = this.transform;
             isAttack = true;
             BroAnime();
@@ -218,7 +217,6 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C) && !isUseBomb && invokeTime > 0)
         {
             isUseTimeBarrage = true;
-            isPlayTimeMusic = false;
             Time.timeScale = SlowSpeed;
         }
         if (Input.GetKeyUp(KeyCode.C))
@@ -246,12 +244,6 @@ public class Player : MonoBehaviour
         annular.Value = invokeTime / MaxBarrageTime;
         if (invokeTime >= MaxBarrageTime)
         {
-            if (!isPlayTimeMusic)
-            {
-                GameObject temp = GameManager.Instance.AudioPlay(musicEffect[0]);
-                Destroy(temp, 2f);
-                isPlayTimeMusic = true;
-            }
             invokeTime = MaxBarrageTime;
         }
     }

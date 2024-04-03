@@ -41,8 +41,7 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
-    [HideInInspector]
-    public GameObject nowMusic;
+    //[HideInInspector]
     public AudioSource[] BackMusic;
     public AudioSource[] MenuSound;
     [HideInInspector]
@@ -138,7 +137,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        nowMusic = AudioPlay(BackMusic[0]);
+        AudioPlay(BackMusic[0],false);
         AddBottom(playerBottom);
         AddLife(playerLife);
         coroutine = StartCoroutine(Begin());
@@ -419,11 +418,6 @@ public class GameManager : MonoBehaviour
             Triangles[1].SetActive(false);
         }
         enemyManager.nowEveryStairTime = enemyManager.everyStairTime;
-        if(enemyManager.nowBossStage == enemyManager.waveBosses[enemyManager.bossIndex].bossPrefab.Length)
-        {
-            Destroy(nowMusic);
-            nowMusic = AudioPlay(BackMusic[0]);
-        }
     }
     #endregion
     public void MenuUse()
@@ -436,14 +430,12 @@ public class GameManager : MonoBehaviour
                 playerScript.enabled = !isOnButton;
             if (isOnButton)
             {
-                GameObject temp = AudioPlay(MenuSound[0]);
-                Destroy(temp,1f);
+                AudioPlay(MenuSound[0],true);
                 Time.timeScale = 0;
             }  
             else
             {
-                GameObject temp = AudioPlay(MenuSound[1]);
-                Destroy(temp,1f);
+                AudioPlay(MenuSound[1],true);
                 Time.timeScale = 1;
             }
         }
@@ -451,12 +443,14 @@ public class GameManager : MonoBehaviour
     public void Replay()
     {
         Time.timeScale = 1;
+        DontDestroyOnLoad(AudioPlay(MenuSound[3],true));
         statusType = StatusType.Pause;
         SceneManager.LoadScene("Game");
     }
     public void BackToMenu()
     {
         Time.timeScale = 1;
+        DontDestroyOnLoad(AudioPlay(MenuSound[3],true));
         statusType = StatusType.Pause;
         SceneManager.LoadScene("Main");
     }
@@ -500,10 +494,12 @@ public class GameManager : MonoBehaviour
             LightSide[1].gameObject.GetComponent<Image>().color = new Color(1,1,1,sideB);
         }
     }
-    public GameObject AudioPlay(AudioSource audio)
+    public GameObject AudioPlay(AudioSource audio,bool canDestroy)
     {
         GameObject temp = Instantiate(audio.gameObject);
         audio.Play();
+        if(canDestroy)
+            Destroy(temp,1.5f);
         return temp;
     }
 }

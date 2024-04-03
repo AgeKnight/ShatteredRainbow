@@ -35,9 +35,10 @@ public struct EnemyBarrageCount
 public class Enemy : MonoBehaviour
 {
     #region "private"
+    float nowDownTime=0;
+    bool canMove = true;
     Death death;
     Coroutine[] otherCorotine = new Coroutine[1];
-    Coroutine coroutine;
     Vector3 targetPosition;
     float ultimateAttackTime = 0;
     int nowCountBarrage = 0;
@@ -47,6 +48,7 @@ public class Enemy : MonoBehaviour
     int nowIndex = 0;
     #endregion
     #region  "public"
+    public float DownTime;
     public AttackType useBarrage;
     public MoveType moveType;
     public Transform bulletTransform;
@@ -91,6 +93,20 @@ public class Enemy : MonoBehaviour
     }
     void Update()
     {
+        // if(!isAttack&&nowMusic)
+        // {
+        //     Destroy(nowMusic);
+        //     isListenShoot = false;
+        // }
+        if(!canMove)
+        {
+            nowDownTime+=Time.deltaTime;
+            if(nowDownTime>=DownTime)
+            {
+                canMove = true;
+                nowDownTime = 0;
+            }
+        }
         if (canCount)
             ultimateAttackTime += Time.deltaTime;
         Move();
@@ -128,16 +144,24 @@ public class Enemy : MonoBehaviour
             switch (moveType)
             {
                 case MoveType.SomeTimesMove:
-                    if (transform.position != targetPosition)
+                    if (transform.position != targetPosition && canMove)
+                    {
                         transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
-                    else
+                    }
+                    else if(transform.position == targetPosition)
+                    {
                         canChooseBarrage = false;
+                    }
                     break;
                 case MoveType.StayAttackMove:
-                     if (transform.position != targetPosition)
+                    if (transform.position != targetPosition)
+                    {   
                         transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
-                    else
+                    }
+                    else if(transform.position == targetPosition)
+                    {
                         changeBarrage();
+                    }   
                     break;
                 case MoveType.ToPlayerMove:
                     transform.Translate(Vector3.up * Time.deltaTime * Speed, Space.Self);
@@ -195,6 +219,12 @@ public class Enemy : MonoBehaviour
     {
         while (true)
         {
+            // if(!isListenShoot)
+            // {
+            //     isListenShoot = true;
+            //     nowMusic = GameManager.Instance.AudioPlay(shoot,false);
+            //     nowMusic.transform.parent = this.gameObject.transform;
+            // }
             if (!canChooseBarrage && !isAttack)
             {
                 string nowBarrage = System.Enum.GetName(typeof(BarrageType), enemyBarrageCounts[nowIndex].barrageType);
@@ -212,6 +242,7 @@ public class Enemy : MonoBehaviour
         else
             nowIndex++;
         ReturnMove();
+        canMove = false;
     }
     void ChooseTypeBarrage()
     {

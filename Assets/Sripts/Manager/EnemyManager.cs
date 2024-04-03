@@ -162,8 +162,8 @@ public class EnemyManager : MonoBehaviour
         AllBossStaire = waveBosses[bossIndex].bossPrefab.Length;
         OtherStage = true;
         isInBossAttack = true;
-        Destroy(GameManager.Instance.nowMusic);
-        GameManager.Instance.nowMusic = GameManager.Instance.AudioPlay(GameManager.Instance.BackMusic[bossIndex+1]);
+        if(bossIndex==waveBosses.Length)
+            GameManager.Instance.AudioPlay(GameManager.Instance.BackMusic[1],false);
         if (nowBossStage == 1)
         {
             var items = FindObjectsOfType<Item>();

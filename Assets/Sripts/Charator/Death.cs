@@ -23,6 +23,7 @@ public class Death : MonoBehaviour
     bool isDead = false;
     float hp;
     #region Public
+    public AudioSource deathAudio;
     public float totalHp;
     public CharatorType charatorType;
     public EnemyType enemyType;
@@ -79,6 +80,7 @@ public class Death : MonoBehaviour
     public void Die()
     {
         isDead = true;
+        GameManager.Instance.AudioPlay(deathAudio,true);
         if (gameObject.tag == "Player")
         {
             GameManager.Instance.thisMapHurt = true;

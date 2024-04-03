@@ -20,7 +20,7 @@ public class ButtonPress : Button
         if (interactable)
         {
             if(FindObjectOfType<GameManager>())
-                temp = GameManager.Instance.AudioPlay(GameManager.Instance.MenuSound[2]);
+                temp = GameManager.Instance.AudioPlay(GameManager.Instance.MenuSound[2],true);
             else
             {
                 temp = Instantiate(TitleManager.Instance.SelectSound.gameObject);
