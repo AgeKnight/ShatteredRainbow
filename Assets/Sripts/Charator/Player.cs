@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
                 {
                     Drone[i].SetActive(false);
                 }
+                useDroneTime=0;
                 isUseDrone = false;
             }
         }

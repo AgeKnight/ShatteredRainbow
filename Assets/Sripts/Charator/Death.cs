@@ -107,7 +107,7 @@ public class Death : MonoBehaviour
         int probabilityExp = Random.Range(minExp, maxExp);
         float enemyX = gameObject.transform.position.x;
         float enemyY = gameObject.transform.position.y;
-        for (int i = 0; i < probabilityExp; i++)
+        for (int i = 0; i <= probabilityExp; i++)
         {
             float tempx = Random.Range(-1.5f, 1.5f);
             float tempY = Random.Range(-1.5f, 1.5f);
@@ -120,11 +120,11 @@ public class Death : MonoBehaviour
             //0 生命 1 炸彈 2 滿等
             for (int i = 0; i < itemStruct.Length; i++)
             {
-                if(i==1&&GameManager.Instance.awardType==AwardType.Common)
-                {
-                    GameManager.Instance.awardType=AwardType.Bonus;
-                    break;
-                }
+                // if(i==1&&GameManager.Instance.awardType==AwardType.Common)
+                // {
+                //     GameManager.Instance.awardType=AwardType.Bonus;
+                //     break;
+                // }
                 float tempProbability = Random.Range(1, 100);
                 if (tempProbability <= itemStruct[i].probability)
                 {

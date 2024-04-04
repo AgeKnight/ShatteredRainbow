@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     bool isOnButton = false;
     int lifeCount = 0;
     int playerExp;
-    float sideA = 0;
+    float sideA = 0.25f;
     float sideB = 0;
     #endregion
     #region "Public"
@@ -228,7 +228,7 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case ItemType.Drone:
-                if (playerLevel < 3)
+                if (playerLevel <= 3)
                 {
                     playerScript.AddBro();
                     AddScore(item.score);
@@ -482,13 +482,13 @@ public class GameManager : MonoBehaviour
             {
                 if(enemyManager.bossIndex!=0)
                 {
-                    sideB+=Time.deltaTime/25;
+                    sideB+=Time.deltaTime/50;
                 }
-                sideA+=Time.deltaTime/50;
+                sideA+=Time.deltaTime/100;
             }
-            else if(LightSide[0].gameObject.GetComponent<Image>().color.a>=0.5&&!enemyManager.isSpanBoss&&enemyManager.bossIndex==1)
+            else if(LightSide[0].gameObject.GetComponent<Image>().color.a>=0.5&&!enemyManager.isSpanBoss)
             {
-                sideA-=Time.deltaTime/50;
+                sideA-=Time.deltaTime/25;
             }
             LightSide[0].gameObject.GetComponent<Image>().color = new Color(1,1,1,sideA);
             LightSide[1].gameObject.GetComponent<Image>().color = new Color(1,1,1,sideB);
