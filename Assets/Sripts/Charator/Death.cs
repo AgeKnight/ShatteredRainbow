@@ -24,10 +24,12 @@ public class Death : MonoBehaviour
     float hp;
     #region Public
     public AudioSource deathAudio;
+    public GameObject deadEffect;
     public float totalHp;
     public CharatorType charatorType;
     public EnemyType enemyType;
     public GameObject expObject;
+
     #endregion
     #region "Hide"
     [HideInInspector]
@@ -81,28 +83,67 @@ public class Death : MonoBehaviour
     {
         isDead = true;
         GameManager.Instance.AudioPlay(deathAudio,true);
+       
         if (gameObject.tag == "Player")
         {
-            GameManager.Instance.thisMapHurt = true;
-            if(GameManager.Instance.enemyManager.isSpanBoss)
+            Time.timeScale = 1;
+            
+            if (GameManager.Instance.enemyManager.isSpanBoss)
                 GameManager.Instance.awardType = AwardType.Common;
+            GameManager.Instance.thisMapHurt = true;
+            GameManager.Instance.MinusEXP();
+            GetComponent<Player>().AddBro(false);
             GameManager.Instance.AddLife(-1);
             GameManager.Instance.ClearBarrage();
             GameManager.Instance.Resurrection();
-            Destroy(this.gameObject);
+        
+            //玩家死亡的畫面表現
+            DeadEffect();
+
+
+         
+            Destroy(this.gameObject, 1);
+
         }
         else 
         {
             if (enemyType == EnemyType.Boss)
                 GameManager.Instance.BossNext();
             Enemydeath();
-            if(GameManager.Instance.awardType==AwardType.Bonus)
+
+            DeadEffect();
+           
+
+            if (GameManager.Instance.awardType==AwardType.Bonus)
                 GameManager.Instance.AddScore(bonusScore);
-            Destroy(this.gameObject);
+
+            
+           
         }
     }
+
+    void DeadEffect() //物件死亡的畫面表現
+    {
+        
+        GameObject effect = Instantiate(deadEffect);
+        effect.transform.position = transform.position;
+        effect.GetComponent<Animator>().SetTrigger(gameObject.tag + "Dies");
+        this.GetComponent<Animator>().SetTrigger("Dead");
+        if(gameObject.tag == "Player")
+        {
+            this.gameObject.GetComponent<Player>().canMove = false;
+        }
+        this.gameObject.SetActive(false);
+        Destroy(effect, 0.8f);
+        Destroy(this.gameObject, 1);
+    }
+
+
     void Enemydeath()
     {
+        
+    
+
         GameManager.Instance.AddScore(score);
         int probabilityExp = Random.Range(minExp, maxExp);
         float enemyX = gameObject.transform.position.x;
@@ -125,18 +166,24 @@ public class Death : MonoBehaviour
                 //     GameManager.Instance.awardType=AwardType.Bonus;
                 //     break;
                 // }
-                float tempProbability = Random.Range(1, 100);
-                if (tempProbability <= itemStruct[i].probability)
+
+                if (i == 0 || GameManager.Instance.awardType == AwardType.Bonus) //Boss戰表現判定 獎勵依照遊戲設定
                 {
-                    float tempx = Random.Range(-1.5f, 1.5f);
-                    float tempY = Random.Range(-1.5f, 1.5f);
-                    var tempPosition = new Vector2(enemyX + tempx, enemyY + tempY);
-                    var tempObject = Instantiate(itemStruct[i].items, tempPosition, Quaternion.identity);
-                    GameManager.Instance.ChangeDifficulty(tempObject);
+                    float tempProbability = Random.Range(1, 100);
+                    if (tempProbability <= itemStruct[i].probability)
+                    {
+                        float tempx = Random.Range(-1.5f, 1.5f);
+                        float tempY = Random.Range(-1.5f, 1.5f);
+                        var tempPosition = new Vector2(enemyX + tempx, enemyY + tempY);
+                        var tempObject = Instantiate(itemStruct[i].items, tempPosition, Quaternion.identity);
+                        GameManager.Instance.ChangeDifficulty(tempObject);
+                    }
                 }
+                
             }
         }
-        GameManager.Instance.awardType=AwardType.Bonus;
+        //   GameManager.Instance.awardType=AwardType.Bonus;
+      
     }
     public IEnumerator BeBombDamage(float hurt,float time)
     {

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2041855810668007953}
   - component: {fileID: 3320111845715336476}
   - component: {fileID: 5240528303161632813}
+  - component: {fileID: -3946211424402444999}
   m_Layer: 7
   m_Name: WaveMonster
   m_TagString: Enemy
@@ -55,7 +56,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -147,7 +148,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathAudio: {fileID: 3387233106102494613, guid: 3e52ef3996671224aac4a3c6250d1dd0, type: 3}
-  totalHp: 1
+  deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
+  totalHp: 9
   charatorType: 1
   enemyType: 0
   expObject: {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
@@ -196,6 +198,25 @@ MonoBehaviour:
     barrageType: 1
     barrage: {fileID: 5165513135576572565, guid: c9a6ccefda3ea5b44887c4a7c62cc8e3, type: 3}
   countTime: 0.1
+--- !u!95 &-3946211424402444999
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5601185290954460713}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 337d820e9e84f3946b44b973b2637d63, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5962880450976580193
 GameObject:
   m_ObjectHideFlags: 0

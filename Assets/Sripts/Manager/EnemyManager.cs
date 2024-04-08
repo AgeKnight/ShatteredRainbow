@@ -53,7 +53,7 @@ public class EnemyManager : MonoBehaviour
     public int nowBossStage = 1;
     [HideInInspector]
     public int bossIndex = 0;
-    [HideInInspector]
+   // [HideInInspector]
     public int AllBossStaire;
     #endregion
     public WaveMonster[] waveMonster;
@@ -123,6 +123,7 @@ public class EnemyManager : MonoBehaviour
                         nowIndex++;
                     else
                         isSpanBoss = false;
+                     
                     //防止溢出
                     if (nowIndex >= waveMonster.Length)
                         nowIndex = 0;

@@ -75,6 +75,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         death = gameObject.GetComponent<Death>();
+        GameManager.Instance.awardType = AwardType.Bonus;
         if (moveType != MoveType.ToPlayerMove)
             targetPosition = Dot[0];
         else
@@ -181,8 +182,8 @@ public class Enemy : MonoBehaviour
             GameManager.Instance.Triangles[0].SetActive(true);
             GameManager.Instance.Triangles[1].SetActive(true);
             GameManager.Instance.ShowBossStaire(GameManager.Instance.enemyManager.AllBossStaire, GameManager.Instance.enemyManager.nowBossStage);
-            //播放血條動畫(開)
-            GameManager.Instance.BarUse.Play("Open");
+            
+            //GameManager.Instance.BarUse.Play("Open");  //播放血條動畫(開)
             canTouch = true;
             if (GameManager.Instance.enemyManager.nowBossStage > 1)
             {

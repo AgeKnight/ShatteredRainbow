@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,15 +10,24 @@ public class TitleManager : MonoBehaviour
     public static TitleManager Instance { get => instance; set => instance = value; }
     public AudioSource SelectSound;
     public AudioSource ClickSound;
-    void Awake() 
+    void Awake()
     {
         Instance = this;
     }
     public void StartGame()
     {
-        DontDestroyOnLoad(AudioPlay(ClickSound,true));
-        SceneManager.LoadScene("Game");
+      
+        StartCoroutine(startgame_alternative());
     }
+
+    public IEnumerator startgame_alternative()
+        {
+        DontDestroyOnLoad(AudioPlay(ClickSound, true));
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene("Game");
+   
+        }
+
     public void ExitGame()
     {
         Application.Quit();

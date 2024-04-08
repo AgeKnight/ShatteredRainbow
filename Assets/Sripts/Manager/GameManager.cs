@@ -30,10 +30,9 @@ public class GameManager : MonoBehaviour
     #region "Private"
     int totalExp = 100;
     bool isOnButton = false;
-    int lifeCount = 0;
     int playerExp;
-    float sideA = 0.25f;
-    float sideB = 0;
+    float sideA;
+    float sideB;
     #endregion
     #region "Public"
     public Coroutine coroutine;
@@ -63,7 +62,11 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public AwardType awardType = AwardType.Bonus;
     [HideInInspector]
-    public int boumbCount = 0;
+    public int lifeCount = 0;
+    [HideInInspector]
+    public int bombCount = 0;
+    [HideInInspector]
+    public int droneCount = 0;
     [HideInInspector]
     public Sprite[] LifeImages;//0 空心 1 實心
     [HideInInspector]
@@ -112,7 +115,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public GameObject Reciprocal;
     [HideInInspector]
-    public int playerLevel = 0;
+    public int playerLevel;
     [HideInInspector]
     public bool canTrack = false;
     [HideInInspector]
@@ -129,8 +132,10 @@ public class GameManager : MonoBehaviour
     #region "難度"
     [Header("調難度")]
     public Difficulty difficulty;
-    public int playerBottom;
-    public int playerLife;
+    public int default_playerBomb = 2;
+    public int default_playerLife = 2;
+    public int default_droneCount = 0;
+    public int default_playerLevel = 0;
     [Header("無敵時間")]
     public float AllInvincibleTime; //無敵秒數
     #endregion
@@ -138,17 +143,27 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
         AudioPlay(BackMusic[0],false);
-        AddBottom(playerBottom);
-        AddLife(playerLife);
+
+        AddBomb(default_playerBomb);//暫時代替日後的開始新遊戲帶入預設資料，之後再換關時需繼承上關遊玩紀錄
+        AddLife(default_playerLife);
+        playerLevel = default_playerLevel;
+        droneCount = default_droneCount;
+
         coroutine = StartCoroutine(Begin());
+
     }
     IEnumerator Begin()
     {
-        Title.SetActive(true);
+        //開頭換成以動畫形式出現、消失
+      /*  Title.SetActive(true);
         yield return new WaitForSeconds(2);
-        Title.SetActive(false);
+        Title.SetActive(false); */
+
         playerScript = Instantiate(player, playerSpan.transform.position, Quaternion.identity).gameObject.GetComponent<Player>();
         playerScript.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = true;
+       
+        enemyManager.canGoNext = false;
+        yield return new WaitForSeconds(1);
         while (playerScript.gameObject.transform.position != PlayerResurrectionPosition.position)
         {
             playerScript.gameObject.transform.position = Vector2.MoveTowards(playerScript.gameObject.transform.position, PlayerResurrectionPosition.position, playerScript.speed * Time.deltaTime);
@@ -157,7 +172,6 @@ public class GameManager : MonoBehaviour
         playerScript.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = false;
         playerScript.canMove = true;
         yield return new WaitForSeconds(1);
-        enemyManager.canGoNext = false;
         StartCoroutine(enemyManager.CreateEnemy());
     }
     void Update()
@@ -217,10 +231,10 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case ItemType.Bomb:
-                if (boumbCount < allBomb)
+                if (bombCount < allBomb)
                 {
                     AddScore(item.score);
-                    AddBottom(1);
+                    AddBomb(1);
                 }
                 else
                 {
@@ -228,9 +242,10 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case ItemType.Drone:
-                if (playerLevel <= 3)
+                if (droneCount <6)
                 {
-                    playerScript.AddBro();
+
+                    playerScript.AddBro(true);
                     AddScore(item.score);
                 }
                 else
@@ -255,7 +270,7 @@ public class GameManager : MonoBehaviour
     {
         playerScore += value;
         thisMapScore = playerScore;
-        scoreText.text = "     Score:" + playerScore.ToString();
+        scoreText.text = "     Score : " + playerScore.ToString();
     }
     public void AddLife(int value)
     {
@@ -269,14 +284,14 @@ public class GameManager : MonoBehaviour
             Lifes[i].gameObject.GetComponent<Image>().sprite = LifeImages[1];
         }
     }
-    public void AddBottom(int value)
+    public void AddBomb(int value)
     {
-        boumbCount += value;
+        bombCount += value;
         for (int i = 0; i < allBomb; i++)
         {
             Bombs[i].gameObject.GetComponent<Image>().sprite = bombImages[0];
         }
-        for (int i = 0; i < boumbCount; i++)
+        for (int i = 0; i < bombCount; i++)
         {
             Bombs[i].gameObject.GetComponent<Image>().sprite = bombImages[1];
         }
@@ -304,7 +319,7 @@ public class GameManager : MonoBehaviour
         expBar.value = (float)playerExp / totalExp;
     }
     #endregion
-    void MinusLevel()
+    /* void MinusLevel()
     {
         playerExp = 0;
         if (playerLevel > 0)
@@ -315,6 +330,24 @@ public class GameManager : MonoBehaviour
             Level.text = "Level " + playerLevel.ToString();
         }
     }
+    */
+    public void MinusEXP() //每次死亡扣除經驗值總數的1/4
+    {       if (playerLevel == 3)
+            playerExp = (playerLevel * 100) * 3 / 4;//懲罰後經驗值
+            else
+            playerExp = (playerLevel * 100 + playerExp) * 3 / 4; //懲罰後經驗值
+
+            playerLevel = playerExp / 100;    //處罰後等級
+            playerExp = playerExp - playerLevel * 100;    //處罰後的顯示經驗值    
+
+            playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
+            expBar.value = (float)playerExp / totalExp;
+            Level.text = "Level " + playerLevel.ToString();
+        
+    }
+
+
+
     public void ClearBarrage()
     {
         var barrages = FindObjectsOfType<Bullet>();
@@ -390,6 +423,9 @@ public class GameManager : MonoBehaviour
     public void BeginReciprocal()
     {
         Reciprocal.SetActive(true);
+
+        GameManager.Instance.BarUse.SetBool("Fighting", true);//大招結束，進入可傷害狀態，血條再開
+
         Reciprocal.GetComponent<Reciprocal>().allTime = 60;
         Reciprocal.GetComponent<Reciprocal>().isDead = false;
     }
@@ -407,9 +443,11 @@ public class GameManager : MonoBehaviour
     {
         BossBar.value = 1;
         Reciprocal.GetComponent<Reciprocal>().gameObject.SetActive(false);
+
         //播放血條動畫<關>
-        BarUse.Play("Close");
-        for (int i = 0; i < bossStaire.Length; i++)
+        //  BarUse.Play("Close");
+        BarUse.SetBool("Fighting", false);
+        for (int i = 0; i < bossStaire.Length; i++) 
         {
             bossStaire[i].GetComponent<Image>().sprite = bossImages[0];
             bossStaire[i].SetActive(false);
@@ -417,9 +455,13 @@ public class GameManager : MonoBehaviour
             Triangles[0].SetActive(false);
             Triangles[1].SetActive(false);
         }
+        
         enemyManager.nowEveryStairTime = enemyManager.everyStairTime;
     }
     #endregion
+
+
+
     public void MenuUse()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -454,12 +496,12 @@ public class GameManager : MonoBehaviour
         statusType = StatusType.Pause;
         SceneManager.LoadScene("Main");
     }
-    public void Return()
+    public void Continue()
     {
         Menus[1].SetActive(false);
         statusType = StatusType.Pause;
         //MinusLevel();
-        AddLife(playerLife);
+        AddLife(2);
         PlayerResurrection();
         Time.timeScale = 1;
     }
@@ -478,18 +520,50 @@ public class GameManager : MonoBehaviour
     {
         if(!enemyManager.canGoNext)
         {
-            if(LightSide[0].gameObject.GetComponent<Image>().color.a<=0.5&&!enemyManager.isSpanBoss&&enemyManager.bossIndex==0||enemyManager.isSpanBoss)
+        /*     if(LightSide[0].gameObject.GetComponent<Image>().color.a<=0.5&&!enemyManager.isSpanBoss&&enemyManager.bossIndex==0||enemyManager.isSpanBoss)
+           {
+              
+               sideA+=Time.deltaTime/25;
+           }
+          else if(LightSide[0].gameObject.GetComponent<Image>().color.a>=0.5&&!enemyManager.isSpanBoss)
+          {
+              sideA-=Time.deltaTime/25;
+            }
+           if (enemyManager.bossIndex != 0)
             {
-                if(enemyManager.bossIndex!=0)
+                sideB += Time.deltaTime / 25;
+            }
+        */
+
+            
+            if(enemyManager.isSpanBoss)//邊框效果修飾
+            {
+              
+                 if(sideB!= 1 && enemyManager.bossIndex != 0) //關底Boss戰鬥特效
+                    sideB += Time.deltaTime;
+
+                if(sideA<=0.5) //中Boss-關底Boss以外
                 {
-                    sideB+=Time.deltaTime/50;
+                   sideA += Time.deltaTime * 0.1f;
                 }
-                sideA+=Time.deltaTime/100;
             }
-            else if(LightSide[0].gameObject.GetComponent<Image>().color.a>=0.5&&!enemyManager.isSpanBoss)
+            else
             {
-                sideA-=Time.deltaTime/25;
+                if(sideA>=0.25)
+                {
+                    sideA -= Time.deltaTime * 0.1f;
+                }
+                else if(sideA<=0.25)
+                {
+                    sideA += Time.deltaTime * 0.1f;
+                }
+
+                if(sideB ==1)
+                {
+                    sideB -= Time.deltaTime * 0.1f;
+                }
             }
+            
             LightSide[0].gameObject.GetComponent<Image>().color = new Color(1,1,1,sideA);
             LightSide[1].gameObject.GetComponent<Image>().color = new Color(1,1,1,sideB);
         }
