@@ -75,8 +75,9 @@ public class GameManager : MonoBehaviour
     public Sprite[] bossImages;//0 空心 1 實心 
     [HideInInspector]
     public GameObject[] Triangles;
-    [HideInInspector]
-    public Animator BarUse;
+    //[HideInInspector]
+    //public Animator BarUse;
+    public Animator UIanimator;
     [HideInInspector]
     public Player playerScript;
     [HideInInspector]
@@ -121,6 +122,8 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public GameObject player;
     [HideInInspector]
+    public Text Hi_scoreText;
+    [HideInInspector]
     public Text scoreText;
     [HideInInspector]
     public Text Level;
@@ -144,11 +147,11 @@ public class GameManager : MonoBehaviour
         instance = this;
         AudioPlay(BackMusic[0],false);
 
-        AddBomb(default_playerBomb);//暫時代替日後的開始新遊戲帶入預設資料，之後再換關時需繼承上關遊玩紀錄
+        AddBomb(default_playerBomb);//暫時代替日後的開始新遊戲帶入預設資料，之後再換關時需繼承上關遊玩紀錄... 也許到時候直接換成使用unity預設的playerprefs?
         AddLife(default_playerLife);
         playerLevel = default_playerLevel;
         droneCount = default_droneCount;
-
+        Hi_scoreText.text = "Hi-Score : " + PlayerPrefs.GetFloat("Hi_Score").ToString();
         coroutine = StartCoroutine(Begin());
 
     }
@@ -271,6 +274,13 @@ public class GameManager : MonoBehaviour
         playerScore += value;
         thisMapScore = playerScore;
         scoreText.text = "     Score : " + playerScore.ToString();
+        
+        if (playerScore>=PlayerPrefs.GetFloat("Hi_Score"))
+        {
+            PlayerPrefs.SetFloat("Hi_Score", playerScore);
+            Hi_scoreText.text = "Hi-Score : "+ PlayerPrefs.GetFloat("Hi_Score").ToString();
+
+        }
     }
     public void AddLife(int value)
     {
@@ -424,7 +434,7 @@ public class GameManager : MonoBehaviour
     {
         Reciprocal.SetActive(true);
 
-        GameManager.Instance.BarUse.SetBool("Fighting", true);//大招結束，進入可傷害狀態，血條再開
+        GameManager.Instance.UIanimator.SetBool("BossFighting", true);//大招結束，進入可傷害狀態，血條再開
 
         Reciprocal.GetComponent<Reciprocal>().allTime = 60;
         Reciprocal.GetComponent<Reciprocal>().isDead = false;
@@ -446,14 +456,14 @@ public class GameManager : MonoBehaviour
 
         //播放血條動畫<關>
         //  BarUse.Play("Close");
-        BarUse.SetBool("Fighting", false);
+        UIanimator.SetBool("BossFighting", false);
         for (int i = 0; i < bossStaire.Length; i++) 
         {
             bossStaire[i].GetComponent<Image>().sprite = bossImages[0];
-            bossStaire[i].SetActive(false);
+         /*   bossStaire[i].SetActive(false);
             BossBar.gameObject.SetActive(false);
             Triangles[0].SetActive(false);
-            Triangles[1].SetActive(false);
+            Triangles[1].SetActive(false);*/
         }
         
         enemyManager.nowEveryStairTime = enemyManager.everyStairTime;
@@ -487,7 +497,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         DontDestroyOnLoad(AudioPlay(MenuSound[3],true));
         statusType = StatusType.Pause;
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void BackToMenu()
     {

@@ -185,7 +185,6 @@ public class Player : MonoBehaviour
         else
             transform.Translate(vertical * speed * Time.deltaTime, horizontal * speed * Time.deltaTime, 0);
             */
-        
         GetComponent<Rigidbody2D>().velocity = new Vector2(speed * Input.GetAxisRaw("Horizontal"), speed * Input.GetAxisRaw("Vertical")); //以物理為主的移動，比較不會有在牆邊抖動的問題
 
         if (isUseBomb)

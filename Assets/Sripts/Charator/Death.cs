@@ -108,9 +108,12 @@ public class Death : MonoBehaviour
         else 
         {
             if (enemyType == EnemyType.Boss)
+            {
                 GameManager.Instance.BossNext();
+                GameManager.Instance.ClearBarrage();//Boss死亡後的畫面清理
+            }
             Enemydeath();
-
+        
             DeadEffect();
            
 

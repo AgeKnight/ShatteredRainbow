@@ -20,10 +20,15 @@ public class TitleManager : MonoBehaviour
         StartCoroutine(startgame_alternative());
     }
 
+    public void Highscorereset()
+    {
+        PlayerPrefs.SetFloat("Hi_Score", 0);
+    }
+
     public IEnumerator startgame_alternative()
         {
         DontDestroyOnLoad(AudioPlay(ClickSound, true));
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         SceneManager.LoadScene("Game");
    
         }
@@ -32,6 +37,7 @@ public class TitleManager : MonoBehaviour
     {
         Application.Quit();
     }
+
     public GameObject AudioPlay(AudioSource audio,bool canDestroy)
     {
         GameObject temp = Instantiate(audio.gameObject);
@@ -40,4 +46,5 @@ public class TitleManager : MonoBehaviour
             Destroy(temp,1.5f);
         return temp;
     }
+    
 }

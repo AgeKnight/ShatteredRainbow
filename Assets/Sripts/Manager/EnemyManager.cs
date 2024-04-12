@@ -122,7 +122,11 @@ public class EnemyManager : MonoBehaviour
                     if (!isSpanBoss)
                         nowIndex++;
                     else
+                    {
                         isSpanBoss = false;
+                        GameManager.Instance.UIanimator.SetTrigger("BossDied");
+                    }
+            
                      
                     //防止溢出
                     if (nowIndex >= waveMonster.Length)
@@ -131,6 +135,7 @@ public class EnemyManager : MonoBehaviour
                     //開始進入boss戰
                     if (allIndex % (waveMonster.Length / 2 + 1) == waveMonster.Length / 2)
                     {
+                       // GameManager.Instance.ClearBarrage(); Boss戰鬥開始前的畫面清理
                         StartCoroutine(BossAppear());
                         break;
                     }
@@ -160,6 +165,7 @@ public class EnemyManager : MonoBehaviour
     }
     IEnumerator BossAppear()
     {
+      
         AllBossStaire = waveBosses[bossIndex].bossPrefab.Length;
         OtherStage = true;
         isInBossAttack = true;

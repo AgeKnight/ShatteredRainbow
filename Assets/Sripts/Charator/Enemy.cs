@@ -182,8 +182,9 @@ public class Enemy : MonoBehaviour
             GameManager.Instance.Triangles[0].SetActive(true);
             GameManager.Instance.Triangles[1].SetActive(true);
             GameManager.Instance.ShowBossStaire(GameManager.Instance.enemyManager.AllBossStaire, GameManager.Instance.enemyManager.nowBossStage);
-            
+
             //GameManager.Instance.BarUse.Play("Open");  //播放血條動畫(開)
+            GameManager.Instance.UIanimator.SetTrigger("Boss");
             canTouch = true;
             if (GameManager.Instance.enemyManager.nowBossStage > 1)
             {
@@ -199,7 +200,7 @@ public class Enemy : MonoBehaviour
         GameManager.Instance.BeginReciprocal();
         death.isInvincible = false;
         canCount = false;
-        ClearBarrage();
+     // ClearBarrage();
         StartCoroutine(UseBarrage());
     }
     IEnumerator UltimateAttack()
