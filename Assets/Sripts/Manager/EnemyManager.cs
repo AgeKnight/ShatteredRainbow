@@ -35,11 +35,12 @@ public class EnemyManager : MonoBehaviour
     int nowCount = 0;
     int allIndex = 0;
     bool isInBossAttack = false;
-    bool OtherStage = true;
     List<GameObject> waveEnemy = new List<GameObject>();
     GameObject tempEnemy;
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public bool OtherStage = true;
     [HideInInspector]
     public float nowEveryStairTime = 0;
     [HideInInspector]
@@ -100,10 +101,13 @@ public class EnemyManager : MonoBehaviour
                     //是否可以前往下一階段
                     if ((isSpanBoss && !OtherStage) || !isSpanBoss)
                     {
+                        
                         allIndex++;
                         nowBossStage = 1;
                         if (isSpanBoss)
+                        {
                             bossIndex++;
+                        }
                     }
                     //boss進入二階段
                     if (isSpanBoss && OtherStage)
@@ -124,9 +128,8 @@ public class EnemyManager : MonoBehaviour
                     else
                     {
                         isSpanBoss = false;
-                        GameManager.Instance.UIanimator.SetTrigger("BossDied");
                     }
-            
+
                      
                     //防止溢出
                     if (nowIndex >= waveMonster.Length)

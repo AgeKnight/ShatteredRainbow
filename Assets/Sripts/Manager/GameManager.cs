@@ -434,7 +434,7 @@ public class GameManager : MonoBehaviour
     {
         Reciprocal.SetActive(true);
 
-        GameManager.Instance.UIanimator.SetBool("BossFighting", true);//大招結束，進入可傷害狀態，血條再開
+        UIanimator.SetInteger("BossState", 0);//大招結束，進入可傷害狀態，血條再開
 
         Reciprocal.GetComponent<Reciprocal>().allTime = 60;
         Reciprocal.GetComponent<Reciprocal>().isDead = false;
@@ -456,7 +456,11 @@ public class GameManager : MonoBehaviour
 
         //播放血條動畫<關>
         //  BarUse.Play("Close");
-        UIanimator.SetBool("BossFighting", false);
+        UIanimator.SetInteger("BossState",1);
+        if(!enemyManager.OtherStage)
+        {
+            UIanimator.SetInteger("BossState",2);
+        }
         for (int i = 0; i < bossStaire.Length; i++) 
         {
             bossStaire[i].GetComponent<Image>().sprite = bossImages[0];

@@ -184,7 +184,7 @@ public class Enemy : MonoBehaviour
             GameManager.Instance.ShowBossStaire(GameManager.Instance.enemyManager.AllBossStaire, GameManager.Instance.enemyManager.nowBossStage);
 
             //GameManager.Instance.BarUse.Play("Open");  //播放血條動畫(開)
-            GameManager.Instance.UIanimator.SetTrigger("Boss");
+            GameManager.Instance.UIanimator.SetInteger("Boss",0);
             canTouch = true;
             if (GameManager.Instance.enemyManager.nowBossStage > 1)
             {
