@@ -1,4 +1,5 @@
 using System.Collections;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -25,12 +26,21 @@ public enum AwardType
 }
 public class GameManager : MonoBehaviour
 {
+    [System.Serializable]
+    class SaveData
+    {
+        public int playerBomb;
+        public int playerLife;
+        public int playerLevel;
+        public int playerExp;
+        public int droneCount;
+        public int GameStage = 1;
+    }
     static GameManager instance;
     public static GameManager Instance { get => instance; set => instance = value; }
     #region "Private"
     int totalExp = 100;
     bool isOnButton = false;
-    int playerExp;
     float sideA;
     float sideB;
     #endregion
@@ -40,8 +50,12 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
-    //[HideInInspector]
+    public int GameStage = 1;
+    [HideInInspector]
+    public int playerExp;
+    [HideInInspector]
     public AudioSource[] BackMusic;
+    [HideInInspector]
     public AudioSource[] MenuSound;
     [HideInInspector]
     public float playerScore;
@@ -145,12 +159,8 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        AudioPlay(BackMusic[0],false);
-
-        AddBomb(default_playerBomb);//暫時代替日後的開始新遊戲帶入預設資料，之後再換關時需繼承上關遊玩紀錄... 也許到時候直接換成使用unity預設的playerprefs?
-        AddLife(default_playerLife);
-        playerLevel = default_playerLevel;
-        droneCount = default_droneCount;
+        Load();
+        AudioPlay(BackMusic[0], false);
         Hi_scoreText.text = "Hi-Score : " + PlayerPrefs.GetFloat("Hi_Score").ToString();
         coroutine = StartCoroutine(Begin());
 
@@ -158,13 +168,13 @@ public class GameManager : MonoBehaviour
     IEnumerator Begin()
     {
         //開頭換成以動畫形式出現、消失
-      /*  Title.SetActive(true);
-        yield return new WaitForSeconds(2);
-        Title.SetActive(false); */
+        /*  Title.SetActive(true);
+          yield return new WaitForSeconds(2);
+          Title.SetActive(false); */
 
         playerScript = Instantiate(player, playerSpan.transform.position, Quaternion.identity).gameObject.GetComponent<Player>();
         playerScript.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = true;
-       
+
         enemyManager.canGoNext = false;
         yield return new WaitForSeconds(1);
         while (playerScript.gameObject.transform.position != PlayerResurrectionPosition.position)
@@ -245,10 +255,9 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case ItemType.Drone:
-                if (droneCount <6)
+                if (droneCount < 6)
                 {
-
-                    playerScript.AddBro(true);
+                    playerScript.AddBro(2);
                     AddScore(item.score);
                 }
                 else
@@ -274,11 +283,11 @@ public class GameManager : MonoBehaviour
         playerScore += value;
         thisMapScore = playerScore;
         scoreText.text = "     Score : " + playerScore.ToString();
-        
-        if (playerScore>=PlayerPrefs.GetFloat("Hi_Score"))
+
+        if (playerScore >= PlayerPrefs.GetFloat("Hi_Score"))
         {
             PlayerPrefs.SetFloat("Hi_Score", playerScore);
-            Hi_scoreText.text = "Hi-Score : "+ PlayerPrefs.GetFloat("Hi_Score").ToString();
+            Hi_scoreText.text = "Hi-Score : " + PlayerPrefs.GetFloat("Hi_Score").ToString();
 
         }
     }
@@ -342,18 +351,19 @@ public class GameManager : MonoBehaviour
     }
     */
     public void MinusEXP() //每次死亡扣除經驗值總數的1/4
-    {       if (playerLevel == 3)
+    {
+        if (playerLevel == 3)
             playerExp = (playerLevel * 100) * 3 / 4;//懲罰後經驗值
-            else
+        else
             playerExp = (playerLevel * 100 + playerExp) * 3 / 4; //懲罰後經驗值
 
-            playerLevel = playerExp / 100;    //處罰後等級
-            playerExp = playerExp - playerLevel * 100;    //處罰後的顯示經驗值    
+        playerLevel = playerExp / 100;    //處罰後等級
+        playerExp = playerExp - playerLevel * 100;    //處罰後的顯示經驗值    
 
-            playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
-            expBar.value = (float)playerExp / totalExp;
-            Level.text = "Level " + playerLevel.ToString();
-        
+        playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
+        expBar.value = (float)playerExp / totalExp;
+        Level.text = "Level " + playerLevel.ToString();
+
     }
 
 
@@ -456,20 +466,20 @@ public class GameManager : MonoBehaviour
 
         //播放血條動畫<關>
         //  BarUse.Play("Close");
-        UIanimator.SetInteger("BossState",1);
-        if(!enemyManager.OtherStage)
+        UIanimator.SetInteger("BossState", 1);
+        if (!enemyManager.OtherStage)
         {
-            UIanimator.SetInteger("BossState",2);
+            UIanimator.SetInteger("BossState", 2);
         }
-        for (int i = 0; i < bossStaire.Length; i++) 
+        for (int i = 0; i < bossStaire.Length; i++)
         {
             bossStaire[i].GetComponent<Image>().sprite = bossImages[0];
-         /*   bossStaire[i].SetActive(false);
-            BossBar.gameObject.SetActive(false);
-            Triangles[0].SetActive(false);
-            Triangles[1].SetActive(false);*/
+            /*   bossStaire[i].SetActive(false);
+               BossBar.gameObject.SetActive(false);
+               Triangles[0].SetActive(false);
+               Triangles[1].SetActive(false);*/
         }
-        
+
         enemyManager.nowEveryStairTime = enemyManager.everyStairTime;
     }
     #endregion
@@ -486,12 +496,12 @@ public class GameManager : MonoBehaviour
                 playerScript.enabled = !isOnButton;
             if (isOnButton)
             {
-                AudioPlay(MenuSound[0],true);
+                AudioPlay(MenuSound[0], true);
                 Time.timeScale = 0;
-            }  
+            }
             else
             {
-                AudioPlay(MenuSound[1],true);
+                AudioPlay(MenuSound[1], true);
                 Time.timeScale = 1;
             }
         }
@@ -499,14 +509,15 @@ public class GameManager : MonoBehaviour
     public void Replay()
     {
         Time.timeScale = 1;
-        DontDestroyOnLoad(AudioPlay(MenuSound[3],true));
+        DontDestroyOnLoad(AudioPlay(MenuSound[3], true));
         statusType = StatusType.Pause;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void BackToMenu()
     {
+        Save();
         Time.timeScale = 1;
-        DontDestroyOnLoad(AudioPlay(MenuSound[3],true));
+        DontDestroyOnLoad(AudioPlay(MenuSound[3], true));
         statusType = StatusType.Pause;
         SceneManager.LoadScene("Main");
     }
@@ -532,62 +543,111 @@ public class GameManager : MonoBehaviour
     }
     void SideAdjustment()
     {
-        if(!enemyManager.canGoNext)
+        if (!enemyManager.canGoNext)
         {
-        /*     if(LightSide[0].gameObject.GetComponent<Image>().color.a<=0.5&&!enemyManager.isSpanBoss&&enemyManager.bossIndex==0||enemyManager.isSpanBoss)
-           {
-              
-               sideA+=Time.deltaTime/25;
-           }
-          else if(LightSide[0].gameObject.GetComponent<Image>().color.a>=0.5&&!enemyManager.isSpanBoss)
-          {
-              sideA-=Time.deltaTime/25;
-            }
-           if (enemyManager.bossIndex != 0)
-            {
-                sideB += Time.deltaTime / 25;
-            }
-        */
+            /*     if(LightSide[0].gameObject.GetComponent<Image>().color.a<=0.5&&!enemyManager.isSpanBoss&&enemyManager.bossIndex==0||enemyManager.isSpanBoss)
+               {
 
-            
-            if(enemyManager.isSpanBoss)//邊框效果修飾
+                   sideA+=Time.deltaTime/25;
+               }
+              else if(LightSide[0].gameObject.GetComponent<Image>().color.a>=0.5&&!enemyManager.isSpanBoss)
+              {
+                  sideA-=Time.deltaTime/25;
+                }
+               if (enemyManager.bossIndex != 0)
+                {
+                    sideB += Time.deltaTime / 25;
+                }
+            */
+
+
+            if (enemyManager.isSpanBoss)//邊框效果修飾
             {
-              
-                 if(sideB!= 1 && enemyManager.bossIndex != 0) //關底Boss戰鬥特效
+
+                if (sideB != 1 && enemyManager.bossIndex != 0) //關底Boss戰鬥特效
                     sideB += Time.deltaTime;
 
-                if(sideA<=0.5) //中Boss-關底Boss以外
+                if (sideA <= 0.5) //中Boss-關底Boss以外
                 {
-                   sideA += Time.deltaTime * 0.1f;
+                    sideA += Time.deltaTime * 0.1f;
                 }
             }
             else
             {
-                if(sideA>=0.25)
+                if (sideA >= 0.25)
                 {
                     sideA -= Time.deltaTime * 0.1f;
                 }
-                else if(sideA<=0.25)
+                else if (sideA <= 0.25)
                 {
                     sideA += Time.deltaTime * 0.1f;
                 }
 
-                if(sideB ==1)
+                if (sideB == 1)
                 {
                     sideB -= Time.deltaTime * 0.1f;
                 }
             }
-            
-            LightSide[0].gameObject.GetComponent<Image>().color = new Color(1,1,1,sideA);
-            LightSide[1].gameObject.GetComponent<Image>().color = new Color(1,1,1,sideB);
+
+            LightSide[0].gameObject.GetComponent<Image>().color = new Color(1, 1, 1, sideA);
+            LightSide[1].gameObject.GetComponent<Image>().color = new Color(1, 1, 1, sideB);
         }
     }
-    public GameObject AudioPlay(AudioSource audio,bool canDestroy)
+    public GameObject AudioPlay(AudioSource audio, bool canDestroy)
     {
         GameObject temp = Instantiate(audio.gameObject);
         audio.Play();
-        if(canDestroy)
-            Destroy(temp,1.5f);
+        if (canDestroy)
+            Destroy(temp, 1.5f);
         return temp;
     }
+    #region "存檔讀檔"
+    public void Save()
+    {
+        SaveSystem.SaveGame(SavingData());
+    }
+    public void Load()
+    {
+        bool noSave = false;
+        if (!File.Exists(@"Assets\game_SaveData\Game.game"))
+        {
+            noSave = true;
+        }
+        if (!noSave)
+        {
+            var saveData = SaveSystem.LoadGame<SaveData>();
+            LoadData(saveData);
+        }
+        else
+        {
+            AddBomb(default_playerBomb);//暫時代替日後的開始新遊戲帶入預設資料，之後再換關時需繼承上關遊玩紀錄... 也許到時候直接換成使用unity預設的playerprefs?
+            AddLife(default_playerLife);
+            droneCount = default_droneCount;
+            GameStage = 1;
+        }
+    }
+    #endregion
+    #region "存檔幫助"
+    SaveData SavingData()
+    {
+        var SaveData = new SaveData();
+        SaveData.playerBomb = bombCount;
+        SaveData.playerExp = playerExp;
+        SaveData.playerLevel = playerLevel;
+        SaveData.playerLife = lifeCount;
+        SaveData.droneCount = droneCount;
+        SaveData.GameStage = GameStage;
+        return SaveData;
+    }
+    void LoadData(SaveData saveData)
+    {
+        AddBomb(saveData.playerBomb);
+        AddLife(saveData.playerLife);
+        playerLevel = saveData.playerLevel;
+        AddExp(saveData.playerExp);
+        Level.text = "Level " + playerLevel.ToString();
+        droneCount = saveData.droneCount;
+        GameStage = saveData.GameStage;
+    }
+    #endregion
 }

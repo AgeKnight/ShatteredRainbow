@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     float nowspeed;
- //   float useDroneTime = 0;
+    //   float useDroneTime = 0;
     float[] annularColor = { 0.8f, 0.8f };
     bool isUseBomb = false;
     public bool isUseTimeBarrage = false;
@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     Image Annular;
     GameObject shootEffect;
     int trailnums = 0;
-    Color[] shade = {new Vector4(1, 1, 0.69f), new Vector4(0.69f, 0.97f, 1) ,new Vector4(1, 0.69f, 0.71f) };
+    Color[] shade = { new Vector4(1, 1, 0.69f), new Vector4(0.69f, 0.97f, 1), new Vector4(1, 0.69f, 0.71f) };
     #region "Public"
     public float maxUseDroneTime = 20;
     public int Dronecount;
@@ -53,8 +53,8 @@ public class Player : MonoBehaviour
     #endregion
     void Awake()
     {
-        nowspeed = speed;//玩家速度暫存
-        AddBro(false);//
+        nowspeed = speed;
+        AddBro(0);
         Annular = AnnularCircle.GetComponent<Image>();
         invokeTime = MaxBarrageTime;
         annular = SliderTime.GetComponent<AnnularSlider>();
@@ -64,25 +64,25 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-      /*  
-       if (isUseDrone)
-        {
-            
-            useDroneTime += Time.deltaTime;
-            if (useDroneTime >= maxUseDroneTime)
-            {
-                for (int i = 0; i < Drone.Length; i++)
-                {
-                    Drone[i].SetActive(false);
-                }
-                useDroneTime = 0;
-                isUseDrone = false;
-            }
-            
+        /*  
+         if (isUseDrone)
+          {
+
+              useDroneTime += Time.deltaTime;
+              if (useDroneTime >= maxUseDroneTime)
+              {
+                  for (int i = 0; i < Drone.Length; i++)
+                  {
+                      Drone[i].SetActive(false);
+                  }
+                  useDroneTime = 0;
+                  isUseDrone = false;
+              }
 
 
-        }
-        */
+
+          }
+          */
 
 
         if (canMove && BombAttack)
@@ -112,15 +112,15 @@ public class Player : MonoBehaviour
                 Time.timeScale = 1;
             }
         }
-             if (canMove)
-             {
-              Move();
-             }
+        if (canMove)
+        {
+            Move();
+        }
         ChangeColorAnnular();
         UseTimeBarrage();
     }
 
-    
+
     void ChangeColorAnnular()
     {
         if (invokeTime >= MaxBarrageTime)
@@ -135,33 +135,26 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void AddBro(bool add)
+    public void AddBro(int value)
     {
         
-        /*  useDroneTime = 0;   //無人機限時
-          for (int i = 0; i < Drone.Length; i++)
-          {
-              Drone[i].SetActive(true);
-          }
-          */
-        if (add) //無人機改回企劃最初定義，每撿一次加一組，死後全失
+        GameManager.Instance.droneCount += value;
+        if(GameManager.Instance.droneCount>0)
         {
             isUseDrone = true;
-            GameManager.Instance.droneCount += 2;
-            for (int i = 0; i <= GameManager.Instance.droneCount - 1; i++)
-            {
-                Drone[i].SetActive(true);
-            }
         }
-        else
+        else 
         {
+            GameManager.Instance.droneCount = 0;
             isUseDrone = false;
-            GameManager.Instance.droneCount =0 ;
-        
-            for (int i = 5; i > GameManager.Instance.droneCount - 1; i--)
-            {
-                Drone[i].SetActive(false);
-            }
+        }
+        for (int i = 0; i < 6; i++)
+        {
+            Drone[i].SetActive(false);
+        }
+        for (int i = 0; i <= GameManager.Instance.droneCount-1; i++)
+        {
+            Drone[i].SetActive(true);
         }
     }
     void Move()
@@ -185,14 +178,14 @@ public class Player : MonoBehaviour
         else
             transform.Translate(vertical * speed * Time.deltaTime, horizontal * speed * Time.deltaTime, 0);
             */
-        GetComponent<Rigidbody2D>().velocity = new Vector2(speed * Input.GetAxisRaw("Horizontal"), speed * Input.GetAxisRaw("Vertical")); //以物理為主的移動，比較不會有在牆邊抖動的問題
+        GetComponent<Rigidbody2D>().velocity = new Vector2(speed * Input.GetAxisRaw("Horizontal"), speed * Input.GetAxisRaw("Vertical")); //嚙瘡嚙踝蕭嚙緲嚙踝蕭嚙瘩嚙踝蕭嚙踝蕭嚙褊，嚙踝蕭嚙踝蕭嚙踝蕭|嚙踝蕭嚙箭嚙踝蕭嚙踝蕭搯坁嚙踝蕭嚙踝蕭D
 
         if (isUseBomb)
             speed = nowspeed * myBomb.SlowSpeed;
         else
             speed = nowspeed;
 
-    
+
     }
 
     void UseAttack()
@@ -212,7 +205,7 @@ public class Player : MonoBehaviour
             //  BroAnime();
         }
     }
-    /*void BroAnime()  //使用animator
+    /*void BroAnime()  //嚙誕伐蕭animator
     {
         if (isUseDrone)
         {
@@ -269,7 +262,7 @@ public class Player : MonoBehaviour
             gameObject.GetComponent<Death>().isInvincible = true;
             Invoke("againUseBomb", useBombTime);
         }
-        if(myBomb)
+        if (myBomb)
         {
             myBomb.transform.position = transform.position;
         }
@@ -285,12 +278,12 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C) && !isUseBomb && invokeTime > 0)
         {
-            
+
             isUseTimeBarrage = true;
             StartCoroutine(Trails());
             this.GetComponent<Animator>().SetBool("AnimBulletTime", isUseTimeBarrage);
             Time.timeScale = SlowSpeed;
-            Time.fixedDeltaTime = Time.timeScale*0.05f;
+            Time.fixedDeltaTime = Time.timeScale * 0.05f;
         }
         if (Input.GetKeyUp(KeyCode.C))
         {
@@ -313,20 +306,20 @@ public class Player : MonoBehaviour
         }
     }
 
-    //子彈時間的殘影效果
+    //嚙締嚙線嚙褕塚蕭嚙踝蕭嚙豎影嚙衝果
     IEnumerator Trails()
     {
         while (isUseTimeBarrage)
         {
-          
+
             GameObject shadow = Instantiate(TimeBarrageTrail, this.transform.position, Quaternion.identity);
             shadow.GetComponent<SpriteRenderer>().color = shade[trailnums];
             yield return new WaitForSeconds(0.05f);
-            if (trailnums <2)
+            if (trailnums < 2)
                 trailnums += 1;
             else
                 trailnums = 0;
-            Destroy(shadow,0.2f);
+            Destroy(shadow, 0.2f);
         }
     }
 
