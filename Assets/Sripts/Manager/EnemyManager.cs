@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Linq;
 
 
@@ -116,9 +117,18 @@ public class EnemyManager : MonoBehaviour
                     if (bossIndex >= waveBosses.Length)
                     {
                         isWin = true;
-                        yield return new WaitForSeconds(1f);
-                        GameManager.Instance.StageClear.SetActive(true);
                         StartCoroutine(ScoreBonus());
+                        yield return new WaitForSeconds(2.5f);
+                        GameManager.Instance.GameStage+=1;
+                        GameManager.Instance.Save();
+                        if(GameManager.Instance.GameStage<=3)
+                        {
+                            SceneManager.LoadScene("Game"+GameManager.Instance.GameStage.ToString());
+                        }
+                        else
+                        {   
+                            GameManager.Instance.statusType = StatusType.Win;
+                        }     
                         break;
                     }
                     nowCount = 0;
@@ -222,24 +232,23 @@ public class EnemyManager : MonoBehaviour
         GameManager.Instance.MapBonusScores[0].text = GameManager.Instance.thisMapScore.ToString();
         if (!GameManager.Instance.thisMapBomb)
         {
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(0.5f);
             GameManager.Instance.thisMapScore *= 1.5f;
             GameManager.Instance.BonusScores[0].SetActive(true);
         }
         if (!GameManager.Instance.thisMapHurt)
         {
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(0.5f);
             GameManager.Instance.thisMapScore *= 1.5f;
             GameManager.Instance.BonusScores[1].SetActive(true);
         }
         GameManager.Instance.thisMapBomb = false;
         GameManager.Instance.thisMapHurt = false;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
         GameManager.Instance.AddScore(GameManager.Instance.thisMapScore);
         GameManager.Instance.MapBonusScores[1].text = GameManager.Instance.playerScore.ToString();
         GameManager.Instance.thisMapScore = 0;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
         GameManager.Instance.StageClear.SetActive(false);
-        GameManager.Instance.statusType = StatusType.Win;
     }
 }

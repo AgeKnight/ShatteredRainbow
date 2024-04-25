@@ -92,7 +92,7 @@ public class Death : MonoBehaviour
                 GameManager.Instance.awardType = AwardType.Common;
             GameManager.Instance.thisMapHurt = true;
             GameManager.Instance.MinusEXP();
-            GetComponent<Player>().AddBro(-6);
+            GetComponent<Player>().SetBro(0);
             GameManager.Instance.AddLife(-1);
             GameManager.Instance.ClearBarrage();
             GameManager.Instance.Resurrection();

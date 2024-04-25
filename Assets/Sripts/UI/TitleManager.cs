@@ -16,7 +16,7 @@ public class TitleManager : MonoBehaviour
     }
     public void StartGame()
     {
-      
+
         StartCoroutine(startgame_alternative());
     }
 
@@ -26,25 +26,24 @@ public class TitleManager : MonoBehaviour
     }
 
     public IEnumerator startgame_alternative()
-        {
+    {
         DontDestroyOnLoad(AudioPlay(ClickSound, true));
         yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene("Game");
-   
-        }
+        SceneManager.LoadScene("Game1");
+    }
 
     public void ExitGame()
     {
         Application.Quit();
     }
 
-    public GameObject AudioPlay(AudioSource audio,bool canDestroy)
+    public GameObject AudioPlay(AudioSource audio, bool canDestroy)
     {
         GameObject temp = Instantiate(audio.gameObject);
         audio.Play();
-        if(canDestroy)
-            Destroy(temp,1.5f);
+        if (canDestroy)
+            Destroy(temp, 1.5f);
         return temp;
     }
-    
+
 }

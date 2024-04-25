@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         nowspeed = speed;
-        AddBro(0);
+        SetBro(GameManager.Instance.droneCount);
         Annular = AnnularCircle.GetComponent<Image>();
         invokeTime = MaxBarrageTime;
         annular = SliderTime.GetComponent<AnnularSlider>();
@@ -134,7 +134,27 @@ public class Player : MonoBehaviour
             Annular.color = new Color(1, annularColor[0], annularColor[1], 1);
         }
     }
-
+    public void SetBro(int value)
+    {
+        GameManager.Instance.droneCount = value;
+        if(GameManager.Instance.droneCount>0)
+        {
+            isUseDrone = true;
+        }
+        else 
+        {
+            GameManager.Instance.droneCount = 0;
+            isUseDrone = false;
+        }
+        for (int i = 0; i < 6; i++)
+        {
+            Drone[i].SetActive(false);
+        }
+        for (int i = 0; i <= GameManager.Instance.droneCount-1; i++)
+        {
+            Drone[i].SetActive(true);
+        }
+    }
     public void AddBro(int value)
     {
         

@@ -176,7 +176,7 @@ public class GameManager : MonoBehaviour
         playerScript.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = true;
 
         enemyManager.canGoNext = false;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(3);
         while (playerScript.gameObject.transform.position != PlayerResurrectionPosition.position)
         {
             playerScript.gameObject.transform.position = Vector2.MoveTowards(playerScript.gameObject.transform.position, PlayerResurrectionPosition.position, playerScript.speed * Time.deltaTime);
@@ -184,7 +184,7 @@ public class GameManager : MonoBehaviour
         }
         playerScript.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = false;
         playerScript.canMove = true;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(3);
         StartCoroutine(enemyManager.CreateEnemy());
     }
     void Update()
@@ -291,9 +291,9 @@ public class GameManager : MonoBehaviour
 
         }
     }
-    public void AddLife(int value)
+    public void SetLife(int value)
     {
-        lifeCount += value;
+        lifeCount = value;
         for (int i = 0; i < allLife; i++)
         {
             Lifes[i].gameObject.GetComponent<Image>().sprite = LifeImages[0];
@@ -303,9 +303,41 @@ public class GameManager : MonoBehaviour
             Lifes[i].gameObject.GetComponent<Image>().sprite = LifeImages[1];
         }
     }
+    public void AddLife(int value)
+    {
+        lifeCount += value;
+        if (lifeCount <= 0)
+        {
+            lifeCount = 0;
+        }
+        for (int i = 0; i < allLife; i++)
+        {
+            Lifes[i].gameObject.GetComponent<Image>().sprite = LifeImages[0];
+        }
+        for (int i = 0; i < lifeCount; i++)
+        {
+            Lifes[i].gameObject.GetComponent<Image>().sprite = LifeImages[1];
+        }
+    }
+    public void SetBomb(int value)
+    {
+        bombCount = value;
+        for (int i = 0; i < allBomb; i++)
+        {
+            Bombs[i].gameObject.GetComponent<Image>().sprite = bombImages[0];
+        }
+        for (int i = 0; i < bombCount; i++)
+        {
+            Bombs[i].gameObject.GetComponent<Image>().sprite = bombImages[1];
+        }
+    }
     public void AddBomb(int value)
     {
         bombCount += value;
+        if (bombCount <= 0)
+        {
+            bombCount = 0;
+        }
         for (int i = 0; i < allBomb; i++)
         {
             Bombs[i].gameObject.GetComponent<Image>().sprite = bombImages[0];
@@ -334,6 +366,22 @@ public class GameManager : MonoBehaviour
                 Level.text = "Level Max".ToString();
                 break;
             }
+        }
+        expBar.value = (float)playerExp / totalExp;
+    }
+    void SetExp(int value)
+    {
+        playerExp = value;
+        playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
+        if (playerLevel < 3)
+        {
+            Level.text = "Level " + playerLevel.ToString();
+        }
+        else
+        {
+            playerExp = totalExp;
+            playerLevel = 3;
+            Level.text = "Level Max".ToString();
         }
         expBar.value = (float)playerExp / totalExp;
     }
@@ -511,14 +559,15 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         DontDestroyOnLoad(AudioPlay(MenuSound[3], true));
         statusType = StatusType.Pause;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("Game" + GameStage.ToString());
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void BackToMenu()
     {
-        Save();
         Time.timeScale = 1;
         DontDestroyOnLoad(AudioPlay(MenuSound[3], true));
         statusType = StatusType.Pause;
+        RefreshGame();
         SceneManager.LoadScene("Main");
     }
     public void Continue()
@@ -540,6 +589,16 @@ public class GameManager : MonoBehaviour
     {
         Menus[1].SetActive(true);
         Time.timeScale = 0;
+    }
+    void RefreshGame()
+    {
+        SetBomb(default_playerBomb);
+        SetLife(default_playerLife);
+        droneCount = default_droneCount;
+        GameStage = 1;
+        playerLevel = 0;
+        SetExp(0);
+        Save();
     }
     void SideAdjustment()
     {
@@ -620,10 +679,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            AddBomb(default_playerBomb);//暫時代替日後的開始新遊戲帶入預設資料，之後再換關時需繼承上關遊玩紀錄... 也許到時候直接換成使用unity預設的playerprefs?
-            AddLife(default_playerLife);
-            droneCount = default_droneCount;
-            GameStage = 1;
+            RefreshGame();
         }
     }
     #endregion
@@ -641,11 +697,10 @@ public class GameManager : MonoBehaviour
     }
     void LoadData(SaveData saveData)
     {
-        AddBomb(saveData.playerBomb);
-        AddLife(saveData.playerLife);
+        SetBomb(saveData.playerBomb);
+        SetLife(saveData.playerLife);
         playerLevel = saveData.playerLevel;
-        AddExp(saveData.playerExp);
-        Level.text = "Level " + playerLevel.ToString();
+        SetExp(saveData.playerExp);
         droneCount = saveData.droneCount;
         GameStage = saveData.GameStage;
     }
