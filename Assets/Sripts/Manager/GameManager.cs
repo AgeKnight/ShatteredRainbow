@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour
         public int playerLevel;
         public int playerExp;
         public int droneCount;
+        public float playerScore;
+        public float HiPlayerScore;
         public int GameStage = 1;
     }
     static GameManager instance;
@@ -50,6 +52,8 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
+    public float HiScore;
+    [HideInInspector]
     public int GameStage = 1;
     [HideInInspector]
     public int playerExp;
@@ -161,7 +165,6 @@ public class GameManager : MonoBehaviour
         instance = this;
         Load();
         AudioPlay(BackMusic[0], false);
-        Hi_scoreText.text = "Hi-Score : " + PlayerPrefs.GetFloat("Hi_Score").ToString();
         coroutine = StartCoroutine(Begin());
 
     }
@@ -280,16 +283,24 @@ public class GameManager : MonoBehaviour
     }
     public void AddScore(float value)
     {
+        thisMapScore += value;
         playerScore += value;
-        thisMapScore = playerScore;
         scoreText.text = "     Score : " + playerScore.ToString();
-
-        if (playerScore >= PlayerPrefs.GetFloat("Hi_Score"))
+        if (playerScore >= HiScore)
         {
-            PlayerPrefs.SetFloat("Hi_Score", playerScore);
-            Hi_scoreText.text = "Hi-Score : " + PlayerPrefs.GetFloat("Hi_Score").ToString();
-
+            HiScore = playerScore;
+            Hi_scoreText.text = "Hi-Score : " + HiScore.ToString();
         }
+    }
+    public void SetScore(float value)
+    {
+        playerScore = value;
+        scoreText.text = "     Score : " + playerScore.ToString();
+    }
+    public void SetHiScore(float value)
+    {
+        HiScore = value;
+        Hi_scoreText.text = "Hi-Score : " + HiScore.ToString();
     }
     public void SetLife(int value)
     {
@@ -597,6 +608,7 @@ public class GameManager : MonoBehaviour
         droneCount = default_droneCount;
         GameStage = 1;
         playerLevel = 0;
+        SetScore(0);
         SetExp(0);
         Save();
     }
@@ -686,14 +698,16 @@ public class GameManager : MonoBehaviour
     #region "存檔幫助"
     SaveData SavingData()
     {
-        var SaveData = new SaveData();
-        SaveData.playerBomb = bombCount;
-        SaveData.playerExp = playerExp;
-        SaveData.playerLevel = playerLevel;
-        SaveData.playerLife = lifeCount;
-        SaveData.droneCount = droneCount;
-        SaveData.GameStage = GameStage;
-        return SaveData;
+        var saveData = new SaveData();
+        saveData.playerBomb = bombCount;
+        saveData.playerExp = playerExp;
+        saveData.playerLevel = playerLevel;
+        saveData.playerLife = lifeCount;
+        saveData.droneCount = droneCount;
+        saveData.GameStage = GameStage;
+        saveData.playerScore = playerScore;
+        saveData.HiPlayerScore = HiScore;
+        return saveData;
     }
     void LoadData(SaveData saveData)
     {
@@ -701,6 +715,8 @@ public class GameManager : MonoBehaviour
         SetLife(saveData.playerLife);
         playerLevel = saveData.playerLevel;
         SetExp(saveData.playerExp);
+        SetScore(saveData.playerScore);
+        SetHiScore(saveData.HiPlayerScore);
         droneCount = saveData.droneCount;
         GameStage = saveData.GameStage;
     }
