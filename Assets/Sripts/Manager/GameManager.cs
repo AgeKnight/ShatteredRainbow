@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
+    [HideInInspector]
     public float HiScore;
     [HideInInspector]
     public int GameStage = 1;
@@ -66,9 +67,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public GameObject[] LightSide;
     [HideInInspector]
-    public GameObject[] BonusScores;//0炸彈 1生命
-    [HideInInspector]
-    public Text[] MapBonusScores;//0 本關分數 1 加成分數
+    public Text[] MapBonusScores;//0 本關分數 1 加成分數 2 炸彈bonus名 3 炸彈bonus 4 生命bonus名 5 生命bonus
     [HideInInspector]
     public float thisMapScore = 0;
     [HideInInspector]
@@ -93,8 +92,8 @@ public class GameManager : MonoBehaviour
     public Sprite[] bossImages;//0 空心 1 實心 
     [HideInInspector]
     public GameObject[] Triangles;
-    //[HideInInspector]
     //public Animator BarUse;
+    [HideInInspector]
     public Animator UIanimator;
     [HideInInspector]
     public Player playerScript;
@@ -109,8 +108,6 @@ public class GameManager : MonoBehaviour
     public int allLife;
     [HideInInspector]
     public GameObject StageClear;
-    [HideInInspector]
-    public GameObject StageBonus;
     [HideInInspector]
     public Slider BossBar;
     [HideInInspector]

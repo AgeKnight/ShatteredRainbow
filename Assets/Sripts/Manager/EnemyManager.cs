@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using System;
 
 
 public enum Wave
@@ -55,7 +56,7 @@ public class EnemyManager : MonoBehaviour
     public int nowBossStage = 1;
     [HideInInspector]
     public int bossIndex = 0;
-   // [HideInInspector]
+    [HideInInspector]
     public int AllBossStaire;
     #endregion
     public WaveMonster[] waveMonster;
@@ -117,8 +118,13 @@ public class EnemyManager : MonoBehaviour
                     if (bossIndex >= waveBosses.Length)
                     {
                         isWin = true;
-                        StartCoroutine(ScoreBonus());
+                        ScoreBonus();
+                        GameManager.Instance.StageClear.SetActive(true);
                         yield return new WaitForSeconds(2.5f);
+                        GameManager.Instance.UIanimator.SetBool("isEnd",true);
+                        yield return new WaitForSeconds(0.5f);
+                        GameManager.Instance.StageClear.SetActive(false);
+                        GameManager.Instance.UIanimator.SetBool("isEnd",false);
                         GameManager.Instance.GameStage+=1;
                         GameManager.Instance.Save();
                         if(GameManager.Instance.GameStage<=3)
@@ -226,29 +232,26 @@ public class EnemyManager : MonoBehaviour
             waveMonster[nowIndex].movePosition[i].position = new Vector3(tempPosition, waveMonster[nowIndex].movePosition[i].position.y, waveMonster[nowIndex].movePosition[i].position.z);
         }
     }
-    IEnumerator ScoreBonus()
+    void ScoreBonus()
     {
         GameManager.Instance.MapBonusScores[1].text = GameManager.Instance.playerScore.ToString();
         GameManager.Instance.MapBonusScores[0].text = GameManager.Instance.thisMapScore.ToString();
         if (!GameManager.Instance.thisMapBomb)
         {
-            yield return new WaitForSeconds(0.5f);
             GameManager.Instance.thisMapScore *= 1.5f;
-            GameManager.Instance.BonusScores[0].SetActive(true);
+            GameManager.Instance.MapBonusScores[2].text = "Bomb NonUsed";
+            GameManager.Instance.MapBonusScores[3].text = "X1.5";
         }
         if (!GameManager.Instance.thisMapHurt)
         {
-            yield return new WaitForSeconds(0.5f);
             GameManager.Instance.thisMapScore *= 1.5f;
-            GameManager.Instance.BonusScores[1].SetActive(true);
+            GameManager.Instance.MapBonusScores[4].text = "No Death";
+            GameManager.Instance.MapBonusScores[5].text = "X1.5";
         }
         GameManager.Instance.thisMapBomb = false;
         GameManager.Instance.thisMapHurt = false;
-        yield return new WaitForSeconds(0.5f);
         GameManager.Instance.AddScore(GameManager.Instance.thisMapScore);
         GameManager.Instance.MapBonusScores[1].text = GameManager.Instance.playerScore.ToString();
         GameManager.Instance.thisMapScore = 0;
-        yield return new WaitForSeconds(0.5f);
-        GameManager.Instance.StageClear.SetActive(false);
     }
 }
