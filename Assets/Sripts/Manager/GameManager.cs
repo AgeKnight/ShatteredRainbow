@@ -24,20 +24,21 @@ public enum AwardType
     Common,
     Failed
 }
+[System.Serializable]
+public class SaveData
+{
+    public int playerBomb;
+    public int playerLife;
+    public int playerLevel;
+    public int playerExp;
+    public int droneCount;
+    public float playerScore;
+    public float HiPlayerScore;
+    public int GameStage = 1;
+}
 public class GameManager : MonoBehaviour
 {
-    [System.Serializable]
-    class SaveData
-    {
-        public int playerBomb;
-        public int playerLife;
-        public int playerLevel;
-        public int playerExp;
-        public int droneCount;
-        public float playerScore;
-        public float HiPlayerScore;
-        public int GameStage = 1;
-    }
+
     static GameManager instance;
     public static GameManager Instance { get => instance; set => instance = value; }
     #region "Private"
@@ -162,6 +163,7 @@ public class GameManager : MonoBehaviour
         instance = this;
         Load();
         AudioPlay(BackMusic[0], false);
+
         coroutine = StartCoroutine(Begin());
 
     }
@@ -677,6 +679,8 @@ public class GameManager : MonoBehaviour
     public void Load()
     {
         bool noSave = false;
+        var saveData2 = SaveSystem.LoadGameVoice<SaveVoiceData>();
+        LoadData(saveData2);
         if (!File.Exists(@"Assets\game_SaveData\Game.game"))
         {
             noSave = true;
@@ -716,6 +720,17 @@ public class GameManager : MonoBehaviour
         SetHiScore(saveData.HiPlayerScore);
         droneCount = saveData.droneCount;
         GameStage = saveData.GameStage;
+    }
+    void LoadData(SaveVoiceData saveData)
+    {
+        for(int i = 0; i < BackMusic.Length; i++) 
+        {
+            BackMusic[i].volume = saveData.BGM_num;   
+        }
+        for(int i = 0; i < MenuSound.Length; i++) 
+        {
+            MenuSound[i].volume = saveData.Effect_num;   
+        }
     }
     #endregion
 }

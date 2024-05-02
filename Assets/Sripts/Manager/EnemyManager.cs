@@ -189,7 +189,9 @@ public class EnemyManager : MonoBehaviour
         OtherStage = true;
         isInBossAttack = true;
         if(bossIndex==waveBosses.Length)
+        {
             GameManager.Instance.AudioPlay(GameManager.Instance.BackMusic[1],false);
+        }
         if (nowBossStage == 1)
         {
             var items = FindObjectsOfType<Item>();
