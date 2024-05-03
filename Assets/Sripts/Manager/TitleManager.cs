@@ -94,6 +94,9 @@ public class TitleManager : MonoBehaviour
     }
     void RefreshGame()
     {
+        BGM.value=100;
+        Effect.value = 100;
+        All.value = 100;
         Save();
     }
     public void Load()
@@ -111,6 +114,8 @@ public class TitleManager : MonoBehaviour
         else
         {
             RefreshGame();
+            var saveData = SaveSystem.LoadGameVoice<SaveVoiceData>();
+            LoadData(saveData);
         }
     }
     SaveVoiceData SavingData()
