@@ -26,7 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -51,6 +51,8 @@
      <Compile Include="Assets\Sripts\Charator\AnnularSlider.cs" />
      <Compile Include="Assets\Sripts\Charator\Enemy.cs" />
      <Compile Include="Assets\Sripts\Charator\Death.cs" />
+     <None Include="Assets\mcs.rsp" />
+     <None Include="Assets\csc.rsp" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.33f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -797,6 +799,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Live2D.Cubism.Editor.csproj">
+      <Project>{ce703855-83bd-cdc2-942e-1d17dbd0bba8}</Project>
+      <Name>Live2D.Cubism.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Live2D.Cubism.csproj">
+      <Project>{b81c9cd9-8719-b0e7-2bd1-8af9cdf58e23}</Project>
+      <Name>Live2D.Cubism</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
