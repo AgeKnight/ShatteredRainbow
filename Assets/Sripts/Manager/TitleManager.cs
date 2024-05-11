@@ -20,12 +20,19 @@ public class TitleManager : MonoBehaviour
     public AudioSource SelectSound;
     public AudioSource ClickSound;
     public AudioSource BackSound;
+    [HideInInspector]
     public Slider BGM;
+    [HideInInspector]
     public Text BGM_Text;
+    [HideInInspector]
     public Slider Effect;
+    [HideInInspector]
     public Text Effect_Text;
+    [HideInInspector]
     public Slider All;
+    [HideInInspector]
     public Text All_Text;
+    public GameObject[] OptinionMessage;
     void Awake()
     {
         Instance = this;
@@ -60,6 +67,15 @@ public class TitleManager : MonoBehaviour
         if (canDestroy)
             Destroy(temp, 1.5f);
         return temp;
+    }
+    public void OpnionUse(int value)
+    {
+        for(int i =0;i<OptinionMessage.Length;i++)
+        {
+            OptinionMessage[i].SetActive(false);
+        }
+        if(value>=0)
+            OptinionMessage[value].SetActive(true);
     }
     public void VoiceControllBGM()
     {
