@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 5004931383369363360}
   - component: {fileID: 6146654414995828457}
+  - component: {fileID: 4155419402424745892}
   - component: {fileID: -7771852668762871126}
   - component: {fileID: 6840614136951797838}
-  - component: {fileID: 4155419402424745892}
   m_Layer: 0
   m_Name: BoseBullet
-  m_TagString: EnemyBarrage
+  m_TagString: Barrage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,6 +85,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &4155419402424745892
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5165513135576572565}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.034789443, y: 0.28445068}
+  serializedVersion: 2
+  m_Radius: 1.303258
 --- !u!50 &-7771852668762871126
 Rigidbody2D:
   serializedVersion: 4
@@ -120,24 +136,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.5
   hurt: 0
-  hitspark: {fileID: 0}
+  hitspark: {fileID: 7037961734342237002, guid: b3d2b9f1944c0da4aab3c5b62a03ab25, type: 3}
   canTrackEnemy: 0
   bulletType: 1
   focusDistance: 0
   rotatespeed: 0
---- !u!58 &4155419402424745892
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5165513135576572565}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.034789443, y: 0.28445068}
-  serializedVersion: 2
-  m_Radius: 1.303258

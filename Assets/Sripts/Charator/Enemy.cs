@@ -36,7 +36,7 @@ public struct EnemyBarrageCount
 public class Enemy : MonoBehaviour
 {
     #region "private"
-    float nowDownTime=0;
+    float nowDownTime = 0;
     bool canMove = true;
     Death death;
     Coroutine[] otherCorotine = new Coroutine[1];
@@ -100,10 +100,10 @@ public class Enemy : MonoBehaviour
         //     Destroy(nowMusic);
         //     isListenShoot = false;
         // }
-        if(!canMove)
+        if (!canMove)
         {
-            nowDownTime+=Time.deltaTime;
-            if(nowDownTime>=DownTime)
+            nowDownTime += Time.deltaTime;
+            if (nowDownTime >= DownTime)
             {
                 canMove = true;
                 nowDownTime = 0;
@@ -150,20 +150,20 @@ public class Enemy : MonoBehaviour
                     {
                         transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
                     }
-                    else if(transform.position == targetPosition)
+                    else if (transform.position == targetPosition)
                     {
                         canChooseBarrage = false;
                     }
                     break;
                 case MoveType.StayAttackMove:
                     if (transform.position != targetPosition)
-                    {   
+                    {
                         transform.position = Vector3.MoveTowards(transform.position, targetPosition, Speed * Time.deltaTime);
                     }
-                    else if(transform.position == targetPosition)
+                    else if (transform.position == targetPosition)
                     {
                         changeBarrage();
-                    }   
+                    }
                     break;
                 case MoveType.ToPlayerMove:
                     transform.Translate(Vector3.up * Time.deltaTime * Speed, Space.Self);
@@ -185,7 +185,7 @@ public class Enemy : MonoBehaviour
             GameManager.Instance.ShowBossStaire(GameManager.Instance.enemyManager.AllBossStaire, GameManager.Instance.enemyManager.nowBossStage);
 
             //GameManager.Instance.BarUse.Play("Open");  //播放血條動畫(開)
-            GameManager.Instance.UIanimator.SetInteger("Boss",0);
+            GameManager.Instance.UIanimator.SetInteger("Boss", 0);
             canTouch = true;
             if (GameManager.Instance.enemyManager.nowBossStage > 1)
             {
@@ -201,7 +201,7 @@ public class Enemy : MonoBehaviour
         GameManager.Instance.BeginReciprocal();
         death.isInvincible = false;
         canCount = false;
-     // ClearBarrage();
+        // ClearBarrage();
         StartCoroutine(UseBarrage());
     }
     IEnumerator UltimateAttack()
@@ -342,7 +342,7 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                i = nowCount;
+
                 yield return null;
             }
         }
@@ -350,29 +350,13 @@ public class Enemy : MonoBehaviour
     }
     IEnumerator CircleBarrage2(int[] count, Vector3 Barrage)
     {
-        int nowCount = 0;
         int indexz = 0;
-        for (int i = 0; i < count[3]; i++)
+        for (int j = 0; j <= count[2]; j++)
         {
-            Debug.Log(1);
-            if (FindObjectOfType<Player>())
-            {
-                if (nowCount % 3 == 2)
-                    indexz += 20;
-                for (int j = 0; j <= count[2]; j++)
-                {
-                    indexz += 360 / count[2];
-                    Instantiate(enemyBarrageCounts[nowIndex].barrage, Barrage, Quaternion.Euler(0, 0, indexz));
-                }
-                nowCount = i;
-                yield return new WaitForSeconds(countTime);
-            }
-            else
-            {
-                i = nowCount;
-                yield return null;
-            }
+            indexz += 360 / count[2];
+            Instantiate(enemyBarrageCounts[nowIndex].barrage, Barrage, Quaternion.Euler(0, 0, indexz));
         }
+        yield return new WaitForSeconds(countTime);
     }
     //0 生成的彈幕個數,1 生成的彈幕波數,生成的子彈幕數量,3 生成的子彈幕波數
     IEnumerator FireTurbine(int[] count)
@@ -382,10 +366,12 @@ public class Enemy : MonoBehaviour
         Quaternion rotateQuate = Quaternion.AngleAxis(20, Vector3.forward);//使用四元数制造绕Z轴旋转20度的旋转
         float radius = 0.6f;        //生成半径
         float distance = 0.2f;      //每生成一次增加的距离
-        for (int i=0;i<count[0];i++)
+        for (int i = 0; i < count[0]; i++)
         {
             Vector3 firePoint = bulletTransform.position + bulletDir * radius;   //使用向量计算生成位置
-            StartCoroutine(CircleBarrage2(enemyBarrageCounts[nowIndex].count, firePoint));
+            List<Coroutine> list = new List<Coroutine>(otherCorotine.ToList());
+            list.Add(StartCoroutine(CircleBarrage2(enemyBarrageCounts[nowIndex].count, firePoint)));
+            otherCorotine = list.ToArray();
             yield return new WaitForSeconds(0.05f);     //延时较小的时间（为了表现效果），计算下一步
             bulletDir = rotateQuate * bulletDir;        //发射方向改变
             radius += distance;     //生成半径增加

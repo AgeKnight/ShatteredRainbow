@@ -70,7 +70,6 @@ public class Bullet : MonoBehaviour
 
     public void Die()
     {
-       
         Destroy(hit,0.02f);
         Destroy(this.gameObject);
     }
