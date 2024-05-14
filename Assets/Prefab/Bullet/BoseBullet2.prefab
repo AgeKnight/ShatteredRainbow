@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5004931383369363360}
   - component: {fileID: 6146654414995828457}
+  - component: {fileID: -1002170710493408434}
   - component: {fileID: -7771852668762871126}
   - component: {fileID: 6840614136951797838}
-  - component: {fileID: 4155419402424745892}
   m_Layer: 0
-  m_Name: BoseBullet
+  m_Name: BoseBullet2
   m_TagString: EnemyBarrage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5165513135576572565}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 10}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.06, y: 0.06, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 67aa31656b790f846b104f47aba1f519, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e435d8a61a11cf34eb8f04d8997e006b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -85,6 +85,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &-1002170710493408434
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5165513135576572565}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.023614883, y: -0.04367709}
+  serializedVersion: 2
+  m_Radius: 3.4949105
 --- !u!50 &-7771852668762871126
 Rigidbody2D:
   serializedVersion: 4
@@ -118,26 +134,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61cbb7a3991def4ea024c93d488023c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.5
+  speed: 1.5
   hurt: 0
   hitspark: {fileID: 0}
   canTrackEnemy: 0
   bulletType: 1
   focusDistance: 0
   rotatespeed: 0
---- !u!58 &4155419402424745892
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5165513135576572565}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.034789443, y: 0.28445068}
-  serializedVersion: 2
-  m_Radius: 1.303258

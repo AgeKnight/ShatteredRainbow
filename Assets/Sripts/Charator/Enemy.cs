@@ -10,7 +10,8 @@ public enum BarrageType
     TrackShotgun,
     CircleBarrage,
     FirRoundGroup,
-    MachineGun
+    MachineGun,
+    FireTurbine,
 }
 public enum AttackType
 {
@@ -344,6 +345,50 @@ public class Enemy : MonoBehaviour
                 i = nowCount;
                 yield return null;
             }
+        }
+        ChooseTypeBarrage();
+    }
+    IEnumerator CircleBarrage2(int[] count, Vector3 Barrage)
+    {
+        int nowCount = 0;
+        int indexz = 0;
+        for (int i = 0; i < count[3]; i++)
+        {
+            Debug.Log(1);
+            if (FindObjectOfType<Player>())
+            {
+                if (nowCount % 3 == 2)
+                    indexz += 20;
+                for (int j = 0; j <= count[2]; j++)
+                {
+                    indexz += 360 / count[2];
+                    Instantiate(enemyBarrageCounts[nowIndex].barrage, Barrage, Quaternion.Euler(0, 0, indexz));
+                }
+                nowCount = i;
+                yield return new WaitForSeconds(countTime);
+            }
+            else
+            {
+                i = nowCount;
+                yield return null;
+            }
+        }
+    }
+    //0 生成的彈幕個數,1 生成的彈幕波數,生成的子彈幕數量,3 生成的子彈幕波數
+    IEnumerator FireTurbine(int[] count)
+    {
+        isAttack = true;
+        Vector3 bulletDir = bulletTransform.transform.up;      //发射方向
+        Quaternion rotateQuate = Quaternion.AngleAxis(20, Vector3.forward);//使用四元数制造绕Z轴旋转20度的旋转
+        float radius = 0.6f;        //生成半径
+        float distance = 0.2f;      //每生成一次增加的距离
+        for (int i=0;i<count[0];i++)
+        {
+            Vector3 firePoint = bulletTransform.position + bulletDir * radius;   //使用向量计算生成位置
+            StartCoroutine(CircleBarrage2(enemyBarrageCounts[nowIndex].count, firePoint));
+            yield return new WaitForSeconds(0.05f);     //延时较小的时间（为了表现效果），计算下一步
+            bulletDir = rotateQuate * bulletDir;        //发射方向改变
+            radius += distance;     //生成半径增加
         }
         ChooseTypeBarrage();
     }
