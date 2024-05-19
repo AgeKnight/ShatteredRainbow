@@ -12,6 +12,7 @@ public enum BarrageType
     FirRoundGroup,
     MachineGun,
     FireTurbine,
+    FiveStar,
 }
 public enum AttackType
 {
@@ -272,6 +273,10 @@ public class Enemy : MonoBehaviour
     #region "所有彈幕方法"
     void Shotgun(int[] count)
     {
+        if(gameObject.GetComponent<Death>().enemyType ==EnemyType.Boss)
+        {
+            Debug.Log("一般");
+        }
         float angle = Random.Range(90, 220);
         for (int j = 0; j < count[0]; j++)
         {
@@ -297,6 +302,10 @@ public class Enemy : MonoBehaviour
     }
     void CircleBarrage(int[] count)
     {
+        if(gameObject.GetComponent<Death>().enemyType ==EnemyType.Boss)
+        {
+            Debug.Log("圓形");
+        }
         int indexz = count[2];
         for (int j = 0; j <= count[0]; j++)
         {
@@ -318,6 +327,23 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < count[0]; i++)
         {
             Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
+            yield return new WaitForSeconds(0.1f);
+        }
+        ChooseTypeBarrage();
+    }
+    //0 生成數量 2 每波數量
+    IEnumerator FiveStar(int[] count)
+    {
+        isAttack = true;
+        float indexz = 0;
+        for (int i = 0; i < count[2]; i++)
+        {
+            for (int j = 0; j < count[0]; j++)
+            {
+                Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
+                indexz += 360 / count[0];
+            }
+            indexz += 10;
             yield return new WaitForSeconds(0.1f);
         }
         ChooseTypeBarrage();
