@@ -148,7 +148,7 @@ MonoBehaviour:
   isInBomb: 0
   canInBomb: 0
   ultimateAttack:
-    count: 0500000005000000
+    count: []
     barrageType: 1
     barrage: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
   indexMax: 3
@@ -186,13 +186,23 @@ MonoBehaviour:
   Dot: []
   Allbullet: []
   enemyBarrageCounts:
-  - count: 050000000100000064000000
+  - count:
+    - 5
+    - 30
+    - 0.15
     barrageType: 6
     barrage: {fileID: 5165513135576572565, guid: c9a6ccefda3ea5b44887c4a7c62cc8e3, type: 3}
-  - count: 0500000005000000
+  - count:
+    - 5
+    - 5
+    - 0.6
     barrageType: 0
     barrage: {fileID: 5165513135576572565, guid: c9a6ccefda3ea5b44887c4a7c62cc8e3, type: 3}
-  - count: 0a0000000500000000000000
+  - count:
+    - 10
+    - 5
+    - 20
+    - 0.6
     barrageType: 2
     barrage: {fileID: 5165513135576572565, guid: c9a6ccefda3ea5b44887c4a7c62cc8e3, type: 3}
   countTime: 0.6

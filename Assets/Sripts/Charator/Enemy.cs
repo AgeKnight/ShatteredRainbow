@@ -29,8 +29,7 @@ public enum MoveType
 [System.Serializable]
 public struct EnemyBarrageCount
 {
-    //0 生成的彈幕個數,1 生成的彈幕波數,生成的子彈幕數量,3 生成的子彈幕波數
-    public int[] count;
+    public float[] count;
     public BarrageType barrageType;
     public GameObject barrage;
 }
@@ -43,7 +42,6 @@ public class Enemy : MonoBehaviour
     Coroutine[] otherCorotine = new Coroutine[1];
     Vector3 targetPosition;
     float ultimateAttackTime = 0;
-    int nowCountBarrage = 0;
     bool canChooseBarrage = false;
     bool canAttack = false;
     bool isAttack = false;
@@ -231,6 +229,7 @@ public class Enemy : MonoBehaviour
             // }
             if (!canChooseBarrage && !isAttack)
             {
+                isAttack = true;
                 string nowBarrage = System.Enum.GetName(typeof(BarrageType), enemyBarrageCounts[nowIndex].barrageType);
                 StartCoroutine(nowBarrage, enemyBarrageCounts[nowIndex].count);
                 yield return new WaitForSeconds(countTime);
@@ -258,68 +257,89 @@ public class Enemy : MonoBehaviour
                 otherCorotine[i] = null;
             }
         }
-        nowCountBarrage += 1;
-        if (nowCountBarrage == enemyBarrageCounts[nowIndex].count[1])
+        if (moveType == MoveType.SomeTimesMove)
         {
-            nowCountBarrage = 0;
-            if (moveType == MoveType.SomeTimesMove)
-            {
-                canChooseBarrage = true;
-                changeBarrage();
-            }
+            canChooseBarrage = true;
+            changeBarrage();
         }
-        isAttack = false;
+        isAttack=false;
     }
     #region "所有彈幕方法"
-    void Shotgun(int[] count)
+    /// <summary>
+    /// 隨機攻擊玩家
+    /// </summary>
+    /// <param name="count">0每波彈幕數量,1總共幾波,2生成時間</param>
+    /// <returns></returns>
+    IEnumerator Shotgun(float[] count)
     {
-        if(gameObject.GetComponent<Death>().enemyType ==EnemyType.Boss)
-        {
-            Debug.Log("一般");
-        }
         float angle = Random.Range(90, 220);
-        for (int j = 0; j < count[0]; j++)
+        for (int i = 0; i < count[1]; i++)
         {
-            Quaternion quaternion = Quaternion.Euler(0, 0, angle);
-            Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, quaternion);
-            angle += 12;
+            for (int j = 0; j < count[0]; j++)
+            {
+                Quaternion quaternion = Quaternion.Euler(0, 0, angle);
+                Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, quaternion);
+                angle += 12;
+            }
+            yield return new WaitForSeconds(count[2]);
         }
         ChooseTypeBarrage();
     }
-    void TrackShotgun(int[] count)
+    /// <summary>
+    /// 追蹤玩家
+    /// </summary>
+    /// <param name="count">0每波彈幕數量,1總共幾波,2生成時間</param>
+    /// <returns></returns>
+    IEnumerator TrackShotgun(float[] count)
     {
         Vector3 eulerAngle = new Vector3();
-        if (GameManager.Instance.playerScript)
-            eulerAngle = GetAngle(transform.position, GameManager.Instance.playerScript.transform.position);
-        else
-            eulerAngle = GetAngle(transform.position, GameManager.Instance.PlayerResurrectionPosition.transform.position);
-        for (int j = 0; j < count[0]; j++)
+        for (int i = 0; i < count[1]; i++)
         {
-            Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
-            eulerAngle.z += 12;
+            if (GameManager.Instance.playerScript)
+                eulerAngle = GetAngle(transform.position, GameManager.Instance.playerScript.transform.position);
+            else
+                eulerAngle = GetAngle(transform.position, GameManager.Instance.PlayerResurrectionPosition.transform.position);
+            for (int j = 0; j < count[0]; j++)
+            {
+                Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
+                eulerAngle.z += 12;
+            }
+            yield return new WaitForSeconds(count[2]);
         }
         ChooseTypeBarrage();
     }
-    void CircleBarrage(int[] count)
+    /// <summary>
+    /// 生成圓形彈幕
+    /// </summary>
+    /// <param name="count">0每波彈幕數量,1總共幾波,2偏移角度,3生成時間
+    /// </param>
+    /// <returns></returns>
+    IEnumerator CircleBarrage(float[] count)
     {
-        if(gameObject.GetComponent<Death>().enemyType ==EnemyType.Boss)
+        float indexz = 0;
+        for (int i = 0; i < count[1]; i++)
         {
-            Debug.Log("圓形");
+            for (int j = 0; j <= count[0]; j++)
+            {
+                indexz += 360 / count[0];
+                Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
+            }
+            if (i % 3 == 2)
+            {
+                indexz += count[2];
+            }
+            yield return new WaitForSeconds(count[3]);
         }
-        int indexz = count[2];
-        for (int j = 0; j <= count[0]; j++)
-        {
-            indexz += 360 / count[0];
-            Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
-        }
-        if (nowCountBarrage % 3 == 2)
-            enemyBarrageCounts[nowIndex].count[2] += 20;
         ChooseTypeBarrage();
     }
-    IEnumerator MachineGun(int[] count)
+    /// <summary>
+    /// 機關槍式攻擊
+    /// </summary>
+    /// <param name="count">0每波彈幕數量,1生成時間</param>
+    /// <returns></returns>
+    IEnumerator MachineGun(float[] count)
     {
         Vector3 eulerAngle = new Vector3();
-        isAttack = true;
         if (GameManager.Instance.playerScript)
             eulerAngle = GetAngle(transform.position, GameManager.Instance.playerScript.transform.position);
         else
@@ -327,16 +347,19 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < count[0]; i++)
         {
             Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(count[1]);
         }
         ChooseTypeBarrage();
     }
-    //0 生成數量 2 每波數量
-    IEnumerator FiveStar(int[] count)
+    /// <summary>
+    /// 旋轉式攻擊
+    /// </summary>
+    /// <param name="count">0總共幾波,1每波彈幕數量,2生成時間</param>
+    /// <returns></returns>
+    IEnumerator FiveStar(float[] count)
     {
-        isAttack = true;
         float indexz = 0;
-        for (int i = 0; i < count[2]; i++)
+        for (int i = 0; i < count[1]; i++)
         {
             for (int j = 0; j < count[0]; j++)
             {
@@ -344,15 +367,15 @@ public class Enemy : MonoBehaviour
                 indexz += 360 / count[0];
             }
             indexz += 10;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(count[2]);
         }
         ChooseTypeBarrage();
     }
-    IEnumerator CircleBarrage(int[] count, Vector3 Barrage)
+    IEnumerator CircleBarrage(float[] count, Vector3 Barrage)
     {
         int nowCount = 0;
-        int indexz = 0;
-        for (int i = 0; i < count[3]; i++)
+        float indexz = 0;
+        for (int i = 0; i < count[1]; i++)
         {
             if (FindObjectOfType<Player>())
             {
@@ -374,41 +397,49 @@ public class Enemy : MonoBehaviour
         }
         ChooseTypeBarrage();
     }
-    IEnumerator CircleBarrage2(int[] count, Vector3 Barrage)
+    IEnumerator CircleBarrage2(float[] count, Vector3 Barrage)
     {
-        int indexz = 0;
-        for (int j = 0; j <= count[2]; j++)
+        float indexz = 0;
+        for (int j = 0; j <= count[1]; j++)
         {
-            indexz += 360 / count[2];
+            indexz += 360 / count[1];
             Instantiate(enemyBarrageCounts[nowIndex].barrage, Barrage, Quaternion.Euler(0, 0, indexz));
         }
         yield return new WaitForSeconds(countTime);
     }
-    //0 生成的彈幕個數,1 生成的彈幕波數,生成的子彈幕數量,3 生成的子彈幕波數
-    IEnumerator FireTurbine(int[] count)
+    /// <summary>
+    /// 螺旋式攻擊
+    /// </summary>
+    /// <param name="count">0 生成幾波,1 每波數量,2生成時間,3生成半径,3每生成一次增加的距离</param>
+    /// <returns></returns>
+    IEnumerator FireTurbine(float[] count)
     {
-        isAttack = true;
         Vector3 bulletDir = bulletTransform.transform.up;      //发射方向
         Quaternion rotateQuate = Quaternion.AngleAxis(20, Vector3.forward);//使用四元数制造绕Z轴旋转20度的旋转
-        float radius = 0.6f;        //生成半径
-        float distance = 0.2f;      //每生成一次增加的距离
+        float radius = count[3];        //生成半径
+        float distance = count[4];      //每生成一次增加的距离
         for (int i = 0; i < count[0]; i++)
         {
             Vector3 firePoint = bulletTransform.position + bulletDir * radius;   //使用向量计算生成位置
             List<Coroutine> list = new List<Coroutine>(otherCorotine.ToList());
             list.Add(StartCoroutine(CircleBarrage2(enemyBarrageCounts[nowIndex].count, firePoint)));
             otherCorotine = list.ToArray();
-            yield return new WaitForSeconds(0.05f);     //延时较小的时间（为了表现效果），计算下一步
+            yield return new WaitForSeconds(count[2]);     //延时较小的时间（为了表现效果），计算下一步
             bulletDir = rotateQuate * bulletDir;        //发射方向改变
             radius += distance;     //生成半径增加
         }
         ChooseTypeBarrage();
     }
-    IEnumerator FirRoundGroup(int[] count)
+    /// <summary>
+    /// 多圓盤攻擊
+    /// </summary>
+    /// <param name="count">0生成幾波,1每顆生出幾波,2每波幾顆彈幕,3等待時間</param>
+    /// <returns></returns>
+    //0 生成的彈幕個數,1 生成的彈幕波數,生成的子彈幕數量,3 生成的子彈幕波數
+    IEnumerator FirRoundGroup(float[] count)
     {
         bool exist = true;
-        isAttack = true;
-        int indexz = 0;
+        float indexz = 0;
         List<Bullet> bullets = new List<Bullet>();
         for (int i = 0; i < count[0]; i++)
         {
@@ -416,7 +447,7 @@ public class Enemy : MonoBehaviour
             indexz += 360 / count[0];
             bullets.Add(temp.GetComponent<Bullet>());
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(count[3]);
         for (int i = 0; i < bullets.Count; i++)
         {
             if (bullets[i])
@@ -435,6 +466,7 @@ public class Enemy : MonoBehaviour
         if (!exist)
             ChooseTypeBarrage();
     }
+    //求方位
     Vector3 GetAngle(Vector3 aPoint, Vector3 bPoint)
     {
         Vector3 direct = bPoint - aPoint;
