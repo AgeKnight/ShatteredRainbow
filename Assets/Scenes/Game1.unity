@@ -1180,7 +1180,6 @@ RectTransform:
   - {fileID: 253672579}
   - {fileID: 616345320}
   - {fileID: 591626950}
-  - {fileID: 446758642}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1907,6 +1906,7 @@ RectTransform:
   m_Children:
   - {fileID: 205568432}
   - {fileID: 1443344277}
+  - {fileID: 446758642}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2077,7 +2077,7 @@ MonoBehaviour:
   PlayerResurrectionPosition: {fileID: 752541158}
   difficulty: 1
   default_playerBomb: 2
-  default_playerLife: 2
+  default_playerLife: 3
   default_droneCount: 0
   default_playerLevel: 0
   AllInvincibleTime: 3
@@ -2117,7 +2117,7 @@ MonoBehaviour:
   AllBossStaire: 0
   waveMonster:
   - monsterPrefab: {fileID: 5601185290954460713, guid: 38f629e389cfbf646b6f9e84677336d1, type: 3}
-    count: 0
+    count: 10
     spanTime: 0.3
     wave: 0
     spanPosition: {fileID: 2000406595}
@@ -2209,7 +2209,7 @@ MonoBehaviour:
     spanPosition: {fileID: 376989966}
     movePosition:
     - {fileID: 564432931}
-  everyStairTime: 0.1
+  everyStairTime: 2
 --- !u!1 &347026060
 GameObject:
   m_ObjectHideFlags: 0
@@ -2599,12 +2599,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 446758641}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -9720}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 227662187}
-  m_RootOrder: 12
+  m_Father: {fileID: 330489022}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3672,7 +3672,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 604373938}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.14, y: 2.09, z: 0}
+  m_LocalPosition: {x: 0.39, y: 1.23, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 176434956}

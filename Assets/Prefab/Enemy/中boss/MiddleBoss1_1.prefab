@@ -148,7 +148,8 @@ MonoBehaviour:
   isInBomb: 0
   canInBomb: 0
   ultimateAttack:
-    count: []
+    count:
+    - 0
     barrageType: 1
     barrage: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
   indexMax: 3
@@ -159,7 +160,7 @@ MonoBehaviour:
     items: {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
   - probability: 100
     items: {fileID: 7518270170160341144, guid: 64fa2ac8a88d4f241bdb5d26bb8e6daf, type: 3}
-  minExp: 50
+  minExp: 26
   maxExp: 100
   score: 500
   bonusScore: 1000
@@ -190,7 +191,7 @@ MonoBehaviour:
     - 5
     - 30
     - 0.15
-    barrageType: 6
+    barrageType: 0
     barrage: {fileID: 5165513135576572565, guid: c9a6ccefda3ea5b44887c4a7c62cc8e3, type: 3}
   - count:
     - 5
