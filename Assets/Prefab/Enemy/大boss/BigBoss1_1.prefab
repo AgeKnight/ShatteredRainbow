@@ -137,7 +137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathAudio: {fileID: 3387233106102494613, guid: 3e52ef3996671224aac4a3c6250d1dd0, type: 3}
+  deathAudio: {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
+  Hurtaudio: {fileID: 8946850152021610928, guid: 81cd98fd81d794e4d9457f24868465b2, type: 3}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
   totalHp: 1000
   charatorType: 1
@@ -148,9 +149,10 @@ MonoBehaviour:
   isInBomb: 0
   canInBomb: 0
   ultimateAttack:
-    count: 0500000005000000
+    count: []
     barrageType: 1
     barrage: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    Shootsound: {fileID: 0}
   indexMax: 3
   itemStruct:
   - probability: 100
@@ -186,15 +188,28 @@ MonoBehaviour:
   Dot: []
   Allbullet: []
   enemyBarrageCounts:
-  - count: 0a000000010000000a00000005000000
-    barrageType: 3
+  - count:
+    - 18
+    - 15
+    - 0.2
+    barrageType: 6
     barrage: {fileID: 5165513135576572565, guid: c9a6ccefda3ea5b44887c4a7c62cc8e3, type: 3}
-  - count: 0500000005000000
+    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
+  - count:
+    - 18
+    - 10
+    - 20
+    - 0.5
+    barrageType: 2
+    barrage: {fileID: 5165513135576572565, guid: 9e7ed2dbd16b243439eca16cf4eb3296, type: 3}
+    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
+  - count:
+    - 18
+    - 10
+    - 0.5
     barrageType: 0
     barrage: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
-  - count: 0a0000000500000000000000
-    barrageType: 2
-    barrage: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   countTime: 0.6
 --- !u!95 &8219671772056985587
 Animator:
@@ -206,10 +221,10 @@ Animator:
   m_GameObject: {fileID: 3044012784260657736}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 164bc2a0a44b3da41894d8c33695602c, type: 2}
+  m_Controller: {fileID: 9100000, guid: 94006540823950449bdc5bd86820a211, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1

@@ -9,7 +9,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: EnemyDies
+    m_ConditionEvent: Enemy
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5484754582263930712}
@@ -89,13 +89,13 @@ AnimatorController:
   m_Name: Explosion
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: PlayerDies
+  - m_Name: Player
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: EnemyDies
+  - m_Name: Enemy
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -165,7 +165,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: PlayerDies
+    m_ConditionEvent: Player
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7177035533477627117}

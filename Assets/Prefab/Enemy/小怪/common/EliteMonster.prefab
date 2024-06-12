@@ -178,6 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathAudio: {fileID: 3387233106102494613, guid: 3e52ef3996671224aac4a3c6250d1dd0, type: 3}
+  Hurtaudio: {fileID: 8946850152021610928, guid: 81cd98fd81d794e4d9457f24868465b2, type: 3}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
   totalHp: 90
   charatorType: 1
@@ -191,6 +192,7 @@ MonoBehaviour:
     count: []
     barrageType: 0
     barrage: {fileID: 0}
+    Shootsound: {fileID: 0}
   indexMax: 1
   itemStruct:
   - probability: 1
@@ -225,11 +227,11 @@ MonoBehaviour:
   Allbullet: []
   enemyBarrageCounts:
   - count:
-    - 5
-    - 1
+    - 20
     - 0.1
-    barrageType: 2
-    barrage: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    barrageType: 4
+    barrage: {fileID: 2279851410649871175, guid: eaed50cd5da63194880ce4aca2623d36, type: 3}
+    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   countTime: 1
 --- !u!95 &348845512161190527
 Animator:
@@ -241,7 +243,7 @@ Animator:
   m_GameObject: {fileID: 5601185290954460713}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e5d030f490419d147b94d8930689a488, type: 2}
+  m_Controller: {fileID: 9100000, guid: 337d820e9e84f3946b44b973b2637d63, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

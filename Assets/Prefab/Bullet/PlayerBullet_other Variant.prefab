@@ -7,6 +7,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7771852668762871126, guid: d79622f8978019849932707a01fedae2, type: 3}
+      propertyPath: m_Mass
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1686154645027227757, guid: d79622f8978019849932707a01fedae2, type: 3}
+      propertyPath: m_Intensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1686154645027227757, guid: d79622f8978019849932707a01fedae2, type: 3}
+      propertyPath: m_FalloffIntensity
+      value: 0.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 1686154645027227757, guid: d79622f8978019849932707a01fedae2, type: 3}
+      propertyPath: m_ShapeLightFalloffSize
+      value: 7.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1686154645027227757, guid: d79622f8978019849932707a01fedae2, type: 3}
+      propertyPath: m_ShapeLightParametricRadius
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2062805392290374098, guid: d79622f8978019849932707a01fedae2, type: 3}
       propertyPath: ShapeModule.m_Position.y
       value: 1.94
@@ -21,15 +41,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5004931383369363360, guid: d79622f8978019849932707a01fedae2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.17000002
       objectReference: {fileID: 0}
     - target: {fileID: 5004931383369363360, guid: d79622f8978019849932707a01fedae2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.76
       objectReference: {fileID: 0}
     - target: {fileID: 5004931383369363360, guid: d79622f8978019849932707a01fedae2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5004931383369363360, guid: d79622f8978019849932707a01fedae2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -71,6 +91,14 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 6451298ce953dd44686f181c8089ae33, type: 3}
+    - target: {fileID: 6146654414995828457, guid: d79622f8978019849932707a01fedae2, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146654414995828457, guid: d79622f8978019849932707a01fedae2, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7132890331820150473, guid: d79622f8978019849932707a01fedae2, type: 3}
       propertyPath: m_SortMode
       value: 0
@@ -111,3 +139,22 @@ CircleCollider2D:
   m_Offset: {x: -0.036443025, y: 2.400739}
   serializedVersion: 2
   m_Radius: 0.8472517
+--- !u!95 &1010185391541488241
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4191048145401672921}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1b83c402307439f4488579bd7a94bb79, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

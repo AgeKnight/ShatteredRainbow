@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 799643067144345412}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.35, z: 0}
+  m_LocalPosition: {x: 0, y: -0.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9102627295658988160}
@@ -61,7 +61,7 @@ Transform:
   m_GameObject: {fileID: 5601185290954460713}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 0.1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.1}
   m_Children:
   - {fileID: 6794284691884387670}
   m_Father: {fileID: 0}
@@ -178,6 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathAudio: {fileID: 3387233106102494613, guid: 3e52ef3996671224aac4a3c6250d1dd0, type: 3}
+  Hurtaudio: {fileID: 8946850152021610928, guid: 81cd98fd81d794e4d9457f24868465b2, type: 3}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
   totalHp: 9
   charatorType: 1
@@ -191,6 +192,7 @@ MonoBehaviour:
     count: []
     barrageType: 0
     barrage: {fileID: 0}
+    Shootsound: {fileID: 0}
   indexMax: 1
   itemStruct:
   - probability: 1
@@ -225,11 +227,13 @@ MonoBehaviour:
   Allbullet: []
   enemyBarrageCounts:
   - count:
-    - 5
+    - 4
+    - 8
+    - 15
     - 1
-    - 0.1
-    barrageType: 1
+    barrageType: 2
     barrage: {fileID: 5165513135576572565, guid: c9a6ccefda3ea5b44887c4a7c62cc8e3, type: 3}
+    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   countTime: 0.1
 --- !u!95 &-4927903119329258908
 Animator:

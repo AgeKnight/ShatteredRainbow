@@ -122,9 +122,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.1640055, y: 1.6859616}
+  m_Offset: {x: 1.103735, y: 1.3846023}
   serializedVersion: 2
-  m_Radius: 11.454897
+  m_Radius: 9.646736
 --- !u!114 &6921743423912708975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,7 +137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathAudio: {fileID: 3387233106102494613, guid: 3e52ef3996671224aac4a3c6250d1dd0, type: 3}
+  deathAudio: {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
+  Hurtaudio: {fileID: 8946850152021610928, guid: 81cd98fd81d794e4d9457f24868465b2, type: 3}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
   totalHp: 2000
   charatorType: 1
@@ -148,9 +149,15 @@ MonoBehaviour:
   isInBomb: 0
   canInBomb: 0
   ultimateAttack:
-    count: 0500000005000000
-    barrageType: 1
+    count:
+    - 5
+    - 8
+    - 0.5
+    - 6
+    - 0.05
+    barrageType: 5
     barrage: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   indexMax: 3
   itemStruct:
   - probability: 100
@@ -186,16 +193,28 @@ MonoBehaviour:
   Dot: []
   Allbullet: []
   enemyBarrageCounts:
-  - count: 0a000000010000000a00000005000000
-    barrageType: 3
-    barrage: {fileID: 5165513135576572565, guid: c9a6ccefda3ea5b44887c4a7c62cc8e3, type: 3}
-  - count: 0500000005000000
+  - count:
+    - 10
+    - 5
+    - 1
     barrageType: 0
     barrage: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
-  - count: 0a0000000500000000000000
+    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
+  - count:
+    - 30
+    - 5
+    - 5
+    - 3
     barrageType: 2
     barrage: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
-  countTime: 0.6
+    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
+  - count:
+    - 10
+    - 0.1
+    barrageType: 4
+    barrage: {fileID: 2279851410649871175, guid: eaed50cd5da63194880ce4aca2623d36, type: 3}
+    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
+  countTime: 1
 --- !u!95 &1006038871139617076
 Animator:
   serializedVersion: 3
@@ -206,10 +225,10 @@ Animator:
   m_GameObject: {fileID: 3044012784260657736}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 01c0305691ca2104fbb7319759ccfe49, type: 2}
+  m_Controller: {fileID: 9100000, guid: 94006540823950449bdc5bd86820a211, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -239,7 +258,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9065009563149562638}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 4.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8423473847005909446}
