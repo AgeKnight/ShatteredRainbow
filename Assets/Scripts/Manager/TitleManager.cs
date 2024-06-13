@@ -46,7 +46,8 @@ public class TitleManager : MonoBehaviour
 
     public void StartGame()
     {
-        StartCoroutine(startgame_alternative());
+        DontDestroyOnLoad(AudioPlay(ClickSound, true));
+        SceneManager.LoadScene("Stage1");
     }
 
     public void Highscorereset()
@@ -60,13 +61,6 @@ public class TitleManager : MonoBehaviour
         {
         Records[0].text = SaveSystem.LoadGame<SaveData>().HiPlayerScore.ToString();
         }
-
-    public IEnumerator startgame_alternative()
-    {
-        DontDestroyOnLoad(AudioPlay(ClickSound, true));
-        yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene(1);
-    }
 
     public void ExitGame()
     {
