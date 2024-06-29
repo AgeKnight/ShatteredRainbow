@@ -11,10 +11,10 @@ public class SaveVoiceData
     public float BGM_num;
     public float Effect_num;
     public float All_num;
+    public bool autoShoot;
 }
 public class TitleManager : MonoBehaviour
 {
-
     static TitleManager instance;
     public static TitleManager Instance { get => instance; set => instance = value; }
     public AudioSource SelectSound;
@@ -34,6 +34,7 @@ public class TitleManager : MonoBehaviour
     public Text All_Text;
     public GameObject[] OptinionMessage;
     public Text[] Records;
+    public Toggle autoShoot;
     void Awake()
     {
         Instance = this;
@@ -121,6 +122,7 @@ public class TitleManager : MonoBehaviour
         BGM.value=100;
         Effect.value = 100;
         All.value = 100;
+        autoShoot.isOn = false;
         Save();
     }
     public void Load()
@@ -148,6 +150,7 @@ public class TitleManager : MonoBehaviour
         saveData.BGM_num = BGM.value;
         saveData.Effect_num = Effect.value;
         saveData.All_num = All.value;
+        saveData.autoShoot = autoShoot.isOn;
         return saveData;
     }
     void LoadData(SaveVoiceData saveData)
@@ -167,6 +170,10 @@ public class TitleManager : MonoBehaviour
         ClickSound.volume = saveData.Effect_num * saveData.All_num;
 
         All_Text.text = ((int)(saveData.All_num * 100)).ToString();
+        autoShoot.isOn = saveData.autoShoot;
     }
-
+    public void AutoShoot()
+    {
+        Save();
+    }
 }

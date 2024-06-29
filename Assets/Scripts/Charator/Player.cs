@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         nowspeed = speed;
+        canControlAttack = GameManager.Instance.canControlAttack;
         SetBro(GameManager.Instance.droneCount);
         Annular = AnnularCircle.GetComponent<Image>();
         invokeTime = MaxBarrageTime;

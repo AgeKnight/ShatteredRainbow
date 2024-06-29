@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
+    public bool canControlAttack = true;
     [HideInInspector]
     public float HiScore;
     [HideInInspector]
@@ -829,7 +830,10 @@ public class GameManager : MonoBehaviour
         for(int i = 0; i < MenuSound.Length; i++) 
         {
             MenuSound[i].volume = saveData.Effect_num * saveData.All_num;   
-        }
+        }       
+        canControlAttack = !saveData.autoShoot;
+        Debug.Log(canControlAttack);
+        Debug.Log(saveData.autoShoot);
     }
 
 
