@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
     #endregion
     #region "Hide"
     [SerializeField]
+    //上:0,1 下:2,3 左:4,5 右6,7 攻擊:8 大招:9 子彈時間:10 菜單:11
     public KeyCode[] curinput = new KeyCode[30];
     public bool canControlAttack = true;
     [HideInInspector]
@@ -621,7 +622,7 @@ public class GameManager : MonoBehaviour
 
     public void MenuUse()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(curinput[11]))
         {
             isOnButton = !isOnButton;
             Menus[0].SetActive(isOnButton);

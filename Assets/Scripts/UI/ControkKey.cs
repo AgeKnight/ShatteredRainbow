@@ -11,6 +11,7 @@ public class ControkKey : MonoBehaviour, IPointerExitHandler, IPointerClickHandl
     public bool isstart = false;//当前是否是修改状态
     public KeyCode curinput;
     public Text nowChooseText;
+    bool canChoose = true;
     public void OnPointerClick(PointerEventData eventData)//按下按鈕
     {
         isstart = true;
@@ -22,7 +23,6 @@ public class ControkKey : MonoBehaviour, IPointerExitHandler, IPointerClickHandl
     }
     void Update()
     {
-        Debug.Log(curinput);
         if (isstart)
         {
             if (Input.anyKeyDown)//检测到按键或者鼠标
@@ -35,6 +35,13 @@ public class ControkKey : MonoBehaviour, IPointerExitHandler, IPointerClickHandl
                     }
                     if (Input.GetKeyDown(keyCode))
                     {
+                        for (int i = 0; i < TitleManager.Instance.controkKeys.Length; i++)
+                        {
+                            if(keyCode.ToString()==TitleManager.Instance.controkKeys[i].curinput.ToString())
+                            {
+                                TitleManager.Instance.controkKeys[i].curinput = curinput;
+                            }
+                        }
                         curinput = keyCode;//按下的按钮
                     }
                 }

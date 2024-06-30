@@ -184,13 +184,13 @@ public class Player : MonoBehaviour
         
         int vertical = 0;
         int horizontal = 0;
-        if (Input.GetKey(GameManager.Instance.curinput[0]))
+        if (Input.GetKey(GameManager.Instance.curinput[0])||Input.GetKey(GameManager.Instance.curinput[1]))
             horizontal = 1;
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(GameManager.Instance.curinput[2])||Input.GetKey(GameManager.Instance.curinput[3]))
             horizontal = -1;
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(GameManager.Instance.curinput[4])||Input.GetKey(GameManager.Instance.curinput[5]))
             vertical = -1;
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(GameManager.Instance.curinput[6])||Input.GetKey(GameManager.Instance.curinput[7]))
            vertical = 1;
            
 
@@ -212,14 +212,14 @@ public class Player : MonoBehaviour
 
     void UseAttack()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(GameManager.Instance.curinput[8]))
         {
 
             isAttack = true;
             //BroAnime();
             coroutine = StartCoroutine(Attack());
         }
-        if (Input.GetKeyUp(KeyCode.Z) && coroutine != null)
+        if (Input.GetKeyUp(GameManager.Instance.curinput[8]) && coroutine != null)
         {
 
             isAttack = false;
@@ -271,7 +271,7 @@ public class Player : MonoBehaviour
     }
     void UseButton()
     {
-        if (Input.GetKeyDown(KeyCode.X) && GameManager.Instance.bombCount > 0 && !isUseBomb && !isUseTimeBarrage)
+        if (Input.GetKeyDown(GameManager.Instance.curinput[9]) && GameManager.Instance.bombCount > 0 && !isUseBomb && !isUseTimeBarrage)
         {
             GameManager.Instance.thisMapBomb = true;
             GameManager.Instance.thisMapBombCount +=1;
@@ -300,7 +300,7 @@ public class Player : MonoBehaviour
     }
     void UseTimeBarrage()
     {
-        if (Input.GetKeyDown(KeyCode.C) && !isUseBomb && invokeTime > 0)
+        if (Input.GetKeyDown(GameManager.Instance.curinput[10]) && !isUseBomb && invokeTime > 0)
         {
 
             isUseTimeBarrage = true;
@@ -309,7 +309,7 @@ public class Player : MonoBehaviour
             Time.timeScale = SlowSpeed;
             Time.fixedDeltaTime = Time.timeScale * 0.05f;
         }
-        if (Input.GetKeyUp(KeyCode.C))
+        if (Input.GetKeyUp(GameManager.Instance.curinput[10]))
         {
             isUseTimeBarrage = false;
             this.GetComponent<Animator>().SetBool("AnimBulletTime", isUseTimeBarrage);
