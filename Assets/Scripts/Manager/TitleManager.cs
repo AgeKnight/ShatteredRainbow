@@ -12,6 +12,7 @@ public class SaveVoiceData
     public float Effect_num;
     public float All_num;
     public bool autoShoot;
+    public KeyCode[] curinput = new KeyCode[30];
 }
 public class TitleManager : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class TitleManager : MonoBehaviour
     public AudioSource SelectSound;
     public AudioSource ClickSound;
     public AudioSource BackSound;
+    public ControkKey[] controkKeys;
     [HideInInspector]
     public Slider BGM;
     [HideInInspector]
@@ -48,6 +50,7 @@ public class TitleManager : MonoBehaviour
     public void StartGame()
     {
         DontDestroyOnLoad(AudioPlay(ClickSound, true));
+        Save();
         SceneManager.LoadScene("Stage1");
     }
 
@@ -89,14 +92,12 @@ public class TitleManager : MonoBehaviour
     {
         BGM_Text.text = ((int)(BGM.value * 100)).ToString();
         BackSound.volume = BGM.value * All.value;
-        Save();
     }
     public void VoiceControllEffect()
     {
         Effect_Text.text = ((int)(Effect.value * 100)).ToString();
         SelectSound.volume = Effect.value* All.value;
         ClickSound.volume = Effect.value * All.value;
-        Save();
     }
     public void VoiceControllAll()
     {
@@ -110,8 +111,6 @@ public class TitleManager : MonoBehaviour
 
         SelectSound.volume = Effect.value * All.value;
         ClickSound.volume = Effect.value * All.value;
-
-        Save();
     }
     public void Save()
     {
@@ -151,6 +150,10 @@ public class TitleManager : MonoBehaviour
         saveData.Effect_num = Effect.value;
         saveData.All_num = All.value;
         saveData.autoShoot = autoShoot.isOn;
+        for (int i = 0; i < controkKeys.Length; i++)
+        {
+            saveData.curinput[i] = controkKeys[i].curinput;
+        }
         return saveData;
     }
     void LoadData(SaveVoiceData saveData)
@@ -171,6 +174,10 @@ public class TitleManager : MonoBehaviour
 
         All_Text.text = ((int)(saveData.All_num * 100)).ToString();
         autoShoot.isOn = saveData.autoShoot;
+        for (int i = 0; i < controkKeys.Length; i++)
+        {
+            controkKeys[i].curinput = saveData.curinput[i];
+        }
     }
     public void AutoShoot()
     {

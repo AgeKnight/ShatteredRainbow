@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
+    [SerializeField]
+    public KeyCode[] curinput = new KeyCode[30];
     public bool canControlAttack = true;
     [HideInInspector]
     public float HiScore;
@@ -832,8 +834,10 @@ public class GameManager : MonoBehaviour
             MenuSound[i].volume = saveData.Effect_num * saveData.All_num;   
         }       
         canControlAttack = !saveData.autoShoot;
-        Debug.Log(canControlAttack);
-        Debug.Log(saveData.autoShoot);
+        for (int i = 0; i < curinput.Length; i++)
+        {
+            curinput[i] = saveData.curinput[i];
+        }
     }
 
 

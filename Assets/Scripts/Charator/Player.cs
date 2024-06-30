@@ -181,10 +181,10 @@ public class Player : MonoBehaviour
     }
     void Move()
     {
-        /*
+        
         int vertical = 0;
         int horizontal = 0;
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(GameManager.Instance.curinput[0]))
             horizontal = 1;
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
             horizontal = -1;
@@ -195,12 +195,12 @@ public class Player : MonoBehaviour
            
 
 
-        if (isUseBomb)
-            transform.Translate(vertical * speed * myBomb.SlowSpeed * Time.deltaTime, horizontal * speed * myBomb.SlowSpeed * Time.deltaTime, 0);
-        else
-            transform.Translate(vertical * speed * Time.deltaTime, horizontal * speed * Time.deltaTime, 0);
-            */
-        GetComponent<Rigidbody2D>().velocity = new Vector2(speed * Input.GetAxisRaw("Horizontal"), speed * Input.GetAxisRaw("Vertical")); //�H���z���D�����ʡA������|���b����ݰʪ����D
+        // if (isUseBomb)
+        //     transform.Translate(vertical * speed * myBomb.SlowSpeed * Time.deltaTime, horizontal * speed * myBomb.SlowSpeed * Time.deltaTime, 0);
+        // else
+        //     transform.Translate(vertical * speed * Time.deltaTime, horizontal * speed * Time.deltaTime, 0);
+            
+        GetComponent<Rigidbody2D>().velocity = new Vector2(speed * vertical , speed *horizontal ); //�H���z���D�����ʡA������|���b����ݰʪ����D
 
         if (isUseBomb)
             speed = nowspeed * myBomb.SlowSpeed;
