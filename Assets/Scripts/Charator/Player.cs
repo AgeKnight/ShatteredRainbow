@@ -3,13 +3,21 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum PlayerType
+{
+    Prismie,
+    Lily,
+    Frostto,
+    vyles,
+    Lil_Void,
+}
 public class Player : MonoBehaviour
 {
+    #region "Private"
     float nowspeed;
     //   float useDroneTime = 0;
     float[] annularColor = { 0.8f, 0.8f };
     bool isUseBomb = false;
-    public bool isUseTimeBarrage = false;
     bool BombAttack = true;
     bool isUseDrone = false;
     float invokeTime;
@@ -20,9 +28,9 @@ public class Player : MonoBehaviour
     GameObject shootEffect;
     int trailnums = 0;
     Color[] shade = { new Vector4(1, 1, 0.69f), new Vector4(0.69f, 0.97f, 1), new Vector4(1, 0.69f, 0.71f) };
+    #endregion
     #region "Public"
-    public float maxUseDroneTime = 20;
-    public int Dronecount;
+    public PlayerType playerType;
     public float SlowSpeed;
     public float speed;
     public GameObject TimeBarrageTrail;
@@ -30,6 +38,7 @@ public class Player : MonoBehaviour
     public bool canControlAttack;
     public float useBombTime;
     public float MaxBarrageTime;
+    public float AttackTime;
     public GameObject Bomb;
     public GameObject SliderTime;
     public Transform BombPosition;
@@ -37,6 +46,8 @@ public class Player : MonoBehaviour
 
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public bool isUseTimeBarrage = false;
     [HideInInspector]
     public GameObject DroneGroup;
     [HideInInspector]
@@ -46,7 +57,6 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public bool isAttack = false;
     public GameObject[] bulletPrefab;
-    
     [HideInInspector]
     public Transform[] bulletTransform;
     [HideInInspector]
@@ -66,27 +76,6 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        /*  
-         if (isUseDrone)
-          {
-
-              useDroneTime += Time.deltaTime;
-              if (useDroneTime >= maxUseDroneTime)
-              {
-                  for (int i = 0; i < Drone.Length; i++)
-                  {
-                      Drone[i].SetActive(false);
-                  }
-                  useDroneTime = 0;
-                  isUseDrone = false;
-              }
-
-
-
-          }
-          */
-
-
         if (canMove && BombAttack)
         {
             if (canControlAttack)
@@ -139,11 +128,11 @@ public class Player : MonoBehaviour
     public void SetBro(int value)
     {
         GameManager.Instance.droneCount = value;
-        if(GameManager.Instance.droneCount>0)
+        if (GameManager.Instance.droneCount > 0)
         {
             isUseDrone = true;
         }
-        else 
+        else
         {
             GameManager.Instance.droneCount = 0;
             isUseDrone = false;
@@ -152,20 +141,20 @@ public class Player : MonoBehaviour
         {
             Drone[i].SetActive(false);
         }
-        for (int i = 0; i <= GameManager.Instance.droneCount-1; i++)
+        for (int i = 0; i <= GameManager.Instance.droneCount - 1; i++)
         {
             Drone[i].SetActive(true);
         }
     }
     public void AddBro(int value)
     {
-        
+
         GameManager.Instance.droneCount += value;
-        if(GameManager.Instance.droneCount>0)
+        if (GameManager.Instance.droneCount > 0)
         {
             isUseDrone = true;
         }
-        else 
+        else
         {
             GameManager.Instance.droneCount = 0;
             isUseDrone = false;
@@ -174,33 +163,25 @@ public class Player : MonoBehaviour
         {
             Drone[i].SetActive(false);
         }
-        for (int i = 0; i <= GameManager.Instance.droneCount-1; i++)
+        for (int i = 0; i <= GameManager.Instance.droneCount - 1; i++)
         {
             Drone[i].SetActive(true);
         }
     }
     void Move()
     {
-        
+
         int vertical = 0;
         int horizontal = 0;
-        if (Input.GetKey(GameManager.Instance.curinput[0])||Input.GetKey(GameManager.Instance.curinput[1]))
+        if (Input.GetKey(GameManager.Instance.curinput[0]) || Input.GetKey(GameManager.Instance.curinput[1]))
             horizontal = 1;
-        if (Input.GetKey(GameManager.Instance.curinput[2])||Input.GetKey(GameManager.Instance.curinput[3]))
+        if (Input.GetKey(GameManager.Instance.curinput[2]) || Input.GetKey(GameManager.Instance.curinput[3]))
             horizontal = -1;
-        if (Input.GetKey(GameManager.Instance.curinput[4])||Input.GetKey(GameManager.Instance.curinput[5]))
+        if (Input.GetKey(GameManager.Instance.curinput[4]) || Input.GetKey(GameManager.Instance.curinput[5]))
             vertical = -1;
-        if (Input.GetKey(GameManager.Instance.curinput[6])||Input.GetKey(GameManager.Instance.curinput[7]))
-           vertical = 1;
-           
-
-
-        // if (isUseBomb)
-        //     transform.Translate(vertical * speed * myBomb.SlowSpeed * Time.deltaTime, horizontal * speed * myBomb.SlowSpeed * Time.deltaTime, 0);
-        // else
-        //     transform.Translate(vertical * speed * Time.deltaTime, horizontal * speed * Time.deltaTime, 0);
-            
-        GetComponent<Rigidbody2D>().velocity = new Vector2(speed * vertical , speed *horizontal ); //�H���z���D�����ʡA������|���b����ݰʪ����D
+        if (Input.GetKey(GameManager.Instance.curinput[6]) || Input.GetKey(GameManager.Instance.curinput[7]))
+            vertical = 1;
+        GetComponent<Rigidbody2D>().velocity = new Vector2(speed * vertical, speed * horizontal); //�H���z���D�����ʡA������|���b����ݰʪ����D
 
         if (isUseBomb)
             speed = nowspeed * myBomb.SlowSpeed;
@@ -227,55 +208,49 @@ public class Player : MonoBehaviour
             //  BroAnime();
         }
     }
-    /*void BroAnime()  //�ϥ�animator
-    {
-        if (isUseDrone)
-        {
-            for (int i = 2; i < Drone.Length; i++)
-            {
-                if (isAttack)
-                    Drone[i].GetComponent<Animator>().Play("Attack");
-                else
-                    Drone[i].GetComponent<Animator>().Play("NotAttack");
-            }
-        }
-    }*/
     IEnumerator Attack()
     {
         while (isAttack)
         {
             shootEffect = GameManager.Instance.AudioPlay(musicEffect[1], false);
             shootEffect.transform.parent = this.transform;
-            for (int i = 0; i < bulletTransform.Length; i++)
+            if (playerType == PlayerType.Prismie)
             {
-                if (i <= GameManager.Instance.playerLevel * 2)
-                {
-
-                    Instantiate(bulletPrefab[0], bulletTransform[i].transform.position, Quaternion.identity);
-                }
+                PrismieAttack();
             }
-            if (isUseDrone)
-            {
-
-                DroneGroup.GetComponent<Animator>().SetBool("Drone_attacking", true);
-                for (int i = 0; i < GameManager.Instance.droneCount; i++)
-                {
-                    GameObject tempObject = Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
-                    tempObject.GetComponent<Bullet>().canTrackEnemy = true;
-                }
-            }
-
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(AttackTime);
             Destroy(shootEffect.gameObject);
         }
+    }
+    void PrismieAttack()
+    {
+        for (int i = 0; i < bulletTransform.Length; i++)
+        {
+            if (i <= GameManager.Instance.playerLevel * 2)
+            {
+
+                Instantiate(bulletPrefab[0], bulletTransform[i].transform.position, Quaternion.identity);
+            }
+        }
+        if (isUseDrone)
+        {
+
+            DroneGroup.GetComponent<Animator>().SetBool("Drone_attacking", true);
+            for (int i = 0; i < GameManager.Instance.droneCount; i++)
+            {
+                GameObject tempObject = Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
+                tempObject.GetComponent<Bullet>().canTrackEnemy = true;
+            }
+        }
+
     }
     void UseButton()
     {
         if (Input.GetKeyDown(GameManager.Instance.curinput[9]) && GameManager.Instance.bombCount > 0 && !isUseBomb && !isUseTimeBarrage)
         {
             GameManager.Instance.thisMapBomb = true;
-            GameManager.Instance.thisMapBombCount +=1;
-            GameManager.Instance.AudioPlay(musicEffect[2],true);
+            GameManager.Instance.thisMapBombCount += 1;
+            GameManager.Instance.AudioPlay(musicEffect[2], true);
             myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();
             myBomb.gameObject.transform.parent = this.gameObject.transform;
             isUseBomb = true;

@@ -42,10 +42,6 @@ public class TitleManager : MonoBehaviour
         Instance = this;
         Load();
     }
-    public void Update()
-    {
-
-    }
 
     public void StartGame()
     {
