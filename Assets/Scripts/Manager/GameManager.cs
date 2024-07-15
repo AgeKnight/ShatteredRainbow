@@ -57,7 +57,9 @@ public class GameManager : MonoBehaviour
     #region "Hide"
     [SerializeField]
     //上:0,1 下:2,3 左:4,5 右6,7 攻擊:8 大招:9 子彈時間:10 菜單:11
+    [HideInInspector]
     public KeyCode[] curinput = new KeyCode[30];
+    [HideInInspector]
     public bool canControlAttack = true;
     [HideInInspector]
     public float HiScore;
@@ -65,19 +67,19 @@ public class GameManager : MonoBehaviour
     public int GameStage = 1;
     [HideInInspector]
     public int playerExp;
-   // [HideInInspector]
+   [HideInInspector]
     public AudioSource[] BackMusic;
     [HideInInspector]
     public AudioSource[] MenuSound;
-
+    [HideInInspector]
     public AudioSource[] ItemgainsSound;
-
+    [HideInInspector]
     public AudioSource LevelupSound;
     [HideInInspector]
     public float playerScore;
     [HideInInspector]
     public GameObject[] LightSide;
-   // [HideInInspector]
+   [HideInInspector]
     public Text[] MapBonusScores;//0 本關分數 1 加成分數 2 炸彈bonus名 3 炸彈bonus 4 生命bonus名 5 生命bonus
     public GameObject[] BonusShine;
     [HideInInspector]
@@ -104,7 +106,7 @@ public class GameManager : MonoBehaviour
     public Sprite[] LifeImages;//0 空心 1 實心
     [HideInInspector]
     public Sprite[] bombImages;//0 空心 1 實心
-  //  [HideInInspector]
+    [HideInInspector]
     public Sprite[] bossImages;//0 空心 1 實心 
     [HideInInspector]
     public GameObject[] Triangles;
@@ -122,7 +124,7 @@ public class GameManager : MonoBehaviour
     public int allBomb;
     [HideInInspector]
     public int allLife;
- //   [HideInInspector]
+    [HideInInspector]
     public GameObject StageClear;
     [HideInInspector]
     public Slider BossBar;
@@ -136,11 +138,11 @@ public class GameManager : MonoBehaviour
     public GameObject[] Lifes;
     [HideInInspector]
     public GameObject[] Bombs;
-   //[HideInInspector]
+   [HideInInspector]
     public GameObject[] Menus;//0 暫停 1 輸 2贏
     [HideInInspector]
     public Transform playerSpan;
-    //[HideInInspector]
+    [HideInInspector]
     public EnemyManager enemyManager;
     [HideInInspector]
     public GameObject Reciprocal;
@@ -148,9 +150,10 @@ public class GameManager : MonoBehaviour
     public int playerLevel;
     [HideInInspector]
     public bool canTrack = false;
+    public int ChoicePlayer;
+    //[HideInInspector]
+    public GameObject[] player;
     [HideInInspector]
-    public GameObject player;
-   // [HideInInspector]
     public GameObject EXP;
     [HideInInspector]
     public Text Hi_scoreText;
@@ -184,7 +187,7 @@ public class GameManager : MonoBehaviour
     public IEnumerator Begin()
     {
 
-        playerScript = Instantiate(player, playerSpan.transform.position, Quaternion.identity).gameObject.GetComponent<Player>();
+        playerScript = Instantiate(player[ChoicePlayer], playerSpan.transform.position, Quaternion.identity).gameObject.GetComponent<Player>();
         playerScript.gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
        
         enemyManager.canGoNext = false;
@@ -241,7 +244,7 @@ public class GameManager : MonoBehaviour
     
     void PlayerResurrection()
     {
-        playerScript = Instantiate(player, PlayerResurrectionPosition.position, Quaternion.identity).GetComponent<Player>();
+        playerScript = Instantiate(player[ChoicePlayer], PlayerResurrectionPosition.position, Quaternion.identity).GetComponent<Player>();
         playerScript.gameObject.GetComponent<Death>().isInvincible = true;
         playerScript.canMove = true;
         Invoke("PlayerNotInvincible", AllInvincibleTime);
@@ -835,6 +838,7 @@ public class GameManager : MonoBehaviour
             MenuSound[i].volume = saveData.Effect_num * saveData.All_num;   
         }       
         canControlAttack = !saveData.autoShoot;
+        ChoicePlayer = saveData.ChoicePlayer;
         for (int i = 0; i < curinput.Length; i++)
         {
             curinput[i] = saveData.curinput[i];

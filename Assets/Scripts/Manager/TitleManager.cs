@@ -12,6 +12,7 @@ public class SaveVoiceData
     public float Effect_num;
     public float All_num;
     public bool autoShoot;
+    public int ChoicePlayer;
     public KeyCode[] curinput = new KeyCode[30];
 }
 public class TitleManager : MonoBehaviour
@@ -22,6 +23,9 @@ public class TitleManager : MonoBehaviour
     public AudioSource ClickSound;
     public AudioSource BackSound;
     public ControkKey[] controkKeys;
+    public GameObject ChooseCharactor;
+    [HideInInspector]
+    public int ChoicePlayer=0;
     [HideInInspector]
     public Slider BGM;
     [HideInInspector]
@@ -45,9 +49,11 @@ public class TitleManager : MonoBehaviour
 
     public void StartGame()
     {
-        DontDestroyOnLoad(AudioPlay(ClickSound, true));
-        Save();
-        SceneManager.LoadScene("Stage1");
+        ChooseCharactor.SetActive(true);
+    }
+    public void ExitChoice()
+    {
+        ChooseCharactor.SetActive(false);
     }
 
     public void Highscorereset()
@@ -146,6 +152,7 @@ public class TitleManager : MonoBehaviour
         saveData.Effect_num = Effect.value;
         saveData.All_num = All.value;
         saveData.autoShoot = autoShoot.isOn;
+        saveData.ChoicePlayer = ChoicePlayer;
         for (int i = 0; i < controkKeys.Length; i++)
         {
             saveData.curinput[i] = controkKeys[i].curinput;
