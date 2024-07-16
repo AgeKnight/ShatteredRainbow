@@ -51,10 +51,6 @@ public class TitleManager : MonoBehaviour
     {
         ChooseCharactor.SetActive(true);
     }
-    public void ExitChoice()
-    {
-        ChooseCharactor.SetActive(false);
-    }
 
     public void Highscorereset()
     {

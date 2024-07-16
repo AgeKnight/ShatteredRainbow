@@ -9,6 +9,10 @@ public class CharactorChoose : MonoBehaviour
     public GameObject[] Charators;
     public GameObject[] Buttons;
     int CharCount = 0;
+    void Update()
+    {
+        
+    }
     public void Charactor(bool next)
     {
         for(int i = 0;i<Charators.Length;i++)
@@ -42,5 +46,16 @@ public class CharactorChoose : MonoBehaviour
         TitleManager.Instance.Save();
         DontDestroyOnLoad(TitleManager.Instance.AudioPlay(TitleManager.Instance.ClickSound, true));
         SceneManager.LoadScene("Stage1");
+    }
+    public void ExitMenu()
+    {
+        CharCount=0;
+        Buttons[1].SetActive(false);
+        Buttons[0].SetActive(true);
+        for(int i = 1;i<Charators.Length;i++)
+        {
+            Charators[i].SetActive(false);
+        }
+        Charators[0].SetActive(true);
     }
 }
