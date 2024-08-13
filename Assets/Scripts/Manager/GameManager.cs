@@ -718,18 +718,18 @@ public class GameManager : MonoBehaviour
                 if (sideB != 1 && enemyManager.bossIndex == (enemyManager.waveBosses.Length-1)) //關底Boss戰鬥特效
                     sideB += Time.deltaTime;
 
-                if (sideA <= 0.5) //中Boss-關底Boss以外
+                if (sideA <= 0.5f) //中Boss-關底Boss以外
                 {
                     sideA += Time.deltaTime * 0.1f;
                 }
             }
             else
             {
-                if (sideA >= 0.25)
+                if (sideA >= 0.15f)
                 {
                     sideA -= Time.deltaTime * 0.1f;
                 }
-                else if (sideA <= 0.25)
+                else if (sideA <= 0.15f)
                 {
                     sideA += Time.deltaTime * 0.1f;
                 }

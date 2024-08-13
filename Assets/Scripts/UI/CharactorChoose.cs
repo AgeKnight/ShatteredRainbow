@@ -42,9 +42,16 @@ public class CharactorChoose : MonoBehaviour
     }
     public void PlayGame()
     {
+     
+          StartCoroutine(GameStart());
+    }
+    IEnumerator GameStart()
+    {
+
         TitleManager.Instance.ChoicePlayer = CharCount;
         TitleManager.Instance.Save();
         DontDestroyOnLoad(TitleManager.Instance.AudioPlay(TitleManager.Instance.ClickSound, true));
+        yield return new WaitForSeconds(0.7f);
         SceneManager.LoadScene("Stage1");
     }
     public void ExitMenu()

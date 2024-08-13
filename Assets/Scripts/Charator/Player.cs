@@ -229,7 +229,11 @@ public class Player : MonoBehaviour
             if (i <= GameManager.Instance.playerLevel * 2)
             {
 
-                Instantiate(bulletPrefab[0], bulletTransform[i].transform.position, Quaternion.identity);
+               GameObject bullet = Instantiate(bulletPrefab[0], bulletTransform[i].transform.position, Quaternion.identity);
+                if (i != 0) //起始彈道外額外子彈傷害減少兩倍
+                {
+                    bullet.GetComponent<Bullet>().hurt = bullet.GetComponent<Bullet>().hurt / 3;
+                }
             }
         }
         if (isUseDrone)
