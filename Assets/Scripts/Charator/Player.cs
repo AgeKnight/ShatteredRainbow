@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     //   float useDroneTime = 0;
     float[] annularColor = { 0.8f, 0.8f };
     bool isUseBomb = false;
-    bool BombAttack = true;
+    public bool BombAttack = true;
     bool isUseDrone = false;
     float invokeTime;
     Coroutine coroutine;
@@ -93,6 +93,7 @@ public class Player : MonoBehaviour
         {
             isAttack = false;
         }
+       
         if (isUseTimeBarrage)
         {
             invokeTime -= Time.unscaledDeltaTime;
@@ -230,7 +231,7 @@ public class Player : MonoBehaviour
             {
 
                GameObject bullet = Instantiate(bulletPrefab[0], bulletTransform[i].transform.position, Quaternion.identity);
-                if (i != 0) //起始彈道外額外子彈傷害減少兩倍
+                if (i != 0) //起始彈道外額外子彈傷害變1/3倍
                 {
                     bullet.GetComponent<Bullet>().hurt = bullet.GetComponent<Bullet>().hurt / 3;
                 }
@@ -272,10 +273,12 @@ public class Player : MonoBehaviour
     }
     void againUseBomb()
     {
-        Destroy(myBomb.gameObject);
+       
         isUseBomb = false;
+        myBomb.gameObject.GetComponent<Animator>().SetTrigger("Bombover");
         BombAttack = true;
         gameObject.GetComponent<Death>().isInvincible = false;
+        Destroy(myBomb.gameObject, 1);
     }
     void UseTimeBarrage()
     {

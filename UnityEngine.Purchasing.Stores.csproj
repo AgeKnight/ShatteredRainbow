@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{FA33EEB2-8EEE-C3BB-1ABC-31E044A978F2}</ProjectGuid>
+    <ProjectGuid>{2877AFD4-BA50-F4AC-6B88-8297AF9724E5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>UnityEngine.Purchasing.Stores</AssemblyName>
@@ -26,7 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,7 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -53,139 +53,142 @@
     <UnityVersion>2020.3.33f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\FakeStore\UIFakeStoreDropdown.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\AmazonAppStore\AmazonAppStoreStoreExtensions.cs" />
+    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Util\ExponentialRetryPolicy.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\AmazonAppStore\IAmazonExtensions.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Util\FileReference.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\GooglePlayStore.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\Common\AAR\ListExtension.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Interfaces\Services\IGooglePlayStoreRetrieveProductsService.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\FakeGooglePlayStoreConfiguration.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\GoogleCachedQuerySkuDetailsService.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Services\GooglePlayStoreFinishTransactionService.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IGoogleFinishTransactionService.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Models\GooglePurchase.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\UDP\INativeUDPStore.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\GooglePriceChangeService.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Listeners\GooglePurchaseUpdatedListener.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\Common\AAR\UnityActivity.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\UDP\UDPReflectionConsts.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\GoogleBillingConnectionState.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\WindowsStore\WindowsStore.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\FakeStore\FakeStore.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IGooglePurchaseCallback.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IBillingClientStateListener.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\AppleAppStore\IAppleConfiguration.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IGooglePurchaseUpdatedListener.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Interfaces\IGooglePlayConfigurationInternal.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Interfaces\Services\IGooglePlayStoreFinishTransactionService.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Services\GooglePlayStoreRetrieveProductsService.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\AmazonAppStore\IAmazonConfiguration.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Models\ProductDescriptionQuery.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\GooglePlayPurchaseCallback.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\AppleAppStore\AppleAppStore.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\ProductCatalog.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\QuerySkuDetailsService.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\UDP\FakeUDPExtension.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\UDP\UDPReflectionUtil.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Models\GoogleSkuTypeEnum.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IGooglePriceChangeService.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Listeners\BillingClientStateListener.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Utils\GooglePurchaseHelper.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\SubscriptionManager.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Utils\SkuDetailsConverter.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Util\IRetryPolicy.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\ScriptingStoreCallback.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\GoogleFinishTransactionService.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\ISkuDetailsResponseConsolidator.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Utils\AndroidJavaObjectWrapper.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\WindowsStore\IMicrosoftConfiguration.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Interfaces\IGooglePlayConfiguration.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\AmazonAppStore\AmazonApps.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\GooglePurchaseService.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Interfaces\Services\IGooglePlayStorePurchaseService.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\GoogleLastKnownProductService.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IGoogleBillingResult.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IAndroidJavaObjectWrapper.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Services\GoogleFetchPurchases.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IQuerySkuDetailsService.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\UDP\UDPImpl.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\AppleAppStore\IAppleExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\AmazonAppStore\FakeAmazon.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Listeners\GoogleAcknowledgePurchaseListener.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\StandardPurchasingModule.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\JavaBridge.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IGoogleQueryPurchasesService.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Models\GoogleBillingClient.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\FakeStore\DialogRequest.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\FakeStore\IFakeExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\FakeStore\UIFakeStoreDropdown.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\AmazonAppStore\AmazonAppStoreStoreExtensions.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\FakeGooglePlayStoreConfiguration.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Services\GooglePlayStoreFinishTransactionService.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Models\GoogleBillingStrings.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IGooglePlayStoreService.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\BaseStore\INativeStoreProvider.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\ISkuDetailsQueryResponse.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IGoogleBillingClient.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\UDP\INativeUDPStore.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\GooglePriceChangeService.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Interfaces\IGooglePlayStoreExtensions.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Listeners\GooglePurchaseUpdatedListener.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\AndroidStore.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\ISkuDetailsConverter.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\FakeStore\LifecycleNotifier.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\SkuDetailsQueryResponse.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Models\GooglePurchaseStateEnum.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Utils\GoogleReceiptEncoder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\Common\AAR\UnityActivity.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\GooglePlayStoreExtensions.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\UDP\UDPReflectionConsts.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\GetGoogleProductMetadataExtension.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\UDP\UDP.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\GoogleBillingConnectionState.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\AppleAppStore\FakeAppleConfiguration.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\SkuDetailsResponseConsolidator.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\GooglePlayConfiguration.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\FakeGooglePlayStoreExtensions.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IGoogleLastKnownProductService.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\WindowsStore\WindowsStore.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\FakeStore\FakeStore.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Listeners\GooglePriceChangeConfirmationListener.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IGooglePurchaseCallback.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\AppleAppStore\AppleStoreImpl.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IBillingClientStateListener.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\AppleAppStore\IAppleConfiguration.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IGooglePurchaseUpdatedListener.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\StoreSpecificPurchaseErrorCode.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\AppleAppStore\MacAppStore.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Interfaces\IGooglePlayConfigurationInternal.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Interfaces\Services\IGooglePlayStoreFinishTransactionService.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Util\UnityUtil.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\BaseStore\JSONStore.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\ScriptingUnityCallback.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\WindowsStore\IMicrosoftExtensions.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\GoogleQueryPurchasesService.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\GooglePlayStoreService.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Services\GooglePlayStoreRetrieveProductsService.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\Common\AAR\AndroidJavaObjectExtensions.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\AmazonAppStore\IAmazonConfiguration.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\GooglePlayProrationMode.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\FakeStore\UIFakeStore.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Models\ProductDescriptionQuery.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\AppleAppStore\FakeAppleExtensions.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\GooglePlayPurchaseCallback.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\AppleAppStore\AppleAppStore.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Models\GooglePurchaseResult.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\ProductCatalog.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Services\GooglePlayStorePurchaseService.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IGoogleCachedQuerySkuDetailsService.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\QuerySkuDetailsService.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\UDP\FakeUDPExtension.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\UDP\UDPReflectionUtil.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\TransactionHistory\FakeTransactionHistoryExtensions.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Models\GoogleSkuTypeEnum.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IGooglePriceChangeService.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\AndroidJavaStore.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Listeners\BillingClientStateListener.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\WindowsStore\FakeMicrosoftExtensions.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Utils\GooglePurchaseHelper.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\SubscriptionManager.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Utils\SkuDetailsConverter.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\UDP\IUDPExtensions.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Util\IRetryPolicy.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Interfaces\Services\IGoogleFetchPurchases.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\AppStore.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\ScriptingStoreCallback.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\BaseStore\NativeStoreProvider.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\GoogleFinishTransactionService.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\IAndroidStoreSelection.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\ISkuDetailsResponseConsolidator.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Utils\AndroidJavaObjectWrapper.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Util\IUtil.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Models\GoogleBillingResult.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\AssemblyInfo.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\WindowsStore\IMicrosoftConfiguration.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\GooglePlay.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Interfaces\IGooglePlayConfiguration.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Listeners\SkuDetailsResponseListener.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\TransactionHistory\ITransactionHistoryExtensions.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\WindowsStore\WinRTStore.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Util\ProductDefinitionExtensions.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\AmazonAppStore\AmazonApps.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\GooglePurchaseService.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Interfaces\Services\IGooglePlayStorePurchaseService.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\UDP\UDPBindings.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IGooglePurchaseService.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\GoogleLastKnownProductService.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IGoogleBillingResult.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\UDP\UDPBindings.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\BaseStore\IStoreInternal.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IAndroidJavaObjectWrapper.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Services\GoogleFetchPurchases.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Models\GoogleProductMetadata.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\FakeStore\UIFakeStoreWindow.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Networking\QueryHelper.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IQuerySkuDetailsService.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\StoreCallbackExtensionMethods.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\UDP\UDPImpl.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\IUnityCallback.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Listeners\GoogleConsumeResponseListener.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\AppleAppStore\IAppleExtensions.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\AmazonAppStore\FakeAmazon.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Listeners\GoogleAcknowledgePurchaseListener.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\StandardPurchasingModule.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\JSONSerializer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\JavaBridge.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\StoreConfiguration.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Interfaces\IGoogleQueryPurchasesService.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\AAR\Models\GoogleBillingClient.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\FakeStore\DialogRequest.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Interfaces\IGooglePlayStoreExtensionsInternal.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\Android\GooglePlay\Models\GoogleBillingResponseCode.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\FakeStore\IFakeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Stores\UnityEngine.Purchasing.Stores.asmdef" />
@@ -420,7 +423,7 @@
       <HintPath>C:\Program Files\Unity\2020.3.33f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
-      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\15.0\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity\2020.3.33f1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>
@@ -770,47 +773,47 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="UnityEngine.Purchasing.AppleCore.csproj">
-      <Project>{C0DC3769-DBB4-1135-DAFC-03A5B582305F}</Project>
+      <Project>{B62A8C55-35C0-65B5-6708-CAD1278E2EA2}</Project>
       <Name>UnityEngine.Purchasing.AppleCore</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.Purchasing.AppleMacosStub.csproj">
-      <Project>{3732652D-B32A-1BAE-DE17-CFEC9112AA5B}</Project>
+      <Project>{865AB4D7-57F5-0B90-DDAA-C3BFBEC89A00}</Project>
       <Name>UnityEngine.Purchasing.AppleMacosStub</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.Purchasing.AppleStub.csproj">
-      <Project>{5CE52748-AB26-57AD-1AA0-64570D176DE9}</Project>
+      <Project>{76026B67-B026-3EC7-C2D3-91A102BA6800}</Project>
       <Name>UnityEngine.Purchasing.AppleStub</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.Purchasing.csproj">
-      <Project>{270E0DED-20DE-B0F1-F2D8-C3BD6E41F466}</Project>
+      <Project>{089B68A2-D5BA-4A3B-0DF3-61593C693231}</Project>
       <Name>UnityEngine.Purchasing</Name>
     </ProjectReference>
     <ProjectReference Include="Purchasing.Common.csproj">
-      <Project>{99BC1A3C-0D09-C379-E441-4CE510B8C573}</Project>
+      <Project>{2ED6AE63-8F9F-7500-A9B0-83F6A444CAB9}</Project>
       <Name>Purchasing.Common</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.Purchasing.SecurityCore.csproj">
-      <Project>{5E7AD633-9834-F95E-FE6F-BC6DDBE9D5C5}</Project>
+      <Project>{E9E8B26D-09FF-A653-BCAC-39D267CFA434}</Project>
       <Name>UnityEngine.Purchasing.SecurityCore</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.Purchasing.SecurityStub.csproj">
-      <Project>{B813B8B6-B146-A926-4A0A-7DE59D9B30F4}</Project>
+      <Project>{70CB81F9-00AE-9205-1DBA-87A3B0D29AC5}</Project>
       <Name>UnityEngine.Purchasing.SecurityStub</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.Purchasing.WinRTCore.csproj">
-      <Project>{2F7C0928-5D03-1EC4-D289-3E93DFF840FC}</Project>
+      <Project>{CE718E1E-8FA0-2749-6715-C1D1F91DCCA3}</Project>
       <Name>UnityEngine.Purchasing.WinRTCore</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.Purchasing.WinRTStub.csproj">
-      <Project>{3262B6FC-EB95-3929-F947-FC0BB3ACD00C}</Project>
+      <Project>{9860F837-1D08-EFF4-3397-C055763DED06}</Project>
       <Name>UnityEngine.Purchasing.WinRTStub</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{9DB2E80E-F220-BD54-E907-A015E0532150}</Project>
+      <Project>{5131E432-7C9D-E6AE-C919-8F3CF3FC9BB5}</Project>
       <Name>UnityEditor.UI</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
-      <Project>{26BD9A57-84A1-AE4E-E4EA-211491C7CE0F}</Project>
+      <Project>{BF43DF47-9F97-E3BB-5077-310245AB4574}</Project>
       <Name>UnityEngine.UI</Name>
     </ProjectReference>
   </ItemGroup>

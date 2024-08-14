@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
     public int GameStage = 1;
     [HideInInspector]
     public int playerExp;
-   [HideInInspector]
+  // [HideInInspector]
     public AudioSource[] BackMusic;
     [HideInInspector]
     public AudioSource[] MenuSound;
@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
     public Sprite[] LifeImages;//0 空心 1 實心
     [HideInInspector]
     public Sprite[] bombImages;//0 空心 1 實心
-    [HideInInspector]
+  //  [HideInInspector]
     public Sprite[] bossImages;//0 空心 1 實心 
     [HideInInspector]
     public GameObject[] Triangles;

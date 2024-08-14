@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{620ABE99-9282-99DF-718F-B3DD9BBAF0BA}</ProjectGuid>
+    <ProjectGuid>{839EC44E-DA43-E689-9C32-29F338E25E9A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>UnityEngine.Advertisements</AssemblyName>
@@ -26,7 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,7 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -53,51 +53,54 @@
     <UnityVersion>2020.3.33f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Banner.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\ShowOptions.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Unsupported\UnsupportedPlatform.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Purchasing\Purchase.cs" />
+    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Android\AndroidPlatform.cs" />
+    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\iOS\IosBanner.cs" />
+    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Android\AndroidLoadListener.cs" />
+    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Purchasing\Purchasing.cs" />
+    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\iOS\IosLoadListener.cs" />
+    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Unsupported\UnsupportedBanner.cs" />
+    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Android\BannerBundle.cs" />
+    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Editor\Placeholder.cs" />
+    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Listeners\IUnityAdsInitializationListener.cs" />
+    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Editor\EditorBanner.cs" />
+    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Utilities\IUnityLifecycleManager.cs" />
+    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Editor\BannerPlaceholder.cs" />
+    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Utilities\Color.cs" />
+    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\INativePlatform.cs" />
+    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Listeners\IUnityAdsLoadListener.cs" />
+    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Enums\UnityAdsShowError.cs" />
+    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Advertisement.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Events\StartEventArgs.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\iOS\IosNativeObject.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Android\AndroidPlatform.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Platform.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Purchasing\IPurchase.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\INativeBanner.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\AssemblyInfo.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Enums\UnityAdsLoadError.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Android\AndroidLoadListener.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\IBanner.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\iOS\IosBanner.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\iOS\IosPlatform.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Enums\UnityAdsShowCompletionState.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Purchasing\Purchasing.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Purchasing\PurchasingPlatform.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\IPlatform.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Utilities\CoroutineExecutor.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\BannerLoadOptions.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\iOS\IosLoadListener.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Unsupported\UnsupportedBanner.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Android\BannerBundle.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Enums\BannerPosition.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Editor\EditorPlatform.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Editor\Placeholder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Listeners\IUnityAdsInitializationListener.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Editor\EditorBanner.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Utilities\IUnityLifecycleManager.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Purchasing\IPurchasingEventSender.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Enums\UnityAdsInitializationError.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Utilities\ApplicationQuit.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Editor\BannerPlaceholder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Utilities\Color.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Events\FinishEventArgs.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Enums\ShowResult.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\INativePlatform.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Platform\Android\AndroidInitializationListener.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Listeners\IUnityAdsLoadListener.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\IUnityAdsListener.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Utilities\UnityLifecycleManager.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Enums\UnityAdsShowError.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Advertisement.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Enums\UnityAdsCompletionState.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\BannerOptions.cs" />
     <Compile Include="Library\PackageCache\com.unity.ads@3.7.5\Runtime\Advertisement\Utilities\MiniJSON.cs" />
@@ -343,14 +346,14 @@
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\2020.3.33f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
     <Reference Include="log4netPlastic">
       <HintPath>Library\PackageCache\com.unity.collab-proxy@2.1.0\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Plastic.Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.collab-proxy@2.1.0\Lib\Editor\PlasticSCM\Unity.Plastic.Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="unityplastic">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@2.1.0\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>Library\PackageCache\com.unity.analytics@3.6.12\AnalyticsStandardEvents\Unity.Analytics.StandardEvents.dll</HintPath>
@@ -361,11 +364,14 @@
     <Reference Include="Unity.Plastic.Antlr3.Runtime">
       <HintPath>Library\PackageCache\com.unity.collab-proxy@2.1.0\Lib\Editor\PlasticSCM\Unity.Plastic.Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="unityplastic">
+      <HintPath>Library\PackageCache\com.unity.collab-proxy@2.1.0\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>Library\PackageCache\com.unity.analytics@3.6.12\Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
-    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
-      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\15.0\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    <Reference Include="ICSharpCode.NRefactory">
+      <HintPath>Library\PackageCache\com.unity.render-pipelines.core@10.8.1\Editor\ShaderGenerator\ICSharpCode.NRefactory.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity\2020.3.33f1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>
@@ -715,11 +721,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="UnityEngine.UI.csproj">
-      <Project>{26BD9A57-84A1-AE4E-E4EA-211491C7CE0F}</Project>
+      <Project>{BF43DF47-9F97-E3BB-5077-310245AB4574}</Project>
       <Name>UnityEngine.UI</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{9DB2E80E-F220-BD54-E907-A015E0532150}</Project>
+      <Project>{5131E432-7C9D-E6AE-C919-8F3CF3FC9BB5}</Project>
       <Name>UnityEditor.UI</Name>
     </ProjectReference>
   </ItemGroup>
