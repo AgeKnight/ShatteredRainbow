@@ -95,6 +95,7 @@ public class Bullet : MonoBehaviour
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.tag == "Barrier")
-            Die();
+            //  Die();
+            Destroy(this.gameObject);
     }
 }

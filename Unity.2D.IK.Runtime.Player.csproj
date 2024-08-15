@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{1824A8E7-3695-39DD-11B2-9DC940FAA2D1}</ProjectGuid>
+    <ProjectGuid>{8527F327-C122-764C-2A42-8E4F02C534A9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Unity.2D.IK.Runtime</AssemblyName>
@@ -26,7 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,7 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -53,18 +53,21 @@
     <UnityVersion>2020.3.33f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\CCDSolver2D.cs" />
-    <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\Solver2DMenuAttribute.cs" />
+    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\IKManager2D.cs" />
-    <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\Solver2D.cs" />
-    <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\IKManager2DEditorData.cs" />
     <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\LimbSolver2D.cs" />
     <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\Solvers\FABRIK2D.cs" />
+    <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\IKUtility.cs" />
+    <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\CCDSolver2D.cs" />
+    <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\Solver2DMenuAttribute.cs" />
+    <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\Solver2D.cs" />
+    <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\IKManager2DEditorData.cs" />
     <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\Solvers\CCD2D.cs" />
     <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\IKChain2D.cs" />
     <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\Solvers\Limb.cs" />
     <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\AssemblyInfo.cs" />
-    <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\IKUtility.cs" />
     <Compile Include="Library\PackageCache\com.unity.2d.animation@5.2.0\IK\Runtime\FabrikSolver2D.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -617,7 +620,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="UnityEngine.UI.Player.csproj">
-      <Project>{53C1B47B-3DA7-5DB7-37A6-36F203ADA057}</Project>
+      <Project>{72772709-C624-C5E3-02C8-2D2C735E8824}</Project>
       <Name>UnityEngine.UI.Player</Name>
     </ProjectReference>
   </ItemGroup>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{BB6E5869-A657-8F58-351D-4726ACEAD56D}</ProjectGuid>
+    <ProjectGuid>{B411EF35-A5DF-E932-FA08-005177B6A650}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Unity.2D.SpriteShape.Runtime</AssemblyName>
@@ -26,7 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,7 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -53,24 +53,27 @@
     <UnityVersion>2020.3.33f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\External\LibTessDotNet\Tess.cs" />
+    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\UTess2D\Tessellator.cs" />
     <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\SpriteShapeGenerator.cs" />
     <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\SplineUtility.cs" />
-    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\External\LibTessDotNet\Dict.cs" />
-    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\BezierUtility.cs" />
-    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\Spline.cs" />
-    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\External\LibTessDotNet\PriorityHeap.cs" />
-    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\SpriteShapeController.cs" />
     <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\External\LibTessDotNet\PriorityQueue.cs" />
-    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\UTess2D\ArraySlice.cs" />
-    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\SpriteShape.cs" />
-    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\External\LibTessDotNet\Sweep.cs" />
     <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\External\LibTessDotNet\Mesh.cs" />
     <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\AssemblyInfo.cs" />
     <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\SpriteShapeGeometryCache.cs" />
     <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\External\LibTessDotNet\Geom.cs" />
     <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\External\LibTessDotNet\MeshUtils.cs" />
+    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\External\LibTessDotNet\Tess.cs" />
+    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\External\LibTessDotNet\Dict.cs" />
+    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\BezierUtility.cs" />
+    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\Spline.cs" />
+    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\External\LibTessDotNet\PriorityHeap.cs" />
+    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\SpriteShapeController.cs" />
+    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\UTess2D\ArraySlice.cs" />
+    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\SpriteShape.cs" />
+    <Compile Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\External\LibTessDotNet\Sweep.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Library\PackageCache\com.unity.2d.spriteshape@5.3.0\Runtime\External\LibTessDotNet\LICENSE.txt" />
@@ -623,15 +626,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Unity.2D.Common.Runtime.Player.csproj">
-      <Project>{DF2BA8B2-8F0E-5A24-A151-DE9F746B33DE}</Project>
+      <Project>{B1C4827C-22F3-3535-F188-6EFE19632A0E}</Project>
       <Name>Unity.2D.Common.Runtime.Player</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Mathematics.Player.csproj">
-      <Project>{248665B0-17FC-4582-460A-769BEEF33DBC}</Project>
+      <Project>{D0DA0217-8E3B-6295-C310-02C5952A0AC3}</Project>
       <Name>Unity.Mathematics.Player</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.Player.csproj">
-      <Project>{53C1B47B-3DA7-5DB7-37A6-36F203ADA057}</Project>
+      <Project>{72772709-C624-C5E3-02C8-2D2C735E8824}</Project>
       <Name>UnityEngine.UI.Player</Name>
     </ProjectReference>
   </ItemGroup>

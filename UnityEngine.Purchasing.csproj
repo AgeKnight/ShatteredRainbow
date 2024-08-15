@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{270E0DED-20DE-B0F1-F2D8-C3BD6E41F466}</ProjectGuid>
+    <ProjectGuid>{089B68A2-D5BA-4A3B-0DF3-61593C693231}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>UnityEngine.Purchasing</AssemblyName>
@@ -26,7 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,7 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -53,46 +53,49 @@
     <UnityVersion>2020.3.33f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\PurchasingManager.cs" />
+    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\IStoreController.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\ConfigurationBuilder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Extension\IStore.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Extension\AbstractStore.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\AnalyticsReporter.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\ProductType.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Utilites\UnifiedReceiptFormatter.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\UnityAnalytics.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\TransactionLog.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\SimpleCatalogProvider.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Utilites\ProductPurchaseUpdater.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\PurchaseEventArgs.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\PurchasingFactory.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\UnifiedReceipt.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\ProductDefinition.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Extension\IStoreCallback.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\UnityPurchasing.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Extension\IPurchasingModule.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Extension\IStoreConfiguration.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Extension\IStoreExtension.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Extension\ProductDescription.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Extension\ICatalogProvider.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\PurchaseFailureReason.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\PurchaseFailureDescription.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\PurchasingManager.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\ConfigurationBuilder.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Extension\IStore.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\AnalyticsReporter.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\ProductType.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\UnityAnalytics.cs" />
+    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Utilites\ProductPurchaseUpdater.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\AssemblyInfo.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\PurchaseFailedEventArgs.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\IUnityAnalytics.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Extension\IPurchasingBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\UnifiedReceipt.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\ProductDefinition.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\IStoreListener.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Extension\IStoreCallback.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\PurchaseProcessingResult.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\UnityPurchasing.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\PayoutType.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\InitializationFailureReason.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\StoreListenerProxy.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\IInternalStoreListener.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Extension\IPurchasingModule.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Extension\IStoreConfiguration.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Extension\IStoreExtension.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\ProductMetadata.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\ProductCollection.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Extension\AbstractPurchasingModule.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Extension\ProductDescription.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\PayoutDefinition.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Product.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\Extension\ICatalogProvider.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\PurchaseFailureReason.cs" />
-    <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\PurchaseFailureDescription.cs" />
     <Compile Include="Library\PackageCache\com.unity.purchasing@4.1.3\Runtime\Purchasing\IExtensionProvider.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -327,14 +330,14 @@
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\2020.3.33f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
     <Reference Include="log4netPlastic">
       <HintPath>Library\PackageCache\com.unity.collab-proxy@2.1.0\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Plastic.Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.collab-proxy@2.1.0\Lib\Editor\PlasticSCM\Unity.Plastic.Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="unityplastic">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@2.1.0\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>Library\PackageCache\com.unity.analytics@3.6.12\AnalyticsStandardEvents\Unity.Analytics.StandardEvents.dll</HintPath>
@@ -345,11 +348,14 @@
     <Reference Include="Unity.Plastic.Antlr3.Runtime">
       <HintPath>Library\PackageCache\com.unity.collab-proxy@2.1.0\Lib\Editor\PlasticSCM\Unity.Plastic.Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="unityplastic">
+      <HintPath>Library\PackageCache\com.unity.collab-proxy@2.1.0\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>Library\PackageCache\com.unity.analytics@3.6.12\Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
-    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
-      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\15.0\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    <Reference Include="ICSharpCode.NRefactory">
+      <HintPath>Library\PackageCache\com.unity.render-pipelines.core@10.8.1\Editor\ShaderGenerator\ICSharpCode.NRefactory.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity\2020.3.33f1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>
@@ -699,15 +705,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Purchasing.Common.csproj">
-      <Project>{99BC1A3C-0D09-C379-E441-4CE510B8C573}</Project>
+      <Project>{2ED6AE63-8F9F-7500-A9B0-83F6A444CAB9}</Project>
       <Name>Purchasing.Common</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{9DB2E80E-F220-BD54-E907-A015E0532150}</Project>
+      <Project>{5131E432-7C9D-E6AE-C919-8F3CF3FC9BB5}</Project>
       <Name>UnityEditor.UI</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
-      <Project>{26BD9A57-84A1-AE4E-E4EA-211491C7CE0F}</Project>
+      <Project>{BF43DF47-9F97-E3BB-5077-310245AB4574}</Project>
       <Name>UnityEngine.UI</Name>
     </ProjectReference>
   </ItemGroup>
