@@ -14,6 +14,7 @@ public enum PlayerType
 public class Player : MonoBehaviour
 {
     #region "Private"
+    bool canAttack = true;
     float nowspeed;
     //   float useDroneTime = 0;
     float[] annularColor = { 0.8f, 0.8f };
@@ -57,7 +58,7 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public bool isAttack = false;
     public GameObject[] bulletPrefab;
-    [HideInInspector]
+    //[HideInInspector]
     public Transform[] bulletTransform;
     [HideInInspector]
     public GameObject[] Drone;
@@ -89,11 +90,18 @@ public class Player : MonoBehaviour
             }
             UseButton();
         }
+        if (playerType == PlayerType.Lily)
+        {
+            for (int i = 0; i < Drone.Length; i++)
+            {
+                LilyRotateDrone(Drone[i]);
+            }
+        }
         if (!BombAttack)
         {
             isAttack = false;
         }
-       
+
         if (isUseTimeBarrage)
         {
             invokeTime -= Time.unscaledDeltaTime;
@@ -110,21 +118,6 @@ public class Player : MonoBehaviour
         }
         ChangeColorAnnular();
         UseTimeBarrage();
-    }
-
-
-    void ChangeColorAnnular()
-    {
-        if (invokeTime >= MaxBarrageTime)
-        {
-            Annular.color = new Color(1, 1, 1, 0);
-        }
-        else
-        {
-            annularColor[0] = invokeTime / MaxBarrageTime * 0.8f;
-            annularColor[1] = invokeTime / MaxBarrageTime * 0.8f;
-            Annular.color = new Color(1, annularColor[0], annularColor[1], 1);
-        }
     }
     public void SetBro(int value)
     {
@@ -171,7 +164,6 @@ public class Player : MonoBehaviour
     }
     void Move()
     {
-
         int vertical = 0;
         int horizontal = 0;
         if (Input.GetKey(GameManager.Instance.curinput[0]) || Input.GetKey(GameManager.Instance.curinput[1]))
@@ -188,25 +180,20 @@ public class Player : MonoBehaviour
             speed = nowspeed * myBomb.SlowSpeed;
         else
             speed = nowspeed;
-
-
     }
-
+    #region "Attack"
     void UseAttack()
     {
         if (Input.GetKeyDown(GameManager.Instance.curinput[8]))
         {
-
             isAttack = true;
-            //BroAnime();
             coroutine = StartCoroutine(Attack());
         }
         if (Input.GetKeyUp(GameManager.Instance.curinput[8]) && coroutine != null)
         {
-
             isAttack = false;
-            DroneGroup.GetComponent<Animator>().SetBool("Drone_attacking", false);
-            //  BroAnime();
+            if(DroneGroup.GetComponent<Animator>())
+                DroneGroup.GetComponent<Animator>().SetBool("Drone_attacking", false);
         }
     }
     IEnumerator Attack()
@@ -215,9 +202,20 @@ public class Player : MonoBehaviour
         {
             shootEffect = GameManager.Instance.AudioPlay(musicEffect[1], false);
             shootEffect.transform.parent = this.transform;
-            if (playerType == PlayerType.Prismie)
+            switch (playerType)
             {
-                PrismieAttack();
+                case PlayerType.Prismie:
+                    PrismieAttack();
+                    break;
+                case PlayerType.Lily:
+                    LilyAttack();
+                    break;
+                case PlayerType.Frostto:
+                    break;
+                case PlayerType.vyles:
+                    break;
+                case PlayerType.Lil_Void:
+                    break;
             }
             yield return new WaitForSeconds(AttackTime);
             Destroy(shootEffect.gameObject);
@@ -229,8 +227,7 @@ public class Player : MonoBehaviour
         {
             if (i <= GameManager.Instance.playerLevel * 2)
             {
-
-               GameObject bullet = Instantiate(bulletPrefab[0], bulletTransform[i].transform.position, Quaternion.identity);
+                GameObject bullet = Instantiate(bulletPrefab[0], bulletTransform[i].transform.position, Quaternion.identity);
                 if (i != 0) //起始彈道外額外子彈傷害變1/3倍
                 {
                     bullet.GetComponent<Bullet>().hurt = bullet.GetComponent<Bullet>().hurt / 3;
@@ -239,7 +236,6 @@ public class Player : MonoBehaviour
         }
         if (isUseDrone)
         {
-
             DroneGroup.GetComponent<Animator>().SetBool("Drone_attacking", true);
             for (int i = 0; i < GameManager.Instance.droneCount; i++)
             {
@@ -247,8 +243,35 @@ public class Player : MonoBehaviour
                 tempObject.GetComponent<Bullet>().canTrackEnemy = true;
             }
         }
-
     }
+    void LilyAttack()
+    {
+        float angle = GameManager.Instance.playerLevel * -15;
+        for (int i = 0; i < bulletTransform.Length; i++)
+        {
+            if (i <= GameManager.Instance.playerLevel * 2)
+            {
+                Quaternion quaternion = Quaternion.Euler(0, 0, angle);
+                Instantiate(bulletPrefab[0], bulletTransform[i].transform.position, quaternion);
+                angle += 15;
+            }
+        }
+        if (isUseDrone)
+        {
+            for (int i = 0; i < GameManager.Instance.droneCount; i++)
+            {
+                GameObject bullet = Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
+                bullet.transform.rotation = Drone[i].transform.rotation;
+            }
+        }
+    }
+    public float around_speed = 60f; //公转环绕速度
+    void LilyRotateDrone(GameObject drone)
+    {
+        drone.transform.RotateAround(this.transform.position, Vector3.forward, around_speed * Time.deltaTime);
+    }
+    #endregion
+    #region "Bomb"
     void UseButton()
     {
         if (Input.GetKeyDown(GameManager.Instance.curinput[9]) && GameManager.Instance.bombCount > 0 && !isUseBomb && !isUseTimeBarrage)
@@ -256,30 +279,46 @@ public class Player : MonoBehaviour
             GameManager.Instance.thisMapBomb = true;
             GameManager.Instance.thisMapBombCount += 1;
             GameManager.Instance.AudioPlay(musicEffect[2], true);
-            myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();
-            myBomb.gameObject.transform.parent = this.gameObject.transform;
-            isUseBomb = true;
-            BombAttack = myBomb.canUseAttack;
+            switch (playerType)
+            {
+                case PlayerType.Prismie:
+                    PrismieBomb();
+                    break;
+                case PlayerType.Lily:
+                    PrismieBomb();
+                    break;
+                case PlayerType.Frostto:
+                    break;
+                case PlayerType.vyles:
+                    break;
+                case PlayerType.Lil_Void:
+                    break;
+            }
             if (GameManager.Instance.enemyManager.isSpanBoss)
                 GameManager.Instance.awardType = AwardType.Common;
             GameManager.Instance.AddBomb(-1);
             gameObject.GetComponent<Death>().isInvincible = true;
             Invoke("againUseBomb", useBombTime);
         }
-        if (myBomb)
-        {
-            myBomb.transform.position = transform.position;
-        }
+    }
+    void PrismieBomb()
+    {
+        myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();
+        myBomb.gameObject.transform.parent = this.gameObject.transform;
+        myBomb.transform.position = transform.position;
+        isUseBomb = true;
+        BombAttack = myBomb.canUseAttack;
     }
     void againUseBomb()
     {
-       
         isUseBomb = false;
         myBomb.gameObject.GetComponent<Animator>().SetTrigger("Bombover");
         BombAttack = true;
         gameObject.GetComponent<Death>().isInvincible = false;
         Destroy(myBomb.gameObject, 1);
     }
+    #endregion
+    #region "子彈時間"
     void UseTimeBarrage()
     {
         if (Input.GetKeyDown(GameManager.Instance.curinput[10]) && !isUseBomb && invokeTime > 0)
@@ -311,7 +350,19 @@ public class Player : MonoBehaviour
                 yield return null;
         }
     }
-
+    void ChangeColorAnnular()
+    {
+        if (invokeTime >= MaxBarrageTime)
+        {
+            Annular.color = new Color(1, 1, 1, 0);
+        }
+        else
+        {
+            annularColor[0] = invokeTime / MaxBarrageTime * 0.8f;
+            annularColor[1] = invokeTime / MaxBarrageTime * 0.8f;
+            Annular.color = new Color(1, annularColor[0], annularColor[1], 1);
+        }
+    }
     //子彈時間的殘影
     IEnumerator Trails()
     {
@@ -328,8 +379,6 @@ public class Player : MonoBehaviour
             Destroy(shadow, 0.2f);
         }
     }
-
-
     public void AddTimeBarrage(float value)
     {
         invokeTime += value;
@@ -339,4 +388,5 @@ public class Player : MonoBehaviour
             invokeTime = MaxBarrageTime;
         }
     }
+    #endregion
 }
