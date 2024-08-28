@@ -189,7 +189,7 @@ public class EnemyManager : MonoBehaviour
             tempEnemy.GetComponent<Enemy>().Dot = list.ToArray();
         }
         waveEnemy.Add(tempEnemy);
-        GameManager.Instance.ChangeDifficulty(tempEnemy);
+        //GameManager.Instance.ChangeDifficulty(tempEnemy);
     }
     IEnumerator BossAppear()
     {

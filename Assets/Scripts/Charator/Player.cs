@@ -101,7 +101,10 @@ public class Player : MonoBehaviour
         {
             isAttack = false;
         }
-
+        if(isUseBomb)
+        {
+            myBomb.transform.position = transform.position;
+        }
         if (isUseTimeBarrage)
         {
             invokeTime -= Time.unscaledDeltaTime;
@@ -192,7 +195,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(GameManager.Instance.curinput[8]) && coroutine != null)
         {
             isAttack = false;
-            if(DroneGroup.GetComponent<Animator>())
+            if (DroneGroup.GetComponent<Animator>())
                 DroneGroup.GetComponent<Animator>().SetBool("Drone_attacking", false);
         }
     }
@@ -279,42 +282,41 @@ public class Player : MonoBehaviour
             GameManager.Instance.thisMapBomb = true;
             GameManager.Instance.thisMapBombCount += 1;
             GameManager.Instance.AudioPlay(musicEffect[2], true);
-            switch (playerType)
-            {
-                case PlayerType.Prismie:
-                    PrismieBomb();
-                    break;
-                case PlayerType.Lily:
-                    PrismieBomb();
-                    break;
-                case PlayerType.Frostto:
-                    break;
-                case PlayerType.vyles:
-                    break;
-                case PlayerType.Lil_Void:
-                    break;
-            }
+            myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();
+            myBomb.gameObject.transform.parent = gameObject.transform;
+            isUseBomb = true;
+            BombAttack = myBomb.canUseAttack;
             if (GameManager.Instance.enemyManager.isSpanBoss)
                 GameManager.Instance.awardType = AwardType.Common;
             GameManager.Instance.AddBomb(-1);
             gameObject.GetComponent<Death>().isInvincible = true;
-            Invoke("againUseBomb", useBombTime);
+            switch (playerType)
+            {
+                case PlayerType.Prismie:
+                    Invoke("againUseBomb", useBombTime);
+                    break;
+                case PlayerType.Lily:
+                    Invoke("BombLily", 4.5f);
+                    break;
+            }     
         }
     }
-    void PrismieBomb()
+    void BombLily()
     {
+        Destroy(myBomb.gameObject);
         myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();
-        myBomb.gameObject.transform.parent = this.gameObject.transform;
-        myBomb.transform.position = transform.position;
-        isUseBomb = true;
-        BombAttack = myBomb.canUseAttack;
+        myBomb.gameObject.transform.parent = gameObject.transform;
+        Invoke("againUseBomb", 4.5f);
     }
     void againUseBomb()
     {
-        isUseBomb = false;
-        myBomb.gameObject.GetComponent<Animator>().SetTrigger("Bombover");
+        isUseBomb = false;  
         BombAttack = true;
         gameObject.GetComponent<Death>().isInvincible = false;
+        if(playerType == PlayerType.Prismie)
+        {
+            myBomb.gameObject.GetComponent<Animator>().SetTrigger("Bombover");
+        }
         Destroy(myBomb.gameObject, 1);
     }
     #endregion
@@ -323,7 +325,6 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(GameManager.Instance.curinput[10]) && !isUseBomb && invokeTime > 0)
         {
-
             isUseTimeBarrage = true;
             StartCoroutine(Trails());
             this.GetComponent<Animator>().SetBool("AnimBulletTime", isUseTimeBarrage);

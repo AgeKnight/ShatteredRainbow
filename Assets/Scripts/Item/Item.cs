@@ -24,7 +24,7 @@ public class Item : MonoBehaviour
     #endregion
     #region Hide
     //難度
-    [HideInInspector]
+    //[HideInInspector]
     public bool CanAttract = false;
     #endregion
     private void Start()

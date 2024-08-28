@@ -177,7 +177,7 @@ public class Death : MonoBehaviour
               var tempObject = Instantiate(expObject, tempPosition, Quaternion.identity);*/
 
             var tempObject = Instantiate(expObject, transform.position, Quaternion.identity); //道具生成位置改變的效果綁在item.cs上
-            GameManager.Instance.ChangeDifficulty(tempObject);
+            //GameManager.Instance.ChangeDifficulty(tempObject);
         }
         if (GameManager.Instance.awardType != AwardType.Failed)
         {
@@ -199,7 +199,7 @@ public class Death : MonoBehaviour
                         float tempY = Random.Range(-1.5f, 1.5f);
                         // var tempPosition = new Vector2(enemyX + tempx, enemyY + tempY);//道具生成位置改變的效果綁在item.cs上 直接生在怪物本人上
                         var tempObject = Instantiate(itemStruct[i].items,transform.position , Quaternion.identity);
-                        GameManager.Instance.ChangeDifficulty(tempObject);
+                        //GameManager.Instance.ChangeDifficulty(tempObject);
                     }
                 }
                 
