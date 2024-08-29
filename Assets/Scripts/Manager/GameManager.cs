@@ -23,7 +23,7 @@ public enum AwardType
 {
     Bonus,
     Common,
-    Failed
+    Failed,
 }
 [System.Serializable]
 public class SaveData
@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public int thisMapHurtCount=0; //本關死亡數
 
-    [HideInInspector]
+    //[HideInInspector]
     public AwardType awardType = AwardType.Bonus;
     [HideInInspector]
     public int lifeCount = 0;

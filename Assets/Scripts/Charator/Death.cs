@@ -158,48 +158,25 @@ public class Death : MonoBehaviour
         Destroy(effect, 0.5f);
         
     }
-
-
     void Enemydeath()
     {
-        
-    
-
         GameManager.Instance.AddScore(score);
         int probabilityExp = Random.Range(minExp, maxExp);
-      float enemyX = gameObject.transform.position.x;
-        float enemyY = gameObject.transform.position.y;
         for (int i = 0; i <= probabilityExp; i++)
         {
-            /*  float tempx = Random.Range(-1.5f, 1.5f);
-              float tempY = Random.Range(-1.5f, 1.5f);
-              var tempPosition = new Vector2(enemyX + tempx, enemyY + tempY);
-              var tempObject = Instantiate(expObject, tempPosition, Quaternion.identity);*/
-
-            var tempObject = Instantiate(expObject, transform.position, Quaternion.identity); //道具生成位置改變的效果綁在item.cs上
-            //GameManager.Instance.ChangeDifficulty(tempObject);
+            Instantiate(expObject, transform.position, Quaternion.identity); //道具生成位置改變的效果綁在item.cs上
         }
         if (GameManager.Instance.awardType != AwardType.Failed)
         {
             //0 生命 1 炸彈 2 滿等
             for (int i = 0; i < itemStruct.Length; i++)
             {
-                // if(i==1&&GameManager.Instance.awardType==AwardType.Common)
-                // {
-                //     GameManager.Instance.awardType=AwardType.Bonus;
-                //     break;
-                // }
-
                 if (i == 0 || GameManager.Instance.awardType == AwardType.Bonus) //Boss戰表現判定 獎勵依照遊戲設定
                 {
                     float tempProbability = Random.Range(1, 100);
                     if (tempProbability <= itemStruct[i].probability)
                     {
-                        float tempx = Random.Range(-1.5f, 1.5f);
-                        float tempY = Random.Range(-1.5f, 1.5f);
-                        // var tempPosition = new Vector2(enemyX + tempx, enemyY + tempY);//道具生成位置改變的效果綁在item.cs上 直接生在怪物本人上
-                        var tempObject = Instantiate(itemStruct[i].items,transform.position , Quaternion.identity);
-                        //GameManager.Instance.ChangeDifficulty(tempObject);
+                        Instantiate(itemStruct[i].items,transform.position , Quaternion.identity);
                     }
                 }
                 

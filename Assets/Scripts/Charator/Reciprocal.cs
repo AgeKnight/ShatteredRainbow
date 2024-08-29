@@ -5,17 +5,18 @@ public class Reciprocal : MonoBehaviour
 {
     [HideInInspector]
     public bool isDead = false;
-    [HideInInspector]
+    //[HideInInspector]
     public float allTime;
     void Update()
     {
+        Debug.Log(allTime);
         gameObject.GetComponent<Text>().text = ((int)allTime).ToString();
-        if (allTime <= 0)
+        if (GameManager.Instance.enemyManager.isSpanBoss&&allTime <= 0)
         {
             GameManager.Instance.awardType = AwardType.Failed;
             Die();
         }
-        else
+        else 
             allTime -= Time.deltaTime;
     }
     public void Die()

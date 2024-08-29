@@ -151,6 +151,7 @@ public class EnemyManager : MonoBehaviour
                         nowIndex++;
                     else
                     {
+                        GameManager.Instance.awardType = AwardType.Bonus;
                         isSpanBoss = false;
                     }
 

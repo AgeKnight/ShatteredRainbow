@@ -76,7 +76,6 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         death = gameObject.GetComponent<Death>();
-        GameManager.Instance.awardType = AwardType.Bonus;
         if (moveType != MoveType.ToPlayerMove)
             targetPosition = Dot[0];
         else
