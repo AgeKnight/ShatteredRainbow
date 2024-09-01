@@ -14,19 +14,20 @@ public enum PlayerType
 public class Player : MonoBehaviour
 {
     #region "Private"
-    bool canAttack = true;
+    // bool canAttack = true;
     float nowspeed;
-    //   float useDroneTime = 0;
     float[] annularColor = { 0.8f, 0.8f };
     bool isUseBomb = false;
     public bool BombAttack = true;
     bool isUseDrone = false;
+    bool[] droneUseLazer = new bool[6];
     float invokeTime;
     Coroutine coroutine;
     Bomb myBomb;
     AnnularSlider annular;
     Image Annular;
     GameObject shootEffect;
+    GameObject[] LazerPrefab = new GameObject[6];
     int trailnums = 0;
     Color[] shade = { new Vector4(1, 1, 0.69f), new Vector4(0.69f, 0.97f, 1), new Vector4(1, 0.69f, 0.71f) };
     #endregion
@@ -60,7 +61,7 @@ public class Player : MonoBehaviour
     public GameObject[] bulletPrefab;
     //[HideInInspector]
     public Transform[] bulletTransform;
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject[] Drone;
     #endregion
     void Awake()
@@ -197,6 +198,17 @@ public class Player : MonoBehaviour
             isAttack = false;
             if (DroneGroup.GetComponent<Animator>())
                 DroneGroup.GetComponent<Animator>().SetBool("Drone_attacking", false);
+            if(playerType == PlayerType.Lily)
+            {
+                for (int i = 0; i < Drone.Length; i++)
+                {
+                    droneUseLazer[i]=false;
+                    if(LazerPrefab[i])
+                    {
+                        Destroy(LazerPrefab[i]);
+                    }
+                }
+            }
         }
     }
     IEnumerator Attack()
@@ -250,6 +262,7 @@ public class Player : MonoBehaviour
     void LilyAttack()
     {
         float angle = GameManager.Instance.playerLevel * -15;
+        float droneAngl= 0;
         for (int i = 0; i < bulletTransform.Length; i++)
         {
             if (i <= GameManager.Instance.playerLevel * 2)
@@ -263,8 +276,14 @@ public class Player : MonoBehaviour
         {
             for (int i = 0; i < GameManager.Instance.droneCount; i++)
             {
-                GameObject bullet = Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
-                bullet.transform.rotation = Drone[i].transform.rotation;
+                if(!droneUseLazer[i])
+                {
+                    droneUseLazer[i] = true;
+                    LazerPrefab[i]=Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
+                    LazerPrefab[i].transform.parent = this.gameObject.transform;
+                }
+                LazerPrefab[i].transform.position = Drone[i].transform.position;
+                LazerPrefab[i].transform.rotation = Drone[i].transform.rotation;
             }
         }
     }

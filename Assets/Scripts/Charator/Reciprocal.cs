@@ -9,7 +9,6 @@ public class Reciprocal : MonoBehaviour
     public float allTime;
     void Update()
     {
-        Debug.Log(allTime);
         gameObject.GetComponent<Text>().text = ((int)allTime).ToString();
         if (GameManager.Instance.enemyManager.isSpanBoss&&allTime <= 0)
         {
