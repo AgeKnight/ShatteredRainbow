@@ -10,17 +10,21 @@ public class Reciprocal : MonoBehaviour
     void Update()
     {
         gameObject.GetComponent<Text>().text = ((int)allTime).ToString();
-        if (GameManager.Instance.enemyManager.isSpanBoss&&allTime <= 0)
+        if (GameManager.Instance.enemyManager.isSpanBoss)
         {
-            GameManager.Instance.awardType = AwardType.Failed;
-            Die();
+            if (allTime <= 0)
+            {
+                GameManager.Instance.awardType = AwardType.Failed;
+                Die();
+            }
+            else 
+                allTime -= Time.deltaTime;
         }
-        else 
-            allTime -= Time.deltaTime;
+
     }
     public void Die()
     {
-        if (FindObjectOfType<Enemy>() != null&&!isDead)
+        if (FindObjectOfType<Enemy>() != null && !isDead)
         {
             isDead = true;
             var tempEnemy = FindObjectOfType<Enemy>();

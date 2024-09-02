@@ -25,7 +25,7 @@ public class TitleManager : MonoBehaviour
     public ControkKey[] controkKeys;
     public GameObject ChooseCharactor;
     [HideInInspector]
-    public int ChoicePlayer=0;
+    public int ChoicePlayer = 0;
     [HideInInspector]
     public Slider BGM;
     [HideInInspector]
@@ -49,6 +49,7 @@ public class TitleManager : MonoBehaviour
 
     public void StartGame()
     {
+        Save();
         ChooseCharactor.SetActive(true);
     }
 
@@ -173,6 +174,7 @@ public class TitleManager : MonoBehaviour
 
         All_Text.text = ((int)(saveData.All_num * 100)).ToString();
         autoShoot.isOn = saveData.autoShoot;
+       ChoicePlayer=saveData.ChoicePlayer ;
         for (int i = 0; i < controkKeys.Length; i++)
         {
             controkKeys[i].curinput = saveData.curinput[i];

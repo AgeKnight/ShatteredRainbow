@@ -42,7 +42,7 @@ public class EnemyManager : MonoBehaviour
     #endregion
     #region "Hide"
     [HideInInspector]
-    public bool OtherStage = true;
+    public bool OtherStage = false;
     [HideInInspector]
     public float nowEveryStairTime = 0;
     [HideInInspector]
@@ -108,8 +108,7 @@ public class EnemyManager : MonoBehaviour
                         nowBossStage = 1;
                         if (isSpanBoss)
                         {
-                            bossIndex++;
-                           
+                            bossIndex++;                   
                         }
                     }
                     //boss進入二階段
