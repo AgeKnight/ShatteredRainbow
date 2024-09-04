@@ -25,16 +25,19 @@ public class Player : MonoBehaviour
     Coroutine coroutine;
     Bomb myBomb;
     AnnularSlider annular;
+    AnnularSlider LilyGather;
     Image Annular;
     GameObject shootEffect;
     GameObject[] LazerPrefab = new GameObject[6];
     int trailnums = 0;
+    float GatherTime = 0;
     Color[] shade = { new Vector4(1, 1, 0.69f), new Vector4(0.69f, 0.97f, 1), new Vector4(1, 0.69f, 0.71f) };
     #endregion
     #region "Public"
     public PlayerType playerType;
     public float SlowSpeed;
     public float speed;
+    public float MaxGatherTime;
     public GameObject TimeBarrageTrail;
     public float timeRegain;
     public bool canControlAttack;
@@ -43,6 +46,7 @@ public class Player : MonoBehaviour
     public float AttackTime;
     public GameObject Bomb;
     public GameObject SliderTime;
+    public GameObject LilyGatherTime;
     public Transform BombPosition;
     public AudioSource[] musicEffect; //0射擊音 1炸彈音
 
@@ -72,6 +76,8 @@ public class Player : MonoBehaviour
         Annular = AnnularCircle.GetComponent<Image>();
         invokeTime = MaxBarrageTime;
         annular = SliderTime.GetComponent<AnnularSlider>();
+        if (playerType == PlayerType.Lily)
+            LilyGather = LilyGatherTime.GetComponent<AnnularSlider>();
         Annular.color = new Color(1, 1, 1, 0);
         StartCoroutine(RegainTimeBarrage());
     }
@@ -91,6 +97,15 @@ public class Player : MonoBehaviour
             }
             UseButton();
         }
+        if (isAttack && playerType == PlayerType.Lily)
+        {
+            GatherTime += Time.deltaTime;
+            LilyGather.Value = GatherTime / MaxGatherTime;
+            if (GatherTime >= MaxGatherTime)
+            {
+                GatherTime = 0;
+            }
+        }
         if (playerType == PlayerType.Lily)
         {
             for (int i = 0; i < Drone.Length; i++)
@@ -102,7 +117,7 @@ public class Player : MonoBehaviour
         {
             isAttack = false;
         }
-        if(isUseBomb)
+        if (isUseBomb)
         {
             myBomb.transform.position = transform.position;
         }
@@ -198,12 +213,12 @@ public class Player : MonoBehaviour
             isAttack = false;
             if (DroneGroup.GetComponent<Animator>())
                 DroneGroup.GetComponent<Animator>().SetBool("Drone_attacking", false);
-            if(playerType == PlayerType.Lily)
+            if (playerType == PlayerType.Lily)
             {
                 for (int i = 0; i < Drone.Length; i++)
                 {
-                    droneUseLazer[i]=false;
-                    if(LazerPrefab[i])
+                    droneUseLazer[i] = false;
+                    if (LazerPrefab[i])
                     {
                         Destroy(LazerPrefab[i]);
                     }
@@ -262,7 +277,6 @@ public class Player : MonoBehaviour
     void LilyAttack()
     {
         float angle = GameManager.Instance.playerLevel * -15;
-        float droneAngl= 0;
         for (int i = 0; i < bulletTransform.Length; i++)
         {
             if (i <= GameManager.Instance.playerLevel * 2)
@@ -276,10 +290,10 @@ public class Player : MonoBehaviour
         {
             for (int i = 0; i < GameManager.Instance.droneCount; i++)
             {
-                if(!droneUseLazer[i])
+                if (!droneUseLazer[i])
                 {
                     droneUseLazer[i] = true;
-                    LazerPrefab[i]=Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
+                    LazerPrefab[i] = Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
                     LazerPrefab[i].transform.parent = this.gameObject.transform;
                 }
                 LazerPrefab[i].transform.position = Drone[i].transform.position;
@@ -317,7 +331,7 @@ public class Player : MonoBehaviour
                 case PlayerType.Lily:
                     Invoke("BombLily", 4.5f);
                     break;
-            }     
+            }
         }
     }
     void BombLily()
@@ -329,10 +343,10 @@ public class Player : MonoBehaviour
     }
     void againUseBomb()
     {
-        isUseBomb = false;  
+        isUseBomb = false;
         BombAttack = true;
         gameObject.GetComponent<Death>().isInvincible = false;
-        if(playerType == PlayerType.Prismie)
+        if (playerType == PlayerType.Prismie)
         {
             myBomb.gameObject.GetComponent<Animator>().SetTrigger("Bombover");
         }
