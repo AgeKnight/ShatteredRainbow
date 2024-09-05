@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     float nowspeed;
     float[] annularColor = { 0.8f, 0.8f };
     bool isUseBomb = false;
+    bool isUseLazer = false;
     public bool BombAttack = true;
     bool isUseDrone = false;
     bool[] droneUseLazer = new bool[6];
@@ -28,13 +29,16 @@ public class Player : MonoBehaviour
     AnnularSlider LilyGather;
     Image Annular;
     GameObject shootEffect;
+    GameObject lazerObject;
     GameObject[] LazerPrefab = new GameObject[6];
     int trailnums = 0;
     float GatherTime = 0;
+    float LazerTime = 0;
     Color[] shade = { new Vector4(1, 1, 0.69f), new Vector4(0.69f, 0.97f, 1), new Vector4(1, 0.69f, 0.71f) };
     #endregion
     #region "Public"
     public PlayerType playerType;
+    public float maxLazerTime;
     public float SlowSpeed;
     public float speed;
     public float MaxGatherTime;
@@ -97,20 +101,37 @@ public class Player : MonoBehaviour
             }
             UseButton();
         }
-        if (isAttack && playerType == PlayerType.Lily)
-        {
-            GatherTime += Time.deltaTime;
-            LilyGather.Value = GatherTime / MaxGatherTime;
-            if (GatherTime >= MaxGatherTime)
-            {
-                GatherTime = 0;
-            }
-        }
+
         if (playerType == PlayerType.Lily)
         {
             for (int i = 0; i < Drone.Length; i++)
             {
                 LilyRotateDrone(Drone[i]);
+            }
+            if (isAttack&&!isUseLazer)
+            {
+                GatherTime += Time.deltaTime;
+                LilyGather.Value = GatherTime / MaxGatherTime;
+                if (GatherTime >= MaxGatherTime)
+                {
+                    Quaternion quaternion = Quaternion.Euler(0, 0, 90);
+                    lazerObject= Instantiate(bulletPrefab[2], bulletTransform[0].transform.position, quaternion);
+                    GatherTime = 0;
+                    isUseLazer = true;
+                }
+            }
+            if(isUseLazer)
+            {
+                if(lazerObject)
+                    lazerObject.transform.position = this.gameObject.transform.position;
+                LazerTime+= Time.deltaTime;
+                if(LazerTime>=maxLazerTime)
+                {
+                    LilyGather.Value = GatherTime / MaxGatherTime;
+                    Destroy(lazerObject);
+                    isUseLazer = false;
+                    LazerTime=0;
+                }
             }
         }
         if (!BombAttack)

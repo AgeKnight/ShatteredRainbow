@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3810771061904328926}
   - component: {fileID: 8200591390967910881}
   m_Layer: 0
-  m_Name: "\u96F7\u5C04"
+  m_Name: LazerMain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,7 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canUseAttack: 1
   SlowSpeed: 0
-  Hurt: 1
+  Hurt: 20
   Time: 0.1
 --- !u!120 &3810771061904328926
 LineRenderer:
@@ -116,13 +116,13 @@ LineRenderer:
   - {x: 10, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 1.0282452
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.2716217
-        value: 0.91428894
+        time: 0.46010172
+        value: 0.22856998
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -182,7 +182,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 5.0001516, y: -0.000083744526}
+  m_Offset: {x: 5.0029807, y: 0.011702657}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -193,5 +193,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 10.002153, y: 0.52627254}
+  m_Size: {x: 10.006896, y: 1.3344126}
   m_EdgeRadius: 0

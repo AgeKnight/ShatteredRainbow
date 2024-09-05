@@ -1730,9 +1730,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BombAttack: 1
   playerType: 1
+  maxLazerTime: 0.5
   SlowSpeed: 0.1
   speed: 4
-  MaxGatherTime: 1
+  MaxGatherTime: 10
   TimeBarrageTrail: {fileID: 6545830598083657615, guid: 174d4cf43c521b441b6962b3a097f713, type: 3}
   timeRegain: 0.05
   canControlAttack: 1
@@ -1755,6 +1756,7 @@ MonoBehaviour:
   bulletPrefab:
   - {fileID: 5165513135576572565, guid: d79622f8978019849932707a01fedae2, type: 3}
   - {fileID: 1220572358922161827, guid: 381c8d391757c7d458965e0d3d66a13e, type: 3}
+  - {fileID: 1220572358922161827, guid: 7c35f61f03f285448869a48c511ee7cf, type: 3}
   bulletTransform:
   - {fileID: 4759269267929415212}
   - {fileID: 8432636554349740403}
