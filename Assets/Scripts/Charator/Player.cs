@@ -114,9 +114,20 @@ public class Player : MonoBehaviour
                 LilyGather.Value = GatherTime / MaxGatherTime;
                 if (GatherTime >= MaxGatherTime)
                 {
+                    float BigBallz=30;
                     Quaternion quaternion = Quaternion.Euler(0, 0, 90);
+                    Quaternion quaternion2 = Quaternion.Euler(0, 0, BigBallz);
                     lazerObject= Instantiate(bulletPrefab[2], bulletTransform[0].transform.position, quaternion);
                     GatherTime = 0;
+                    for(int i = 1;i<=GameManager.Instance.playerLevel;i++)
+                    {
+                        Instantiate(bulletPrefab[3], bulletTransform[0].transform.position, quaternion2);
+                        BigBallz+=60;
+                        quaternion2 = Quaternion.Euler(0, 0, BigBallz);
+                        Instantiate(bulletPrefab[3], bulletTransform[0].transform.position, quaternion2);
+                        BigBallz+=60;
+                        quaternion2 = Quaternion.Euler(0, 0, BigBallz);
+                    }
                     isUseLazer = true;
                 }
             }
