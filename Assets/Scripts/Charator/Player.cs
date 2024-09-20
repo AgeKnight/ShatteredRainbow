@@ -114,19 +114,36 @@ public class Player : MonoBehaviour
                 LilyGather.Value = GatherTime / MaxGatherTime;
                 if (GatherTime >= MaxGatherTime)
                 {
-                    float BigBallz=30;
                     Quaternion quaternion = Quaternion.Euler(0, 0, 90);
-                    Quaternion quaternion2 = Quaternion.Euler(0, 0, BigBallz);
-                    lazerObject= Instantiate(bulletPrefab[2], bulletTransform[0].transform.position, quaternion);
+                    Quaternion quaternionMiddle = Quaternion.Euler(0, 0, 0);
+
+                    float Left = 30;
+                    float Right = -30;
+                    float Expansion = 1.5f;
                     GatherTime = 0;
+                    lazerObject= Instantiate(bulletPrefab[2], bulletTransform[0].transform.position, quaternion);
+                    float lazerScaleY = lazerObject.transform.localScale.y*Expansion;
+                    float lazerWidth = lazerObject.GetComponent<LineRenderer>().endWidth*Expansion;
+                    
+                    Instantiate(bulletPrefab[3], bulletTransform[0].transform.position, quaternionMiddle);
+                    
                     for(int i = 1;i<=GameManager.Instance.playerLevel;i++)
-                    {
-                        Instantiate(bulletPrefab[3], bulletTransform[0].transform.position, quaternion2);
-                        BigBallz+=60;
-                        quaternion2 = Quaternion.Euler(0, 0, BigBallz);
-                        Instantiate(bulletPrefab[3], bulletTransform[0].transform.position, quaternion2);
-                        BigBallz+=60;
-                        quaternion2 = Quaternion.Euler(0, 0, BigBallz);
+                    {  
+                        //雷射
+                        AnimationCurve curve = new AnimationCurve();                     
+                        curve.AddKey(0.0f, lazerWidth);
+                        lazerObject.GetComponent<LineRenderer>().widthCurve = curve;
+                        lazerObject.transform.localScale = new Vector3(3,lazerScaleY,0);   
+                        lazerWidth*=Expansion;  
+                        lazerScaleY*=Expansion; 
+                        //左邊
+                        Quaternion quaternionLeft =  Quaternion.Euler(0, 0, quaternionMiddle.z+Left);
+                        Instantiate(bulletPrefab[3], bulletTransform[0].transform.position, quaternionLeft);
+                        Left+=30;
+                        //右邊
+                        Quaternion quaternionRight =  Quaternion.Euler(0, 0, quaternionMiddle.z+Right);
+                        Instantiate(bulletPrefab[3], bulletTransform[0].transform.position, quaternionRight);
+                        Right-=30;
                     }
                     isUseLazer = true;
                 }
@@ -308,16 +325,8 @@ public class Player : MonoBehaviour
     }
     void LilyAttack()
     {
-        float angle = GameManager.Instance.playerLevel * -15;
-        for (int i = 0; i < bulletTransform.Length; i++)
-        {
-            if (i <= GameManager.Instance.playerLevel * 2)
-            {
-                Quaternion quaternion = Quaternion.Euler(0, 0, angle);
-                Instantiate(bulletPrefab[0], bulletTransform[i].transform.position, quaternion);
-                angle += 15;
-            }
-        }
+        Instantiate(bulletPrefab[0], bulletTransform[0].transform.position, Quaternion.identity);
+        Instantiate(bulletPrefab[0], bulletTransform[1].transform.position, Quaternion.identity);
         if (isUseDrone)
         {
             for (int i = 0; i < GameManager.Instance.droneCount; i++)

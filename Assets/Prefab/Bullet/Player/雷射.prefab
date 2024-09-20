@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1220572358922161827}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -20.83, y: 0.19, z: 0}
-  m_LocalScale: {x: 3, y: 0.18952, z: 1}
+  m_LocalScale: {x: 3, y: 0.2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -71,6 +71,7 @@ MonoBehaviour:
   SlowSpeed: 0
   Hurt: 1
   Time: 0.1
+  Expansion: 2
 --- !u!120 &3810771061904328926
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -113,7 +114,7 @@ LineRenderer:
   m_SortingOrder: 10
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 10, y: 0, z: 1}
+  - {x: 10, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.1
@@ -121,8 +122,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.2716217
-        value: 0.91428894
+        time: 0.33259732
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
