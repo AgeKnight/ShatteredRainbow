@@ -38,17 +38,15 @@ public class BackImageMove : MonoBehaviour
     }
     void InfinityMove()
     {
-        if (GameManager.Instance.GameStage != 3)
+        if (GameManager.Instance.enemyManager.isSpanBoss && GameManager.Instance.GameStage != 3)
         {
-            if (GameManager.Instance.enemyManager.isSpanBoss)
-            {
-                BackImages.GetComponent<Image>().sprite = Images[2];
-            }
-            else
-            {
-                BackImages.GetComponent<Image>().sprite = Images[1];
-            }
+            BackImages.GetComponent<Image>().sprite = Images[2];
         }
+        else
+        {
+            BackImages.GetComponent<Image>().sprite = Images[1];
+        }
+        BackImages.GetComponent<Image>().sprite = Images[1];
         rt.anchoredPosition3D = new Vector3(0, ImageTransform[1], 0);
         GameObject temp = BackImages;
         BackImages = nextImage;

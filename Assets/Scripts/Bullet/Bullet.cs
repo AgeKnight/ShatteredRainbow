@@ -54,7 +54,6 @@ public class Bullet : MonoBehaviour
             if (rainTime >= AllRainTime)
             {
                 this.gameObject.transform.rotation = Quaternion.Euler(0, 0, 180);
-                speed = 10;
                 rain= false;
             }
         }

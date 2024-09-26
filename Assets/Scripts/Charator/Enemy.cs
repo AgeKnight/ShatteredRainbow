@@ -455,8 +455,7 @@ public class Enemy : MonoBehaviour
             float indexz = Random.Range(count[1], count[2]);
             Bullet bullet =  Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz)).GetComponent<Bullet>();
             bullet.AllRainTime = count[4];
-            bullet.rain = true;
-            bullet.speed = 5;      
+            bullet.rain = true;    
             bullet.canDestroy = false;
             yield return new WaitForSeconds(count[3]);
         }
