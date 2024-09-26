@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
     bool isLookingAtObject;
     float rainTime = 0;
     public float AllRainTime;
-
+    public bool canDestroy = true;
     void Update()
     {
 
@@ -50,16 +50,15 @@ public class Bullet : MonoBehaviour
         transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
         if (rain)
         {
-            rainTime+=Time.deltaTime;
-            if(rainTime>=AllRainTime)
+            rainTime += Time.deltaTime;
+            if (rainTime >= AllRainTime)
             {
-                this.gameObject.transform.rotation = Quaternion.Euler(0, 0,180);
-                speed =10;
-                rain=false;
+                this.gameObject.transform.rotation = Quaternion.Euler(0, 0, 180);
+                speed = 10;
+                rain= false;
             }
         }
     }
-
     void Track()
     {
         /*
@@ -86,6 +85,7 @@ public class Bullet : MonoBehaviour
 
     public void Die()
     {
+        
         GetComponent<Animator>().SetTrigger("Die");
         GetComponent<Collider2D>().enabled = false;
         Destroy(hit, 0.02f);
@@ -101,11 +101,14 @@ public class Bullet : MonoBehaviour
             Destroy(hit, 0.02f);
             Destroy(this.gameObject);
         }
+        if(other.gameObject.tag == "Barrier" && rain == false)
+        {
+            canDestroy = true;
+        }
     }
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Barrier")
-            //  Die();
+        if (other.gameObject.tag == "Barrier"&&canDestroy)
             Destroy(this.gameObject);
     }
 }

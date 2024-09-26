@@ -457,6 +457,7 @@ public class Enemy : MonoBehaviour
             bullet.AllRainTime = count[4];
             bullet.rain = true;
             bullet.speed = 5;      
+            bullet.canDestroy = false;
             yield return new WaitForSeconds(count[3]);
         }
         ChooseTypeBarrage();
