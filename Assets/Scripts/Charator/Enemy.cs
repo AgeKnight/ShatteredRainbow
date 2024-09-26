@@ -13,6 +13,7 @@ public enum BarrageType
     MachineGun,
     FireTurbine,
     FiveStar,
+    Rain,
 }
 public enum AttackType
 {
@@ -441,6 +442,24 @@ public class Enemy : MonoBehaviour
             Instantiate(enemyBarrageCounts[nowIndex].barrage, Barrage, Quaternion.Euler(0, 0, indexz));
         }
         yield return new WaitForSeconds(countTime);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="count">0每波數量,1,2生成角度,3生成時間,4飛行時間</param>
+    /// <returns></returns>
+    IEnumerator Rain(float[] count)
+    {
+        for (int i = 0; i < count[0]; i++)
+        {
+            float indexz = Random.Range(count[1], count[2]);
+            Bullet bullet =  Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz)).GetComponent<Bullet>();
+            bullet.AllRainTime = count[4];
+            bullet.rain = true;
+            bullet.speed = 5;      
+            yield return new WaitForSeconds(count[3]);
+        }
+        ChooseTypeBarrage();
     }
     /// <summary>
     /// 螺旋式攻擊

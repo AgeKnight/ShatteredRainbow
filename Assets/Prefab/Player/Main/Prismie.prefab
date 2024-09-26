@@ -410,7 +410,7 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
@@ -431,9 +431,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 798923347
-  m_SortingLayer: -1
-  m_SortingOrder: 1
+  m_SortingLayerID: -768463889
+  m_SortingLayer: 3
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: faae0e97e093e1f4ab6b078d89354aeb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.78431374}
   m_FlipX: 0
@@ -1210,8 +1210,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 842818311
-  m_SortingLayer: 2
+  m_SortingLayerID: -768463889
+  m_SortingLayer: 3
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 069d6c743b9a1634e90bc0a760ecf997, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1779,8 +1779,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BombAttack: 1
   playerType: 0
+  maxLazerTime: 0
   SlowSpeed: 0.1
   speed: 4
+  MaxGatherTime: 0
   TimeBarrageTrail: {fileID: 6545830598083657615, guid: 174d4cf43c521b441b6962b3a097f713, type: 3}
   timeRegain: 0.05
   canControlAttack: 1
@@ -1789,6 +1791,7 @@ MonoBehaviour:
   AttackTime: 0.1
   Bomb: {fileID: 1712112157250610083, guid: 3bf635b6629ce204383568d23b05080c, type: 3}
   SliderTime: {fileID: 2887989388698943693}
+  LilyGatherTime: {fileID: 0}
   BombPosition: {fileID: 5473399651417196600}
   musicEffect:
   - {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
@@ -1817,6 +1820,7 @@ MonoBehaviour:
   - {fileID: 2026139377406827042}
   - {fileID: 6144791274722703782}
   - {fileID: 6188522969212027281}
+  around_speed: 60
 --- !u!114 &4505463060847400331
 MonoBehaviour:
   m_ObjectHideFlags: 0

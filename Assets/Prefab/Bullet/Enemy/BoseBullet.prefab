@@ -208,7 +208,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61cbb7a3991def4ea024c93d488023c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.75
+  cantMove: 0
+  rain: 0
+  speed: 3
   hurt: 0
   hitspark: {fileID: 7037961734342237002, guid: b3d2b9f1944c0da4aab3c5b62a03ab25, type: 3}
   Hitsound: {fileID: 0}
@@ -216,6 +218,7 @@ MonoBehaviour:
   bulletType: 1
   focusDistance: 0
   rotatespeed: 0
+  AllRainTime: 0
 --- !u!95 &496430850813215079
 Animator:
   serializedVersion: 3

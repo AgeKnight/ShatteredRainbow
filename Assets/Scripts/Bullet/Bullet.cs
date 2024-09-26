@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour
     public bool cantMove;
 
     GameObject hit; //擊中效果
-
+    public bool rain = false;
     public float speed;
     public float hurt;
     public GameObject hitspark;
@@ -20,7 +20,8 @@ public class Bullet : MonoBehaviour
     public float focusDistance; //跟蹤範圍
     public float rotatespeed; //跟蹤時的旋轉速度
     bool isLookingAtObject;
-
+    float rainTime = 0;
+    public float AllRainTime;
 
     void Update()
     {
@@ -46,8 +47,17 @@ public class Bullet : MonoBehaviour
     */
     protected void Move()
     {
-         transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
-   
+        transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
+        if (rain)
+        {
+            rainTime+=Time.deltaTime;
+            if(rainTime>=AllRainTime)
+            {
+                this.gameObject.transform.rotation = Quaternion.Euler(0, 0,180);
+                speed =10;
+                rain=false;
+            }
+        }
     }
 
     void Track()
@@ -60,34 +70,34 @@ public class Bullet : MonoBehaviour
            transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
         */
 
-       
+
         transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);  //模仿導彈/使子彈轉向敵人的追蹤
         var enemy = GameObject.FindWithTag("Enemy");
         if (enemy)
         {
             Vector3 vectorToTarget = enemy.transform.position - transform.position; //抓目標方向
-            float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg -90; //方位計算 後面的-90拯救了這個部分 沒有他子彈是往反方向飛離 >:(
+            float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90; //方位計算 後面的-90拯救了這個部分 沒有他子彈是往反方向飛離 >:(
             Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);  //面對目標的rotation
             transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * rotatespeed); //開始轉向 每次update轉一點
         }
-       
+
 
     }
 
     public void Die()
     {
         GetComponent<Animator>().SetTrigger("Die");
-        GetComponent<Collider2D>().enabled=false;
-        Destroy(hit,0.02f);
-        Destroy(this.gameObject,0.5f);
+        GetComponent<Collider2D>().enabled = false;
+        Destroy(hit, 0.02f);
+        Destroy(this.gameObject, 0.5f);
     }
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.GetComponent<Death>() && other.gameObject.tag != bulletType.GetType().GetEnumName(bulletType))
         {
             other.gameObject.GetComponent<Death>().Hurt(hurt);
-        
-            hit = Instantiate(hitspark,this.transform.position,Quaternion.Euler(0,0,Random.Range(0,90))) ;
+
+            hit = Instantiate(hitspark, this.transform.position, Quaternion.Euler(0, 0, Random.Range(0, 90)));
             Destroy(hit, 0.02f);
             Destroy(this.gameObject);
         }

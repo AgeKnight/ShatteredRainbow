@@ -20,7 +20,7 @@ public class BackImageMove : MonoBehaviour
     }
     void Update()
     {
-        if(!GameManager.Instance.enemyManager.canGoNext)
+        if (!GameManager.Instance.enemyManager.canGoNext)
             Move();
     }
     void Move()
@@ -30,21 +30,24 @@ public class BackImageMove : MonoBehaviour
             isChanged = true;
             InfinityMove();
         }
-        if(!isChanged)
+        if (!isChanged)
         {
-            BackImages.transform.Translate(new Vector3(0,-1*speed*Time.deltaTime),Space.World);
-            nextImage.transform.Translate(new Vector3(0,-1*speed*Time.deltaTime),Space.World);
-        }   
+            BackImages.transform.Translate(new Vector3(0, -1 * speed * Time.deltaTime), Space.World);
+            nextImage.transform.Translate(new Vector3(0, -1 * speed * Time.deltaTime), Space.World);
+        }
     }
     void InfinityMove()
     {
-        if (GameManager.Instance.enemyManager.isSpanBoss)
+        if (GameManager.Instance.GameStage != 3)
         {
-            BackImages.GetComponent<Image>().sprite = Images[2];
-        }
-        else
-        {
-            BackImages.GetComponent<Image>().sprite = Images[1];
+            if (GameManager.Instance.enemyManager.isSpanBoss)
+            {
+                BackImages.GetComponent<Image>().sprite = Images[2];
+            }
+            else
+            {
+                BackImages.GetComponent<Image>().sprite = Images[1];
+            }
         }
         rt.anchoredPosition3D = new Vector3(0, ImageTransform[1], 0);
         GameObject temp = BackImages;

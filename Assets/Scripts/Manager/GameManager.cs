@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] Lifes;
     [HideInInspector]
     public GameObject[] Bombs;
-   [HideInInspector]
+   //[HideInInspector]
     public GameObject[] Menus;//0 暫停 1 輸 2贏
     [HideInInspector]
     public Transform playerSpan;
@@ -997,7 +997,7 @@ public class GameManager : MonoBehaviour
     {
      
         StartCoroutine(BGMchange(null));
-        GameManager.Instance.UIanimator.SetBool("IsEnd", true);
+        UIanimator.SetBool("IsEnd", true);
         yield return new WaitForSeconds(3);
         SceneManager.LoadScene(SceneIndex);
     }
