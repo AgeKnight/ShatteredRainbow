@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
     public Player playerScript;
     [HideInInspector]
     public GameObject[] bossStaire;
-    [HideInInspector]
+    //[HideInInspector]
     //0 左上 1 右下
     public GameObject[] mapPosition;
     [HideInInspector]

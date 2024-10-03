@@ -14,6 +14,7 @@ public enum BarrageType
     FireTurbine,
     FiveStar,
     Rain,
+    LazerCatch,
 }
 public enum AttackType
 {
@@ -263,11 +264,67 @@ public class Enemy : MonoBehaviour
         {
             canChooseBarrage = true;
             changeBarrage();
-            
+
         }
-        isAttack=false;
+        isAttack = false;
     }
     #region "所有彈幕方法"
+    /// <summary>
+    /// 隨機攻擊玩家
+    /// </summary>
+    /// <param name="count">0總共幾發,1生成時間,變大時間</param>
+    /// <returns></returns>
+    IEnumerator LazerCatch(float[] count)
+    {
+        GameObject[] tempLazer = new GameObject[(int)count[0]];
+        for (int i = 0; i < count[0]; i++)
+        {
+            float type = Random.Range(0, 3);
+            float spanX = 0;
+            float spanY = 0;
+            float angle = 0;
+            if (type == 0)
+            {
+                spanX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x - 0.3f, GameManager.Instance.mapPosition[1].transform.position.x + 0.3f);
+                spanY = GameManager.Instance.mapPosition[0].transform.position.y + 0.3f;
+                angle = Random.Range(-170, 10);
+            }
+            else if (type == 1)
+            {
+                spanX = GameManager.Instance.mapPosition[0].transform.position.x - 0.3f;
+                spanY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y + 0.3f, GameManager.Instance.mapPosition[1].transform.position.y - 0.3f);
+                angle = Random.Range(-80, 80);
+            }
+            else if (type == 2)
+            {
+                spanX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x - 0.3f, GameManager.Instance.mapPosition[1].transform.position.x + 0.3f);
+                spanY = GameManager.Instance.mapPosition[1].transform.position.y - 0.3f;
+                angle = Random.Range(10, 170);
+            }
+            else if (type == 3)
+            {
+                spanX = GameManager.Instance.mapPosition[1].transform.position.x + 0.3f;
+                spanY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y + 0.3f, GameManager.Instance.mapPosition[1].transform.position.y - 0.3f);
+                angle = Random.Range(100, 260);
+            }
+            Quaternion quaternion = Quaternion.Euler(0, 0, angle);
+            tempLazer[i] = Instantiate(enemyBarrageCounts[nowIndex].barrage, new Vector2(spanX, spanY), quaternion);
+            yield return new WaitForSeconds(count[1]);
+        }
+        //變大
+        for (int i = 0; i < count[0]; i++)
+        {
+            tempLazer[i].GetComponent<Animator>().SetBool("CanBig", true);
+            tempLazer[i].GetComponent<Bullet>().canAttack = true;
+        }
+        yield return new WaitForSeconds(count[2]);
+        //消失
+        for (int i = 0; i < count[0]; i++)
+        {
+            Destroy(tempLazer[i]);
+        }
+        ChooseTypeBarrage();
+    }
     /// <summary>
     /// 隨機攻擊玩家
     /// </summary>
@@ -287,7 +344,7 @@ public class Enemy : MonoBehaviour
             }
             yield return new WaitForSeconds(count[2]);
         }
-       
+
         ChooseTypeBarrage();
     }
     /// <summary>
@@ -297,28 +354,28 @@ public class Enemy : MonoBehaviour
     /// <returns></returns>
     IEnumerator TrackShotgun(float[] count)
     {
-          Vector3 eulerAngle = new Vector3();
+        Vector3 eulerAngle = new Vector3();
 
 
-          for (int i = 0; i < count[1]; i++)
-          {
-              GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
-              if (GameManager.Instance.playerScript)
-                  eulerAngle = GetAngle(transform.position, GameManager.Instance.playerScript.transform.position);
-              else
-                  eulerAngle = GetAngle(transform.position, GameManager.Instance.PlayerResurrectionPosition.transform.position);
+        for (int i = 0; i < count[1]; i++)
+        {
+            GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
+            if (GameManager.Instance.playerScript)
+                eulerAngle = GetAngle(transform.position, GameManager.Instance.playerScript.transform.position);
+            else
+                eulerAngle = GetAngle(transform.position, GameManager.Instance.PlayerResurrectionPosition.transform.position);
 
-              eulerAngle.z -= 6*count[0];
-              for (int j = 0; j < count[0]; j++)
-                 {
+            eulerAngle.z -= 6 * count[0];
+            for (int j = 0; j < count[0]; j++)
+            {
 
-                     Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
-                     eulerAngle.z += 12;
+                Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
+                eulerAngle.z += 12;
 
-                 }
-                    
+            }
 
-     
+
+
 
             yield return new WaitForSeconds(count[2]);
         }
@@ -356,8 +413,8 @@ public class Enemy : MonoBehaviour
     /// <returns></returns>
     IEnumerator MachineGun(float[] count)
     {
-      //  Vector3 eulerAngle = new Vector3();
-      
+        //  Vector3 eulerAngle = new Vector3();
+
         for (int i = 0; i < count[0]; i++)
         {
             /*
@@ -372,7 +429,7 @@ public class Enemy : MonoBehaviour
             //以玩家子彈跟蹤的基礎做的瞄準
             Vector3 vectorToTarget;
             vectorToTarget = GameManager.Instance.PlayerResurrectionPosition.transform.position - transform.position;
-            if(GameManager.Instance.playerScript)
+            if (GameManager.Instance.playerScript)
                 vectorToTarget = GameManager.Instance.playerScript.transform.position - bulletTransform.position;
 
             float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90; //方位計算 後面的-90拯救了這個部分 沒有他子彈是往反方向飛離 >:(
@@ -381,7 +438,7 @@ public class Enemy : MonoBehaviour
             Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, q);
             yield return new WaitForSeconds(count[1]);
         }
-   
+
         ChooseTypeBarrage();
     }
     /// <summary>
@@ -453,9 +510,9 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < count[0]; i++)
         {
             float indexz = Random.Range(count[1], count[2]);
-            Bullet bullet =  Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz)).GetComponent<Bullet>();
+            Bullet bullet = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz)).GetComponent<Bullet>();
             bullet.AllRainTime = count[4];
-            bullet.rain = true;    
+            bullet.rain = true;
             bullet.canDestroy = false;
             yield return new WaitForSeconds(count[3]);
         }

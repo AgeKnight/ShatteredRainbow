@@ -7,8 +7,8 @@ public enum BulletType
 public class Bullet : MonoBehaviour
 {
     public bool cantMove;
-
     GameObject hit; //擊中效果
+    float rainTime = 0;
     public bool rain = false;
     public float speed;
     public float hurt;
@@ -20,9 +20,10 @@ public class Bullet : MonoBehaviour
     public float focusDistance; //跟蹤範圍
     public float rotatespeed; //跟蹤時的旋轉速度
     bool isLookingAtObject;
-    float rainTime = 0;
+
     public float AllRainTime;
     public bool canDestroy = true;
+    public bool canAttack = true;
     void Update()
     {
 
@@ -92,7 +93,7 @@ public class Bullet : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<Death>() && other.gameObject.tag != bulletType.GetType().GetEnumName(bulletType))
+        if (other.gameObject.GetComponent<Death>() && other.gameObject.tag != bulletType.GetType().GetEnumName(bulletType)&&canAttack)
         {
             other.gameObject.GetComponent<Death>().Hurt(hurt);
 
