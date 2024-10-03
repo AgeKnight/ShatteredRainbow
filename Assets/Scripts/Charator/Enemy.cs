@@ -39,6 +39,7 @@ public struct EnemyBarrageCount
 public class Enemy : MonoBehaviour
 {
     #region "private"
+    GameObject temp;
     float nowDownTime = 0;
     bool canMove = true;
     Death death;
@@ -78,6 +79,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         death = gameObject.GetComponent<Death>();
+        temp = enemyBarrageCounts[nowIndex].barrage;
         if (moveType != MoveType.ToPlayerMove)
             targetPosition = Dot[0];
         else
@@ -190,7 +192,6 @@ public class Enemy : MonoBehaviour
             canTouch = true;
             if (GameManager.Instance.enemyManager.nowBossStage > 1)
             {
-
                 canCount = true;
                 StartCoroutine(UltimateAttack());
             }
@@ -203,6 +204,7 @@ public class Enemy : MonoBehaviour
         GameManager.Instance.BeginReciprocal();
         death.isInvincible = false;
         canCount = false;
+        enemyBarrageCounts[nowIndex].barrage = temp;
         // ClearBarrage();
         StartCoroutine(UseBarrage());
     }
@@ -212,8 +214,9 @@ public class Enemy : MonoBehaviour
         {
             string nowBarrage = System.Enum.GetName(typeof(BarrageType), death.ultimateAttack.barrageType);
             StartCoroutine(nowBarrage, death.ultimateAttack.count);
+            enemyBarrageCounts[nowIndex].barrage = death.ultimateAttack.barrage;
             yield return new WaitForSeconds(countTime);
-            if (ultimateAttackTime > 3f)
+            if (ultimateAttackTime > 4f)
             {
                 canBeginAttack();
                 break;
@@ -276,6 +279,7 @@ public class Enemy : MonoBehaviour
     /// <returns></returns>
     IEnumerator LazerCatch(float[] count)
     {
+        Debug.Log(1);
         GameObject[] tempLazer = new GameObject[(int)count[0]];
         for (int i = 0; i < count[0]; i++)
         {
