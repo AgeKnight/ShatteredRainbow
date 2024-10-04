@@ -39,13 +39,13 @@ public struct EnemyBarrageCount
 public class Enemy : MonoBehaviour
 {
     #region "private"
+    bool isUlimated = false;
     GameObject temp;
     float nowDownTime = 0;
     bool canMove = true;
     Death death;
     Coroutine[] otherCorotine = new Coroutine[1];
     Vector3 targetPosition;
-    float ultimateAttackTime = 0;
     bool canChooseBarrage = false;
     bool canAttack = false;
     bool isAttack = false;
@@ -64,9 +64,6 @@ public class Enemy : MonoBehaviour
     //觸碰到會不會死
     public bool canTouch = true;
     [HideInInspector]
-    //可不可以記數
-    public bool canCount = false;
-    [HideInInspector]
     public Vector3[] Dot;
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
@@ -79,7 +76,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         death = gameObject.GetComponent<Death>();
-        temp = enemyBarrageCounts[nowIndex].barrage;
+        temp = enemyBarrageCounts[0].barrage;
         if (moveType != MoveType.ToPlayerMove)
             targetPosition = Dot[0];
         else
@@ -112,8 +109,6 @@ public class Enemy : MonoBehaviour
                 nowDownTime = 0;
             }
         }
-        if (canCount)
-            ultimateAttackTime += Time.deltaTime;
         Move();
     }
     #region "移動"
@@ -192,8 +187,7 @@ public class Enemy : MonoBehaviour
             canTouch = true;
             if (GameManager.Instance.enemyManager.nowBossStage > 1)
             {
-                canCount = true;
-                StartCoroutine(UltimateAttack());
+                UltimateAttack();
             }
             else
                 canBeginAttack();
@@ -203,24 +197,18 @@ public class Enemy : MonoBehaviour
     {
         GameManager.Instance.BeginReciprocal();
         death.isInvincible = false;
-        canCount = false;
-        enemyBarrageCounts[nowIndex].barrage = temp;
         // ClearBarrage();
         StartCoroutine(UseBarrage());
     }
-    IEnumerator UltimateAttack()
+    void UltimateAttack()
     {
-        while (true)
+        if (!isAttack)
         {
+            isAttack = true;
+            isUlimated = true;
             string nowBarrage = System.Enum.GetName(typeof(BarrageType), death.ultimateAttack.barrageType);
+            enemyBarrageCounts[0].barrage = death.ultimateAttack.barrage;
             StartCoroutine(nowBarrage, death.ultimateAttack.count);
-            enemyBarrageCounts[nowIndex].barrage = death.ultimateAttack.barrage;
-            yield return new WaitForSeconds(countTime);
-            if (ultimateAttackTime > 4f)
-            {
-                canBeginAttack();
-                break;
-            }
         }
     }
     IEnumerator UseBarrage()
@@ -267,7 +255,12 @@ public class Enemy : MonoBehaviour
         {
             canChooseBarrage = true;
             changeBarrage();
-
+        }
+        if(isUlimated)
+        {
+            enemyBarrageCounts[0].barrage = temp;
+            isUlimated=false;
+            canBeginAttack();
         }
         isAttack = false;
     }
@@ -279,7 +272,6 @@ public class Enemy : MonoBehaviour
     /// <returns></returns>
     IEnumerator LazerCatch(float[] count)
     {
-        Debug.Log(1);
         GameObject[] tempLazer = new GameObject[(int)count[0]];
         for (int i = 0; i < count[0]; i++)
         {
