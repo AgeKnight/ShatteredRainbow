@@ -108,57 +108,26 @@ public class Player : MonoBehaviour
             {
                 LilyRotateDrone(Drone[i]);
             }
-            if (isAttack&&!isUseLazer)
+            if (isAttack && !isUseLazer)
             {
                 GatherTime += Time.deltaTime;
                 LilyGather.Value = GatherTime / MaxGatherTime;
-                if (GatherTime >= MaxGatherTime)
+                if (GatherTime >= MaxGatherTime && !canControlAttack )
                 {
-                    Quaternion quaternion = Quaternion.Euler(0, 0, 90);
-                    Quaternion quaternionMiddle = Quaternion.Euler(0, 0, 0);
-
-                    float Left = 30;
-                    float Right = -30;
-                    float Expansion = 1.5f;
-                    GatherTime = 0;
-                    lazerObject= Instantiate(bulletPrefab[2], bulletTransform[0].transform.position, quaternion);
-                    float lazerScaleY = lazerObject.transform.localScale.y*Expansion;
-                    float lazerWidth = lazerObject.GetComponent<LineRenderer>().endWidth*Expansion;
-                    
-                    Instantiate(bulletPrefab[3], bulletTransform[0].transform.position, quaternionMiddle);
-                    
-                    for(int i = 1;i<=GameManager.Instance.playerLevel;i++)
-                    {  
-                        //雷射
-                        AnimationCurve curve = new AnimationCurve();                     
-                        curve.AddKey(0.0f, lazerWidth);
-                        lazerObject.GetComponent<LineRenderer>().widthCurve = curve;
-                        lazerObject.transform.localScale = new Vector3(3,lazerScaleY,0);   
-                        lazerWidth*=Expansion;  
-                        lazerScaleY*=Expansion; 
-                        //左邊
-                        Quaternion quaternionLeft =  Quaternion.Euler(0, 0, quaternionMiddle.z+Left);
-                        Instantiate(bulletPrefab[3], bulletTransform[0].transform.position, quaternionLeft);
-                        Left+=30;
-                        //右邊
-                        Quaternion quaternionRight =  Quaternion.Euler(0, 0, quaternionMiddle.z+Right);
-                        Instantiate(bulletPrefab[3], bulletTransform[0].transform.position, quaternionRight);
-                        Right-=30;
-                    }
-                    isUseLazer = true;
+                    LilyGathering();
                 }
             }
-            if(isUseLazer)
+            if (isUseLazer)
             {
-                if(lazerObject)
+                if (lazerObject)
                     lazerObject.transform.position = this.gameObject.transform.position;
-                LazerTime+= Time.deltaTime;
-                if(LazerTime>=maxLazerTime)
+                LazerTime += Time.deltaTime;
+                if (LazerTime >= maxLazerTime)
                 {
                     LilyGather.Value = GatherTime / MaxGatherTime;
                     Destroy(lazerObject);
                     isUseLazer = false;
-                    LazerTime=0;
+                    LazerTime = 0;
                 }
             }
         }
@@ -272,6 +241,10 @@ public class Player : MonoBehaviour
                         Destroy(LazerPrefab[i]);
                     }
                 }
+                if (GatherTime >= MaxGatherTime)
+                {
+                    LilyGathering();
+                }
             }
         }
     }
@@ -322,6 +295,41 @@ public class Player : MonoBehaviour
                 tempObject.GetComponent<Bullet>().canTrackEnemy = true;
             }
         }
+    }
+    void LilyGathering()
+    {
+        Quaternion quaternion = Quaternion.Euler(0, 0, 90);
+        Quaternion quaternionMiddle = Quaternion.Euler(0, 0, 0);
+
+        float Left = 30;
+        float Right = -30;
+        float Expansion = 1.5f;
+        GatherTime = 0;
+        lazerObject = Instantiate(bulletPrefab[2], bulletTransform[0].transform.position, quaternion);
+        float lazerScaleY = lazerObject.transform.localScale.y * Expansion;
+        float lazerWidth = lazerObject.GetComponent<LineRenderer>().endWidth * Expansion;
+
+        Instantiate(bulletPrefab[3], bulletTransform[0].transform.position, quaternionMiddle);
+
+        for (int i = 1; i <= GameManager.Instance.playerLevel; i++)
+        {
+            //雷射
+            AnimationCurve curve = new AnimationCurve();
+            curve.AddKey(0.0f, lazerWidth);
+            lazerObject.GetComponent<LineRenderer>().widthCurve = curve;
+            lazerObject.transform.localScale = new Vector3(3, lazerScaleY, 0);
+            lazerWidth *= Expansion;
+            lazerScaleY *= Expansion;
+            //左邊
+            Quaternion quaternionLeft = Quaternion.Euler(0, 0, quaternionMiddle.z + Left);
+            Instantiate(bulletPrefab[3], bulletTransform[0].transform.position, quaternionLeft);
+            Left += 30;
+            //右邊
+            Quaternion quaternionRight = Quaternion.Euler(0, 0, quaternionMiddle.z + Right);
+            Instantiate(bulletPrefab[3], bulletTransform[0].transform.position, quaternionRight);
+            Right -= 30;
+        }
+        isUseLazer = true;
     }
     void LilyAttack()
     {
