@@ -21,7 +21,7 @@ public struct ItemStruct //0 生命 1 炸彈 2 小弟 3生命碎片
 public class Death : MonoBehaviour
 {
     bool isDead = false;
-    float hp;
+    public float hp;
     #region Public
     public AudioSource deathAudio;
     public AudioSource Hurtaudio;

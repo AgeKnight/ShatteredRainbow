@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 
@@ -15,6 +16,8 @@ public enum BarrageType
     FiveStar,
     Rain,
     LazerCatch,
+    CircleRandomBarrage,
+    MoveAttack
 }
 public enum AttackType
 {
@@ -39,6 +42,7 @@ public struct EnemyBarrageCount
 public class Enemy : MonoBehaviour
 {
     #region "private"
+    bool isMove = false;
     bool isUlimated = false;
     GameObject temp;
     float nowDownTime = 0;
@@ -63,7 +67,6 @@ public class Enemy : MonoBehaviour
     [HideInInspector]
     //觸碰到會不會死
     public bool canTouch = true;
-    [HideInInspector]
     public Vector3[] Dot;
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
@@ -106,6 +109,7 @@ public class Enemy : MonoBehaviour
             if (nowDownTime >= DownTime)
             {
                 canMove = true;
+                isMove = false;
                 nowDownTime = 0;
             }
         }
@@ -150,6 +154,7 @@ public class Enemy : MonoBehaviour
                     }
                     else if (transform.position == targetPosition)
                     {
+                        canMove = false;
                         canChooseBarrage = false;
                     }
                     break;
@@ -221,7 +226,7 @@ public class Enemy : MonoBehaviour
             //     nowMusic = GameManager.Instance.AudioPlay(shoot,false);
             //     nowMusic.transform.parent = this.gameObject.transform;
             // }
-            if (!canChooseBarrage && !isAttack)
+            if (!canChooseBarrage && !isAttack )
             {
                 isAttack = true;
                 string nowBarrage = System.Enum.GetName(typeof(BarrageType), enemyBarrageCounts[nowIndex].barrageType);
@@ -256,10 +261,10 @@ public class Enemy : MonoBehaviour
             canChooseBarrage = true;
             changeBarrage();
         }
-        if(isUlimated)
+        if (isUlimated)
         {
             enemyBarrageCounts[0].barrage = temp;
-            isUlimated=false;
+            isUlimated = false;
             canBeginAttack();
         }
         isAttack = false;
@@ -369,10 +374,6 @@ public class Enemy : MonoBehaviour
                 eulerAngle.z += 12;
 
             }
-
-
-
-
             yield return new WaitForSeconds(count[2]);
         }
         ChooseTypeBarrage();
@@ -400,6 +401,81 @@ public class Enemy : MonoBehaviour
             }
             yield return new WaitForSeconds(count[3]);
         }
+        ChooseTypeBarrage();
+    }
+    /// <summary>
+    /// 生成圓形彈幕，位置隨機
+    /// </summary>
+    /// <param name="count">0每波彈幕數量,1總共幾波,2生成時間
+    /// </param>
+    /// <returns></returns>
+    IEnumerator CircleRandomBarrage(float[] count)
+    {
+        float indexz = 0;
+        for (int i = 0; i < count[1]; i++)
+        {
+            GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
+            float spanX = 0;
+            float spanY = 0;
+            float type = Random.Range(0, 3);
+            if (type == 0)
+            {
+                spanX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x + 0.5f, GameManager.Instance.mapPosition[1].transform.position.x - 0.5f);
+                spanY = GameManager.Instance.mapPosition[0].transform.position.y - 0.5f;
+            }
+            else if (type == 1)
+            {
+                spanX = GameManager.Instance.mapPosition[0].transform.position.x + 0.5f;
+                spanY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y - 0.5f, GameManager.Instance.mapPosition[1].transform.position.y + 0.5f);
+            }
+            else if (type == 2)
+            {
+                spanX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x + 0.5f, GameManager.Instance.mapPosition[1].transform.position.x - 0.5f);
+                spanY = GameManager.Instance.mapPosition[1].transform.position.y + 0.5f;
+            }
+            else if (type == 3)
+            {
+                spanX = GameManager.Instance.mapPosition[1].transform.position.x - 0.5f;
+                spanY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y - 0.5f, GameManager.Instance.mapPosition[1].transform.position.y + 0.5f);
+            }
+            for (int j = 0; j <= count[0]; j++)
+            {
+                indexz += 360 / count[0];
+                Instantiate(enemyBarrageCounts[nowIndex].barrage, new Vector2(spanX, spanY), Quaternion.Euler(0, 0, indexz));
+            }
+            yield return new WaitForSeconds(count[2]);
+        }
+        ChooseTypeBarrage();
+    }
+    /// <summary>
+    /// 隨機生成彈幕，敵人俯衝玩家
+    /// </summary>
+    /// <param name="count">0總共幾波,1敵人速度
+    /// </param>
+    /// <returns></returns>
+    IEnumerator MoveAttack(float[] count)
+    {
+        int countX = 0;
+        Speed = count[1];
+        while (countX <= count[0] && FindObjectOfType<Player>())
+        {
+            if(gameObject.GetComponent<Death>().hp<=0)
+            {
+                break;
+            }
+            if (!isMove)
+            {
+                isMove = true;
+                countX++;
+                targetPosition = FindObjectOfType<Player>().gameObject.transform.position;
+                Debug.Log(countX);
+            }
+            else
+            {
+                yield return null;
+            }
+        }
+        targetPosition = Dot[0];
         ChooseTypeBarrage();
     }
     /// <summary>
