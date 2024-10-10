@@ -226,7 +226,7 @@ public class Enemy : MonoBehaviour
             //     nowMusic = GameManager.Instance.AudioPlay(shoot,false);
             //     nowMusic.transform.parent = this.gameObject.transform;
             // }
-            if (!canChooseBarrage && !isAttack )
+            if (!canChooseBarrage && !isAttack)
             {
                 isAttack = true;
                 string nowBarrage = System.Enum.GetName(typeof(BarrageType), enemyBarrageCounts[nowIndex].barrageType);
@@ -244,7 +244,6 @@ public class Enemy : MonoBehaviour
         else
             nowIndex++;
         ReturnMove();
-        canMove = false;
     }
     void ChooseTypeBarrage()
     {
@@ -457,25 +456,25 @@ public class Enemy : MonoBehaviour
     {
         int countX = 0;
         Speed = count[1];
-        while (countX <= count[0] && FindObjectOfType<Player>())
+        while (FindObjectOfType<Player>())
         {
-            if(gameObject.GetComponent<Death>().hp<=0)
-            {
-                break;
-            }
             if (!isMove)
             {
+                Debug.Log(0);
                 isMove = true;
                 countX++;
                 targetPosition = FindObjectOfType<Player>().gameObject.transform.position;
-                Debug.Log(countX);
             }
             else
             {
                 yield return null;
             }
+            if (countX > count[0]*2||gameObject.GetComponent<Death>().hp <= 0)
+            {
+                targetPosition = Dot[0];
+                break;
+            }
         }
-        targetPosition = Dot[0];
         ChooseTypeBarrage();
     }
     /// <summary>

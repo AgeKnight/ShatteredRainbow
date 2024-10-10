@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 0
   deathAudio: {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
   Hurtaudio: {fileID: 8946850152021610928, guid: 81cd98fd81d794e4d9457f24868465b2, type: 3}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
@@ -177,7 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b92334e8a8b8b547bcdf1983353b6a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DownTime: 0
+  DownTime: 0.3
   useBarrage: 0
   moveType: 0
   bulletTransform: {fileID: 8567689766675817040}
@@ -190,6 +191,8 @@ MonoBehaviour:
   - count:
     - 3
     - 5
+    - 20
+    - 0.1
     barrageType: 10
     barrage: {fileID: 5165513135576572565, guid: c9a6ccefda3ea5b44887c4a7c62cc8e3, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
