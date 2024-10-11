@@ -454,27 +454,38 @@ public class Enemy : MonoBehaviour
     /// <returns></returns>
     IEnumerator MoveAttack(float[] count)
     {
+        for (int i = 0; i < count[2]; i++)
+        {
+            float spanX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x + 0.5f, GameManager.Instance.mapPosition[1].transform.position.x - 0.5f);
+            float spanY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y + 0.5f, GameManager.Instance.mapPosition[1].transform.position.y - 0.5f);
+            Allbullet.Add(Instantiate(enemyBarrageCounts[nowIndex].barrage, new Vector2(spanX, spanY), Quaternion.identity));
+            Allbullet[i].GetComponent<Bullet>().speed = 0;
+            yield return new WaitForSeconds(count[3]);
+        }
         int countX = 0;
         Speed = count[1];
         while (FindObjectOfType<Player>())
         {
             if (!isMove)
             {
-                Debug.Log(0);
                 isMove = true;
                 countX++;
-                targetPosition = FindObjectOfType<Player>().gameObject.transform.position;
+                Vector3 eulerAngle = GetAngle(transform.position, GameManager.Instance.playerScript.transform.position);
+                DownTime = 0.8f;
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, eulerAngle.z), 0.05f);
+                targetPosition = GameManager.Instance.playerScript.transform.position;
             }
             else
             {
                 yield return null;
             }
-            if (countX > count[0]*2||gameObject.GetComponent<Death>().hp <= 0)
+            if (countX > count[0] * 2 || gameObject.GetComponent<Death>().hp <= 0)
             {
-                targetPosition = Dot[0];
+                ClearBarrage();
                 break;
             }
         }
+        targetPosition = Dot[0];
         ChooseTypeBarrage();
     }
     /// <summary>
