@@ -36,7 +36,7 @@ public struct EnemyBarrageCount
 {
     public float[] count;
     public BarrageType barrageType;
-    public GameObject barrage;
+    public GameObject[] barrage;
     public AudioSource Shootsound;
 }
 public class Enemy : MonoBehaviour
@@ -79,7 +79,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         death = gameObject.GetComponent<Death>();
-        temp = enemyBarrageCounts[0].barrage;
+        temp = enemyBarrageCounts[0].barrage[0];
         if (moveType != MoveType.ToPlayerMove)
             targetPosition = Dot[0];
         else
@@ -262,7 +262,7 @@ public class Enemy : MonoBehaviour
         }
         if (isUlimated)
         {
-            enemyBarrageCounts[0].barrage = temp;
+            enemyBarrageCounts[0].barrage[0] = temp;
             isUlimated = false;
             canBeginAttack();
         }
@@ -308,7 +308,7 @@ public class Enemy : MonoBehaviour
                 angle = Random.Range(100, 260);
             }
             Quaternion quaternion = Quaternion.Euler(0, 0, angle);
-            tempLazer[i] = Instantiate(enemyBarrageCounts[nowIndex].barrage, new Vector2(spanX, spanY), quaternion);
+            tempLazer[i] = Instantiate(enemyBarrageCounts[nowIndex].barrage[0], new Vector2(spanX, spanY), quaternion);
             yield return new WaitForSeconds(count[1]);
         }
         //變大
@@ -339,7 +339,7 @@ public class Enemy : MonoBehaviour
             for (int j = 0; j < count[0]; j++)
             {
                 Quaternion quaternion = Quaternion.Euler(0, 0, angle);
-                Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, quaternion);
+                Instantiate(enemyBarrageCounts[nowIndex].barrage[0], bulletTransform.position, quaternion);
                 angle += 12;
             }
             yield return new WaitForSeconds(count[2]);
@@ -369,7 +369,7 @@ public class Enemy : MonoBehaviour
             for (int j = 0; j < count[0]; j++)
             {
 
-                Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
+                Instantiate(enemyBarrageCounts[nowIndex].barrage[0], bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
                 eulerAngle.z += 12;
 
             }
@@ -392,7 +392,7 @@ public class Enemy : MonoBehaviour
             for (int j = 0; j <= count[0]; j++)
             {
                 indexz += 360 / count[0];
-                Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
+                Instantiate(enemyBarrageCounts[nowIndex].barrage[0], bulletTransform.position, Quaternion.Euler(0, 0, indexz));
             }
             if (i % 3 == 2)
             {
@@ -440,7 +440,7 @@ public class Enemy : MonoBehaviour
             for (int j = 0; j <= count[0]; j++)
             {
                 indexz += 360 / count[0];
-                Instantiate(enemyBarrageCounts[nowIndex].barrage, new Vector2(spanX, spanY), Quaternion.Euler(0, 0, indexz));
+                Instantiate(enemyBarrageCounts[nowIndex].barrage[0], new Vector2(spanX, spanY), Quaternion.Euler(0, 0, indexz));
             }
             yield return new WaitForSeconds(count[2]);
         }
@@ -458,7 +458,7 @@ public class Enemy : MonoBehaviour
         {
             float spanX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x + 0.5f, GameManager.Instance.mapPosition[1].transform.position.x - 0.5f);
             float spanY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y + 0.5f, GameManager.Instance.mapPosition[1].transform.position.y - 0.5f);
-            Allbullet.Add(Instantiate(enemyBarrageCounts[nowIndex].barrage, new Vector2(spanX, spanY), Quaternion.identity));
+            Allbullet.Add(Instantiate(enemyBarrageCounts[nowIndex].barrage[0], new Vector2(spanX, spanY), Quaternion.identity));
             Allbullet[i].GetComponent<Bullet>().speed = 0;
             yield return new WaitForSeconds(count[3]);
         }
@@ -517,7 +517,7 @@ public class Enemy : MonoBehaviour
             float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90; //方位計算 後面的-90拯救了這個部分 沒有他子彈是往反方向飛離 >:(
             Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);  //面對目標的rotation
 
-            Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, q);
+            Instantiate(enemyBarrageCounts[nowIndex].barrage[0], bulletTransform.position, q);
             yield return new WaitForSeconds(count[1]);
         }
 
@@ -536,7 +536,7 @@ public class Enemy : MonoBehaviour
             GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
             for (int j = 0; j < count[0]; j++)
             {
-                Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
+                Instantiate(enemyBarrageCounts[nowIndex].barrage[0], bulletTransform.position, Quaternion.Euler(0, 0, indexz));
                 indexz += 360 / count[0];
             }
             indexz += 10;
@@ -558,7 +558,7 @@ public class Enemy : MonoBehaviour
                 for (int j = 0; j <= count[2]; j++)
                 {
                     indexz += 360 / count[2];
-                    Instantiate(enemyBarrageCounts[nowIndex].barrage, Barrage, Quaternion.Euler(0, 0, indexz));
+                    Instantiate(enemyBarrageCounts[nowIndex].barrage[0], Barrage, Quaternion.Euler(0, 0, indexz));
                 }
                 nowCount = i;
                 yield return new WaitForSeconds(countTime);
@@ -578,7 +578,7 @@ public class Enemy : MonoBehaviour
         {
             GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
             indexz += 360 / count[1];
-            Instantiate(enemyBarrageCounts[nowIndex].barrage, Barrage, Quaternion.Euler(0, 0, indexz));
+            Instantiate(enemyBarrageCounts[nowIndex].barrage[0], Barrage, Quaternion.Euler(0, 0, indexz));
         }
         yield return new WaitForSeconds(countTime);
     }
@@ -592,7 +592,7 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < count[0]; i++)
         {
             float indexz = Random.Range(count[1], count[2]);
-            Bullet bullet = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz)).GetComponent<Bullet>();
+            Bullet bullet = Instantiate(enemyBarrageCounts[nowIndex].barrage[0], bulletTransform.position, Quaternion.Euler(0, 0, indexz)).GetComponent<Bullet>();
             bullet.AllRainTime = count[4];
             bullet.rain = true;
             bullet.canDestroy = false;
@@ -638,7 +638,7 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < count[0]; i++)
         {
             GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
-            var temp = Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, indexz));
+            var temp = Instantiate(enemyBarrageCounts[nowIndex].barrage[0], bulletTransform.position, Quaternion.Euler(0, 0, indexz));
             indexz += 360 / count[0];
             bullets.Add(temp.GetComponent<Bullet>());
         }
