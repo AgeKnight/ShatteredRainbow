@@ -102,7 +102,6 @@ public class Death : MonoBehaviour
         if (gameObject.tag == "Player")
         {
             Time.timeScale = 1;
-
             if (GameManager.Instance.enemyManager.isSpanBoss)
                 GameManager.Instance.awardType = AwardType.Common;
             GameManager.Instance.thisMapHurt = true;

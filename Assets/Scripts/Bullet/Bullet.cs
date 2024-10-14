@@ -85,9 +85,11 @@ public class Bullet : MonoBehaviour
 
     public void Die()
     {
-        
-        GetComponent<Animator>().SetTrigger("Die");
-        GetComponent<Collider2D>().enabled = false;
+        if(GetComponent<Animator>().GetBool("Die"))
+        {
+            GetComponent<Animator>().SetTrigger("Die");
+            GetComponent<Collider2D>().enabled = false;
+        }
         Destroy(hit, 0.02f);
         Destroy(this.gameObject, 0.5f);
     }

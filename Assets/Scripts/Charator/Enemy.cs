@@ -413,7 +413,6 @@ public class Enemy : MonoBehaviour
         float indexz = 0;
         for (int i = 0; i < count[1]; i++)
         {
-            GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
             float spanX = 0;
             float spanY = 0;
             float type = Random.Range(0, 3);
@@ -437,13 +436,15 @@ public class Enemy : MonoBehaviour
                 spanX = GameManager.Instance.mapPosition[1].transform.position.x - 0.5f;
                 spanY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y - 0.5f, GameManager.Instance.mapPosition[1].transform.position.y + 0.5f);
             }
+            Allbullet.Add(Instantiate(enemyBarrageCounts[nowIndex].barrage[0], new Vector2(spanX, spanY), Quaternion.identity));
             for (int j = 0; j <= count[0]; j++)
             {
                 indexz += 360 / count[0];
-                Instantiate(enemyBarrageCounts[nowIndex].barrage[0], new Vector2(spanX, spanY), Quaternion.Euler(0, 0, indexz));
+                Instantiate(enemyBarrageCounts[nowIndex].barrage[1], new Vector2(spanX, spanY), Quaternion.Euler(0, 0, indexz));
             }
             yield return new WaitForSeconds(count[2]);
         }
+        ClearBarrage();
         ChooseTypeBarrage();
     }
     /// <summary>
@@ -454,17 +455,59 @@ public class Enemy : MonoBehaviour
     /// <returns></returns>
     IEnumerator MoveAttack(float[] count)
     {
+        float spanX = 0;
+        float spanY = 0;
+        float tempX = 0;
+        float tempY = 0;
+        float DisX = 0;
+        float DisY = 0;
         for (int i = 0; i < count[2]; i++)
         {
-            float spanX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x + 0.5f, GameManager.Instance.mapPosition[1].transform.position.x - 0.5f);
-            float spanY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y + 0.5f, GameManager.Instance.mapPosition[1].transform.position.y - 0.5f);
+            if (i % 20 == 0)
+            {
+                tempX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x + 0.5f, GameManager.Instance.mapPosition[1].transform.position.x - 0.5f);
+                tempY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y + 0.5f, GameManager.Instance.mapPosition[1].transform.position.y - 0.5f);
+                if (tempX == spanX)
+                {
+                    tempX += 3f;
+                }
+                if (tempY == spanY)
+                {
+                    tempY += 3f;
+                }
+                DisX = Random.Range(-0.3f, 0.3f);
+                if(DisX<0.2f&&DisX>0)
+                {
+                    DisX=0.2f;
+                }
+                else if(DisX>-0.2f&&DisX<0)
+                {
+                    DisX=-0.2f;
+                }
+                DisY = Random.Range(-0.3f, 0.3f);
+                DisX = Random.Range(-0.3f, 0.3f);
+                if(DisY<0.2f&&DisY>0)
+                {
+                    DisY=0.2f;
+                }
+                else if(DisY>-0.2f&&DisY<0)
+                {
+                    DisY=-0.2f;
+                }
+            }
+            spanX = tempX + i % 20 * DisX;
+            spanY = tempY + i % 20 * DisY;
             Allbullet.Add(Instantiate(enemyBarrageCounts[nowIndex].barrage[0], new Vector2(spanX, spanY), Quaternion.identity));
             Allbullet[i].GetComponent<Bullet>().speed = 0;
             yield return new WaitForSeconds(count[3]);
         }
         int countX = 0;
         Speed = count[1];
-        while (FindObjectOfType<Player>())
+        if(!FindObjectOfType<Player>())
+        {
+            ClearBarrage();
+        }
+        while (true)
         {
             if (!isMove)
             {
@@ -479,7 +522,7 @@ public class Enemy : MonoBehaviour
             {
                 yield return null;
             }
-            if (countX > count[0] * 2 || gameObject.GetComponent<Death>().hp <= 0)
+            if (countX > count[0] * 2 || gameObject.GetComponent<Death>().hp <= 0||!FindObjectOfType<Player>())
             {
                 ClearBarrage();
                 break;

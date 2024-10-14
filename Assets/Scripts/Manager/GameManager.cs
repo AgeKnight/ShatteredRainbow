@@ -230,7 +230,6 @@ public class GameManager : MonoBehaviour
     #region "復活"
     public void Resurrection()
     {
-       
         if (lifeCount < 0)
         {
             statusType = StatusType.Lose;
@@ -238,7 +237,6 @@ public class GameManager : MonoBehaviour
         else
         {
            Invoke("PlayerResurrection", AllResurrectionTime);
-       
         }
     }
     
