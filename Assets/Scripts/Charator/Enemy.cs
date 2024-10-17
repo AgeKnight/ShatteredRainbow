@@ -351,6 +351,7 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
+    /// barrage 0十字1一般機關槍
     /// <param name="count">0每波彈幕數量,1生成時間,2總共幾波</param>
     /// <returns></returns>
     IEnumerator CrossAttack(float[] count)
@@ -487,7 +488,7 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// 隨機生成彈幕，敵人俯衝玩家
     /// </summary>
-    /// <param name="count">0總共幾波,1敵人速度
+    /// <param name="count">0總共幾波,1敵人速度,2阻礙彈幕數量,3生成時間
     /// </param>
     /// <returns></returns>
     IEnumerator MoveAttack(float[] count)
