@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 
@@ -17,7 +16,9 @@ public enum BarrageType
     Rain,
     LazerCatch,
     CircleRandomBarrage,
-    MoveAttack
+    MoveAttack,
+    CrossAttack,
+    TwoStar,
 }
 public enum AttackType
 {
@@ -348,6 +349,34 @@ public class Enemy : MonoBehaviour
         ChooseTypeBarrage();
     }
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="count">0每波彈幕數量,1生成時間,2總共幾波</param>
+    /// <returns></returns>
+    IEnumerator CrossAttack(float[] count)
+    {
+        for (int i = 0; i < count[2]; i++)
+        {
+            float indexz = 0;
+            float spanX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x + 0.5f, GameManager.Instance.mapPosition[1].transform.position.x - 0.5f);
+            float spanY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y - 0.5f, GameManager.Instance.mapPosition[0].transform.position.y - 3f);
+            GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
+            for (int j = 0; j < 4; j++)
+            {
+                Instantiate(enemyBarrageCounts[nowIndex].barrage[0], new Vector2(spanX, spanY), Quaternion.Euler(0, 0, indexz));
+                indexz += 90;
+            }
+            indexz = 0;
+            for (int j = 0; j <= count[0]; j++)
+            {
+                indexz += 360 / count[0];
+                Instantiate(enemyBarrageCounts[nowIndex].barrage[1], new Vector2(spanX, spanY), Quaternion.Euler(0, 0, indexz));
+            }
+            yield return new WaitForSeconds(count[1]);
+        }
+        ChooseTypeBarrage();
+    }
+    /// <summary>
     /// 追蹤玩家
     /// </summary>
     /// <param name="count">0每波彈幕數量,1總共幾波,2生成時間</param>
@@ -359,6 +388,10 @@ public class Enemy : MonoBehaviour
 
         for (int i = 0; i < count[1]; i++)
         {
+            if(!FindObjectOfType<Player>())
+            {
+                break;
+            }
             GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
             if (GameManager.Instance.playerScript)
                 eulerAngle = GetAngle(transform.position, GameManager.Instance.playerScript.transform.position);
@@ -388,6 +421,10 @@ public class Enemy : MonoBehaviour
         float indexz = 0;
         for (int i = 0; i < count[1]; i++)
         {
+            if(!FindObjectOfType<Player>())
+            {
+                break;
+            }
             GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
             for (int j = 0; j <= count[0]; j++)
             {
@@ -476,23 +513,23 @@ public class Enemy : MonoBehaviour
                     tempY += 3f;
                 }
                 DisX = Random.Range(-0.3f, 0.3f);
-                if(DisX<0.2f&&DisX>0)
+                if (DisX < 0.2f && DisX > 0)
                 {
-                    DisX=0.2f;
+                    DisX = 0.2f;
                 }
-                else if(DisX>-0.2f&&DisX<0)
+                else if (DisX > -0.2f && DisX < 0)
                 {
-                    DisX=-0.2f;
+                    DisX = -0.2f;
                 }
                 DisY = Random.Range(-0.3f, 0.3f);
                 DisX = Random.Range(-0.3f, 0.3f);
-                if(DisY<0.2f&&DisY>0)
+                if (DisY < 0.2f && DisY > 0)
                 {
-                    DisY=0.2f;
+                    DisY = 0.2f;
                 }
-                else if(DisY>-0.2f&&DisY<0)
+                else if (DisY > -0.2f && DisY < 0)
                 {
-                    DisY=-0.2f;
+                    DisY = -0.2f;
                 }
             }
             spanX = tempX + i % 20 * DisX;
@@ -503,7 +540,7 @@ public class Enemy : MonoBehaviour
         }
         int countX = 0;
         Speed = count[1];
-        if(!FindObjectOfType<Player>())
+        if (!FindObjectOfType<Player>())
         {
             ClearBarrage();
         }
@@ -522,7 +559,7 @@ public class Enemy : MonoBehaviour
             {
                 yield return null;
             }
-            if (countX > count[0] * 2 || gameObject.GetComponent<Death>().hp <= 0||!FindObjectOfType<Player>())
+            if (countX > count[0] * 2 || gameObject.GetComponent<Death>().hp <= 0 || !FindObjectOfType<Player>())
             {
                 ClearBarrage();
                 break;
@@ -564,6 +601,58 @@ public class Enemy : MonoBehaviour
             yield return new WaitForSeconds(count[1]);
         }
 
+        ChooseTypeBarrage();
+    }
+    /// <summary>
+    /// 出現兩顆子彈，不斷旋轉攻擊，途中瞄準敵人攻擊，最後兩顆子彈往下跑
+    /// barrage 0雙子彈 1 旋轉子彈 2 瞄準敵人
+    /// </summary>
+    /// <param name="count">0幾波子彈,1生成時間</param>
+    /// <returns></returns>
+    IEnumerator TwoStar(float[] count)
+    {
+        GameObject Center1 = Instantiate(enemyBarrageCounts[nowIndex].barrage[0], new Vector2(-3, 2), Quaternion.Euler(0, 0, -180));
+        GameObject Center2 = Instantiate(enemyBarrageCounts[nowIndex].barrage[0], new Vector2(3, 2), Quaternion.Euler(0, 0, -180));
+        Center1.GetComponent<Bullet>().speed = 0;
+        Center2.GetComponent<Bullet>().speed = 0;
+        Vector3 Center1P = Center1.transform.position;
+        Vector3 Center2P = Center2.transform.position;
+        float indexz = 0;
+        for (int i = 0; i < count[0]; i++)
+        {
+            if(!FindObjectOfType<Player>())
+            {
+                break;
+            }
+            GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
+            Instantiate(enemyBarrageCounts[nowIndex].barrage[1], Center1P, Quaternion.Euler(0, 0, indexz));
+            Instantiate(enemyBarrageCounts[nowIndex].barrage[1], Center2P, Quaternion.Euler(0, 0, indexz));
+            indexz += 10;
+            if (i > count[0] / 2 && i%10==0)
+            {
+                for (int j = 0; j < count[2]; j++)
+                {
+                    Vector3 eulerAngle1;
+                    Vector3 eulerAngle2;
+                    if (GameManager.Instance.playerScript)
+                    {
+                        eulerAngle1 = GetAngle(Center1.transform.position, GameManager.Instance.playerScript.transform.position);
+                        eulerAngle2 = GetAngle(Center1.transform.position, GameManager.Instance.playerScript.transform.position);
+                    }
+                    else
+                    {
+                        eulerAngle1 = GetAngle(Center1.transform.position, GameManager.Instance.PlayerResurrectionPosition.transform.position);
+                        eulerAngle2 = GetAngle(Center1.transform.position, GameManager.Instance.PlayerResurrectionPosition.transform.position);
+                    }
+                    Instantiate(enemyBarrageCounts[nowIndex].barrage[2], Center1P, Quaternion.Euler(0, 0, eulerAngle1.z));
+                    Instantiate(enemyBarrageCounts[nowIndex].barrage[2], Center2P, Quaternion.Euler(0, 0, eulerAngle2.z));
+                    yield return new WaitForSeconds(0.1f);
+                }
+            }
+            yield return new WaitForSeconds(count[1]);
+        }
+        Center1.GetComponent<Bullet>().speed = 5;
+        Center2.GetComponent<Bullet>().speed = 5;
         ChooseTypeBarrage();
     }
     /// <summary>
@@ -646,7 +735,7 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// 螺旋式攻擊
     /// </summary>
-    /// <param name="count">0 生成幾波,1 每波數量,2生成時間,3生成半径,3每生成一次增加的距离</param>
+    /// <param name="count">0 生成幾波,1 每波數量,2生成時間,3生成半径,4每生成一次增加的距离</param>
     /// <returns></returns>
     IEnumerator FireTurbine(float[] count)
     {

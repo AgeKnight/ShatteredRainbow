@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 0
   deathAudio: {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
   Hurtaudio: {fileID: 8946850152021610928, guid: 81cd98fd81d794e4d9457f24868465b2, type: 3}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
@@ -151,7 +152,10 @@ MonoBehaviour:
   ultimateAttack:
     count: []
     barrageType: 1
-    barrage: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    barrage:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     Shootsound: {fileID: 0}
   indexMax: 3
   itemStruct:
@@ -184,31 +188,35 @@ MonoBehaviour:
   Speed: 3
   deadUseBarrage: 0
   canTouch: 1
-  canCount: 0
   Dot: []
   Allbullet: []
   enemyBarrageCounts:
   - count:
-    - 18
-    - 15
-    - 0.2
-    barrageType: 6
-    barrage: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
-    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
-  - count:
-    - 18
     - 10
+    - 5
     - 20
-    - 0.5
+    - 0.6
     barrageType: 2
-    barrage: {fileID: 5165513135576572565, guid: 9e7ed2dbd16b243439eca16cf4eb3296, type: 3}
+    barrage:
+    - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   - count:
-    - 18
     - 10
-    - 0.5
-    barrageType: 0
-    barrage: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    - 5
+    - 20
+    - 0.6
+    barrageType: 2
+    barrage:
+    - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
+  - count:
+    - 10
+    - 5
+    - 20
+    - 0.6
+    barrageType: 2
+    barrage:
+    - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   countTime: 0.6
 --- !u!95 &8219671772056985587
