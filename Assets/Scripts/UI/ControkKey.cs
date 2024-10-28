@@ -1,17 +1,19 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
-public class ControkKey : MonoBehaviour, IPointerExitHandler, IPointerClickHandler
+public class ControkKey : MonoBehaviour, IPointerExitHandler, IPointerClickHandler ,IPointerEnterHandler
 {
     public bool isstart = false;//当前是否是修改状态
     public KeyCode curinput;
     public Text nowChooseText;
     bool canChoose = true;
+    public void OnPointerEnter(PointerEventData eventData)//選擇按鈕
+    {
+        gameObject.GetComponent<Image>().color = new Color(1, 0, 0,0.1f);
+    }
     public void OnPointerClick(PointerEventData eventData)//按下按鈕
     {
         isstart = true;
@@ -21,6 +23,8 @@ public class ControkKey : MonoBehaviour, IPointerExitHandler, IPointerClickHandl
     public void OnPointerExit(PointerEventData eventData)//滑鼠離開按鈕
     {
         isstart = false;
+        gameObject.GetComponent<Image>().color = new Color(1, 1, 1,0.1f);
+        nowChooseText.text = curinput.ToString();
     }
     void Update()
     {
@@ -43,8 +47,9 @@ public class ControkKey : MonoBehaviour, IPointerExitHandler, IPointerClickHandl
                             if(keyCode.ToString()==TitleManager.Instance.controkKeys[i].curinput.ToString())
                             {
                                 TitleManager.Instance.controkKeys[i].curinput = curinput;
+                                TitleManager.Instance.controkKeys[i].GetComponent<ControkKey>().nowChooseText.text = curinput.ToString();
                             }
-                        }
+                        }                 
                         curinput = keyCode;//按下的按钮
                         nowChooseText.text = curinput.ToString();
                     }
