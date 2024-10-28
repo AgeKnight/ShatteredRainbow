@@ -119,13 +119,13 @@ public class Player : MonoBehaviour
             }
             if (isUseLazer)
             {
-                if (lazerObject)
-                    lazerObject.transform.position = this.gameObject.transform.position;
+               // if (lazerObject)
+                 //   lazerObject.transform.position = this.gameObject.transform.position;
                 LazerTime += Time.deltaTime;
                 if (LazerTime >= maxLazerTime)
                 {
                     LilyGather.Value = GatherTime / MaxGatherTime;
-                    Destroy(lazerObject);
+                  //  Destroy(lazerObject);
                     isUseLazer = false;
                     LazerTime = 0;
                 }
@@ -135,10 +135,10 @@ public class Player : MonoBehaviour
         {
             isAttack = false;
         }
-        if (isUseBomb)
+        /*if (isUseBomb)
         {
             myBomb.transform.position = transform.position;
-        }
+        }*/
         if (isUseTimeBarrage)
         {
             invokeTime -= Time.unscaledDeltaTime;
@@ -221,18 +221,19 @@ public class Player : MonoBehaviour
     #region "Attack"
     void UseAttack()
     {
-        if (Input.GetKeyDown(GameManager.Instance.curinput[8]))
+        if (Input.GetKeyDown(GameManager.Instance.curinput[8])|| Input.GetKeyDown(GameManager.Instance.curinput[9]))
         {
             isAttack = true;
             coroutine = StartCoroutine(Attack());
         }
-        if (Input.GetKeyUp(GameManager.Instance.curinput[8]) && coroutine != null)
+        if (Input.GetKeyUp(GameManager.Instance.curinput[8]) || Input.GetKeyUp(GameManager.Instance.curinput[9]) && coroutine != null)
         {
             isAttack = false;
             if (DroneGroup.GetComponent<Animator>())
                 DroneGroup.GetComponent<Animator>().SetBool("Drone_attacking", false);
             if (playerType == PlayerType.Lily)
             {
+                /*以子彈取代雷射
                 for (int i = 0; i < Drone.Length; i++)
                 {
                     droneUseLazer[i] = false;
@@ -241,6 +242,7 @@ public class Player : MonoBehaviour
                         Destroy(LazerPrefab[i]);
                     }
                 }
+                */
                 if (GatherTime >= MaxGatherTime)
                 {
                     LilyGathering();
@@ -252,8 +254,9 @@ public class Player : MonoBehaviour
     {
         while (isAttack)
         {
-            shootEffect = GameManager.Instance.AudioPlay(musicEffect[1], false);
-            shootEffect.transform.parent = this.transform;
+            GameManager.Instance.AudioPlay(musicEffect[1], true);
+            //shootEffect = GameManager.Instance.AudioPlay(musicEffect[1], false);
+           // shootEffect.transform.parent = this.transform;
             switch (playerType)
             {
                 case PlayerType.Prismie:
@@ -262,15 +265,18 @@ public class Player : MonoBehaviour
                 case PlayerType.Lily:
                     LilyAttack();
                     break;
-                case PlayerType.Frostto:
+              /*  case PlayerType.Frostto:
                     break;
                 case PlayerType.vyles:
                     break;
                 case PlayerType.Lil_Void:
+                    break;*/
+                default:
+                    PrismieAttack();
                     break;
             }
             yield return new WaitForSeconds(AttackTime);
-            Destroy(shootEffect.gameObject);
+          //  Destroy(shootEffect.gameObject);
         }
     }
     void PrismieAttack()
@@ -298,28 +304,36 @@ public class Player : MonoBehaviour
     }
     void LilyGathering()
     {
-        Quaternion quaternion = Quaternion.Euler(0, 0, 90);
+       
         Quaternion quaternionMiddle = Quaternion.Euler(0, 0, 0);
 
-        float Left = 30;
-        float Right = -30;
+        float Left = 15;
+        float Right = -15;
         float Expansion = 1.5f;
         GatherTime = 0;
-        lazerObject = Instantiate(bulletPrefab[2], bulletTransform[0].transform.position, quaternion);
-        float lazerScaleY = lazerObject.transform.localScale.y * Expansion;
-        float lazerWidth = lazerObject.GetComponent<LineRenderer>().endWidth * Expansion;
 
+        // float lazerScaleY = lazerObject.transform.localScale.y * Expansion;
+        // float lazerWidth = lazerObject.GetComponent<LineRenderer>().endWidth * Expansion;
+        lazerObject = Instantiate(bulletPrefab[2], BombPosition.position, Quaternion.identity);
+        lazerObject.transform.parent = gameObject.transform;
+        float lazerScaleX = lazerObject.transform.localScale.x;
         Instantiate(bulletPrefab[3], bulletTransform[0].transform.position, quaternionMiddle);
-
+        GameManager.Instance.AudioPlay(musicEffect[3], true);
         for (int i = 1; i <= GameManager.Instance.playerLevel; i++)
         {
-            //雷射
-            AnimationCurve curve = new AnimationCurve();
-            curve.AddKey(0.0f, lazerWidth);
-            lazerObject.GetComponent<LineRenderer>().widthCurve = curve;
-            lazerObject.transform.localScale = new Vector3(3, lazerScaleY, 0);
-            lazerWidth *= Expansion;
-            lazerScaleY *= Expansion;
+            //雷射_ver1
+            /* AnimationCurve curve = new AnimationCurve();
+             curve.AddKey(0.0f, lazerWidth);
+             lazerObject.GetComponent<LineRenderer>().widthCurve = curve;
+             lazerObject.transform.localScale = new Vector3(3, lazerScaleY, 0);
+             lazerWidth *= Expansion;
+             lazerScaleY *= Expansion;*/
+            //雷射_ver2_特效完全綁animator
+            lazerScaleX *= Expansion;
+            lazerObject.transform.localScale = new Vector3( lazerScaleX,0.8f,1);
+
+            lazerObject.GetComponent<Bullet>().hurt *= 1.25f;
+
             //左邊
             Quaternion quaternionLeft = Quaternion.Euler(0, 0, quaternionMiddle.z + Left);
             Instantiate(bulletPrefab[3], bulletTransform[0].transform.position, quaternionLeft);
@@ -329,24 +343,37 @@ public class Player : MonoBehaviour
             Instantiate(bulletPrefab[3], bulletTransform[0].transform.position, quaternionRight);
             Right -= 30;
         }
+        
         isUseLazer = true;
     }
-    void LilyAttack()
+    void LilyAttack()//普通攻擊
     {
         Instantiate(bulletPrefab[0], bulletTransform[0].transform.position, Quaternion.identity);
         Instantiate(bulletPrefab[0], bulletTransform[1].transform.position, Quaternion.identity);
-        if (isUseDrone)
+        /* 以射子彈代替 有那麼點沒趣:(
+         if (isUseDrone)
+           {
+               for (int i = 0; i < GameManager.Instance.droneCount; i++)
+               {
+                   if (!droneUseLazer[i])
+                   {
+                       droneUseLazer[i] = true;
+                       LazerPrefab[i] = Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
+                       LazerPrefab[i].transform.parent = Drone[i].transform.GetChild(0).transform;
+                       LazerPrefab[i].transform.rotation =Drone[i].transform.GetChild(0).transform.rotation;
+                   }
+                   //LazerPrefab[i].transform.position = Drone[i].transform.position;
+                   //LazerPrefab[i].transform.rotation = Drone[i].transform.rotation;
+               }
+           }
+        */
+        for (int i = 0; i < GameManager.Instance.droneCount; i++)
         {
-            for (int i = 0; i < GameManager.Instance.droneCount; i++)
+            if (isUseDrone)
             {
-                if (!droneUseLazer[i])
-                {
-                    droneUseLazer[i] = true;
-                    LazerPrefab[i] = Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
-                    LazerPrefab[i].transform.parent = this.gameObject.transform;
-                }
-                LazerPrefab[i].transform.position = Drone[i].transform.position;
-                LazerPrefab[i].transform.rotation = Drone[i].transform.rotation;
+
+                LazerPrefab[i] = Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
+                LazerPrefab[i].transform.rotation = Drone[i].transform.GetChild(0).transform.rotation;
             }
         }
     }
@@ -359,7 +386,7 @@ public class Player : MonoBehaviour
     #region "Bomb"
     void UseButton()
     {
-        if (Input.GetKeyDown(GameManager.Instance.curinput[9]) && GameManager.Instance.bombCount > 0 && !isUseBomb && !isUseTimeBarrage)
+        if (Input.GetKeyDown(GameManager.Instance.curinput[10])|| Input.GetKeyDown(GameManager.Instance.curinput[11]) && GameManager.Instance.bombCount > 0 && !isUseBomb && !isUseTimeBarrage)
         {
             GameManager.Instance.thisMapBomb = true;
             GameManager.Instance.thisMapBombCount += 1;
@@ -377,35 +404,40 @@ public class Player : MonoBehaviour
                 case PlayerType.Prismie:
                     Invoke("againUseBomb", useBombTime);
                     break;
-                case PlayerType.Lily:
+               /* case PlayerType.Lily:
                     Invoke("BombLily", 4.5f);
+                    break;*/
+                default:
+                    Invoke("againUseBomb", useBombTime);
                     break;
             }
         }
     }
-    void BombLily()
+   /* 目前改成和白色機依樣跑動畫流程，時間到關掉
+     void BombLily()
     {
         Destroy(myBomb.gameObject);
         myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();
         myBomb.gameObject.transform.parent = gameObject.transform;
         Invoke("againUseBomb", 4.5f);
-    }
+    }*/
     void againUseBomb()
     {
         isUseBomb = false;
         BombAttack = true;
         gameObject.GetComponent<Death>().isInvincible = false;
-        if (playerType == PlayerType.Prismie)
-        {
-            myBomb.gameObject.GetComponent<Animator>().SetTrigger("Bombover");
-        }
+        //s if (playerType == PlayerType.Prismie)
+        // {
+        //    myBomb.gameObject.GetComponent<Animator>().SetTrigger("Bombover");
+        //}
+        myBomb.gameObject.GetComponent<Animator>().SetTrigger("Bombover");
         Destroy(myBomb.gameObject, 1);
     }
     #endregion
     #region "子彈時間"
     void UseTimeBarrage()
     {
-        if (Input.GetKeyDown(GameManager.Instance.curinput[10]) && !isUseBomb && invokeTime > 0)
+        if (Input.GetKeyDown(GameManager.Instance.curinput[12]) || Input.GetKeyDown(GameManager.Instance.curinput[13]) && !isUseBomb && invokeTime > 0)
         {
             isUseTimeBarrage = true;
             StartCoroutine(Trails());
@@ -413,7 +445,7 @@ public class Player : MonoBehaviour
             Time.timeScale = SlowSpeed;
             Time.fixedDeltaTime = Time.timeScale * 0.05f;
         }
-        if (Input.GetKeyUp(GameManager.Instance.curinput[10]))
+        if (Input.GetKeyUp(GameManager.Instance.curinput[12])|| Input.GetKeyUp(GameManager.Instance.curinput[13]))
         {
             isUseTimeBarrage = false;
             this.GetComponent<Animator>().SetBool("AnimBulletTime", isUseTimeBarrage);

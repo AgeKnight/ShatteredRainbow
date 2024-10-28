@@ -16,16 +16,27 @@ public class CharactorChoose : MonoBehaviour
     }
     public void Charactor(bool next)
     {
-      /*  for(int i = 0;i<Charators.Length;i++)
+        /*  for(int i = 0;i<Charators.Length;i++)
+          {
+             Charators[i].SetActive(false);
+          }*/
+        if (next)
         {
-           Charators[i].SetActive(false);
-        }*/
-        if(next&&CharCount!=Charators.Length-1)
-
             CharCount++;
-        else if(!next&&CharCount!=0)
+            if(CharCount > 4)
+            {
+                CharCount = 0;
+            }
+        }
+        else if (!next)
+        {
             CharCount--;
-        if(CharCount==Charators.Length-1)
+            if (CharCount < 0)
+                CharCount = 4;
+        }
+     
+        
+       /* if(CharCount==Charators.Length-1)
         {
             Buttons[0].SetActive(false);
             Buttons[1].SetActive(true);
@@ -39,8 +50,9 @@ public class CharactorChoose : MonoBehaviour
         {
             Buttons[0].SetActive(true);
             Buttons[1].SetActive(true);
-        }
-      //  Charators[CharCount].SetActive(true);
+        }*/
+
+        //Charators[CharCount].SetActive(true);
     }
     public void PlayGame()
     {
@@ -54,17 +66,18 @@ public class CharactorChoose : MonoBehaviour
         TitleManager.Instance.Save();
         DontDestroyOnLoad(TitleManager.Instance.AudioPlay(TitleManager.Instance.ClickSound, true));
         yield return new WaitForSeconds(0.7f);
-        SceneManager.LoadScene("Stage1");
+        SceneManager.LoadScene(1);
     }
     public void ExitMenu()
     {
         CharCount=0;
-        Buttons[1].SetActive(false);
-        Buttons[0].SetActive(true);
-        for(int i = 1;i<Charators.Length;i++)
+      //  Buttons[1].SetActive(false);
+      //  Buttons[0].SetActive(true);
+      /*  for(int i = 1;i<Charators.Length;i++)
         {
             Charators[i].SetActive(false);
         }
-        Charators[0].SetActive(true);
+        Charators[0].SetActive(true);*/
+        
     }
 }

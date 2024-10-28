@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720801776038930812}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.75, y: -3.17, z: 0}
+  m_LocalPosition: {x: -0.83, y: 0.11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2081775200673911797}
@@ -45,11 +45,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LightType: 0
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.35
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1.5
-  m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 35348f5200000000
+  m_FalloffIntensity: 0.46
+  m_Color: {r: 0.6226415, g: 0.020147493, b: 0, a: 1}
+  m_Intensity: 10
+  m_LightVolumeOpacity: -0
+  m_ApplyToSortingLayers: 35348f52000000008df152fc
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -63,9 +63,9 @@ MonoBehaviour:
   m_PointLightDistance: 3
   m_PointLightQuality: 1
   m_ShapeLightParametricSides: 48
-  m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 0.53
-  m_ShapeLightFalloffSize: 8.16
+  m_ShapeLightParametricAngleOffset: 13.41
+  m_ShapeLightParametricRadius: 1.04
+  m_ShapeLightFalloffSize: 19.82
   m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
   - {x: -0.5, y: -0.5, z: 0}
@@ -96,7 +96,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1569682028968423741}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.58, y: -2.44, z: 0}
+  m_LocalPosition: {x: 0, y: -7.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2081775200673911797}
@@ -133,7 +133,7 @@ Transform:
   m_GameObject: {fileID: 4772480976849531003}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 3, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 0.5859}
+  m_LocalScale: {x: 0.175, y: 0.175, z: 0.5859}
   m_Children:
   - {fileID: 2225709663121334371}
   - {fileID: 6233218728324486431}
@@ -177,8 +177,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -61673075
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: de1b71991310d51409918b904bef31ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -225,9 +225,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 5.4043865, y: 9.921871}
+  m_Offset: {x: -0.7297053, y: 1.1477914}
   serializedVersion: 2
-  m_Radius: 8.978224
+  m_Radius: 4.319422
 --- !u!114 &579622599504480604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,10 +240,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 0
   deathAudio: {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
   Hurtaudio: {fileID: 8946850152021610928, guid: 81cd98fd81d794e4d9457f24868465b2, type: 3}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
-  totalHp: 700
+  totalHp: 2000
   charatorType: 1
   enemyType: 1
   expObject: {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
@@ -253,13 +254,14 @@ MonoBehaviour:
   canInBomb: 0
   ultimateAttack:
     count:
-    - 5
-    - 10
-    - 0.25
-    barrageType: 0
-    barrage: {fileID: 883328560427933555, guid: a8ef8097f78869f408f663a992683d43, type: 3}
-    Shootsound: {fileID: 1106923319873254454, guid: fa59641cb3138824aa3393446232734c, type: 3}
-  indexMax: 3
+    - 50
+    - 0.08
+    - 3
+    barrageType: 8
+    barrage:
+    - {fileID: 1220572358922161827, guid: 9f340a94d8e1a4e4780f3db1b2845ce8, type: 3}
+    Shootsound: {fileID: 7693830466689453566, guid: a17b891f0e53ab146a1dc73930b4b62b, type: 3}
+  indexMax: 7
   itemStruct:
   - probability: 100
     items: {fileID: 7518270170160341144, guid: 36e4f9a93861b6748b871b08339538aa, type: 3}
@@ -267,10 +269,10 @@ MonoBehaviour:
     items: {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
   - probability: 100
     items: {fileID: 7518270170160341144, guid: 64fa2ac8a88d4f241bdb5d26bb8e6daf, type: 3}
-  minExp: 26
-  maxExp: 100
-  score: 500
-  bonusScore: 1000
+  minExp: 200
+  maxExp: 200
+  score: 10000
+  bonusScore: 20000
 --- !u!114 &4542965659501710474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,31 +292,72 @@ MonoBehaviour:
   Speed: 3
   deadUseBarrage: 0
   canTouch: 1
-  canCount: 0
-  Dot: []
+  Dot:
+  - {x: 0, y: 2.1, z: 0}
   Allbullet: []
   enemyBarrageCounts:
   - count:
-    - 15
-    - 0.3
-    barrageType: 4
-    barrage: {fileID: 883328560427933555, guid: a8ef8097f78869f408f663a992683d43, type: 3}
+    - 12
+    - 24
+    - 0.6
+    barrageType: 6
+    barrage:
+    - {fileID: 6580881850010306664, guid: 5ff45ec35af7a2d4e8b94bc597f4c241, type: 3}
+    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
+  - count:
+    - 4
+    - 0.6
+    - 10
+    barrageType: 11
+    barrage:
+    - {fileID: 7346976807218948309, guid: ac74ce2716df0b84ea17b77b3fbd305c, type: 3}
+    - {fileID: 5158847953587803535, guid: f3e74bb16f60180479812973dca892ca, type: 3}
+    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
+  - count:
+    - 12
+    - 8
+    - 0.85
+    barrageType: 9
+    barrage:
+    - {fileID: 7112387026251605189, guid: b2cd886c014a45b4391f8be00387b36e, type: 3}
+    - {fileID: 4452791253019106727, guid: 861f5389f8e2b7e42b0494d5f91071d1, type: 3}
     Shootsound: {fileID: 1106923319873254454, guid: fa59641cb3138824aa3393446232734c, type: 3}
   - count:
-    - 5
+    - 3
+    - 1
+    - 0.3
+    barrageType: 1
+    barrage:
+    - {fileID: 4076619304184187487, guid: a27a3632485862a4b8a8e259792ac7fd, type: 3}
+    Shootsound: {fileID: 2543941013093157386, guid: 22e905d0304e609449704f91b4d6e3aa, type: 3}
+  - count:
+    - 24
     - 8
     - 0.3
-    barrageType: 0
-    barrage: {fileID: 6506472692183266595, guid: 33932fbda78b919489b00a10a273760d, type: 3}
+    - 0.3
+    - 0.05
+    barrageType: 5
+    barrage:
+    - {fileID: 473210331354315025, guid: 0037769c33d6d034d9af6898d21aad51, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   - count:
-    - 8
+    - 30
+    - 90
+    - -90
+    - 0.08
+    - 1
     - 5
-    - 10
-    - 0.75
-    barrageType: 2
-    barrage: {fileID: 4579488354998484835, guid: 6b9ca9b23ff5a3148ae5b962c023e21f, type: 3}
-    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
+    barrageType: 7
+    barrage:
+    - {fileID: 7346976807218948309, guid: ac74ce2716df0b84ea17b77b3fbd305c, type: 3}
+    Shootsound: {fileID: 2543941013093157386, guid: 22e905d0304e609449704f91b4d6e3aa, type: 3}
+  - count:
+    - 6
+    - 1
+    barrageType: 4
+    barrage:
+    - {fileID: 4452791253019106727, guid: 861f5389f8e2b7e42b0494d5f91071d1, type: 3}
+    Shootsound: {fileID: 1106923319873254454, guid: fa59641cb3138824aa3393446232734c, type: 3}
   countTime: 3
 --- !u!95 &557682332397064126
 Animator:

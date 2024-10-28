@@ -15,6 +15,7 @@ public class ControkKey : MonoBehaviour, IPointerExitHandler, IPointerClickHandl
     public void OnPointerClick(PointerEventData eventData)//按下按鈕
     {
         isstart = true;
+        nowChooseText.text = "Rebinding...";
     }
 
     public void OnPointerExit(PointerEventData eventData)//滑鼠離開按鈕
@@ -27,11 +28,13 @@ public class ControkKey : MonoBehaviour, IPointerExitHandler, IPointerClickHandl
         {
             if (Input.anyKeyDown)//检测到按键或者鼠标
             {
+                
                 foreach (KeyCode keyCode in Enum.GetValues(typeof(KeyCode)))
                 {
                     if (Input.GetMouseButton(0)|| Input.GetMouseButton(1) || Input.GetMouseButton(2))
                     {
                         continue;//去除鼠标按键的影响
+                   ;
                     }
                     if (Input.GetKeyDown(keyCode))
                     {
@@ -43,10 +46,13 @@ public class ControkKey : MonoBehaviour, IPointerExitHandler, IPointerClickHandl
                             }
                         }
                         curinput = keyCode;//按下的按钮
+                        nowChooseText.text = curinput.ToString();
                     }
+                   
                 }
+                
             }
         }
-        nowChooseText.text = curinput.ToString();
+       
     }
 }

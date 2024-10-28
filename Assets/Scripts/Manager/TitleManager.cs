@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +15,12 @@ public class SaveVoiceData
     public bool autoShoot;
     public int ChoicePlayer;
     public KeyCode[] curinput = new KeyCode[30];
+}
+
+[System.Serializable]
+public class ResItem
+{
+    public int Width, Height;
 }
 public class TitleManager : MonoBehaviour
 {
@@ -38,13 +45,48 @@ public class TitleManager : MonoBehaviour
     public Slider All;
     [HideInInspector]
     public Text All_Text;
+    public Toggle FullscreenTog;
+    public Toggle VsyncTog;
+    public List<ResItem> resolutions = new List<ResItem>();
+    [HideInInspector]
+    public int SelectedRes;
+    public Text CurrentRes;
     public GameObject[] OptinionMessage;
     public Text[] Records;
     public Toggle autoShoot;
+  
+   
+    
     void Awake()
     {
-        Instance = this;
+        FullscreenTog.isOn = Screen.fullScreen;
+        if (QualitySettings.vSyncCount == 1)
+            VsyncTog.isOn = true;
+        else
+            VsyncTog.isOn = false;
+
+            Instance = this;
         Load();
+
+        bool foundres=false;
+        for(int i=0; i<resolutions.Count;i++)
+        {
+            if(Screen.width==resolutions[i].Width&&Screen.height==resolutions[i].Height)
+            {
+                foundres = true;
+                SelectedRes = i;
+                CurrentRes.text = resolutions[SelectedRes].Width.ToString() + "x" + resolutions[SelectedRes].Height.ToString();
+            }
+        }
+        if(!foundres)
+        {
+            ResItem newRes = new ResItem();
+            newRes.Width = Screen.width;
+            newRes.Height = Screen.height;
+            resolutions.Add(newRes);
+            SelectedRes = resolutions.Count - 1;
+            CurrentRes.text = resolutions[SelectedRes].Width.ToString() + "x" + resolutions[SelectedRes].Height.ToString();
+        }
     }
 
     public void StartGame()
@@ -56,14 +98,14 @@ public class TitleManager : MonoBehaviour
     public void Highscorereset()
     {
         Records[0].text = "0";
-        SaveSystem.LoadGame<SaveData>().HiPlayerScore=0;
-        
+        SaveSystem.LoadGame<SaveData>().HiPlayerScore = 0;
+
     }
 
     public void ShowRecords()
-        {
+    {
         Records[0].text = SaveSystem.LoadGame<SaveData>().HiPlayerScore.ToString();
-        }
+    }
 
     public void ExitGame()
     {
@@ -78,7 +120,8 @@ public class TitleManager : MonoBehaviour
             Destroy(temp, 1.5f);
         return temp;
     }
-    public void OpnionUse(int value)
+    /* 項目顯示直接用按鈕內建功能去做開關
+      public void OpnionUse(int value)
     {
         for(int i =0;i<OptinionMessage.Length;i++)
         {
@@ -86,7 +129,7 @@ public class TitleManager : MonoBehaviour
         }
         if(value>=0)
             OptinionMessage[value].SetActive(true);
-    }
+    }*/
     public void VoiceControllBGM()
     {
         BGM_Text.text = ((int)(BGM.value * 100)).ToString();
@@ -95,15 +138,15 @@ public class TitleManager : MonoBehaviour
     public void VoiceControllEffect()
     {
         Effect_Text.text = ((int)(Effect.value * 100)).ToString();
-        SelectSound.volume = Effect.value* All.value;
+        SelectSound.volume = Effect.value * All.value;
         ClickSound.volume = Effect.value * All.value;
     }
     public void VoiceControllAll()
     {
         All_Text.text = ((int)(All.value * 100)).ToString();
-        
-      
-      
+
+
+
         BackSound.volume = BGM.value * All.value;
 
 
@@ -117,7 +160,7 @@ public class TitleManager : MonoBehaviour
     }
     void RefreshGame()
     {
-        BGM.value=100;
+        BGM.value = 100;
         Effect.value = 100;
         All.value = 100;
         autoShoot.isOn = false;
@@ -161,20 +204,20 @@ public class TitleManager : MonoBehaviour
         All.value = saveData.All_num;
         BGM.value = saveData.BGM_num;
         Effect.value = saveData.Effect_num;
-       
 
-        BGM_Text.text = ((int)(saveData.BGM_num  * 100)).ToString();
-   //     BGM.value = saveData.BGM_num;
-        BackSound.volume = saveData.BGM_num* saveData.All_num;
+
+        BGM_Text.text = ((int)(saveData.BGM_num * 100)).ToString();
+        //     BGM.value = saveData.BGM_num;
+        BackSound.volume = saveData.BGM_num * saveData.All_num;
 
         Effect_Text.text = ((int)(saveData.Effect_num * 100)).ToString();
-     //   Effect.value = saveData.Effect_num;
-        SelectSound.volume = saveData.Effect_num* saveData.All_num;
+        //   Effect.value = saveData.Effect_num;
+        SelectSound.volume = saveData.Effect_num * saveData.All_num;
         ClickSound.volume = saveData.Effect_num * saveData.All_num;
 
         All_Text.text = ((int)(saveData.All_num * 100)).ToString();
         autoShoot.isOn = saveData.autoShoot;
-       ChoicePlayer=saveData.ChoicePlayer ;
+        ChoicePlayer = saveData.ChoicePlayer;
         for (int i = 0; i < controkKeys.Length; i++)
         {
             controkKeys[i].curinput = saveData.curinput[i];
@@ -183,5 +226,36 @@ public class TitleManager : MonoBehaviour
     public void AutoShoot()
     {
         Save();
+    }
+   
+    public void VideoSetting()
+    {
+        Screen.fullScreen = FullscreenTog.isOn;
+        if (VsyncTog.isOn)
+            QualitySettings.vSyncCount = 1;
+        else
+            QualitySettings.vSyncCount = 0;
+    }
+    public void ResolutionChange(bool plus)
+    {
+        if (!plus)
+        {
+            SelectedRes--;
+            if (SelectedRes < 0)
+            {
+                SelectedRes = resolutions.Count - 1;
+            }
+        }
+        else
+        {
+            SelectedRes++;
+            if(SelectedRes> resolutions.Count - 1)
+            {
+                SelectedRes = 0;
+            }
+        }
+        CurrentRes.text = resolutions[SelectedRes].Width.ToString()+"x"+resolutions[SelectedRes].Height.ToString();
+        Screen.SetResolution(resolutions[SelectedRes].Width, resolutions[SelectedRes].Height, FullscreenTog.isOn);
+
     }
 }

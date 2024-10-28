@@ -87,6 +87,7 @@ public class EnemyManager : MonoBehaviour
             {
                 isSpanBoss = true;
                 isInBossAttack = false;
+                GameManager.Instance.ClearBarrage();
                 CreateNowEnemy(waveBosses[bossIndex].bossPrefab[nowBossStage - 1], waveBosses[bossIndex].spanPosition, waveBosses[bossIndex].movePosition);
                 if (nowBossStage >= waveBosses[bossIndex].bossPrefab.Length)
                     OtherStage = false;
@@ -247,7 +248,7 @@ public class EnemyManager : MonoBehaviour
             waveMonster[nowIndex].movePosition[i].position = new Vector3(tempPosition, waveMonster[nowIndex].movePosition[i].position.y, waveMonster[nowIndex].movePosition[i].position.z);
         }
     }
-    /*
+    /* 獎勵計算 移至gamemanager
     void ScoreBonus()
     {
         GameManager.Instance.MapBonusScores[1].text = GameManager.Instance.playerScore.ToString();

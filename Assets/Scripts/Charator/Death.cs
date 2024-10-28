@@ -83,6 +83,7 @@ public class Death : MonoBehaviour
                     if (hp <= 0 && !isDead)
                     {
                         this.GetComponent<Animator>().SetTrigger("Dead");
+                        this.GetComponent<Enemy>().StopAllCoroutines();
                         isDead = true;
 
                         //GetComponent<Enemy>().StopAllCoroutines();
@@ -125,8 +126,7 @@ public class Death : MonoBehaviour
             if (enemyType == EnemyType.Boss)
             {
                 GameManager.Instance.BossNext();
-
-                GameManager.Instance.ClearBarrage();//Boss死亡後的畫面清理
+               
             }
             Enemydeath();
             //   DeadEffect("Enemy",transform.position);

@@ -46,6 +46,7 @@ public class Enemy : MonoBehaviour
     bool isMove = false;
     bool isUlimated = false;
     GameObject temp;
+    AudioSource tempsound;
     float nowDownTime = 0;
     bool canMove = true;
     Death death;
@@ -81,6 +82,7 @@ public class Enemy : MonoBehaviour
     {
         death = gameObject.GetComponent<Death>();
         temp = enemyBarrageCounts[0].barrage[0];
+        tempsound = enemyBarrageCounts[0].Shootsound;
         if (moveType != MoveType.ToPlayerMove)
             targetPosition = Dot[0];
         else
@@ -214,6 +216,7 @@ public class Enemy : MonoBehaviour
             isUlimated = true;
             string nowBarrage = System.Enum.GetName(typeof(BarrageType), death.ultimateAttack.barrageType);
             enemyBarrageCounts[0].barrage = death.ultimateAttack.barrage;
+            enemyBarrageCounts[0].Shootsound = death.ultimateAttack.Shootsound;
             StartCoroutine(nowBarrage, death.ultimateAttack.count);
         }
     }
@@ -264,6 +267,7 @@ public class Enemy : MonoBehaviour
         if (isUlimated)
         {
             enemyBarrageCounts[0].barrage[0] = temp;
+            enemyBarrageCounts[0].Shootsound = tempsound;
             isUlimated = false;
             canBeginAttack();
         }
@@ -312,18 +316,22 @@ public class Enemy : MonoBehaviour
             tempLazer[i] = Instantiate(enemyBarrageCounts[nowIndex].barrage[0], new Vector2(spanX, spanY), quaternion);
             yield return new WaitForSeconds(count[1]);
         }
-        //變大
+        yield return new WaitForSeconds(0.5f);
+        //變大 --此處改成變大、消失全部綁在animator上
         for (int i = 0; i < count[0]; i++)
         {
             tempLazer[i].GetComponent<Animator>().SetBool("CanBig", true);
             tempLazer[i].GetComponent<Bullet>().canAttack = true;
         }
+        GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
         yield return new WaitForSeconds(count[2]);
+        /*
         //消失
         for (int i = 0; i < count[0]; i++)
         {
             Destroy(tempLazer[i]);
         }
+        */
         ChooseTypeBarrage();
     }
     /// <summary>
@@ -389,11 +397,13 @@ public class Enemy : MonoBehaviour
 
         for (int i = 0; i < count[1]; i++)
         {
+           /*
             if(!FindObjectOfType<Player>())
             {
                 break;
             }
-            GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
+           */
+           
             if (GameManager.Instance.playerScript)
                 eulerAngle = GetAngle(transform.position, GameManager.Instance.playerScript.transform.position);
             else
@@ -407,6 +417,7 @@ public class Enemy : MonoBehaviour
                 eulerAngle.z += 12;
 
             }
+            GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
             yield return new WaitForSeconds(count[2]);
         }
         ChooseTypeBarrage();
@@ -422,10 +433,10 @@ public class Enemy : MonoBehaviour
         float indexz = 0;
         for (int i = 0; i < count[1]; i++)
         {
-            if(!FindObjectOfType<Player>())
+           /* if(!FindObjectOfType<Player>())
             {
                 break;
-            }
+            }*/
             GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
             for (int j = 0; j <= count[0]; j++)
             {
@@ -475,6 +486,7 @@ public class Enemy : MonoBehaviour
                 spanY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y - 0.5f, GameManager.Instance.mapPosition[1].transform.position.y + 0.5f);
             }
             Allbullet.Add(Instantiate(enemyBarrageCounts[nowIndex].barrage[0], new Vector2(spanX, spanY), Quaternion.identity));
+            GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
             for (int j = 0; j <= count[0]; j++)
             {
                 indexz += 360 / count[0];
@@ -621,10 +633,11 @@ public class Enemy : MonoBehaviour
         float indexz = 0;
         for (int i = 0; i < count[0]; i++)
         {
-            if(!FindObjectOfType<Player>())
+           /* if(!FindObjectOfType<Player>())
             {
                 break;
             }
+           */
             GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
             Instantiate(enemyBarrageCounts[nowIndex].barrage[1], Center1P, Quaternion.Euler(0, 0, indexz));
             Instantiate(enemyBarrageCounts[nowIndex].barrage[1], Center2P, Quaternion.Euler(0, 0, indexz));
@@ -638,12 +651,12 @@ public class Enemy : MonoBehaviour
                     if (GameManager.Instance.playerScript)
                     {
                         eulerAngle1 = GetAngle(Center1.transform.position, GameManager.Instance.playerScript.transform.position);
-                        eulerAngle2 = GetAngle(Center1.transform.position, GameManager.Instance.playerScript.transform.position);
+                        eulerAngle2 = GetAngle(Center2.transform.position, GameManager.Instance.playerScript.transform.position);
                     }
                     else
                     {
                         eulerAngle1 = GetAngle(Center1.transform.position, GameManager.Instance.PlayerResurrectionPosition.transform.position);
-                        eulerAngle2 = GetAngle(Center1.transform.position, GameManager.Instance.PlayerResurrectionPosition.transform.position);
+                        eulerAngle2 = GetAngle(Center2.transform.position, GameManager.Instance.PlayerResurrectionPosition.transform.position);
                     }
                     Instantiate(enemyBarrageCounts[nowIndex].barrage[2], Center1P, Quaternion.Euler(0, 0, eulerAngle1.z));
                     Instantiate(enemyBarrageCounts[nowIndex].barrage[2], Center2P, Quaternion.Euler(0, 0, eulerAngle2.z));
@@ -718,7 +731,7 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="count">0每波數量,1,2生成角度,3生成時間,4飛行時間</param>
+    /// <param name="count">0每波數量,1,2生成角度,3生成時間,4,5飛行時間</param>
     /// <returns></returns>
     IEnumerator Rain(float[] count)
     {
@@ -726,7 +739,8 @@ public class Enemy : MonoBehaviour
         {
             float indexz = Random.Range(count[1], count[2]);
             Bullet bullet = Instantiate(enemyBarrageCounts[nowIndex].barrage[0], bulletTransform.position, Quaternion.Euler(0, 0, indexz)).GetComponent<Bullet>();
-            bullet.AllRainTime = count[4];
+            bullet.AllRainTime = Random.Range(count[4], count[5]);
+            GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
             bullet.rain = true;
             bullet.canDestroy = false;
             yield return new WaitForSeconds(count[3]);

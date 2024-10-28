@@ -223,8 +223,11 @@ public class GameManager : MonoBehaviour
                 WinGame();
                 break;
             case StatusType.Lose:
-                LoseGame();
-                break;
+                {
+                    statusType = StatusType.Pause;
+                    Invoke("LoseGame", 1);
+                    break;
+                }
         }
     }
     #region "復活"
@@ -346,7 +349,7 @@ public class GameManager : MonoBehaviour
         {
             HiScore = playerScore;
             Hi_scoreText.text =  HiScore.ToString();
-            SaveSystem.LoadGame<SaveData>().HiPlayerScore = HiScore;
+            //SaveSystem.LoadGame<SaveData>().HiPlayerScore = HiScore;
         }
     }
     public void SetScore(float value)
@@ -489,6 +492,8 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < exploss ; i++)
         {
             GameObject drop = Instantiate(EXP, playerScript.gameObject.GetComponent<Transform>().position, Quaternion.identity);
+            drop.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10f, 10f), Random.Range(-10f, 10f)));
+            drop.GetComponent<Item>().CanAttract = false;
         }
 
 
@@ -598,7 +603,7 @@ public class GameManager : MonoBehaviour
     {
         BossBar.value = 1;
         Reciprocal.GetComponent<Reciprocal>().gameObject.SetActive(false);
-
+        GameManager.Instance.ClearBarrage();//Boss死亡後的畫面清理
         //播放血條動畫<關>
         //  BarUse.Play("Close");
         UIanimator.SetInteger("BossState", 1);
@@ -623,7 +628,7 @@ public class GameManager : MonoBehaviour
 
     public void MenuUse()
     {
-        if (Input.GetKeyDown(curinput[11]))
+        if (Input.GetKeyDown(curinput[14])|| Input.GetKeyDown(curinput[15]))
         {
             isOnButton = !isOnButton;
             Menus[0].SetActive(isOnButton);
@@ -641,6 +646,26 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    
+    public void Resume()
+    {
+        isOnButton = !isOnButton;
+        Menus[0].SetActive(isOnButton);
+        if (playerScript)
+            playerScript.enabled = !isOnButton;
+        if (isOnButton)
+        {
+            AudioPlay(MenuSound[0], true);
+            Time.timeScale = 0;
+        }
+        else
+        {
+            AudioPlay(MenuSound[1], true);
+            Time.timeScale = 1;
+        }
+    }
+
+
     public void Replay()
     {
         Time.timeScale = 1;
@@ -665,7 +690,7 @@ public class GameManager : MonoBehaviour
         //MinusLevel();
         AddLife(2);
         PlayerResurrection();
-      
+        AddScore(1);
         Time.timeScale = 1;
     }
     void WinGame()
@@ -810,7 +835,9 @@ public class GameManager : MonoBehaviour
         saveData.droneCount = droneCount;
         saveData.GameStage = GameStage;
         saveData.playerScore = playerScore;
-       
+        saveData.HiPlayerScore = HiScore;
+
+
         return saveData;
     }
     void LoadData(SaveData saveData)
@@ -865,7 +892,7 @@ public class GameManager : MonoBehaviour
     {
 
         GameStage += 1;
-        Save();
+        
        StartCoroutine(BGMchange(BackMusic[2]));
         MapBonusScores[0].text = thisMapScore.ToString();
         MapBonusScores[1].text = playerScore.ToString(); //尚未使用 
@@ -977,13 +1004,16 @@ public class GameManager : MonoBehaviour
 
         AddScore(thisMapScore);
         MapBonusScores[1].text = playerScore.ToString();
-
+        Save();
         thisMapBomb = false;
         thisMapHurt = false;
      //   MapBonusScores[1].text = playerScore.ToString();
         thisMapScore = 0;
         yield return new WaitForSeconds(5f);
-        StartCoroutine(Loadscene(SceneManager.GetActiveScene().buildIndex + 1));
+        if (SceneManager.GetActiveScene().name == "Stage3")
+            StartCoroutine(Loadscene(0));
+        else
+            StartCoroutine(Loadscene(SceneManager.GetActiveScene().buildIndex + 1));
 
 
 
