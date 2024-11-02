@@ -194,7 +194,7 @@ public class EnemyManager : MonoBehaviour
     }
     IEnumerator BossAppear()
     {
-      
+        GameManager.Instance.playerScript.againUseBomb();
         AllBossStaire = waveBosses[bossIndex].bossPrefab.Length;
         OtherStage = true;
         isInBossAttack = true;

@@ -46,10 +46,10 @@ public class Bullet : MonoBehaviour
         {
             //   if ((GameManager.Instance.canTrack || canTrackEnemy) && bulletType == BulletType.Player)
             //     Track();
-            if ((GameManager.Instance.canTrack || canTrackEnemy))
+            if (GameManager.Instance.canTrack || canTrackEnemy)
                 Track();
             else
-                        Move();
+                Move();
         }
     }
     /*
@@ -117,8 +117,7 @@ public class Bullet : MonoBehaviour
             TrackTime += Time.deltaTime;
         }
 
-    }
-    
+    }   
     public void Die()
     {
         // if(GetComponent<Animator>().GetBool("Die"))
@@ -137,8 +136,8 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.GetComponent<Death>() && other.gameObject.tag != bulletType.GetType().GetEnumName(bulletType)&&canAttack)
         {
             other.gameObject.GetComponent<Death>().Hurt(hurt);
-
-            hit = Instantiate(hitspark, this.transform.position, Quaternion.Euler(0, 0, Random.Range(0, 180)));
+            if(hitspark)
+                hit = Instantiate(hitspark, this.transform.position, Quaternion.Euler(0, 0, Random.Range(0, 180)));
             if (canDestroy)
                 Destroy(this.gameObject);
 

@@ -112,20 +112,20 @@ public class Player : MonoBehaviour
             {
                 GatherTime += Time.deltaTime;
                 LilyGather.Value = GatherTime / MaxGatherTime;
-                if (GatherTime >= MaxGatherTime && !canControlAttack )
+                if (GatherTime >= MaxGatherTime && !canControlAttack)
                 {
                     LilyGathering();
                 }
             }
             if (isUseLazer)
             {
-               // if (lazerObject)
-                 //   lazerObject.transform.position = this.gameObject.transform.position;
+                // if (lazerObject)
+                //   lazerObject.transform.position = this.gameObject.transform.position;
                 LazerTime += Time.deltaTime;
                 if (LazerTime >= maxLazerTime)
                 {
                     LilyGather.Value = GatherTime / MaxGatherTime;
-                  //  Destroy(lazerObject);
+                    //  Destroy(lazerObject);
                     isUseLazer = false;
                     LazerTime = 0;
                 }
@@ -221,7 +221,7 @@ public class Player : MonoBehaviour
     #region "Attack"
     void UseAttack()
     {
-        if (Input.GetKeyDown(GameManager.Instance.curinput[8])|| Input.GetKeyDown(GameManager.Instance.curinput[9]))
+        if (Input.GetKeyDown(GameManager.Instance.curinput[8]) || Input.GetKeyDown(GameManager.Instance.curinput[9]))
         {
             isAttack = true;
             coroutine = StartCoroutine(Attack());
@@ -256,7 +256,7 @@ public class Player : MonoBehaviour
         {
             GameManager.Instance.AudioPlay(musicEffect[1], true);
             //shootEffect = GameManager.Instance.AudioPlay(musicEffect[1], false);
-           // shootEffect.transform.parent = this.transform;
+            // shootEffect.transform.parent = this.transform;
             switch (playerType)
             {
                 case PlayerType.Prismie:
@@ -265,18 +265,18 @@ public class Player : MonoBehaviour
                 case PlayerType.Lily:
                     LilyAttack();
                     break;
-              /*  case PlayerType.Frostto:
-                    break;
-                case PlayerType.vyles:
-                    break;
-                case PlayerType.Lil_Void:
-                    break;*/
+                /*  case PlayerType.Frostto:
+                      break;
+                  case PlayerType.vyles:
+                      break;
+                  case PlayerType.Lil_Void:
+                      break;*/
                 default:
                     PrismieAttack();
                     break;
             }
             yield return new WaitForSeconds(AttackTime);
-          //  Destroy(shootEffect.gameObject);
+            //  Destroy(shootEffect.gameObject);
         }
     }
     void PrismieAttack()
@@ -304,7 +304,7 @@ public class Player : MonoBehaviour
     }
     void LilyGathering()
     {
-       
+
         Quaternion quaternionMiddle = Quaternion.Euler(0, 0, 0);
 
         float Left = 15;
@@ -330,7 +330,7 @@ public class Player : MonoBehaviour
              lazerScaleY *= Expansion;*/
             //雷射_ver2_特效完全綁animator
             lazerScaleX *= Expansion;
-            lazerObject.transform.localScale = new Vector3( lazerScaleX,0.8f,1);
+            lazerObject.transform.localScale = new Vector3(lazerScaleX, 0.8f, 1);
 
             lazerObject.GetComponent<Bullet>().hurt *= 1.25f;
 
@@ -343,7 +343,7 @@ public class Player : MonoBehaviour
             Instantiate(bulletPrefab[3], bulletTransform[0].transform.position, quaternionRight);
             Right -= 30;
         }
-        
+
         isUseLazer = true;
     }
     void LilyAttack()//普通攻擊
@@ -386,7 +386,7 @@ public class Player : MonoBehaviour
     #region "Bomb"
     void UseButton()
     {
-        if (Input.GetKeyDown(GameManager.Instance.curinput[10])|| Input.GetKeyDown(GameManager.Instance.curinput[11]) && GameManager.Instance.bombCount > 0 && !isUseBomb && !isUseTimeBarrage)
+        if ((Input.GetKeyDown(GameManager.Instance.curinput[10]) || Input.GetKeyDown(GameManager.Instance.curinput[11])) && GameManager.Instance.bombCount > 0 && !isUseBomb && !isUseTimeBarrage)
         {
             GameManager.Instance.thisMapBomb = true;
             GameManager.Instance.thisMapBombCount += 1;
@@ -399,29 +399,18 @@ public class Player : MonoBehaviour
                 GameManager.Instance.awardType = AwardType.Common;
             GameManager.Instance.AddBomb(-1);
             gameObject.GetComponent<Death>().isInvincible = true;
-            switch (playerType)
-            {
-                case PlayerType.Prismie:
-                    Invoke("againUseBomb", useBombTime);
-                    break;
-               /* case PlayerType.Lily:
-                    Invoke("BombLily", 4.5f);
-                    break;*/
-                default:
-                    Invoke("againUseBomb", useBombTime);
-                    break;
-            }
+            Invoke("againUseBomb", useBombTime);
         }
     }
-   /* 目前改成和白色機依樣跑動畫流程，時間到關掉
-     void BombLily()
-    {
-        Destroy(myBomb.gameObject);
-        myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();
-        myBomb.gameObject.transform.parent = gameObject.transform;
-        Invoke("againUseBomb", 4.5f);
-    }*/
-    void againUseBomb()
+    /* 目前改成和白色機依樣跑動畫流程，時間到關掉
+      void BombLily()
+     {
+         Destroy(myBomb.gameObject);
+         myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();
+         myBomb.gameObject.transform.parent = gameObject.transform;
+         Invoke("againUseBomb", 4.5f);
+     }*/
+    public void againUseBomb()
     {
         isUseBomb = false;
         BombAttack = true;
@@ -430,8 +419,11 @@ public class Player : MonoBehaviour
         // {
         //    myBomb.gameObject.GetComponent<Animator>().SetTrigger("Bombover");
         //}
-        myBomb.gameObject.GetComponent<Animator>().SetTrigger("Bombover");
-        Destroy(myBomb.gameObject, 1);
+        if (myBomb)
+        {
+            myBomb.gameObject.GetComponent<Animator>().SetTrigger("Bombover");
+            Destroy(myBomb.gameObject, 1);
+        }
     }
     #endregion
     #region "子彈時間"
@@ -445,7 +437,7 @@ public class Player : MonoBehaviour
             Time.timeScale = SlowSpeed;
             Time.fixedDeltaTime = Time.timeScale * 0.05f;
         }
-        if (Input.GetKeyUp(GameManager.Instance.curinput[12])|| Input.GetKeyUp(GameManager.Instance.curinput[13]))
+        if (Input.GetKeyUp(GameManager.Instance.curinput[12]) || Input.GetKeyUp(GameManager.Instance.curinput[13]))
         {
             isUseTimeBarrage = false;
             this.GetComponent<Animator>().SetBool("AnimBulletTime", isUseTimeBarrage);

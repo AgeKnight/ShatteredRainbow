@@ -56,8 +56,7 @@ public class CharactorChoose : MonoBehaviour
     }
     public void PlayGame()
     {
-     
-          StartCoroutine(GameStart());
+        StartCoroutine(GameStart());
     }
     IEnumerator GameStart()
     {
