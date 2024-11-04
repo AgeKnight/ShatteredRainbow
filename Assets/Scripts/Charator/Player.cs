@@ -272,7 +272,6 @@ public class Player : MonoBehaviour
                   case PlayerType.Lil_Void:
                       break;
             }
-            isAttack = false;
             yield return new WaitForSeconds(AttackTime);
             //  Destroy(shootEffect.gameObject);
         }

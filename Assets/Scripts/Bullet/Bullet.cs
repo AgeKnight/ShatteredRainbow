@@ -23,11 +23,12 @@ public class Bullet : MonoBehaviour
     public float AllRainTime;
     [HideInInspector]
     public bool rain = false;
+    [HideInInspector]
+    public bool canWallDestroy = true;
     public float speed;
     public float hurt;
     public GameObject hitspark;
     public AudioSource Hitsound;
-    public bool canDestroy = true;
     public bool canAttack = true;
     public int allBounceNum;
     public float MaxTrackTime;
@@ -87,7 +88,6 @@ public class Bullet : MonoBehaviour
         else
         {
             transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
-            canDestroy = true;
         }
     }
     protected void Move()
@@ -101,7 +101,7 @@ public class Bullet : MonoBehaviour
                 this.gameObject.transform.rotation = Quaternion.Euler(0, 0, 180);
                 speed = speedtemp;
                 rain = false;
-                canDestroy = true;
+                canWallDestroy = true;
             }
         }
         transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
@@ -149,8 +149,12 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Death>() && other.gameObject.tag != bulletType.GetType().GetEnumName(bulletType) && canAttack)
         {
-            //other.gameObject.GetComponent<Death>().Hurt(hurt);
-            if (bulletMoveType == BulletMoveType.Bounce)
+            other.gameObject.GetComponent<Death>().Hurt(hurt);
+            if (hitspark)
+                hit = Instantiate(hitspark, this.transform.position, Quaternion.Euler(0, 0, Random.Range(0, 180)));
+            if (bulletMoveType != BulletMoveType.Bounce)
+                Die();
+            else 
             {
                 if (!isTracked)
                 {
@@ -158,23 +162,20 @@ public class Bullet : MonoBehaviour
                     Debug.Log(isTracked);
                 }
                 if (allBounceNum == 0)
-                    canDestroy = true;
+                {
+                    Die();
+                }
                 if (allBounceNum > 0)
                 {
                     allBounceNum -= 1;
                 }
             }
-
-            if (hitspark)
-                hit = Instantiate(hitspark, this.transform.position, Quaternion.Euler(0, 0, Random.Range(0, 180)));
-            if (canDestroy)
-                Destroy(this.gameObject);
-
+            
         }
     }
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Barrier" && canDestroy)
+        if (other.gameObject.tag == "Barrier" && canWallDestroy)
             Destroy(this.gameObject);
         if (other.gameObject.tag == "Enemy" && bulletMoveType == BulletMoveType.Bounce)
         {

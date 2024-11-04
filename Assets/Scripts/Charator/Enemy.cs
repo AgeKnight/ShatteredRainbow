@@ -741,7 +741,7 @@ public class Enemy : MonoBehaviour
             bullet.AllRainTime = Random.Range(count[4], count[5]);
             GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
             bullet.rain = true;
-            bullet.canDestroy = false;
+            bullet.canWallDestroy = false;
             yield return new WaitForSeconds(count[3]);
         }
         ChooseTypeBarrage();

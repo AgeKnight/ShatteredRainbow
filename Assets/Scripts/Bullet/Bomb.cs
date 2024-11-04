@@ -9,7 +9,7 @@ public class Bomb : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other) 
     {
-        if(other.gameObject.tag=="Barrage" && other.gameObject.GetComponent<Bullet>().canDestroy)
+        if(other.gameObject.tag=="Barrage")
         {
             //Destroy(other.gameObject);
             other.gameObject.GetComponent<Bullet>().Die();
