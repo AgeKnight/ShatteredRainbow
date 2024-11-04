@@ -321,7 +321,6 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < count[0]; i++)
         {
             tempLazer[i].GetComponent<Animator>().SetBool("CanBig", true);
-            tempLazer[i].GetComponent<Bullet>().canAttack = true;
         }
         GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
         yield return new WaitForSeconds(count[2]);

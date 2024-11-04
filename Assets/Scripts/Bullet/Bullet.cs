@@ -4,92 +4,112 @@ public enum BulletType
     Player,
     Enemy
 }
+public enum BulletMoveType
+{
+    Common,
+    Track,
+    Bounce
+}
 public class Bullet : MonoBehaviour
 {
-    public bool cantMove;
+
     GameObject hit; //擊中效果
     float rainTime = 0;
+    float speedtemp;
+    bool isTracked = false;
+    bool isExit = false;
+    float TrackTime;
+    [HideInInspector]
+    public float AllRainTime;
+    [HideInInspector]
     public bool rain = false;
     public float speed;
-    float speedtemp;
     public float hurt;
     public GameObject hitspark;
     public AudioSource Hitsound;
-    //調難度
-    public bool canTrackEnemy = false;
-    public float MaxTrackTime;
-    float TrackTime;
-    public BulletType bulletType;
-    public float focusDistance; //跟蹤範圍
-    public float rotatespeed; //跟蹤時的旋轉速度
-    bool isLookingAtObject;
-
-    public float AllRainTime;
     public bool canDestroy = true;
     public bool canAttack = true;
-
+    public int allBounceNum;
+    public float MaxTrackTime;
+    public BulletType bulletType;
+    public BulletMoveType bulletMoveType;
+    public float rotatespeed; //跟蹤時的旋轉速度
     private void Start()
     {
         speedtemp = speed;
-        if(GetComponent<AudioSource>())
-       GetComponent<AudioSource>().volume= SaveSystem.LoadGameVoice<SaveVoiceData>().Effect_num * SaveSystem.LoadGameVoice<SaveVoiceData>().All_num;
+        if (GetComponent<AudioSource>())
+            GetComponent<AudioSource>().volume = SaveSystem.LoadGameVoice<SaveVoiceData>().Effect_num * SaveSystem.LoadGameVoice<SaveVoiceData>().All_num;
     }
     void Update()
     {
-
-        /*if (speed == 0 && !cantMove)
+        switch (bulletMoveType)
         {
-            cantMove = true;
-            Invoke("SpeedRefre", 3f);
-        }*/
-        if (!cantMove)
-        {
-            //   if ((GameManager.Instance.canTrack || canTrackEnemy) && bulletType == BulletType.Player)
-            //     Track();
-            if (GameManager.Instance.canTrack || canTrackEnemy)
+            case BulletMoveType.Track:
                 Track();
-            else
+                break;
+            case BulletMoveType.Common:
                 Move();
+                break;
+            case BulletMoveType.Bounce:
+                Bounce();
+                break;
         }
     }
-    /*
-    void SpeedRefre()
+    void Bounce()
     {
-        speed = 10f;
+        var enemy = GameObject.FindWithTag("Enemy");
+        if (enemy)
+        {
+            if (!isTracked)
+            {
+                Vector3 vectorToTarget = enemy.transform.position - transform.position; //抓目標方向
+                float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90; //方位計算 後面的-90拯救了這個部分 沒有他子彈是往反方向飛離 >:(
+                Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);  //面對目標的rotation
+                transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * rotatespeed); //開始轉向 每次update轉一點
+                transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
+            }
+            else
+            {
+                transform.Translate(Vector3.down * speed * Time.deltaTime, Space.Self);
+                if (isExit)
+                {
+                    TrackTime += Time.deltaTime;
+                    if (TrackTime >= MaxTrackTime)
+                    {
+                        TrackTime = 0;
+                        isTracked = false;
+                        isExit = false;
+                    }
+                }
+
+            }
+        }
+        else
+        {
+            transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
+            canDestroy = true;
+        }
     }
-    */
     protected void Move()
     {
-        
         if (rain)
         {
-            speed = Random.Range(0.5f,2f);
+            speed = Random.Range(0.5f, 2f);
             rainTime += Time.deltaTime;
             if (rainTime >= AllRainTime)
             {
                 this.gameObject.transform.rotation = Quaternion.Euler(0, 0, 180);
-                speed =speedtemp;
-                rain= false;
+                speed = speedtemp;
+                rain = false;
                 canDestroy = true;
             }
         }
-      
-         transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
-   
+        transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
     }
     void Track()
     {
-        /*
-          var enemy = GameObject.FindWithTag("Enemy");
-         if (enemy)
-             gameObject.transform.position = Vector3.MoveTowards(this.gameObject.transform.position, enemy.transform.position, speed  *Time.deltaTime);
-         else
-           transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
-        */
-
-
         transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);  //模仿導彈/使子彈轉向敵人的追蹤
-        if (bulletType.ToString() =="Player")
+        if (bulletType.ToString() == "Player")
         {
             var enemy = GameObject.FindWithTag("Enemy");
             if (enemy)
@@ -110,46 +130,55 @@ public class Bullet : MonoBehaviour
                 Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);  //面對目標的rotation
                 transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * rotatespeed); //開始轉向 每次update轉一點
             }
-            if(TrackTime>=MaxTrackTime)
+            if (TrackTime >= MaxTrackTime)
             {
                 Die();
             }
             TrackTime += Time.deltaTime;
         }
 
-    }   
+    }
     public void Die()
     {
-        // if(GetComponent<Animator>().GetBool("Die"))
-        //{
-       
         gameObject.GetComponent<Animator>().SetTrigger("Vanish");
-        if(GetComponent<Collider2D>())  
-        GetComponent<Collider2D>().enabled = false;
-        //}
-           
-            Destroy(this.gameObject, 0.4f);
-            
+        if (GetComponent<Collider2D>())
+            GetComponent<Collider2D>().enabled = false;
+        Destroy(this.gameObject, 0.4f);
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<Death>() && other.gameObject.tag != bulletType.GetType().GetEnumName(bulletType)&&canAttack)
+        if (other.gameObject.GetComponent<Death>() && other.gameObject.tag != bulletType.GetType().GetEnumName(bulletType) && canAttack)
         {
-            other.gameObject.GetComponent<Death>().Hurt(hurt);
-            if(hitspark)
+            //other.gameObject.GetComponent<Death>().Hurt(hurt);
+            if (bulletMoveType == BulletMoveType.Bounce)
+            {
+                if (!isTracked)
+                {
+                    isTracked = true;
+                    Debug.Log(isTracked);
+                }
+                if (allBounceNum == 0)
+                    canDestroy = true;
+                if (allBounceNum > 0)
+                {
+                    allBounceNum -= 1;
+                }
+            }
+
+            if (hitspark)
                 hit = Instantiate(hitspark, this.transform.position, Quaternion.Euler(0, 0, Random.Range(0, 180)));
             if (canDestroy)
                 Destroy(this.gameObject);
 
         }
-        /*if(other.gameObject.tag == "Barrier" && rain == false)
-        {
-            canDestroy = true;
-        }*/
     }
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Barrier"&&canDestroy)
+        if (other.gameObject.tag == "Barrier" && canDestroy)
             Destroy(this.gameObject);
+        if (other.gameObject.tag == "Enemy" && bulletMoveType == BulletMoveType.Bounce)
+        {
+            isExit = true;
+        }
     }
 }

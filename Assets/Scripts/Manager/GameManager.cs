@@ -148,8 +148,6 @@ public class GameManager : MonoBehaviour
     public GameObject Reciprocal;
     [HideInInspector]
     public int playerLevel;
-    [HideInInspector]
-    public bool canTrack = false;
     public int ChoicePlayer;
     //[HideInInspector]
     public GameObject[] player;
@@ -542,7 +540,6 @@ public class GameManager : MonoBehaviour
                 tempProbability = 0.5f;
                 break;
         }
-        canTrack = tempCanTrack;
         if (gameObject != null)
         {
             if (gameObject.GetComponent<Death>())

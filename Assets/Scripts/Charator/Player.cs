@@ -221,7 +221,7 @@ public class Player : MonoBehaviour
     #region "Attack"
     void UseAttack()
     {
-        if (Input.GetKeyDown(GameManager.Instance.curinput[8]) || Input.GetKeyDown(GameManager.Instance.curinput[9]))
+        if ((Input.GetKeyDown(GameManager.Instance.curinput[8]) || Input.GetKeyDown(GameManager.Instance.curinput[9]))&&!isAttack)
         {
             isAttack = true;
             coroutine = StartCoroutine(Attack());
@@ -265,22 +265,20 @@ public class Player : MonoBehaviour
                 case PlayerType.Lily:
                     LilyAttack();
                     break;
-                /*  case PlayerType.Frostto:
+                case PlayerType.Frostto:
                       break;
                   case PlayerType.vyles:
                       break;
                   case PlayerType.Lil_Void:
-                      break;*/
-                default:
-                    PrismieAttack();
-                    break;
+                      break;
             }
+            isAttack = false;
             yield return new WaitForSeconds(AttackTime);
             //  Destroy(shootEffect.gameObject);
         }
     }
     void PrismieAttack()
-    {
+    {            
         for (int i = 0; i < bulletTransform.Length; i++)
         {
             if (i <= GameManager.Instance.playerLevel * 2)
@@ -298,7 +296,6 @@ public class Player : MonoBehaviour
             for (int i = 0; i < GameManager.Instance.droneCount; i++)
             {
                 GameObject tempObject = Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
-                tempObject.GetComponent<Bullet>().canTrackEnemy = true;
             }
         }
     }
