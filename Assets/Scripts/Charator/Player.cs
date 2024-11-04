@@ -221,7 +221,7 @@ public class Player : MonoBehaviour
     #region "Attack"
     void UseAttack()
     {
-        if ((Input.GetKeyDown(GameManager.Instance.curinput[8]) || Input.GetKeyDown(GameManager.Instance.curinput[9]))&&!isAttack)
+        if ((Input.GetKeyDown(GameManager.Instance.curinput[8]) || Input.GetKeyDown(GameManager.Instance.curinput[9])) && !isAttack)
         {
             isAttack = true;
             coroutine = StartCoroutine(Attack());
@@ -266,18 +266,19 @@ public class Player : MonoBehaviour
                     LilyAttack();
                     break;
                 case PlayerType.Frostto:
-                      break;
-                  case PlayerType.vyles:
-                      break;
-                  case PlayerType.Lil_Void:
-                      break;
+                    break;
+                case PlayerType.vyles:
+                    isAttack = false;
+                    break;
+                case PlayerType.Lil_Void:
+                    break;
             }
             yield return new WaitForSeconds(AttackTime);
             //  Destroy(shootEffect.gameObject);
         }
     }
     void PrismieAttack()
-    {            
+    {
         for (int i = 0; i < bulletTransform.Length; i++)
         {
             if (i <= GameManager.Instance.playerLevel * 2)

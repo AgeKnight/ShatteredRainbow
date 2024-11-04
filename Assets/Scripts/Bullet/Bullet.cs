@@ -154,23 +154,23 @@ public class Bullet : MonoBehaviour
                 hit = Instantiate(hitspark, this.transform.position, Quaternion.Euler(0, 0, Random.Range(0, 180)));
             if (bulletMoveType != BulletMoveType.Bounce)
                 Die();
-            else 
+            else
             {
                 if (!isTracked)
                 {
                     isTracked = true;
                     Debug.Log(isTracked);
                 }
-                if (allBounceNum == 0)
-                {
-                    Die();
-                }
                 if (allBounceNum > 0)
                 {
                     allBounceNum -= 1;
+                    if (allBounceNum <= 0)
+                    {
+                        Die();
+                    }
                 }
             }
-            
+
         }
     }
     void OnTriggerExit2D(Collider2D other)
