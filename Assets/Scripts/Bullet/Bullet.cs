@@ -141,10 +141,10 @@ public class Bullet : MonoBehaviour
     }
     public void Die()
     {
-        if(gameObject.GetComponent<Animator>())
-            gameObject.GetComponent<Animator>().SetTrigger("Vanish");
         if (GetComponent<Collider2D>())
             GetComponent<Collider2D>().enabled = false;
+        if (bulletMoveType != BulletMoveType.Bounce)
+            gameObject.GetComponent<Animator>().SetTrigger("Vanish");
         Destroy(this.gameObject, 0.4f);
     }
     void OnTriggerEnter2D(Collider2D other)
@@ -165,15 +165,14 @@ public class Bullet : MonoBehaviour
                 if (allBounceNum > 0)
                 {
                     allBounceNum -= 1;
-                    transform.eulerAngles = new Vector3(0,0,RotaZ);
-                    RotaZ+=30;
-                    if (allBounceNum <= 0)
-                    {
-                        Die();
-                    }
+                    transform.eulerAngles = new Vector3(0, 0, RotaZ);
+                    RotaZ += 30;
+                }
+                if (allBounceNum <= 0)
+                {
+                    Destroy(this.gameObject);
                 }
             }
-
         }
     }
     void OnTriggerExit2D(Collider2D other)
