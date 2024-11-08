@@ -268,7 +268,7 @@ public class Player : MonoBehaviour
                 case PlayerType.Frostto:
                     break;
                 case PlayerType.vyles:
-                    isAttack = false;
+                    VylesAttack();
                     break;
                 case PlayerType.Lil_Void:
                     break;
@@ -378,6 +378,22 @@ public class Player : MonoBehaviour
     void LilyRotateDrone(GameObject drone)
     {
         drone.transform.RotateAround(this.transform.position, Vector3.forward, around_speed * Time.deltaTime);
+    }
+    int VylesIndex = 0;
+    int AllVylesIndex = 3;
+    void VylesAttack()
+    {
+        isAttack = false;
+        Instantiate(bulletPrefab[0], bulletTransform[VylesIndex].transform.position, Quaternion.identity);
+        VylesIndex+=1;
+        if(VylesIndex<=AllVylesIndex)
+        {
+            VylesIndex=0;
+        }
+        if(!canControlAttack)
+        {
+            isAttack = true;
+        }
     }
     #endregion
     #region "Bomb"

@@ -13,6 +13,7 @@ public enum BulletMoveType
 public class Bullet : MonoBehaviour
 {
 
+    float RotaZ = 0;
     GameObject hit; //擊中效果
     float rainTime = 0;
     float speedtemp;
@@ -140,7 +141,8 @@ public class Bullet : MonoBehaviour
     }
     public void Die()
     {
-        gameObject.GetComponent<Animator>().SetTrigger("Vanish");
+        if(gameObject.GetComponent<Animator>())
+            gameObject.GetComponent<Animator>().SetTrigger("Vanish");
         if (GetComponent<Collider2D>())
             GetComponent<Collider2D>().enabled = false;
         Destroy(this.gameObject, 0.4f);
@@ -159,11 +161,12 @@ public class Bullet : MonoBehaviour
                 if (!isTracked)
                 {
                     isTracked = true;
-                    Debug.Log(isTracked);
                 }
                 if (allBounceNum > 0)
                 {
                     allBounceNum -= 1;
+                    transform.eulerAngles = new Vector3(0,0,RotaZ);
+                    RotaZ+=30;
                     if (allBounceNum <= 0)
                     {
                         Die();
