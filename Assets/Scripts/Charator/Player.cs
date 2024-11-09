@@ -11,6 +11,11 @@ public enum PlayerType
     vyles,
     Lil_Void,
 }
+[System.Serializable]
+public struct VivyBarrageTrans
+{
+    public Transform[] bulletTransform;
+}
 public class Player : MonoBehaviour
 {
     #region "Private"
@@ -36,6 +41,9 @@ public class Player : MonoBehaviour
     float LazerTime = 0;
     Color[] shade = { new Vector4(1, 1, 0.69f), new Vector4(0.69f, 0.97f, 1), new Vector4(1, 0.69f, 0.71f) };
     #endregion
+    int VylesIndex = 0;
+    int AllVylesIndex = 0;
+    public GameObject[] tempVyleBarrage = new GameObject[6];
     #region "Public"
     public PlayerType playerType;
     public float maxLazerTime;
@@ -52,13 +60,14 @@ public class Player : MonoBehaviour
     public GameObject SliderTime;
     public GameObject LilyGatherTime;
     public Transform BombPosition;
+    public VivyBarrageTrans[] vivyBarrageTrans;
     public AudioSource[] musicEffect; //0射擊音 1炸彈音
 
     #endregion
     #region "Hide"
     [HideInInspector]
     public bool isUseTimeBarrage = false;
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject DroneGroup;
     [HideInInspector]
     public GameObject AnnularCircle;
@@ -379,20 +388,30 @@ public class Player : MonoBehaviour
     {
         drone.transform.RotateAround(this.transform.position, Vector3.forward, around_speed * Time.deltaTime);
     }
-    int VylesIndex = 0;
-    int AllVylesIndex = 3;
     void VylesAttack()
     {
         isAttack = false;
-        Instantiate(bulletPrefab[0], bulletTransform[VylesIndex].transform.position, Quaternion.identity);
-        VylesIndex+=1;
-        if(VylesIndex<=AllVylesIndex)
+        AllVylesIndex = GameManager.Instance.playerLevel+3;
+        if (VylesIndex <= AllVylesIndex - 1 && tempVyleBarrage[VylesIndex] == null)
         {
-            VylesIndex=0;
+            tempVyleBarrage[VylesIndex] = Instantiate(bulletPrefab[0], vivyBarrageTrans[GameManager.Instance.playerLevel].bulletTransform[VylesIndex].transform.position, Quaternion.identity);
+            VylesIndex += 1;
+            if (VylesIndex >= AllVylesIndex)
+            {
+                VylesIndex = 0;
+            }
         }
-        if(!canControlAttack)
+        if (!canControlAttack)
         {
             isAttack = true;
+        }
+        if (isUseDrone)
+        {
+            DroneGroup.GetComponent<Animator>().SetBool("Drone_attacking", true);
+            for (int i = 0; i < GameManager.Instance.droneCount; i++)
+            {
+                Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
+            }
         }
     }
     #endregion
