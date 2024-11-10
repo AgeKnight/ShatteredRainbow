@@ -30,8 +30,6 @@ public class Death : MonoBehaviour
     public CharatorType charatorType;
     public EnemyType enemyType;
     public GameObject expObject;
-
-
     #endregion
     #region "Hide"
     [HideInInspector]
@@ -52,7 +50,6 @@ public class Death : MonoBehaviour
     public int maxExp;
     public int score;
     public int bonusScore;
-
     #endregion
     void Awake()
     {

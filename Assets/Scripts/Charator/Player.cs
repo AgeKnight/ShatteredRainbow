@@ -19,14 +19,12 @@ public struct VivyBarrageTrans
 public class Player : MonoBehaviour
 {
     #region "Private"
-    // bool canAttack = true;
     float nowspeed;
     float[] annularColor = { 0.8f, 0.8f };
     bool isUseBomb = false;
     bool isUseLazer = false;
     public bool BombAttack = true;
     bool isUseDrone = false;
-    bool[] droneUseLazer = new bool[6];
     float invokeTime;
     Coroutine coroutine;
     Bomb myBomb;
@@ -42,10 +40,7 @@ public class Player : MonoBehaviour
     Color[] shade = { new Vector4(1, 1, 0.69f), new Vector4(0.69f, 0.97f, 1), new Vector4(1, 0.69f, 0.71f) };
     #endregion
     int VylesIndex = 0;
-    [HideInInspector]
-    public int AllVylesIndex = 0;
-    public GameObject[] VyleBarrage = new GameObject[6];
-    GameObject[] tempVyleBarrage = new GameObject[6];
+    public GameObject[] tempVyleBarrage = new GameObject[6];
     #region "Public"
     public PlayerType playerType;
     public float maxLazerTime;
@@ -67,6 +62,10 @@ public class Player : MonoBehaviour
 
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public int AllVylesIndex = 0;
+    //[HideInInspector]
+    public GameObject[] VyleBarrage = new GameObject[6];
     [HideInInspector]
     public bool isUseTimeBarrage = false;
     //[HideInInspector]
@@ -144,6 +143,16 @@ public class Player : MonoBehaviour
                     //  Destroy(lazerObject);
                     isUseLazer = false;
                     LazerTime = 0;
+                }
+            }
+        }
+        if (playerType == PlayerType.vyles)
+        {
+            for (int i = 0; i < tempVyleBarrage.Length; i++)
+            {
+                if (tempVyleBarrage[i] != null)
+                {
+                    VyleBarrage[i].SetActive(false);
                 }
             }
         }
@@ -311,7 +320,7 @@ public class Player : MonoBehaviour
             DroneGroup.GetComponent<Animator>().SetBool("Drone_attacking", true);
             for (int i = 0; i < GameManager.Instance.droneCount; i++)
             {
-                GameObject tempObject = Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
+                Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
             }
         }
     }
@@ -410,10 +419,6 @@ public class Player : MonoBehaviour
                 VylesIndex = 0;
             }
         }
-        if (!canControlAttack)
-        {
-            isAttack = true;
-        }
         if (isUseDrone)
         {
             DroneGroup.GetComponent<Animator>().SetBool("Drone_attacking", true);
@@ -421,6 +426,10 @@ public class Player : MonoBehaviour
             {
                 Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
             }
+        }
+        if (!canControlAttack)
+        {
+            isAttack = true;
         }
     }
     public void VyleCreate()
@@ -434,6 +443,7 @@ public class Player : MonoBehaviour
         {
             VyleBarrage[i] = Instantiate(bulletPrefab[2], vivyBarrageTrans[GameManager.Instance.playerLevel].bulletTransform[i].transform.position, Quaternion.identity);
             VyleBarrage[i].transform.parent = this.gameObject.transform;
+            VylesIndex = 0;
         }
     }
     #endregion
