@@ -26,6 +26,8 @@ public class Bullet : MonoBehaviour
     public bool rain = false;
     [HideInInspector]
     public bool canWallDestroy = true;
+    [HideInInspector]
+    public int VyleIndex;
     public float speed;
     public float hurt;
     public GameObject hitspark;
@@ -145,7 +147,19 @@ public class Bullet : MonoBehaviour
             GetComponent<Collider2D>().enabled = false;
         if (bulletMoveType != BulletMoveType.Bounce)
             gameObject.GetComponent<Animator>().SetTrigger("Vanish");
-        Destroy(this.gameObject, 0.4f);
+        if (bulletMoveType == BulletMoveType.Bounce)
+        {
+            if (GameManager.Instance.playerScript)
+            {
+                GameManager.Instance.playerScript.VyleBarrage[VyleIndex].gameObject.SetActive(true);
+            }
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject, 0.4f);
+
+        }
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -170,7 +184,7 @@ public class Bullet : MonoBehaviour
                 }
                 if (allBounceNum <= 0)
                 {
-                    Destroy(this.gameObject);
+                    Die();
                 }
             }
         }
@@ -178,7 +192,7 @@ public class Bullet : MonoBehaviour
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.tag == "Barrier" && canWallDestroy)
-            Destroy(this.gameObject);
+           Die();
         if (other.gameObject.tag == "Enemy" && bulletMoveType == BulletMoveType.Bounce)
         {
             isExit = true;

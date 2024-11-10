@@ -42,8 +42,10 @@ public class Player : MonoBehaviour
     Color[] shade = { new Vector4(1, 1, 0.69f), new Vector4(0.69f, 0.97f, 1), new Vector4(1, 0.69f, 0.71f) };
     #endregion
     int VylesIndex = 0;
-    int AllVylesIndex = 0;
-    public GameObject[] tempVyleBarrage = new GameObject[6];
+    [HideInInspector]
+    public int AllVylesIndex = 0;
+    public GameObject[] VyleBarrage = new GameObject[6];
+    GameObject[] tempVyleBarrage = new GameObject[6];
     #region "Public"
     public PlayerType playerType;
     public float maxLazerTime;
@@ -92,6 +94,11 @@ public class Player : MonoBehaviour
         if (playerType == PlayerType.Lily)
             LilyGather = LilyGatherTime.GetComponent<AnnularSlider>();
         Annular.color = new Color(1, 1, 1, 0);
+        if (playerType == PlayerType.vyles)
+        {
+            AllVylesIndex = GameManager.Instance.playerLevel + 3;
+            VyleCreate();
+        }
         StartCoroutine(RegainTimeBarrage());
     }
 
@@ -391,10 +398,12 @@ public class Player : MonoBehaviour
     void VylesAttack()
     {
         isAttack = false;
-        AllVylesIndex = GameManager.Instance.playerLevel+3;
+        AllVylesIndex = GameManager.Instance.playerLevel + 3;
         if (VylesIndex <= AllVylesIndex - 1 && tempVyleBarrage[VylesIndex] == null)
         {
             tempVyleBarrage[VylesIndex] = Instantiate(bulletPrefab[0], vivyBarrageTrans[GameManager.Instance.playerLevel].bulletTransform[VylesIndex].transform.position, Quaternion.identity);
+            tempVyleBarrage[VylesIndex].GetComponent<Bullet>().VyleIndex = VylesIndex;
+            VyleBarrage[VylesIndex].SetActive(false);
             VylesIndex += 1;
             if (VylesIndex >= AllVylesIndex)
             {
@@ -412,6 +421,19 @@ public class Player : MonoBehaviour
             {
                 Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
             }
+        }
+    }
+    public void VyleCreate()
+    {
+        for (int i = 0; i < VyleBarrage.Length; i++)
+        {
+            if (VyleBarrage[i] != null)
+                Destroy(VyleBarrage[i]);
+        }
+        for (int i = 0; i < AllVylesIndex; i++)
+        {
+            VyleBarrage[i] = Instantiate(bulletPrefab[2], vivyBarrageTrans[GameManager.Instance.playerLevel].bulletTransform[i].transform.position, Quaternion.identity);
+            VyleBarrage[i].transform.parent = this.gameObject.transform;
         }
     }
     #endregion

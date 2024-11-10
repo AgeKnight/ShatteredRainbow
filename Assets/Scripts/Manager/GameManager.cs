@@ -133,8 +133,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public Sprite[] playerFace;
     [HideInInspector]
-    public GameObject playerStatus;
-    [HideInInspector]
     public GameObject[] Lifes;
     [HideInInspector]
     public GameObject[] Bombs;
@@ -428,6 +426,14 @@ public class GameManager : MonoBehaviour
             UIanimator.SetTrigger("Levelup");
             AudioPlay(LevelupSound, true);
             playerLevel += 1;
+            if(playerScript)
+            {
+                if(playerScript.playerType == PlayerType.vyles)
+                {
+                    playerScript.AllVylesIndex = playerLevel+3;
+                    playerScript.VyleCreate();
+                }            
+            }
           //  playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
             if (playerLevel < 3)
             {
