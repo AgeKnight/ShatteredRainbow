@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,11 +18,12 @@ public struct VivyBarrageTrans
 public class Player : MonoBehaviour
 {
     #region "Private"
+    GameObject[] tempVyleBarrage = new GameObject[6];
+    int VylesIndex = 0;
     float nowspeed;
     float[] annularColor = { 0.8f, 0.8f };
     bool isUseBomb = false;
     bool isUseLazer = false;
-    public bool BombAttack = true;
     bool isUseDrone = false;
     float invokeTime;
     Coroutine coroutine;
@@ -34,20 +34,20 @@ public class Player : MonoBehaviour
     GameObject shootEffect;
     GameObject lazerObject;
     GameObject[] LazerPrefab = new GameObject[6];
+    GameObject TimeBarrageTrail;
     int trailnums = 0;
     float GatherTime = 0;
     float LazerTime = 0;
     Color[] shade = { new Vector4(1, 1, 0.69f), new Vector4(0.69f, 0.97f, 1), new Vector4(1, 0.69f, 0.71f) };
     #endregion
-    int VylesIndex = 0;
-    public GameObject[] tempVyleBarrage = new GameObject[6];
     #region "Public"
+    public bool BombAttack = true;
+    public int BumbNums;
     public PlayerType playerType;
     public float maxLazerTime;
     public float SlowSpeed;
     public float speed;
     public float MaxGatherTime;
-    public GameObject TimeBarrageTrail;
     public float timeRegain;
     public bool canControlAttack;
     public float useBombTime;
@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
     #region "Hide"
     [HideInInspector]
     public int AllVylesIndex = 0;
-    //[HideInInspector]
+    [HideInInspector]
     public GameObject[] VyleBarrage = new GameObject[6];
     [HideInInspector]
     public bool isUseTimeBarrage = false;
@@ -238,7 +238,7 @@ public class Player : MonoBehaviour
             vertical = 1;
         GetComponent<Rigidbody2D>().velocity = new Vector2(speed * vertical, speed * horizontal); //�H���z���D�����ʡA������|���b����ݰʪ����D
 
-        if (isUseBomb)
+        if (isUseBomb&&playerType!=PlayerType.vyles)
             speed = nowspeed * myBomb.SlowSpeed;
         else
             speed = nowspeed;
@@ -291,11 +291,13 @@ public class Player : MonoBehaviour
                     LilyAttack();
                     break;
                 case PlayerType.Frostto:
+                    PrismieAttack();
                     break;
                 case PlayerType.vyles:
                     VylesAttack();
                     break;
                 case PlayerType.Lil_Void:
+                    PrismieAttack();
                     break;
             }
             yield return new WaitForSeconds(AttackTime);
@@ -455,10 +457,20 @@ public class Player : MonoBehaviour
             GameManager.Instance.thisMapBomb = true;
             GameManager.Instance.thisMapBombCount += 1;
             GameManager.Instance.AudioPlay(musicEffect[2], true);
-            myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();
-            myBomb.gameObject.transform.parent = gameObject.transform;
+            if(playerType!= PlayerType.vyles)
+            {
+                myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();
+                myBomb.gameObject.transform.parent = gameObject.transform;
+                BombAttack = myBomb.canUseAttack;
+            }
+            else
+            {
+                for(int i=0;i<BumbNums;i++)
+                {
+                   Instantiate(Bomb, BombPosition.position, Quaternion.Euler(0,0,Random.Range(0,360)));
+                }
+            }
             isUseBomb = true;
-            BombAttack = myBomb.canUseAttack;
             if (GameManager.Instance.enemyManager.isSpanBoss)
                 GameManager.Instance.awardType = AwardType.Common;
             GameManager.Instance.AddBomb(-1);

@@ -14,7 +14,6 @@ public class Bullet : MonoBehaviour
 {
 
     float RotaZ = 0;
-    GameObject hit; //擊中效果
     float rainTime = 0;
     float speedtemp;
     bool isTracked = false;
@@ -28,9 +27,12 @@ public class Bullet : MonoBehaviour
     public bool canWallDestroy = true;
     [HideInInspector]
     public int VyleIndex;
+        public bool canDestroyBullet = false;
     public float speed;
     public float hurt;
+    public float BurnHurt;
     public GameObject hitspark;
+    public GameObject BurnSpark;
     public AudioSource Hitsound;
     public bool canAttack = true;
     public int allBounceNum;
@@ -167,7 +169,7 @@ public class Bullet : MonoBehaviour
         {
             other.gameObject.GetComponent<Death>().Hurt(hurt);
             if (hitspark)
-                hit = Instantiate(hitspark, this.transform.position, Quaternion.Euler(0, 0, Random.Range(0, 180)));
+                Instantiate(hitspark, this.transform.position, Quaternion.Euler(0, 0, Random.Range(0, 180)));
             if (bulletMoveType != BulletMoveType.Bounce)
                 Die();
             else
@@ -184,9 +186,15 @@ public class Bullet : MonoBehaviour
                 }
                 if (allBounceNum <= 0)
                 {
+                    other.gameObject.GetComponent<Death>().Hurt(BurnHurt);
+                    Instantiate(BurnSpark, this.transform.position, Quaternion.identity);
                     Die();
                 }
             }
+        }
+        if(other.gameObject.tag=="Barrage"&&canDestroyBullet&&other.gameObject.GetComponent<Bullet>().bulletType==BulletType.Enemy)
+        {
+            other.gameObject.GetComponent<Bullet>().Die();
         }
     }
     void OnTriggerExit2D(Collider2D other)

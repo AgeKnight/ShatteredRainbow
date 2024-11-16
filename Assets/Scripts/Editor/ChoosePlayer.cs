@@ -12,7 +12,12 @@ public class ChoosePlayer : Editor
     PlayerType playerType;
     Dictionary<string, PlayerType> specialPropertys = new Dictionary<string, PlayerType>
         {
-             { "vivyBarrageTrans", PlayerType.vyles},
+            { "vivyBarrageTrans", PlayerType.vyles},
+            { "BumbNums", PlayerType.vyles},
+            { "LilyGatherTime", PlayerType.Lily},
+            {"MaxGatherTime", PlayerType.Lily},
+            {"maxLazerTime", PlayerType.Lily},
+
         };
     Dictionary<string, PlayerType> specialPropertys2 = new Dictionary<string, PlayerType>
         {
