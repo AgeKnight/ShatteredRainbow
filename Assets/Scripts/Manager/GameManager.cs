@@ -36,7 +36,7 @@ public class SaveData
     public float playerScore;
     public float HiPlayerScore;
     public int GameStage = 1;
-    
+
 }
 public class GameManager : MonoBehaviour
 {
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
     public int GameStage = 1;
     [HideInInspector]
     public int playerExp;
-  // [HideInInspector]
+    // [HideInInspector]
     public AudioSource[] BackMusic;
     [HideInInspector]
     public AudioSource[] MenuSound;
@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
     public float playerScore;
     [HideInInspector]
     public GameObject[] LightSide;
-   [HideInInspector]
+    [HideInInspector]
     public Text[] MapBonusScores;//0 本關分數 1 加成分數 2 炸彈bonus名 3 炸彈bonus 4 生命bonus名 5 生命bonus
     public GameObject[] BonusShine;
     [HideInInspector]
@@ -90,9 +90,9 @@ public class GameManager : MonoBehaviour
     public bool thisMapHurt = false;
 
     [HideInInspector]
-    public int thisMapBombCount=0; //本關炸彈使用數
+    public int thisMapBombCount = 0; //本關炸彈使用數
     [HideInInspector]
-    public int thisMapHurtCount=0; //本關死亡數
+    public int thisMapHurtCount = 0; //本關死亡數
 
     //[HideInInspector]
     public AwardType awardType = AwardType.Bonus;
@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
     public Sprite[] LifeImages;//0 空心 1 實心
     [HideInInspector]
     public Sprite[] bombImages;//0 空心 1 實心
-  //  [HideInInspector]
+                               //  [HideInInspector]
     public Sprite[] bossImages;//0 空心 1 實心 
     [HideInInspector]
     public GameObject[] Triangles;
@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] Lifes;
     [HideInInspector]
     public GameObject[] Bombs;
-   //[HideInInspector]
+    //[HideInInspector]
     public GameObject[] Menus;//0 暫停 1 輸 2贏
     [HideInInspector]
     public Transform playerSpan;
@@ -176,7 +176,7 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
         Load();
-      
+
         coroutine = StartCoroutine(Begin());
 
     }
@@ -185,7 +185,7 @@ public class GameManager : MonoBehaviour
 
         playerScript = Instantiate(player[ChoicePlayer], playerSpan.transform.position, Quaternion.identity).gameObject.GetComponent<Player>();
         playerScript.gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
-       
+
         enemyManager.canGoNext = false;
         yield return new WaitForSeconds(2);
 
@@ -235,10 +235,10 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-           Invoke("PlayerResurrection", AllResurrectionTime);
+            Invoke("PlayerResurrection", AllResurrectionTime);
         }
     }
-    
+
     void PlayerResurrection()
     {
         playerScript = Instantiate(player[ChoicePlayer], PlayerResurrectionPosition.position, Quaternion.identity).GetComponent<Player>();
@@ -247,7 +247,7 @@ public class GameManager : MonoBehaviour
         Invoke("PlayerNotInvincible", AllInvincibleTime);
     }
 
-   
+
 
     void PlayerNotInvincible()
     {
@@ -257,7 +257,7 @@ public class GameManager : MonoBehaviour
     #region "吃東西"
     public void EatItem(Item item)
     {
-       
+
         switch (item.itemType)
         {
             case ItemType.Life:
@@ -294,8 +294,8 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case ItemType.EXP_Small:
-               
-                AudioPlay(ItemgainsSound[0],true);
+
+                AudioPlay(ItemgainsSound[0], true);
                 if (playerLevel < 3)
                 {
                     AddExp(1);
@@ -308,7 +308,7 @@ public class GameManager : MonoBehaviour
                 break;
             case ItemType.EXP_Mid:
 
-          
+
                 AudioPlay(ItemgainsSound[0], true);
                 if (playerLevel < 3)
                 {
@@ -321,7 +321,7 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case ItemType.EXP_Big:
-               
+
                 AudioPlay(ItemgainsSound[0], true);
                 if (playerLevel < 3)
                 {
@@ -338,13 +338,13 @@ public class GameManager : MonoBehaviour
     public void AddScore(float value)
     {
         thisMapScore += value;
-       
+
         playerScore += value;
         scoreText.text = playerScore.ToString();
         if (playerScore >= HiScore)
         {
             HiScore = playerScore;
-            Hi_scoreText.text =  HiScore.ToString();
+            Hi_scoreText.text = HiScore.ToString();
             //SaveSystem.LoadGame<SaveData>().HiPlayerScore = HiScore;
         }
     }
@@ -373,12 +373,12 @@ public class GameManager : MonoBehaviour
     public void AddLife(int value)
     {
         lifeCount += value;
-      /*  if (lifeCount <= 0)
-        {
-            lifeCount = 0;
-        }
-        不會gameover 死到底生命仍鎖在0不到-1
-         */
+        /*  if (lifeCount <= 0)
+          {
+              lifeCount = 0;
+          }
+          不會gameover 死到底生命仍鎖在0不到-1
+           */
         for (int i = 0; i < allLife; i++)
         {
             Lifes[i].gameObject.GetComponent<Image>().sprite = LifeImages[0];
@@ -426,15 +426,15 @@ public class GameManager : MonoBehaviour
             UIanimator.SetTrigger("Levelup");
             AudioPlay(LevelupSound, true);
             playerLevel += 1;
-            if(playerScript)
+            if (playerScript)
             {
-                if(playerScript.playerType == PlayerType.vyles)
+                if (playerScript.playerType == PlayerType.vyles)
                 {
-                    playerScript.AllVylesIndex = playerLevel+3;
+                    playerScript.AllVylesIndex = playerLevel + 3;
                     playerScript.VyleCreate();
-                }            
+                }
             }
-          //  playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
+            //  playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
             if (playerLevel < 3)
             {
                 playerExp -= totalExp;
@@ -448,13 +448,13 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
-      
+
         expBar.value = (float)playerExp / totalExp;
     }
     void SetExp(int value)
     {
         playerExp = value;
-      //  playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
+        //  playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
         if (playerLevel < 3)
         {
             Level.text = "Level " + playerLevel.ToString();
@@ -493,7 +493,7 @@ public class GameManager : MonoBehaviour
             exploss = (playerLevel * 100 + playerExp) / 4;  //經驗值所失
             playerExp = (playerLevel * 100 + playerExp) * 3 / 4; //懲罰後經驗值
         }
-        for (int i = 0; i < exploss ; i++)
+        for (int i = 0; i < exploss; i++)
         {
             GameObject drop = Instantiate(EXP, playerScript.gameObject.GetComponent<Transform>().position, Quaternion.identity);
             drop.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10f, 10f), Random.Range(-10f, 10f)));
@@ -504,7 +504,7 @@ public class GameManager : MonoBehaviour
         playerLevel = playerExp / 100;    //處罰後等級
         playerExp = playerExp - playerLevel * 100;    //處罰後的顯示經驗值    
 
-       // playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
+        // playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
         expBar.value = (float)playerExp / totalExp;
         Level.text = "Level " + playerLevel.ToString();
 
@@ -631,7 +631,7 @@ public class GameManager : MonoBehaviour
 
     public void MenuUse()
     {
-        if (Input.GetKeyDown(curinput[14])|| Input.GetKeyDown(curinput[15]))
+        if (Input.GetKeyDown(curinput[14]) || Input.GetKeyDown(curinput[15]))
         {
             isOnButton = !isOnButton;
             Menus[0].SetActive(isOnButton);
@@ -649,7 +649,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    
+
     public void Resume()
     {
         isOnButton = !isOnButton;
@@ -699,7 +699,7 @@ public class GameManager : MonoBehaviour
     void WinGame()
     {
         playerScript.enabled = false;
-       // Menus[2].SetActive(true);
+        // Menus[2].SetActive(true);
         Time.timeScale = 0;
     }
     void LoseGame()
@@ -741,7 +741,7 @@ public class GameManager : MonoBehaviour
             if (enemyManager.isSpanBoss)//邊框效果修飾
             {
 
-                if (sideB != 1 && enemyManager.bossIndex == (enemyManager.waveBosses.Length-1)) //關底Boss戰鬥特效
+                if (sideB != 1 && enemyManager.bossIndex == (enemyManager.waveBosses.Length - 1)) //關底Boss戰鬥特效
                     sideB += Time.deltaTime;
 
                 if (sideA <= 0.5f) //中Boss-關底Boss以外
@@ -772,10 +772,10 @@ public class GameManager : MonoBehaviour
     }
     public GameObject AudioPlay(AudioSource audio, bool canDestroy)
     {
-     
-           audio.volume = SaveSystem.LoadGameVoice<SaveVoiceData>().Effect_num* SaveSystem.LoadGameVoice<SaveVoiceData>().All_num;
+
+        audio.volume = SaveSystem.LoadGameVoice<SaveVoiceData>().Effect_num * SaveSystem.LoadGameVoice<SaveVoiceData>().All_num;
         GameObject temp;
-        if (audio.gameObject.name == "EXPGain"|| audio.gameObject.name == "hurtaudio")//音效平衡 避免一次出現太多導致發生耳膜攻擊
+        if (audio.gameObject.name == "EXPGain" || audio.gameObject.name == "hurtaudio")//音效平衡 避免一次出現太多導致發生耳膜攻擊
         {
             var items = FindObjectsOfType<AudioSource>();
             audio.volume /= items.Length;
@@ -790,16 +790,18 @@ public class GameManager : MonoBehaviour
         {
             temp = Instantiate(audio.gameObject, playerScript.transform.position, Quaternion.identity);
             temp.gameObject.transform.parent = playerScript.transform;
-            temp.transform.localScale =new Vector3(1, 1, 1);
+            temp.transform.localScale = new Vector3(1, 1, 1);
         }
         else
-             temp = Instantiate(audio.gameObject);
-        audio.Play();
+        {
+            temp = Instantiate(audio.gameObject);
+            audio.Play();
+        }
         if (canDestroy)
             Destroy(temp, temp.GetComponent<AudioSource>().clip.length);
         return temp;
-   
-      
+
+
 
     }
     #region "存檔讀檔"
@@ -856,15 +858,15 @@ public class GameManager : MonoBehaviour
     }
     void LoadData(SaveVoiceData saveData)
     {
-        for(int i = 0; i < BackMusic.Length; i++) 
+        for (int i = 0; i < BackMusic.Length; i++)
         {
             BackMusic[i].volume = saveData.BGM_num * saveData.All_num;
-            GetComponent<AudioSource>().volume = saveData.BGM_num* saveData.All_num;
+            GetComponent<AudioSource>().volume = saveData.BGM_num * saveData.All_num;
         }
-        for(int i = 0; i < MenuSound.Length; i++) 
+        for (int i = 0; i < MenuSound.Length; i++)
         {
-            MenuSound[i].volume = saveData.Effect_num * saveData.All_num;   
-        }       
+            MenuSound[i].volume = saveData.Effect_num * saveData.All_num;
+        }
         canControlAttack = !saveData.autoShoot;
         ChoicePlayer = saveData.ChoicePlayer;
         for (int i = 0; i < curinput.Length; i++)
@@ -874,37 +876,37 @@ public class GameManager : MonoBehaviour
     }
 
 
-   public IEnumerator BGMchange(AudioSource audio) //背景音樂切換 針對關底Boss
+    public IEnumerator BGMchange(AudioSource audio) //背景音樂切換 針對關底Boss
     {
         GetComponent<Rigidbody2D>().velocity = Vector3.up;
-    /*    while (this.GetComponent<AudioSource>().volume > 0)
-        {
-            audioSource.volume -= startVolume * Time.deltaTime / FadeTime;
+        /*    while (this.GetComponent<AudioSource>().volume > 0)
+            {
+                audioSource.volume -= startVolume * Time.deltaTime / FadeTime;
 
-            yield return null;
-        }*/
+                yield return null;
+            }*/
         yield return new WaitForSeconds(3f);
         GetComponent<AudioSource>().Stop();
         GetComponent<AudioSource>().PlayOneShot(audio.clip);
-        GetComponent<Rigidbody2D>().velocity = new Vector3 (0,0,0);
+        GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
         transform.position = new Vector3(0, 0, 0);
     }
 
 
-  public IEnumerator StageResults()
+    public IEnumerator StageResults()
     {
 
         GameStage += 1;
-        
-       StartCoroutine(BGMchange(BackMusic[2]));
+
+        StartCoroutine(BGMchange(BackMusic[2]));
         MapBonusScores[0].text = thisMapScore.ToString();
         MapBonusScores[1].text = playerScore.ToString(); //尚未使用 
         MapBonusScores[2].text = thisMapBombCount.ToString();
         MapBonusScores[3].text = "x1";
-        MapBonusScores[4].text =  thisMapHurtCount.ToString();
+        MapBonusScores[4].text = thisMapHurtCount.ToString();
         MapBonusScores[5].text = "x1";
-        float deathbonus =1;
-        float bombbonus =1;
+        float deathbonus = 1;
+        float bombbonus = 1;
 
         switch (thisMapBombCount)
         {
@@ -996,13 +998,13 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1.2f);
         thisMapScore *= bombbonus;
         MapBonusScores[0].text = thisMapScore.ToString();
-            if(thisMapBombCount<=1)
-                AudioPlay(LevelupSound, true);
+        if (thisMapBombCount <= 1)
+            AudioPlay(LevelupSound, true);
         yield return new WaitForSeconds(1.3f);
         thisMapScore *= deathbonus;
         MapBonusScores[0].text = thisMapScore.ToString();
-            if(thisMapHurtCount<=1)
-                AudioPlay(LevelupSound,true);
+        if (thisMapHurtCount <= 1)
+            AudioPlay(LevelupSound, true);
         yield return new WaitForSeconds(1.3f);
 
         AddScore(thisMapScore);
@@ -1010,7 +1012,7 @@ public class GameManager : MonoBehaviour
         Save();
         thisMapBomb = false;
         thisMapHurt = false;
-     //   MapBonusScores[1].text = playerScore.ToString();
+        //   MapBonusScores[1].text = playerScore.ToString();
         thisMapScore = 0;
         yield return new WaitForSeconds(5f);
         if (SceneManager.GetActiveScene().name == "Stage3")
@@ -1024,9 +1026,9 @@ public class GameManager : MonoBehaviour
 
 
 
-  public IEnumerator Loadscene(int SceneIndex) //帶入淡出動畫的轉場
+    public IEnumerator Loadscene(int SceneIndex) //帶入淡出動畫的轉場
     {
-     
+
         StartCoroutine(BGMchange(null));
         UIanimator.SetBool("IsEnd", true);
         yield return new WaitForSeconds(3);

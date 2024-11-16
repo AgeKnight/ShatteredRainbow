@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
     GameObject shootEffect;
     GameObject lazerObject;
     GameObject[] LazerPrefab = new GameObject[6];
-    GameObject TimeBarrageTrail;
+    public GameObject TimeBarrageTrail;
     int trailnums = 0;
     float GatherTime = 0;
     float LazerTime = 0;

@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
     public bool canWallDestroy = true;
     [HideInInspector]
     public int VyleIndex;
-        public bool canDestroyBullet = false;
+    public bool canBounceWall = false;
     public float speed;
     public float hurt;
     public float BurnHurt;
@@ -64,30 +64,37 @@ public class Bullet : MonoBehaviour
     void Bounce()
     {
         var enemy = GameObject.FindWithTag("Enemy");
-        if (enemy)
+        if (!canBounceWall)
         {
-            if (!isTracked)
+            if (enemy)
             {
-                Vector3 vectorToTarget = enemy.transform.position - transform.position; //抓目標方向
-                float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90; //方位計算 後面的-90拯救了這個部分 沒有他子彈是往反方向飛離 >:(
-                Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);  //面對目標的rotation
-                transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * rotatespeed); //開始轉向 每次update轉一點
-                transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
+                if (!isTracked)
+                {
+                    Vector3 vectorToTarget = enemy.transform.position - transform.position; //抓目標方向
+                    float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90; //方位計算 後面的-90拯救了這個部分 沒有他子彈是往反方向飛離 >:(
+                    Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);  //面對目標的rotation
+                    transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * rotatespeed); //開始轉向 每次update轉一點
+                    transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
+                }
+                else
+                {
+                    transform.Translate(Vector3.down * speed * Time.deltaTime, Space.Self);
+                    if (isExit)
+                    {
+                        TrackTime += Time.deltaTime;
+                        if (TrackTime >= MaxTrackTime)
+                        {
+                            TrackTime = 0;
+                            isTracked = false;
+                            isExit = false;
+                        }
+                    }
+
+                }
             }
             else
             {
-                transform.Translate(Vector3.down * speed * Time.deltaTime, Space.Self);
-                if (isExit)
-                {
-                    TrackTime += Time.deltaTime;
-                    if (TrackTime >= MaxTrackTime)
-                    {
-                        TrackTime = 0;
-                        isTracked = false;
-                        isExit = false;
-                    }
-                }
-
+                transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
             }
         }
         else
@@ -174,25 +181,28 @@ public class Bullet : MonoBehaviour
                 Die();
             else
             {
-                if (!isTracked)
+                if (!canBounceWall)
                 {
-                    isTracked = true;
-                }
-                if (allBounceNum > 0)
-                {
-                    allBounceNum -= 1;
-                    transform.eulerAngles = new Vector3(0, 0, RotaZ);
-                    RotaZ += 30;
-                }
-                if (allBounceNum <= 0)
-                {
-                    other.gameObject.GetComponent<Death>().Hurt(BurnHurt);
-                    Instantiate(BurnSpark, this.transform.position, Quaternion.identity);
-                    Die();
+                    if (!isTracked)
+                    {
+                        isTracked = true;
+                    }
+                    if (allBounceNum > 0)
+                    {
+                        allBounceNum -= 1;
+                        transform.eulerAngles = new Vector3(0, 0, RotaZ);
+                        RotaZ += 30;
+                    }
+                    if (allBounceNum <= 0)
+                    {
+                        other.gameObject.GetComponent<Death>().Hurt(BurnHurt);
+                        Instantiate(BurnSpark, this.transform.position, Quaternion.identity);
+                        Die();
+                    }
                 }
             }
         }
-        if(other.gameObject.tag=="Barrage"&&canDestroyBullet&&other.gameObject.GetComponent<Bullet>().bulletType==BulletType.Enemy)
+        if (other.gameObject.tag == "Barrage" && canBounceWall && other.gameObject.GetComponent<Bullet>().bulletType == BulletType.Enemy)
         {
             other.gameObject.GetComponent<Bullet>().Die();
         }
@@ -200,7 +210,25 @@ public class Bullet : MonoBehaviour
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.tag == "Barrier" && canWallDestroy)
-           Die();
+        {
+            if (canBounceWall)
+            {
+                if (allBounceNum > 0)
+                {
+                    RotaZ -= Random.Range(100, 170);
+                    transform.eulerAngles = new Vector3(0, 0, RotaZ);
+                    allBounceNum -= 1;
+                }
+                if (allBounceNum <= 0)
+                {
+                    Die();
+                }
+            }
+            else
+            {
+                Die();
+            }
+        }
         if (other.gameObject.tag == "Enemy" && bulletMoveType == BulletMoveType.Bounce)
         {
             isExit = true;
