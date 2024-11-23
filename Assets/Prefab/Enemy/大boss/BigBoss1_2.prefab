@@ -75,7 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -61673075
-  m_SortingLayer: 4
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c5fb082e31cf3bc47ad0cef1e2595719, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -144,20 +144,18 @@ MonoBehaviour:
   totalHp: 2000
   charatorType: 1
   enemyType: 1
-  expObject: {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
   hpBar: {fileID: 0}
   isInvincible: 0
   isInBomb: 0
   canInBomb: 0
   ultimateAttack:
     count:
-    - 10
-    - 5
     - 20
-    - 0.6
-    barrageType: 2
+    - 12
+    - 0.3
+    barrageType: 1
     barrage:
-    - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    - {fileID: 8228456989768813918, guid: 083fe81408e6e504098155e0e173987a, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   indexMax: 3
   itemStruct:
@@ -190,7 +188,10 @@ MonoBehaviour:
   Speed: 3
   deadUseBarrage: 0
   canTouch: 1
-  Dot: []
+  Dot:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 1.9, z: 0}
+  - {x: 0, y: 1.9, z: 0}
   Allbullet: []
   enemyBarrageCounts:
   - count:
@@ -198,27 +199,28 @@ MonoBehaviour:
     - 5
     - 20
     - 0.6
-    barrageType: 2
+    barrageType: 6
+    barrage:
+    - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
+  - count:
+    - 50
+    - 80
+    - -80
+    - 0.2
+    - 0.2
+    - 1
+    barrageType: 7
     barrage:
     - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   - count:
     - 10
     - 5
-    - 20
-    - 0.6
-    barrageType: 2
+    - 0.4
+    barrageType: 1
     barrage:
-    - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
-    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
-  - count:
-    - 10
-    - 5
-    - 20
-    - 0.6
-    barrageType: 2
-    barrage:
-    - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    - {fileID: 2900848498099905109, guid: 078250e05e4ccce418b8415d9cf3ad6c, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   countTime: 1
 --- !u!95 &1006038871139617076

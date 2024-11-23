@@ -105,10 +105,10 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -61673075
-  m_SortingLayer: 4
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b8d826afbcaca434097536f4c8511a8e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.9490196}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -223,20 +223,19 @@ MonoBehaviour:
   useBarrage: 0
   moveType: 0
   bulletTransform: {fileID: 6794284691884387670}
-  Speed: 3
+  Speed: 7
   deadUseBarrage: 0
   canTouch: 1
   Dot: []
   Allbullet: []
   enemyBarrageCounts:
   - count:
-    - 10
-    - 5
-    - 20
+    - 8
+    - 4
     - 0.6
-    barrageType: 2
+    barrageType: 6
     barrage:
-    - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    - {fileID: 8228456989768813918, guid: 083fe81408e6e504098155e0e173987a, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   countTime: 0.1
 --- !u!95 &-4927903119329258908

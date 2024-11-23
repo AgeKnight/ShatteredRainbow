@@ -1979,6 +1979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllResurrectionTime: 2
+  expObject: []
   curinput: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   canControlAttack: 1
   HiScore: 0
@@ -1987,7 +1988,7 @@ MonoBehaviour:
   BackMusic:
   - {fileID: 6960425469510849509, guid: 00dfdf6a9f4f296459f49b47f95b2d85, type: 3}
   - {fileID: 2016969540062916003, guid: b5d25c957a4738b45b76df0342b6c026, type: 3}
-  - {fileID: 8752207813587239650, guid: 0205e624a07ee974da321991eb17b099, type: 3}
+  - {fileID: 1605213039986682488, guid: 77dac0df6c4b3714286dfa3370b5c252, type: 3}
   MenuSound:
   - {fileID: 3387233106102494613, guid: 2d2877d450416c64ca3d40c056fe35c6, type: 3}
   - {fileID: 3387233106102494613, guid: e2c2f31cbe909e74b9fc1487e7122010, type: 3}
@@ -2058,7 +2059,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 358f012c9d3602d46887711cad52df0a, type: 3}
   - {fileID: 21300000, guid: 424647d67290779429f6814e03005dd9, type: 3}
   - {fileID: 938090617307318634, guid: 78168ab98c9a79b46b0ae77d3f1b9365, type: 3}
-  playerStatus: {fileID: 1922134369}
   Lifes:
   - {fileID: 374974108}
   - {fileID: 1234449597}
@@ -2089,7 +2089,6 @@ MonoBehaviour:
   enemyManager: {fileID: 331282131}
   Reciprocal: {fileID: 117362891}
   playerLevel: 0
-  canTrack: 0
   ChoicePlayer: 0
   player:
   - {fileID: 6646415776259885055, guid: 219d3d6265477914e922e01cc667e33c, type: 3}
@@ -2144,16 +2143,16 @@ MonoBehaviour:
   bossIndex: 0
   AllBossStaire: 0
   waveMonster:
-  - monsterPrefab: {fileID: 4251172748177828862, guid: f0276956f560a0f4daa084abfa4d0569, type: 3}
-    count: 10
+  - monsterPrefab: {fileID: 8803912893060238576, guid: 77e29fc56ed95c648b3364e62db105a4, type: 3}
+    count: 3
     spanTime: 0.3
     wave: 0
     spanPosition: {fileID: 2000406595}
     movePosition:
     - {fileID: 604373939}
     - {fileID: 1796432334}
-  - monsterPrefab: {fileID: 4251172748177828862, guid: f0276956f560a0f4daa084abfa4d0569, type: 3}
-    count: 10
+  - monsterPrefab: {fileID: 1383492069217346285, guid: e515d48a08a6b6242891b867eb720c63, type: 3}
+    count: 4
     spanTime: 0.3
     wave: 1
     spanPosition: {fileID: 2000406595}
@@ -2177,7 +2176,7 @@ MonoBehaviour:
     - {fileID: 604373939}
     - {fileID: 1796432334}
   - monsterPrefab: {fileID: 1383492069217346285, guid: e515d48a08a6b6242891b867eb720c63, type: 3}
-    count: 10
+    count: 5
     spanTime: 0.3
     wave: 2
     spanPosition: {fileID: 1185985675}
@@ -2185,15 +2184,15 @@ MonoBehaviour:
     - {fileID: 1106777134}
     - {fileID: 985511251}
   - monsterPrefab: {fileID: 4251172748177828862, guid: f0276956f560a0f4daa084abfa4d0569, type: 3}
-    count: 10
+    count: 5
     spanTime: 0.3
     wave: 0
     spanPosition: {fileID: 2000406595}
     movePosition:
     - {fileID: 604373939}
     - {fileID: 1796432334}
-  - monsterPrefab: {fileID: 1383492069217346285, guid: e515d48a08a6b6242891b867eb720c63, type: 3}
-    count: 30
+  - monsterPrefab: {fileID: 8803912893060238576, guid: 77e29fc56ed95c648b3364e62db105a4, type: 3}
+    count: 8
     spanTime: 0.4
     wave: 1
     spanPosition: {fileID: 34369568}
@@ -2209,15 +2208,15 @@ MonoBehaviour:
     - {fileID: 1407830996}
     - {fileID: 220743499}
   - monsterPrefab: {fileID: 4251172748177828862, guid: f0276956f560a0f4daa084abfa4d0569, type: 3}
-    count: 10
+    count: 5
     spanTime: 0.5
     wave: 2
     spanPosition: {fileID: 1628569198}
     movePosition:
     - {fileID: 1924092105}
     - {fileID: 556996192}
-  - monsterPrefab: {fileID: 1383492069217346285, guid: e515d48a08a6b6242891b867eb720c63, type: 3}
-    count: 10
+  - monsterPrefab: {fileID: 8803912893060238576, guid: 77e29fc56ed95c648b3364e62db105a4, type: 3}
+    count: 5
     spanTime: 0.3
     wave: 3
     spanPosition: {fileID: 626639479}
@@ -2237,7 +2236,7 @@ MonoBehaviour:
     spanPosition: {fileID: 376989966}
     movePosition:
     - {fileID: 564432931}
-  everyStairTime: 5
+  everyStairTime: 8
 --- !u!82 &331282132
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7816,7 +7815,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 0.5
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 539a9e2f00000000
+  m_ApplyToSortingLayers: 65c10347539a9e2f000000008df152fc13d2aac01935576def2b32d235b2da2435348f5207633c326d3d3c11
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 9
@@ -8423,7 +8422,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 0.5613208, b: 0.98670167, a: 1}
   m_Intensity: 0.8
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 65c10347
+  m_ApplyToSortingLayers: 65c1034735b2da24
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -10416,7 +10415,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 0.5613208, b: 0.98670167, a: 1}
   m_Intensity: 0.8
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 65c10347
+  m_ApplyToSortingLayers: 65c1034735b2da24
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -10969,7 +10968,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.0001001, y: 196.80415}
+  m_AnchoredPosition: {x: -1.0001, y: 170.05}
   m_SizeDelta: {x: 649.51, y: 157.89}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1609052212
@@ -13458,7 +13457,7 @@ MonoBehaviour:
   m_Color: {r: 0.5518868, g: 0.5949746, b: 1, a: 1}
   m_Intensity: 0.3
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 65c1034735348f52
+  m_ApplyToSortingLayers: 65c1034735348f528df152fc35b2da24
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 10

@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     static GameManager instance;
     public static GameManager Instance { get => instance; set => instance = value; }
     #region "Private"
-    int totalExp = 100;
+    int totalExp = 1000;
     bool isOnButton = false;
     float sideA;
     float sideB;
@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
+    public GameObject[] expObject;
     [SerializeField]
     //上:0,1 下:2,3 左:4,5 右6,7 攻擊:8 大招:9 子彈時間:10 菜單:11
     [HideInInspector]
@@ -312,7 +313,7 @@ public class GameManager : MonoBehaviour
                 AudioPlay(ItemgainsSound[0], true);
                 if (playerLevel < 3)
                 {
-                    AddExp(1);
+                    AddExp(10);
                     AddScore(item.score);
                 }
                 else
@@ -325,7 +326,7 @@ public class GameManager : MonoBehaviour
                 AudioPlay(ItemgainsSound[0], true);
                 if (playerLevel < 3)
                 {
-                    AddExp(1);
+                    AddExp(100);
                     AddScore(item.score);
                 }
                 else
@@ -483,26 +484,31 @@ public class GameManager : MonoBehaviour
     public void MinusEXP() //每次死亡扣除經驗值總數的1/4
     {
         int exploss; //經驗值所失
+        GameObject drop;
         if (playerLevel == 3)
         {
-            exploss = (playerLevel * 100) / 4;  //經驗值所失
-            playerExp = (playerLevel * 100) * 3 / 4;//懲罰後經驗值
+            exploss = (playerLevel * 1000) / 4;  //經驗值所失
+            playerExp = (playerLevel * 1000) * 3 / 4;//懲罰後經驗值
         }
         else
         {
-            exploss = (playerLevel * 100 + playerExp) / 4;  //經驗值所失
-            playerExp = (playerLevel * 100 + playerExp) * 3 / 4; //懲罰後經驗值
+            exploss = (playerLevel * 1000 + playerExp) / 4;  //經驗值所失
+            playerExp = (playerLevel * 1000 + playerExp) * 3 / 4; //懲罰後經驗值
         }
-        for (int i = 0; i < exploss; i++)
+        for (int i = 0; i < 3; i++)
         {
-            GameObject drop = Instantiate(EXP, playerScript.gameObject.GetComponent<Transform>().position, Quaternion.identity);
-            drop.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10f, 10f), Random.Range(-10f, 10f)));
-            drop.GetComponent<Item>().CanAttract = false;
+            for (int j = 0; j < (exploss/Mathf.Pow(10,i))%10; j++)
+            {
+                drop = Instantiate(expObject[i], playerScript.gameObject.GetComponent<Transform>().position, Quaternion.identity);
+                drop.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10f, 10f), Random.Range(-10f, 10f)));
+                drop.GetComponent<Item>().CanAttract = false;
+            }
+          
         }
 
 
-        playerLevel = playerExp / 100;    //處罰後等級
-        playerExp = playerExp - playerLevel * 100;    //處罰後的顯示經驗值    
+        playerLevel = playerExp / 1000;    //處罰後等級
+        playerExp = playerExp - playerLevel * 1000;    //處罰後的顯示經驗值    
 
         // playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
         expBar.value = (float)playerExp / totalExp;
@@ -631,7 +637,7 @@ public class GameManager : MonoBehaviour
 
     public void MenuUse()
     {
-        if (Input.GetKeyDown(curinput[14]) || Input.GetKeyDown(curinput[15]))
+        if (playerScript.canMove == true && Input.GetKeyDown(curinput[14]) || Input.GetKeyDown(curinput[15]))
         {
             isOnButton = !isOnButton;
             Menus[0].SetActive(isOnButton);
@@ -674,13 +680,13 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         DontDestroyOnLoad(AudioPlay(MenuSound[3], true));
         statusType = StatusType.Pause;
-        // SceneManager.LoadScene("Game" + GameStage.ToString());
+        // SceneffaddManager.LoadScene("Game" + GameStage.ToString());
         //  SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         StartCoroutine(Loadscene(SceneManager.GetActiveScene().buildIndex));
     }
     public void BackToMenu()
     {
-        Time.timeScale = 1;
+     //   Time.timeScale = 1;
         DontDestroyOnLoad(AudioPlay(MenuSound[3], true));
         statusType = StatusType.Pause;
         RefreshGame();
@@ -691,7 +697,7 @@ public class GameManager : MonoBehaviour
         Menus[1].SetActive(false);
         statusType = StatusType.Pause;
         //MinusLevel();
-        AddLife(2);
+        SetLife(2);
         PlayerResurrection();
         AddScore(1);
         Time.timeScale = 1;

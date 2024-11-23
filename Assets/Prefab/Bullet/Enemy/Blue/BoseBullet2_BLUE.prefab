@@ -102,7 +102,7 @@ Transform:
   m_GameObject: {fileID: 6506472692183266595}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.65, y: 3.4326, z: 0}
-  m_LocalScale: {x: 0.13, y: 0.13, z: 2.2749248}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 2.2749248}
   m_Children:
   - {fileID: 1839097577610268693}
   m_Father: {fileID: 0}
@@ -146,7 +146,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 618312245
-  m_SortingLayer: 6
+  m_SortingLayer: 5
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 578dcb61346031243894cd15e3bc130b, type: 3}
   m_Color: {r: 0.08962262, g: 0.23482706, b: 1, a: 1}
@@ -208,19 +208,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61cbb7a3991def4ea024c93d488023c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cantMove: 0
+  AllRainTime: 0
   rain: 0
+  canWallDestroy: 1
+  VyleIndex: 0
+  canBounceWall: 0
   speed: 0.75
   hurt: 0
+  BurnHurt: 0
   hitspark: {fileID: 7037961734342237002, guid: b3d2b9f1944c0da4aab3c5b62a03ab25, type: 3}
+  BurnSpark: {fileID: 0}
   Hitsound: {fileID: 0}
-  canTrackEnemy: 0
-  bulletType: 1
-  focusDistance: 0
-  rotatespeed: 0
-  AllRainTime: 0
-  canDestroy: 1
   canAttack: 1
+  allBounceNum: 0
+  MaxTrackTime: 0
+  bulletType: 1
+  bulletMoveType: 0
+  rotatespeed: 0
 --- !u!95 &6471205054864937934
 Animator:
   serializedVersion: 3

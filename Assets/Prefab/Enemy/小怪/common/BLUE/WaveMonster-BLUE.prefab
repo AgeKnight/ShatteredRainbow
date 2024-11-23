@@ -46,8 +46,8 @@ MonoBehaviour:
   m_LightType: 0
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.884
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2
+  m_Color: {r: 0.3250267, g: 0.44289795, b: 0.8301887, a: 1}
+  m_Intensity: 1
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 0000000035348f528df152fc
   m_LightCookieSprite: {fileID: 0}
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_PointLightQuality: 1
   m_ShapeLightParametricSides: 48
   m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 0
+  m_ShapeLightParametricRadius: 40.49
   m_ShapeLightFalloffSize: 8.95
   m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
@@ -103,7 +103,7 @@ Transform:
   m_GameObject: {fileID: 4251172748177828862}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.4561673, y: 2.623118, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.024, y: 0.024, z: 0.1}
   m_Children:
   - {fileID: 4882664888548761267}
   m_Father: {fileID: 0}
@@ -147,9 +147,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -61673075
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 68c586de9d458cc48a9af625ec7152f0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ffd8e9c2a65e8cd46a34152fda9428ab, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -194,18 +194,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.010178089, y: -0.54896617}
+  m_Offset: {x: 0.38675308, y: 8.112295}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 20, y: 20}
+    oldSize: {x: 80, y: 80}
     newSize: {x: 20, y: 20}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.2648249, y: 4.5789247}
+  m_Size: {x: 37.286453, y: 29.432991}
   m_EdgeRadius: 0
 --- !u!114 &6437670738611927243
 MonoBehaviour:
@@ -243,8 +243,8 @@ MonoBehaviour:
     items: {fileID: 7518270170160341144, guid: 36e4f9a93861b6748b871b08339538aa, type: 3}
   - probability: 0
     items: {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
-  minExp: 1
-  maxExp: 5
+  minExp: 5
+  maxExp: 20
   score: 500
   bonusScore: 0
 --- !u!114 &4611197793671466490
@@ -270,13 +270,15 @@ MonoBehaviour:
   Allbullet: []
   enemyBarrageCounts:
   - count:
-    - 10
-    - 5
-    - 20
-    - 0.6
-    barrageType: 2
+    - 15
+    - 80
+    - -80
+    - 0.1
+    - 1
+    - 3
+    barrageType: 7
     barrage:
-    - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    - {fileID: 7346976807218948309, guid: 3a16f989428ec8946aeeab2a09a8a5eb, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   countTime: 0.1
 --- !u!95 &4501460878451362030

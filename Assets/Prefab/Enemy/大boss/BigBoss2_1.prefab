@@ -400,7 +400,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -61673075
-  m_SortingLayer: 4
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 6a023a8937599974a9dc5a88e074ab22, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -453,7 +453,6 @@ MonoBehaviour:
   totalHp: 1000
   charatorType: 1
   enemyType: 1
-  expObject: {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
   hpBar: {fileID: 0}
   isInvincible: 0
   isInBomb: 0
@@ -465,10 +464,8 @@ MonoBehaviour:
     - 0.15
     barrageType: 0
     barrage:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    Shootsound: {fileID: 0}
+    - {fileID: 6506472692183266595, guid: 33932fbda78b919489b00a10a273760d, type: 3}
+    Shootsound: {fileID: 1106923319873254454, guid: fa59641cb3138824aa3393446232734c, type: 3}
   indexMax: 3
   itemStruct:
   - probability: 100
@@ -504,31 +501,28 @@ MonoBehaviour:
   Allbullet: []
   enemyBarrageCounts:
   - count:
-    - 10
+    - 36
     - 5
-    - 20
-    - 0.6
-    barrageType: 2
+    - 0.3
+    barrageType: 6
     barrage:
-    - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    - {fileID: 6506472692183266595, guid: 33932fbda78b919489b00a10a273760d, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   - count:
-    - 10
-    - 5
     - 20
-    - 0.6
-    barrageType: 2
+    - 0.2
+    barrageType: 4
     barrage:
-    - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    - {fileID: 7346976807218948309, guid: 3a16f989428ec8946aeeab2a09a8a5eb, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   - count:
-    - 10
-    - 5
-    - 20
-    - 0.6
-    barrageType: 2
+    - 6
+    - 0.3
+    barrageType: 12
     barrage:
-    - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    - {fileID: 6506472692183266595, guid: 33932fbda78b919489b00a10a273760d, type: 3}
+    - {fileID: 1985683522891518422, guid: 0c1fe1b7340988c418e6f8c742474f46, type: 3}
+    - {fileID: 7346976807218948309, guid: 3a16f989428ec8946aeeab2a09a8a5eb, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   countTime: 2
 --- !u!95 &946433070261203564

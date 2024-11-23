@@ -29,7 +29,6 @@ public class Death : MonoBehaviour
     public float totalHp;
     public CharatorType charatorType;
     public EnemyType enemyType;
-    public GameObject expObject;
     #endregion
     #region "Hide"
     [HideInInspector]
@@ -147,7 +146,7 @@ public class Death : MonoBehaviour
 
         GameManager.Instance.AudioPlay(deathAudio, true);
 
-        GameObject effect = Instantiate(deadEffect,Spot.position,Quaternion.identity);
+        GameObject effect = Instantiate(deadEffect, Spot.position, Quaternion.identity);
         effect.GetComponent<Animator>().SetTrigger(ExplosionType);
    //     this.GetComponent<Animator>().SetTrigger("Dead");
        
@@ -158,9 +157,13 @@ public class Death : MonoBehaviour
     {
         GameManager.Instance.AddScore(score);
         int probabilityExp = Random.Range(minExp, maxExp);
-        for (int i = 0; i <= probabilityExp; i++)
+        for (int i = 0; i < 3; i++)
         {
-            Instantiate(expObject, transform.position, Quaternion.identity); //道具生成位置改變的效果綁在item.cs上
+            for (int j = 0; j < (probabilityExp / Mathf.Pow(10, i)) % 10; j++)
+            {
+                Instantiate(GameManager.Instance.expObject[i], transform.position, Quaternion.identity);
+            }
+
         }
         if (GameManager.Instance.awardType != AwardType.Failed)
         {

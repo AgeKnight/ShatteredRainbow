@@ -145,8 +145,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 618312245
+  m_SortingLayer: 5
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 1363eb34d2a382445a61f6c7a4c8281e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -210,11 +210,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AllRainTime: 0
   rain: 0
+  canWallDestroy: 1
+  VyleIndex: 0
+  canBounceWall: 0
   speed: 2
   hurt: 0
+  BurnHurt: 0
   hitspark: {fileID: 7037961734342237002, guid: b3d2b9f1944c0da4aab3c5b62a03ab25, type: 3}
+  BurnSpark: {fileID: 0}
   Hitsound: {fileID: 0}
-  canDestroy: 0
   canAttack: 1
   allBounceNum: 10
   MaxTrackTime: 0.5

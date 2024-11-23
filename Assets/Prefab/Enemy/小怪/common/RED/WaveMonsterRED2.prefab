@@ -271,7 +271,7 @@ MonoBehaviour:
   deathAudio: {fileID: 3387233106102494613, guid: 3e52ef3996671224aac4a3c6250d1dd0, type: 3}
   Hurtaudio: {fileID: 8946850152021610928, guid: 81cd98fd81d794e4d9457f24868465b2, type: 3}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
-  totalHp: 120
+  totalHp: 60
   charatorType: 1
   enemyType: 0
   expObject: {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
@@ -293,8 +293,8 @@ MonoBehaviour:
     items: {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
   - probability: 0
     items: {fileID: 7518270170160341144, guid: 64fa2ac8a88d4f241bdb5d26bb8e6daf, type: 3}
-  minExp: 10
-  maxExp: 50
+  minExp: 25
+  maxExp: 75
   score: 2500
   bonusScore: 0
 --- !u!114 &5240528303161632813
@@ -321,7 +321,7 @@ MonoBehaviour:
   enemyBarrageCounts:
   - count:
     - 4
-    - 120
+    - 15
     - 0.5
     barrageType: 6
     barrage:

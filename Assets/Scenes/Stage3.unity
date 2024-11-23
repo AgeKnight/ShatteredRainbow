@@ -1870,6 +1870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllResurrectionTime: 2
+  expObject: []
   curinput: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   canControlAttack: 1
   HiScore: 0
@@ -1878,7 +1879,7 @@ MonoBehaviour:
   BackMusic:
   - {fileID: 3124419409881461291, guid: af005a19af1f4224c86c457bf054271f, type: 3}
   - {fileID: 65012325920163333, guid: b4d7242f9c859a14d8028dcc178ea76a, type: 3}
-  - {fileID: 8752207813587239650, guid: 0205e624a07ee974da321991eb17b099, type: 3}
+  - {fileID: 1605213039986682488, guid: 77dac0df6c4b3714286dfa3370b5c252, type: 3}
   MenuSound:
   - {fileID: 3387233106102494613, guid: 2d2877d450416c64ca3d40c056fe35c6, type: 3}
   - {fileID: 3387233106102494613, guid: e2c2f31cbe909e74b9fc1487e7122010, type: 3}
@@ -1949,7 +1950,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 358f012c9d3602d46887711cad52df0a, type: 3}
   - {fileID: 21300000, guid: 424647d67290779429f6814e03005dd9, type: 3}
   - {fileID: 938090617307318634, guid: 78168ab98c9a79b46b0ae77d3f1b9365, type: 3}
-  playerStatus: {fileID: 1922134369}
   Lifes:
   - {fileID: 374974108}
   - {fileID: 1234449597}
@@ -1980,7 +1980,6 @@ MonoBehaviour:
   enemyManager: {fileID: 331282131}
   Reciprocal: {fileID: 117362891}
   playerLevel: 0
-  canTrack: 0
   ChoicePlayer: 0
   player:
   - {fileID: 6646415776259885055, guid: 219d3d6265477914e922e01cc667e33c, type: 3}
@@ -2112,7 +2111,7 @@ MonoBehaviour:
     spanPosition: {fileID: 822026697}
     movePosition:
     - {fileID: 28853550}
-  everyStairTime: 2
+  everyStairTime: 6
 --- !u!82 &331282132
 AudioSource:
   m_ObjectHideFlags: 0

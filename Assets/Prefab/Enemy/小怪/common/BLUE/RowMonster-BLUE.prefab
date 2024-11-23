@@ -75,9 +75,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -61673075
-  m_SortingLayer: 3
+  m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f7f1b922234d83c4eb045c5300757822, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 48b981b144514e045aa6da34bb0a7a6f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -151,7 +151,7 @@ MonoBehaviour:
   deathAudio: {fileID: 3387233106102494613, guid: 3e52ef3996671224aac4a3c6250d1dd0, type: 3}
   Hurtaudio: {fileID: 8946850152021610928, guid: 81cd98fd81d794e4d9457f24868465b2, type: 3}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
-  totalHp: 9
+  totalHp: 6
   charatorType: 1
   enemyType: 0
   expObject: {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
@@ -171,8 +171,8 @@ MonoBehaviour:
     items: {fileID: 7518270170160341144, guid: 36e4f9a93861b6748b871b08339538aa, type: 3}
   - probability: 1
     items: {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
-  minExp: 1
-  maxExp: 5
+  minExp: 5
+  maxExp: 20
   score: 500
   bonusScore: 0
 --- !u!114 &1599435743332828393
@@ -198,13 +198,12 @@ MonoBehaviour:
   Allbullet: []
   enemyBarrageCounts:
   - count:
-    - 10
-    - 5
-    - 20
-    - 0.6
-    barrageType: 2
+    - 12
+    - 3
+    - 0.7
+    barrageType: 6
     barrage:
-    - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    - {fileID: 1985683522891518422, guid: 0c1fe1b7340988c418e6f8c742474f46, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   countTime: 0.1
 --- !u!95 &7283689303407460000

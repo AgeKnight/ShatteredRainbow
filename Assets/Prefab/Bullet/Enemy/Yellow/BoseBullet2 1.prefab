@@ -145,8 +145,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 618312245
+  m_SortingLayer: 5
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: e435d8a61a11cf34eb8f04d8997e006b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -208,19 +208,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61cbb7a3991def4ea024c93d488023c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cantMove: 0
+  AllRainTime: 0
   rain: 0
+  canWallDestroy: 1
+  VyleIndex: 0
+  canBounceWall: 0
   speed: 6
   hurt: 0
+  BurnHurt: 0
   hitspark: {fileID: 7037961734342237002, guid: b3d2b9f1944c0da4aab3c5b62a03ab25, type: 3}
+  BurnSpark: {fileID: 0}
   Hitsound: {fileID: 0}
-  canTrackEnemy: 0
-  bulletType: 1
-  focusDistance: 0
-  rotatespeed: 0
-  AllRainTime: 0
-  canDestroy: 1
   canAttack: 1
+  allBounceNum: 0
+  MaxTrackTime: 0
+  bulletType: 1
+  bulletMoveType: 0
+  rotatespeed: 0
 --- !u!95 &4739076516286432623
 Animator:
   serializedVersion: 3
