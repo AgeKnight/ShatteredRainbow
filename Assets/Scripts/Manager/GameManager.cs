@@ -515,9 +515,6 @@ public class GameManager : MonoBehaviour
         Level.text = "Level " + playerLevel.ToString();
 
     }
-
-
-
     public void ClearBarrage()
     {
         var barrages = FindObjectsOfType<Bullet>();
@@ -529,14 +526,12 @@ public class GameManager : MonoBehaviour
     {
         //調難度
         float tempCountTime = 1;
-        bool tempCanTrack = false;
         float tempProbability = 1; //0 生命 1 炸彈 2 小弟 4生命碎片
         bool[] tempCanAttract = { false, false, false, false, false }; //0 exp 1 生命 2 炸彈 3 小弟 4 生命碎片
         switch (difficulty)
         {
             case Difficulty.easy:
                 tempCountTime *= 2;
-                tempCanTrack = true;
                 tempProbability = 2;
                 for (int i = 0; i < tempCanAttract.Length; i++)
                 {

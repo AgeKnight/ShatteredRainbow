@@ -154,7 +154,7 @@ public class Bullet : MonoBehaviour
     {
         if (GetComponent<Collider2D>())
             GetComponent<Collider2D>().enabled = false;
-        if (bulletMoveType != BulletMoveType.Bounce)
+        if (bulletMoveType != BulletMoveType.Bounce&&gameObject.GetComponent<Animator>())
             gameObject.GetComponent<Animator>().SetTrigger("Vanish");
         if (bulletMoveType == BulletMoveType.Bounce)
         {
