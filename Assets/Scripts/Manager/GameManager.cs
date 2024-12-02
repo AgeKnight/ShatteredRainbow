@@ -55,8 +55,10 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public bool ReallyInvincible;
+    [HideInInspector]
     public GameObject[] expObject;
-    [SerializeField]
     //上:0,1 下:2,3 左:4,5 右6,7 攻擊:8 大招:9 子彈時間:10 菜單:11
     [HideInInspector]
     public KeyCode[] curinput = new KeyCode[30];
@@ -869,6 +871,7 @@ public class GameManager : MonoBehaviour
             MenuSound[i].volume = saveData.Effect_num * saveData.All_num;
         }
         canControlAttack = !saveData.autoShoot;
+        ReallyInvincible = saveData.Invincible;
         ChoicePlayer = saveData.ChoicePlayer;
         for (int i = 0; i < curinput.Length; i++)
         {
@@ -1029,7 +1032,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator Loadscene(int SceneIndex) //帶入淡出動畫的轉場
     {
-
+        Time.timeScale = 1;
         StartCoroutine(BGMchange(null));
         UIanimator.SetBool("IsEnd", true);
         yield return new WaitForSeconds(3);

@@ -13,6 +13,7 @@ public class SaveVoiceData
     public float Effect_num;
     public float All_num;
     public bool autoShoot;
+    public bool Invincible;
     public int ChoicePlayer;
     public KeyCode[] curinput = new KeyCode[30];
 }
@@ -53,7 +54,7 @@ public class TitleManager : MonoBehaviour
     public Text CurrentRes;
     public GameObject[] OptinionMessage;
     public Text[] Records;
-    public Toggle autoShoot;
+    public Toggle[] autoShoot;
   
    
     
@@ -120,7 +121,7 @@ public class TitleManager : MonoBehaviour
             Destroy(temp, 1.5f);
         return temp;
     }
-    /* ¶µ¥ØÅã¥Üª½±µ¥Î«ö¶s¤º«Ø¥\¯à¥h°µ¶}Ãö
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Üªï¿½ï¿½ï¿½ï¿½Î«ï¿½ï¿½sï¿½ï¿½ï¿½Ø¥\ï¿½ï¿½hï¿½ï¿½ï¿½}ï¿½ï¿½
       public void OpnionUse(int value)
     {
         for(int i =0;i<OptinionMessage.Length;i++)
@@ -163,7 +164,10 @@ public class TitleManager : MonoBehaviour
         BGM.value = 100;
         Effect.value = 100;
         All.value = 100;
-        autoShoot.isOn = false;
+        for (int i = 0; i < autoShoot.Length; i++)
+        {
+            autoShoot[i].isOn = false;
+        }
         Save();
     }
     public void Load()
@@ -191,7 +195,8 @@ public class TitleManager : MonoBehaviour
         saveData.BGM_num = BGM.value;
         saveData.Effect_num = Effect.value;
         saveData.All_num = All.value;
-        saveData.autoShoot = autoShoot.isOn;
+        saveData.autoShoot = autoShoot[0].isOn;
+        saveData.Invincible = autoShoot[1].isOn;
         saveData.ChoicePlayer = ChoicePlayer;
         for (int i = 0; i < controkKeys.Length; i++)
         {
@@ -216,7 +221,8 @@ public class TitleManager : MonoBehaviour
         ClickSound.volume = saveData.Effect_num * saveData.All_num;
 
         All_Text.text = ((int)(saveData.All_num * 100)).ToString();
-        autoShoot.isOn = saveData.autoShoot;
+        autoShoot[0].isOn = saveData.autoShoot;
+        autoShoot[1].isOn =saveData.Invincible ; 
         ChoicePlayer = saveData.ChoicePlayer;
         for (int i = 0; i < controkKeys.Length; i++)
         {
