@@ -816,6 +816,8 @@ public class GameManager : MonoBehaviour
     }
     public void Load()
     {
+        var saveData = SaveSystem.LoadGame<SaveData>();
+        LoadData(saveData);
         if (!isRefreshed)
         {
             var saveData2 = SaveSystem.LoadGameVoice<SaveVoiceData>();
@@ -825,9 +827,7 @@ public class GameManager : MonoBehaviour
                 RefreshGame();
             }
             isRefreshed = true;
-        }
-        var saveData = SaveSystem.LoadGame<SaveData>();
-        LoadData(saveData);
+        }    
     }
     #endregion
     #region "存檔幫助"

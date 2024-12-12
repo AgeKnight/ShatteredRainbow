@@ -149,7 +149,6 @@ public class TitleManager : MonoBehaviour
     public void Save()
     {
         SaveSystem.SaveGameVoice(SavingData());
-        SaveSystem.SaveGame(SavingGameData());
     }
     void RefreshGame()
     {
@@ -160,7 +159,6 @@ public class TitleManager : MonoBehaviour
         {
             autoShoot[i].isOn = false;
         }
-        Save();
     }
     public void Load()
     {
@@ -168,6 +166,10 @@ public class TitleManager : MonoBehaviour
         if (!File.Exists(@"Assets\game_SaveData\Voice.game"))
         {
             noSave = true;
+        }
+        if (!File.Exists(@"Assets\game_SaveData\Game.game"))
+        {
+            SaveSystem.SaveGame(SavingGameData());
         }
         if (!noSave)
         {
