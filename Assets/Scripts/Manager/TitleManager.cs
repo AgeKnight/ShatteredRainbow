@@ -15,6 +15,7 @@ public class SaveVoiceData
     public bool autoShoot;
     public bool Invincible;
     public int ChoicePlayer;
+    public bool canRefresh;
     public KeyCode[] curinput = new KeyCode[30];
 }
 
@@ -27,6 +28,7 @@ public class TitleManager : MonoBehaviour
 {
     static TitleManager instance;
     public static TitleManager Instance { get => instance; set => instance = value; }
+    public bool isCheat;
     public AudioSource SelectSound;
     public AudioSource ClickSound;
     public AudioSource BackSound;
@@ -55,9 +57,7 @@ public class TitleManager : MonoBehaviour
     public GameObject[] OptinionMessage;
     public Text[] Records;
     public Toggle[] autoShoot;
-  
-   
-    
+
     void Awake()
     {
         FullscreenTog.isOn = Screen.fullScreen;
@@ -66,20 +66,20 @@ public class TitleManager : MonoBehaviour
         else
             VsyncTog.isOn = false;
 
-            Instance = this;
+        Instance = this;
         Load();
 
-        bool foundres=false;
-        for(int i=0; i<resolutions.Count;i++)
+        bool foundres = false;
+        for (int i = 0; i < resolutions.Count; i++)
         {
-            if(Screen.width==resolutions[i].Width&&Screen.height==resolutions[i].Height)
+            if (Screen.width == resolutions[i].Width && Screen.height == resolutions[i].Height)
             {
                 foundres = true;
                 SelectedRes = i;
                 CurrentRes.text = resolutions[SelectedRes].Width.ToString() + "x" + resolutions[SelectedRes].Height.ToString();
             }
         }
-        if(!foundres)
+        if (!foundres)
         {
             ResItem newRes = new ResItem();
             newRes.Width = Screen.width;
@@ -100,7 +100,6 @@ public class TitleManager : MonoBehaviour
     {
         Records[0].text = "0";
         SaveSystem.LoadGame<SaveData>().HiPlayerScore = 0;
-
     }
 
     public void ShowRecords()
@@ -121,16 +120,6 @@ public class TitleManager : MonoBehaviour
             Destroy(temp, 1.5f);
         return temp;
     }
-    /* ������ܪ����Ϋ��s���إ\��h���}��
-      public void OpnionUse(int value)
-    {
-        for(int i =0;i<OptinionMessage.Length;i++)
-        {
-            OptinionMessage[i].SetActive(false);
-        }
-        if(value>=0)
-            OptinionMessage[value].SetActive(true);
-    }*/
     public void VoiceControllBGM()
     {
         BGM_Text.text = ((int)(BGM.value * 100)).ToString();
@@ -158,6 +147,7 @@ public class TitleManager : MonoBehaviour
     public void Save()
     {
         SaveSystem.SaveGameVoice(SavingData());
+        SaveSystem.SaveGame(SavingGameData());
     }
     void RefreshGame()
     {
@@ -189,6 +179,11 @@ public class TitleManager : MonoBehaviour
             LoadData(saveData);
         }
     }
+    SaveData SavingGameData()
+    {
+        var saveData = new SaveData();
+        return saveData;
+    }
     SaveVoiceData SavingData()
     {
         var saveData = new SaveVoiceData();
@@ -198,6 +193,7 @@ public class TitleManager : MonoBehaviour
         saveData.autoShoot = autoShoot[0].isOn;
         saveData.Invincible = autoShoot[1].isOn;
         saveData.ChoicePlayer = ChoicePlayer;
+        saveData.canRefresh = isCheat;
         for (int i = 0; i < controkKeys.Length; i++)
         {
             saveData.curinput[i] = controkKeys[i].curinput;
@@ -222,7 +218,7 @@ public class TitleManager : MonoBehaviour
 
         All_Text.text = ((int)(saveData.All_num * 100)).ToString();
         autoShoot[0].isOn = saveData.autoShoot;
-        autoShoot[1].isOn =saveData.Invincible ; 
+        autoShoot[1].isOn = saveData.Invincible;
         ChoicePlayer = saveData.ChoicePlayer;
         for (int i = 0; i < controkKeys.Length; i++)
         {
@@ -233,7 +229,7 @@ public class TitleManager : MonoBehaviour
     {
         Save();
     }
-   
+
     public void VideoSetting()
     {
         Screen.fullScreen = FullscreenTog.isOn;
@@ -255,12 +251,12 @@ public class TitleManager : MonoBehaviour
         else
         {
             SelectedRes++;
-            if(SelectedRes> resolutions.Count - 1)
+            if (SelectedRes > resolutions.Count - 1)
             {
                 SelectedRes = 0;
             }
         }
-        CurrentRes.text = resolutions[SelectedRes].Width.ToString()+"x"+resolutions[SelectedRes].Height.ToString();
+        CurrentRes.text = resolutions[SelectedRes].Width.ToString() + "x" + resolutions[SelectedRes].Height.ToString();
         Screen.SetResolution(resolutions[SelectedRes].Width, resolutions[SelectedRes].Height, FullscreenTog.isOn);
 
     }

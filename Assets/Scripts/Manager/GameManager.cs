@@ -36,7 +36,6 @@ public class SaveData
     public float playerScore;
     public float HiPlayerScore;
     public int GameStage = 1;
-
 }
 public class GameManager : MonoBehaviour
 {
@@ -46,6 +45,7 @@ public class GameManager : MonoBehaviour
     #region "Private"
     int totalExp = 1000;
     bool isOnButton = false;
+    bool isRefreshed = false;
     float sideA;
     float sideB;
     #endregion
@@ -499,13 +499,13 @@ public class GameManager : MonoBehaviour
         }
         for (int i = 0; i < 3; i++)
         {
-            for (int j = 0; j < (exploss/Mathf.Pow(10,i))%10; j++)
+            for (int j = 0; j < (exploss / Mathf.Pow(10, i)) % 10; j++)
             {
                 drop = Instantiate(expObject[i], playerScript.gameObject.GetComponent<Transform>().position, Quaternion.identity);
                 drop.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10f, 10f), Random.Range(-10f, 10f)));
                 drop.GetComponent<Item>().CanAttract = false;
             }
-          
+
         }
 
 
@@ -683,7 +683,7 @@ public class GameManager : MonoBehaviour
     }
     public void BackToMenu()
     {
-     //   Time.timeScale = 1;
+        //   Time.timeScale = 1;
         DontDestroyOnLoad(AudioPlay(MenuSound[3], true));
         statusType = StatusType.Pause;
         RefreshGame();
@@ -814,22 +814,18 @@ public class GameManager : MonoBehaviour
     }
     public void Load()
     {
-        bool noSave = false;
-        var saveData2 = SaveSystem.LoadGameVoice<SaveVoiceData>();
-        LoadData(saveData2);
-        if (!File.Exists(@"Assets\game_SaveData\Game.game"))
+        if (!isRefreshed)
         {
-            noSave = true;
+            var saveData2 = SaveSystem.LoadGameVoice<SaveVoiceData>();
+            LoadData(saveData2);
+            if (saveData2.canRefresh)
+            {
+                RefreshGame();
+            }
+            isRefreshed = true;
         }
-        if (!noSave)
-        {
-            var saveData = SaveSystem.LoadGame<SaveData>();
-            LoadData(saveData);
-        }
-        else
-        {
-            RefreshGame();
-        }
+        var saveData = SaveSystem.LoadGame<SaveData>();
+        LoadData(saveData);
     }
     #endregion
     #region "存檔幫助"
@@ -844,8 +840,6 @@ public class GameManager : MonoBehaviour
         saveData.GameStage = GameStage;
         saveData.playerScore = playerScore;
         saveData.HiPlayerScore = HiScore;
-
-
         return saveData;
     }
     void LoadData(SaveData saveData)
