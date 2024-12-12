@@ -97,6 +97,11 @@ public class CharactorChoose : MonoBehaviour
         {
             chooseStage = 1;
         }
+        else
+        {
+            TitleManager.Instance.isRush = true;
+            TitleManager.Instance.Save();
+        }
         StartCoroutine(GameStart(chooseStage));
     }
     IEnumerator GameStart(int stageselect)

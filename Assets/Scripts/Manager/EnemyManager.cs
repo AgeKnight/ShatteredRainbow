@@ -118,31 +118,7 @@ public class EnemyManager : MonoBehaviour
                     //完全勝利
                     if (bossIndex >= waveBosses.Length)
                     {
-                      
                           StartCoroutine(GameManager.Instance.StageResults()); //關卡完成畫面顯示&獎勵分數計算搬至gamemanager並帶入動畫
-
-                        /*
-                         isWin = true;
-                         ScoreBonus();
-                         GameManager.Instance.UIanimator.SetBool("isEnd",false);
-
-                        GameManager.Instance.StageClear.SetActive(true);
-                        GameManager.Instance.GameStage+=1;
-                        GameManager.Instance.Save();
-                        */
-
-
-                        /*
-                         if(GameManager.Instance.GameStage<=3)
-                          {
-                              yield return new WaitForSeconds(3f);
-                              SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-                          }
-                          else
-                          {   
-                              GameManager.Instance.statusType = StatusType.Win;
-                          }    
-                          */
                         break;
                     }
                     nowCount = 0;

@@ -16,6 +16,7 @@ public class SaveVoiceData
     public bool Invincible;
     public int ChoicePlayer;
     public bool canRefresh;
+    public bool isRush = false;
     public KeyCode[] curinput = new KeyCode[30];
 }
 
@@ -29,6 +30,7 @@ public class TitleManager : MonoBehaviour
     static TitleManager instance;
     public static TitleManager Instance { get => instance; set => instance = value; }
     public bool isCheat;
+    public bool isRush = false;
     public AudioSource SelectSound;
     public AudioSource ClickSound;
     public AudioSource BackSound;
@@ -194,6 +196,7 @@ public class TitleManager : MonoBehaviour
         saveData.Invincible = autoShoot[1].isOn;
         saveData.ChoicePlayer = ChoicePlayer;
         saveData.canRefresh = isCheat;
+        saveData.isRush = isRush;
         for (int i = 0; i < controkKeys.Length; i++)
         {
             saveData.curinput[i] = controkKeys[i].curinput;

@@ -164,6 +164,8 @@ public class GameManager : MonoBehaviour
     public Slider expBar;
     [HideInInspector]
     public Transform PlayerResurrectionPosition;
+    [HideInInspector]
+    public bool isRush;
     #endregion
     #region "難度"
     [Header("調難度")]
@@ -871,6 +873,7 @@ public class GameManager : MonoBehaviour
         {
             curinput[i] = saveData.curinput[i];
         }
+        isRush = saveData.isRush;
     }
 
 
@@ -1013,13 +1016,10 @@ public class GameManager : MonoBehaviour
         //   MapBonusScores[1].text = playerScore.ToString();
         thisMapScore = 0;
         yield return new WaitForSeconds(5f);
-        if (SceneManager.GetActiveScene().name == "Stage3")
+        if (SceneManager.GetActiveScene().name == "Stage3"||isRush)
             StartCoroutine(Loadscene(0));
         else
             StartCoroutine(Loadscene(SceneManager.GetActiveScene().buildIndex + 1));
-
-
-
     }
 
 
