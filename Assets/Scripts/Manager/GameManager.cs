@@ -36,6 +36,8 @@ public class SaveData
     public float playerScore;
     public float HiPlayerScore;
     public int GameStage = 1;
+    public bool Invincible;
+    public bool autoShoot;
 }
 public class GameManager : MonoBehaviour
 {
@@ -727,20 +729,7 @@ public class GameManager : MonoBehaviour
     {
         if (!enemyManager.canGoNext)
         {
-            /*     if(LightSide[0].gameObject.GetComponent<Image>().color.a<=0.5&&!enemyManager.isSpanBoss&&enemyManager.bossIndex==0||enemyManager.isSpanBoss)
-               {
-
-                   sideA+=Time.deltaTime/25;
-               }
-              else if(LightSide[0].gameObject.GetComponent<Image>().color.a>=0.5&&!enemyManager.isSpanBoss)
-              {
-                  sideA-=Time.deltaTime/25;
-                }
-               if (enemyManager.bossIndex != 0)
-                {
-                    sideB += Time.deltaTime / 25;
-                }
-            */
+        
 
 
             if (enemyManager.isSpanBoss)//邊框效果修飾
@@ -822,7 +811,7 @@ public class GameManager : MonoBehaviour
         {
             var saveData2 = SaveSystem.LoadGameVoice<SaveVoiceData>();
             LoadData(saveData2);
-            if (saveData2.canRefresh)
+            if (!saveData2.canCheat)
             {
                 RefreshGame();
             }
@@ -854,6 +843,8 @@ public class GameManager : MonoBehaviour
         SetHiScore(saveData.HiPlayerScore);
         droneCount = saveData.droneCount;
         GameStage = saveData.GameStage;
+        ReallyInvincible = saveData.Invincible;
+        canControlAttack = !saveData.autoShoot;
     }
     void LoadData(SaveVoiceData saveData)
     {
@@ -866,8 +857,6 @@ public class GameManager : MonoBehaviour
         {
             MenuSound[i].volume = saveData.Effect_num * saveData.All_num;
         }
-        canControlAttack = !saveData.autoShoot;
-        ReallyInvincible = saveData.Invincible;
         ChoicePlayer = saveData.ChoicePlayer;
         for (int i = 0; i < curinput.Length; i++)
         {
@@ -880,12 +869,6 @@ public class GameManager : MonoBehaviour
     public IEnumerator BGMchange(AudioSource audio) //背景音樂切換 針對關底Boss
     {
         GetComponent<Rigidbody2D>().velocity = Vector3.up;
-        /*    while (this.GetComponent<AudioSource>().volume > 0)
-            {
-                audioSource.volume -= startVolume * Time.deltaTime / FadeTime;
-
-                yield return null;
-            }*/
         yield return new WaitForSeconds(3f);
         GetComponent<AudioSource>().Stop();
         GetComponent<AudioSource>().PlayOneShot(audio.clip);

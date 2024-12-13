@@ -12,10 +12,8 @@ public class SaveVoiceData
     public float BGM_num;
     public float Effect_num;
     public float All_num;
-    public bool autoShoot;
-    public bool Invincible;
     public int ChoicePlayer;
-    public bool canRefresh;
+    public bool canCheat = false;
     public bool isRush = false;
     public KeyCode[] curinput = new KeyCode[30];
 }
@@ -29,7 +27,6 @@ public class TitleManager : MonoBehaviour
 {
     static TitleManager instance;
     public static TitleManager Instance { get => instance; set => instance = value; }
-    public bool isCheat;
     public bool isRush = false;
     public AudioSource SelectSound;
     public AudioSource ClickSound;
@@ -59,7 +56,10 @@ public class TitleManager : MonoBehaviour
     public GameObject[] OptinionMessage;
     public Text[] Records;
     public Toggle[] autoShoot;
-
+    public int Level;
+    public int Bomb;
+    public int Life;
+    public int Drone;
     void Awake()
     {
         FullscreenTog.isOn = Screen.fullScreen;
@@ -149,6 +149,7 @@ public class TitleManager : MonoBehaviour
     public void Save()
     {
         SaveSystem.SaveGameVoice(SavingData());
+        SaveSystem.SaveGame(SavingGameData());
     }
     void RefreshGame()
     {
@@ -159,33 +160,40 @@ public class TitleManager : MonoBehaviour
         {
             autoShoot[i].isOn = false;
         }
+        Save();
     }
     public void Load()
     {
         bool noSave = false;
-        if (!File.Exists(@"Assets\game_SaveData\Voice.game"))
+        if (!File.Exists(@"Assets\game_SaveData\Voice.game") || !File.Exists(@"Assets\game_SaveData\Game.game"))
         {
             noSave = true;
-        }
-        if (!File.Exists(@"Assets\game_SaveData\Game.game"))
-        {
-            SaveSystem.SaveGame(SavingGameData());
         }
         if (!noSave)
         {
             var saveData = SaveSystem.LoadGameVoice<SaveVoiceData>();
             LoadData(saveData);
+            var saveData2 = SaveSystem.LoadGame<SaveData>();
+            LoadData(saveData2);
         }
         else
         {
             RefreshGame();
             var saveData = SaveSystem.LoadGameVoice<SaveVoiceData>();
             LoadData(saveData);
+            var saveData2 = SaveSystem.LoadGame<SaveData>();
+            LoadData(saveData2);
         }
     }
     SaveData SavingGameData()
     {
         var saveData = new SaveData();
+        saveData.Invincible = autoShoot[1].isOn;
+        saveData.autoShoot = autoShoot[0].isOn;
+        saveData.playerBomb = Bomb;
+        saveData.playerLevel = Level;
+        saveData.playerLife = Life;
+        saveData.droneCount = Drone;
         return saveData;
     }
     SaveVoiceData SavingData()
@@ -194,16 +202,22 @@ public class TitleManager : MonoBehaviour
         saveData.BGM_num = BGM.value;
         saveData.Effect_num = Effect.value;
         saveData.All_num = All.value;
-        saveData.autoShoot = autoShoot[0].isOn;
-        saveData.Invincible = autoShoot[1].isOn;
         saveData.ChoicePlayer = ChoicePlayer;
-        saveData.canRefresh = isCheat;
+        saveData.canCheat = autoShoot[2].isOn;
         saveData.isRush = isRush;
         for (int i = 0; i < controkKeys.Length; i++)
         {
             saveData.curinput[i] = controkKeys[i].curinput;
         }
         return saveData;
+    }
+    void LoadData(SaveData saveData)
+    {
+        autoShoot[1].isOn = saveData.Invincible;
+        autoShoot[0].isOn = saveData.autoShoot;
+        Bomb = saveData.playerBomb;
+        Level = saveData.playerLevel;
+        Life = saveData.playerLife;
     }
     void LoadData(SaveVoiceData saveData)
     {
@@ -222,12 +236,16 @@ public class TitleManager : MonoBehaviour
         ClickSound.volume = saveData.Effect_num * saveData.All_num;
 
         All_Text.text = ((int)(saveData.All_num * 100)).ToString();
-        autoShoot[0].isOn = saveData.autoShoot;
-        autoShoot[1].isOn = saveData.Invincible;
+        autoShoot[2].isOn = saveData.canCheat;
         ChoicePlayer = saveData.ChoicePlayer;
         for (int i = 0; i < controkKeys.Length; i++)
         {
             controkKeys[i].curinput = saveData.curinput[i];
+        }
+        if (saveData.canCheat)
+        {
+            var saveData2 = SaveSystem.LoadGame<SaveData>();
+            LoadData(saveData2);
         }
     }
     public void AutoShoot()
