@@ -64,7 +64,7 @@ public class EnemyManager : MonoBehaviour
     public float everyStairTime;
     void Update()
     {
-        if(!canGoNext&&!isInBossAttack&&!isSpanBoss)
+        if (!canGoNext && !isInBossAttack && !isSpanBoss)
             nowEveryStairTime += Time.deltaTime;
     }
     public IEnumerator CreateEnemy()
@@ -72,7 +72,7 @@ public class EnemyManager : MonoBehaviour
         GameManager.Instance.coroutine = null;
         while (true)
         {
-            if (!isInBossAttack&&!isSpanBoss && nowCount < waveMonster[nowIndex].count)
+            if (!isInBossAttack && !isSpanBoss && nowCount < waveMonster[nowIndex].count)
             {
                 for (int i = 0; i < waveMonster[nowIndex].count; i++)
                 {
@@ -98,18 +98,18 @@ public class EnemyManager : MonoBehaviour
             }
             else
             {
-                if(nowEveryStairTime>=everyStairTime)
-                {       
+                if (nowEveryStairTime >= everyStairTime)
+                {
                     nowEveryStairTime = 0;
                     //是否可以前往下一階段
                     if ((isSpanBoss && !OtherStage) || !isSpanBoss)
                     {
-                        
+
                         allIndex++;
                         nowBossStage = 1;
                         if (isSpanBoss)
                         {
-                            bossIndex++;                   
+                            bossIndex++;
                         }
                     }
                     //boss進入二階段
@@ -118,7 +118,7 @@ public class EnemyManager : MonoBehaviour
                     //完全勝利
                     if (bossIndex >= waveBosses.Length)
                     {
-                          StartCoroutine(GameManager.Instance.StageResults()); //關卡完成畫面顯示&獎勵分數計算搬至gamemanager並帶入動畫
+                        StartCoroutine(GameManager.Instance.StageResults()); //關卡完成畫面顯示&獎勵分數計算搬至gamemanager並帶入動畫
                         break;
                     }
                     nowCount = 0;
@@ -131,7 +131,7 @@ public class EnemyManager : MonoBehaviour
                         isSpanBoss = false;
                     }
 
-                     
+
                     //防止溢出
                     if (nowIndex >= waveMonster.Length)
                         nowIndex = 0;
@@ -139,8 +139,7 @@ public class EnemyManager : MonoBehaviour
                     //開始進入boss戰
                     if (allIndex % (waveMonster.Length / 2 + 1) == waveMonster.Length / 2)
                     {
-                        // GameManager.Instance.ClearBarrage(); Boss戰鬥開始前的畫面清理
-                       
+                        
                         StartCoroutine(BossAppear());
                         break;
                     }
@@ -170,12 +169,12 @@ public class EnemyManager : MonoBehaviour
     }
     IEnumerator BossAppear()
     {
-        if(GameManager.Instance.playerScript)
+        if (GameManager.Instance.playerScript)
             GameManager.Instance.playerScript.againUseBomb();
         AllBossStaire = waveBosses[bossIndex].bossPrefab.Length;
         OtherStage = true;
         isInBossAttack = true;
-       
+
         if (nowBossStage == 1)
         {
             var items = FindObjectsOfType<Item>();
@@ -184,10 +183,7 @@ public class EnemyManager : MonoBehaviour
             yield return new WaitForSeconds(3f);
             if (bossIndex == waveBosses.Length - 1)
             {
-                //      GameManager.Instance.AudioPlay(GameManager.Instance.BackMusic[1],false);
-                //GameManager.Instance.BackgroundMusicChange(GameManager.Instance.BackMusic[1]);
                 StartCoroutine(GameManager.Instance.BGMchange(GameManager.Instance.BackMusic[1]));//boss音樂切換
-
             }
         }
         StartCoroutine(CreateEnemy());
@@ -225,35 +221,5 @@ public class EnemyManager : MonoBehaviour
             waveMonster[nowIndex].movePosition[i].position = new Vector3(tempPosition, waveMonster[nowIndex].movePosition[i].position.y, waveMonster[nowIndex].movePosition[i].position.z);
         }
     }
-    /* 獎勵計算 移至gamemanager
-    void ScoreBonus()
-    {
-        GameManager.Instance.MapBonusScores[1].text = GameManager.Instance.playerScore.ToString();
-        GameManager.Instance.MapBonusScores[0].text = GameManager.Instance.thisMapScore.ToString();
 
-
-        if (!GameManager.Instance.thisMapBomb)
-        {
-            GameManager.Instance.thisMapScore *= 1.5f;
-            GameManager.Instance.MapBonusScores[2].text = "0 bomb used!";
-            GameManager.Instance.MapBonusScores[3].text = " X 1.5 Bonus!";
-        }
-     
-        if (!GameManager.Instance.thisMapHurt)
-        {
-            GameManager.Instance.thisMapScore *= 1.5f;
-            GameManager.Instance.MapBonusScores[4].text = "0 Deaths!";
-            GameManager.Instance.MapBonusScores[5].text = " X 1.5 Bonus!";
-        }
-
- 
-
-        GameManager.Instance.thisMapBomb = false;
-        GameManager.Instance.thisMapHurt = false;
-        GameManager.Instance.AddScore(GameManager.Instance.thisMapScore);
-        GameManager.Instance.MapBonusScores[1].text = GameManager.Instance.playerScore.ToString();
-        GameManager.Instance.thisMapScore = 0;
-    }
-    */
-    
 }

@@ -56,10 +56,18 @@ public class TitleManager : MonoBehaviour
     public GameObject[] OptinionMessage;
     public Text[] Records;
     public Toggle[] autoShoot;
+    [HideInInspector]
     public int Level;
+    [HideInInspector]
     public int Bomb;
+    [HideInInspector]
     public int Life;
+    [HideInInspector]
     public int Drone;
+    public GameObject CheatObject;
+    public GameObject BossChoice;
+    [HideInInspector]
+    public int chooseBoss = 0;
     void Awake()
     {
         FullscreenTog.isOn = Screen.fullScreen;
@@ -108,7 +116,7 @@ public class TitleManager : MonoBehaviour
     {
         Records[0].text = SaveSystem.LoadGame<SaveData>().HiPlayerScore.ToString();
     }
-
+    
     public void ExitGame()
     {
         Application.Quit();
@@ -227,11 +235,9 @@ public class TitleManager : MonoBehaviour
 
 
         BGM_Text.text = ((int)(saveData.BGM_num * 100)).ToString();
-        //     BGM.value = saveData.BGM_num;
         BackSound.volume = saveData.BGM_num * saveData.All_num;
 
         Effect_Text.text = ((int)(saveData.Effect_num * 100)).ToString();
-        //   Effect.value = saveData.Effect_num;
         SelectSound.volume = saveData.Effect_num * saveData.All_num;
         ClickSound.volume = saveData.Effect_num * saveData.All_num;
 
@@ -252,7 +258,32 @@ public class TitleManager : MonoBehaviour
     {
         Save();
     }
-
+    public void justBoss()
+    {
+        if(!autoShoot[3].isOn)
+        {
+            chooseBoss = 0;
+        }
+        else
+        {
+            chooseBoss = 1;
+        }
+        BossChoice.SetActive(autoShoot[3].isOn);
+    }
+    public void Cheat()
+    {
+        if(!autoShoot[2].isOn)
+        {
+            Level=0;
+            Bomb=3;
+            Life=3;
+            Drone=0;
+            autoShoot[0].isOn = false;
+            autoShoot[1].isOn = false;
+        }
+        CheatObject.SetActive(autoShoot[2].isOn);     
+        Save();
+    }
     public void VideoSetting()
     {
         Screen.fullScreen = FullscreenTog.isOn;

@@ -687,9 +687,9 @@ public class GameManager : MonoBehaviour
     }
     public void BackToMenu()
     {
-        //   Time.timeScale = 1;
         DontDestroyOnLoad(AudioPlay(MenuSound[3], true));
         statusType = StatusType.Pause;
+        isRush=false;
         RefreshGame();
         StartCoroutine(Loadscene(0));
     }
@@ -729,9 +729,6 @@ public class GameManager : MonoBehaviour
     {
         if (!enemyManager.canGoNext)
         {
-        
-
-
             if (enemyManager.isSpanBoss)//邊框效果修飾
             {
 
@@ -774,11 +771,6 @@ public class GameManager : MonoBehaviour
             var items = FindObjectsOfType<AudioSource>();
             audio.volume /= items.Length;
         }
-        /*  if (audio.clip.name == "射擊3")
-          {
-            //  audio.pitch = Random.Range(0.8f, 1.2f);
-              audio.volume /= 1.25f+playerLevel+droneCount/2;
-          }*/
         if (audio.gameObject.name == "Levelup")
 
         {
@@ -816,7 +808,7 @@ public class GameManager : MonoBehaviour
                 RefreshGame();
             }
             isRefreshed = true;
-        }    
+        }
     }
     #endregion
     #region "存檔幫助"
@@ -833,6 +825,7 @@ public class GameManager : MonoBehaviour
         saveData.HiPlayerScore = HiScore;
         return saveData;
     }
+
     void LoadData(SaveData saveData)
     {
         SetBomb(saveData.playerBomb);
@@ -870,8 +863,11 @@ public class GameManager : MonoBehaviour
     {
         GetComponent<Rigidbody2D>().velocity = Vector3.up;
         yield return new WaitForSeconds(3f);
-        GetComponent<AudioSource>().Stop();
-        GetComponent<AudioSource>().PlayOneShot(audio.clip);
+        if (GetComponent<AudioSource>().clip)
+        {
+            GetComponent<AudioSource>().Stop();
+            GetComponent<AudioSource>().PlayOneShot(audio.clip);
+        }
         GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
         transform.position = new Vector3(0, 0, 0);
     }
@@ -999,7 +995,7 @@ public class GameManager : MonoBehaviour
         //   MapBonusScores[1].text = playerScore.ToString();
         thisMapScore = 0;
         yield return new WaitForSeconds(5f);
-        if (SceneManager.GetActiveScene().name == "Stage3"||isRush)
+        if (SceneManager.GetActiveScene().name == "Stage3" || isRush)
             StartCoroutine(Loadscene(0));
         else
             StartCoroutine(Loadscene(SceneManager.GetActiveScene().buildIndex + 1));

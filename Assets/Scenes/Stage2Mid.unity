@@ -2068,86 +2068,12 @@ MonoBehaviour:
   bossIndex: 0
   AllBossStaire: 0
   waveMonster:
-  - monsterPrefab: {fileID: 8803912893060238576, guid: 77e29fc56ed95c648b3364e62db105a4, type: 3}
-    count: 3
-    spanTime: 0.3
+  - monsterPrefab: {fileID: 0}
+    count: 0
+    spanTime: 0
     wave: 0
-    spanPosition: {fileID: 2000406595}
-    movePosition:
-    - {fileID: 604373939}
-    - {fileID: 1796432334}
-  - monsterPrefab: {fileID: 1383492069217346285, guid: e515d48a08a6b6242891b867eb720c63, type: 3}
-    count: 4
-    spanTime: 0.3
-    wave: 1
-    spanPosition: {fileID: 2000406595}
-    movePosition:
-    - {fileID: 604373939}
-    - {fileID: 1796432334}
-  - monsterPrefab: {fileID: 7178295306345309962, guid: fa7990e5db727c640bce9c8d0c2c3f2e, type: 3}
-    count: 2
-    spanTime: 0.1
-    wave: 1
-    spanPosition: {fileID: 1608330761}
-    movePosition:
-    - {fileID: 1816281235}
-    - {fileID: 2071513474}
-  - monsterPrefab: {fileID: 4251172748177828862, guid: f0276956f560a0f4daa084abfa4d0569, type: 3}
-    count: 2
-    spanTime: 0.3
-    wave: 1
-    spanPosition: {fileID: 2000406595}
-    movePosition:
-    - {fileID: 604373939}
-    - {fileID: 1796432334}
-  - monsterPrefab: {fileID: 1383492069217346285, guid: e515d48a08a6b6242891b867eb720c63, type: 3}
-    count: 5
-    spanTime: 0.3
-    wave: 2
-    spanPosition: {fileID: 1185985675}
-    movePosition:
-    - {fileID: 1106777134}
-    - {fileID: 985511251}
-  - monsterPrefab: {fileID: 4251172748177828862, guid: f0276956f560a0f4daa084abfa4d0569, type: 3}
-    count: 5
-    spanTime: 0.3
-    wave: 0
-    spanPosition: {fileID: 2000406595}
-    movePosition:
-    - {fileID: 604373939}
-    - {fileID: 1796432334}
-  - monsterPrefab: {fileID: 8803912893060238576, guid: 77e29fc56ed95c648b3364e62db105a4, type: 3}
-    count: 8
-    spanTime: 0.4
-    wave: 1
-    spanPosition: {fileID: 34369568}
-    movePosition:
-    - {fileID: 1211821300}
-    - {fileID: 1873704510}
-  - monsterPrefab: {fileID: 7178295306345309962, guid: fa7990e5db727c640bce9c8d0c2c3f2e, type: 3}
-    count: 2
-    spanTime: 0.5
-    wave: 1
-    spanPosition: {fileID: 186201858}
-    movePosition:
-    - {fileID: 1407830996}
-    - {fileID: 220743499}
-  - monsterPrefab: {fileID: 4251172748177828862, guid: f0276956f560a0f4daa084abfa4d0569, type: 3}
-    count: 5
-    spanTime: 0.5
-    wave: 2
-    spanPosition: {fileID: 1628569198}
-    movePosition:
-    - {fileID: 1924092105}
-    - {fileID: 556996192}
-  - monsterPrefab: {fileID: 8803912893060238576, guid: 77e29fc56ed95c648b3364e62db105a4, type: 3}
-    count: 5
-    spanTime: 0.3
-    wave: 3
-    spanPosition: {fileID: 626639479}
-    movePosition:
-    - {fileID: 1539721863}
-    - {fileID: 2123161795}
+    spanPosition: {fileID: 0}
+    movePosition: []
   waveBosses:
   - bossPrefab:
     - {fileID: 3254778538972124633, guid: 38a58856c528bab4fb8b11404a7f888e, type: 3}
@@ -2155,13 +2081,7 @@ MonoBehaviour:
     spanPosition: {fileID: 376989966}
     movePosition:
     - {fileID: 564432931}
-  - bossPrefab:
-    - {fileID: 5234428329783512489, guid: 0927a4199cf5bb848ac29fcd1764e3e1, type: 3}
-    - {fileID: 8002006742679900734, guid: 77006d8bf1fc45c40bc78e90716132ee, type: 3}
-    spanPosition: {fileID: 376989966}
-    movePosition:
-    - {fileID: 564432931}
-  everyStairTime: 8
+  everyStairTime: 1
 --- !u!82 &331282132
 AudioSource:
   m_ObjectHideFlags: 0

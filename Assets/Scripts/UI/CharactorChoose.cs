@@ -16,7 +16,7 @@ public enum ChoiceType
 public class CharactorChoose : MonoBehaviour
 {
     int CharCount = 0;
-    int chooseStage = 1;
+    int chooseStage = 0;
     public bool normalChoice;
     public int maxCount;
     public ChoiceType choiceType;
@@ -35,6 +35,9 @@ public class CharactorChoose : MonoBehaviour
             {
                 case ChoiceType.Stage:
                     DisplayText(chooseStage);
+                    break;
+                case ChoiceType.Boss:
+                    DisplayText(TitleManager.Instance.chooseBoss);
                     break;
                 case ChoiceType.Charactor:
                     DisplayText(CharCount);
@@ -61,16 +64,18 @@ public class CharactorChoose : MonoBehaviour
             switch (choiceType)
             {
                 case ChoiceType.Stage:
-                    chooseStage++;
-                    if (chooseStage > 3)
-                    {
-                        chooseStage = 1;
-                    }
-                    nowChooseText.text = chooseText[chooseStage - 1];
+                    chooseStage = AddCount(chooseStage);
                     break;
                 case ChoiceType.Charactor:
                     CharCount = AddCount(CharCount);
                     TitleManager.Instance.ChoicePlayer = CharCount;
+                    break;
+                case ChoiceType.Boss:
+                    TitleManager.Instance.chooseBoss++;
+                    if (TitleManager.Instance.chooseBoss > 2)
+                    {
+                        TitleManager.Instance.chooseBoss = 1;
+                    }
                     break;
                 case ChoiceType.Bumb:
                     TitleManager.Instance.Bomb = AddCount(TitleManager.Instance.Bomb);
@@ -91,15 +96,19 @@ public class CharactorChoose : MonoBehaviour
             switch (choiceType)
             {
                 case ChoiceType.Stage:
-                    chooseStage--;
-                    if (chooseStage < 1)
-                    {
-                        chooseStage = 3;
-                    }
+                    chooseStage = MinusCount(chooseStage);
+                    chooseStage -= 1;
                     break;
                 case ChoiceType.Charactor:
                     CharCount = MinusCount(CharCount);
                     TitleManager.Instance.ChoicePlayer = CharCount;
+                    break;
+                case ChoiceType.Boss:
+                    TitleManager.Instance.chooseBoss--;
+                    if (TitleManager.Instance.chooseBoss <1)
+                    {
+                        TitleManager.Instance.chooseBoss = 2;
+                    }
                     break;
                 case ChoiceType.Bumb:
                     TitleManager.Instance.Bomb = MinusCount(TitleManager.Instance.Bomb);
@@ -121,6 +130,10 @@ public class CharactorChoose : MonoBehaviour
         if (choiceType == ChoiceType.Bumb || choiceType == ChoiceType.Life || choiceType == ChoiceType.Drone)
         {
             nowChooseText.text = num.ToString();
+        }
+        else if (choiceType == ChoiceType.Boss)
+        {
+            nowChooseText.text = chooseText[num - 1];
         }
         else
         {
@@ -163,14 +176,24 @@ public class CharactorChoose : MonoBehaviour
     {
         if (normalChoice)
         {
-            chooseStage = 1;
+            TitleManager.Instance.isRush = false;
+            TitleManager.Instance.Save();
+            StartCoroutine(GameStart(1));
         }
         else
         {
+            //4 5 6 7 8 9
             TitleManager.Instance.isRush = true;
             TitleManager.Instance.Save();
+            if(TitleManager.Instance.chooseBoss==0)
+            {
+                StartCoroutine(GameStart(chooseStage + 1));
+            }
+            else
+            {
+                StartCoroutine(GameStart(chooseStage*2 + 3+TitleManager.Instance.chooseBoss));
+            }
         }
-        StartCoroutine(GameStart(chooseStage));
     }
     IEnumerator GameStart(int stageselect)
     {

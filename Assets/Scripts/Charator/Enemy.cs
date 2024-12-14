@@ -224,12 +224,6 @@ public class Enemy : MonoBehaviour
     {
         while (true)
         {
-            // if(!isListenShoot)
-            // {
-            //     isListenShoot = true;
-            //     nowMusic = GameManager.Instance.AudioPlay(shoot,false);
-            //     nowMusic.transform.parent = this.gameObject.transform;
-            // }
             if (!canChooseBarrage && !isAttack)
             {
                 isAttack = true;
