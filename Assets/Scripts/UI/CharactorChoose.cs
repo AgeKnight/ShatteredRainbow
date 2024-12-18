@@ -97,7 +97,6 @@ public class CharactorChoose : MonoBehaviour
             {
                 case ChoiceType.Stage:
                     chooseStage = MinusCount(chooseStage);
-                    chooseStage -= 1;
                     break;
                 case ChoiceType.Charactor:
                     CharCount = MinusCount(CharCount);
@@ -158,6 +157,7 @@ public class CharactorChoose : MonoBehaviour
     }
     int MinusCount(int index)
     {
+        Debug.Log(index);
         if (choiceType == ChoiceType.Drone)
         {
             index -= 2;

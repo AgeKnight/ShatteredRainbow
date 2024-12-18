@@ -134,13 +134,10 @@ public class Player : MonoBehaviour
             }
             if (isUseLazer)
             {
-                // if (lazerObject)
-                //   lazerObject.transform.position = this.gameObject.transform.position;
                 LazerTime += Time.deltaTime;
                 if (LazerTime >= maxLazerTime)
                 {
                     LilyGather.Value = GatherTime / MaxGatherTime;
-                    //  Destroy(lazerObject);
                     isUseLazer = false;
                     LazerTime = 0;
                 }
@@ -160,10 +157,6 @@ public class Player : MonoBehaviour
         {
             isAttack = false;
         }
-        /*if (isUseBomb)
-        {
-            myBomb.transform.position = transform.position;
-        }*/
         if (isUseTimeBarrage)
         {
             invokeTime -= Time.unscaledDeltaTime;
@@ -258,16 +251,6 @@ public class Player : MonoBehaviour
                 DroneGroup.GetComponent<Animator>().SetBool("Drone_attacking", false);
             if (playerType == PlayerType.Lily)
             {
-                /*以子彈取代雷射
-                for (int i = 0; i < Drone.Length; i++)
-                {
-                    droneUseLazer[i] = false;
-                    if (LazerPrefab[i])
-                    {
-                        Destroy(LazerPrefab[i]);
-                    }
-                }
-                */
                 if (GatherTime >= MaxGatherTime)
                 {
                     LilyGathering();
@@ -280,8 +263,6 @@ public class Player : MonoBehaviour
         while (isAttack)
         {
             GameManager.Instance.AudioPlay(musicEffect[1], true);
-            //shootEffect = GameManager.Instance.AudioPlay(musicEffect[1], false);
-            // shootEffect.transform.parent = this.transform;
             switch (playerType)
             {
                 case PlayerType.Prismie:
@@ -301,7 +282,6 @@ public class Player : MonoBehaviour
                     break;
             }
             yield return new WaitForSeconds(AttackTime);
-            //  Destroy(shootEffect.gameObject);
         }
     }
     void PrismieAttack()
@@ -457,6 +437,11 @@ public class Player : MonoBehaviour
             GameManager.Instance.thisMapBomb = true;
             GameManager.Instance.thisMapBombCount += 1;
             GameManager.Instance.AudioPlay(musicEffect[2], true);
+            if(GameManager.Instance.Achievements[10]==false)
+            {
+                GameManager.Instance.Achievements[10]=true;
+                GameManager.Instance.Save();
+            }
             if(playerType!= PlayerType.vyles)
             {
                 myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();

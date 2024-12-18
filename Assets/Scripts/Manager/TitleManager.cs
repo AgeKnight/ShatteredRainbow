@@ -27,11 +27,18 @@ public class TitleManager : MonoBehaviour
 {
     static TitleManager instance;
     public static TitleManager Instance { get => instance; set => instance = value; }
+    #region "Hide"
+    [HideInInspector]
     public bool isRush = false;
+    [HideInInspector]
     public AudioSource SelectSound;
+    [HideInInspector]
     public AudioSource ClickSound;
+    [HideInInspector]
     public AudioSource BackSound;
+    [HideInInspector]
     public ControkKey[] controkKeys;
+    [HideInInspector]
     public GameObject ChooseCharactor;
     [HideInInspector]
     public int ChoicePlayer = 0;
@@ -47,14 +54,19 @@ public class TitleManager : MonoBehaviour
     public Slider All;
     [HideInInspector]
     public Text All_Text;
+    [HideInInspector]
     public Toggle FullscreenTog;
+    [HideInInspector]
     public Toggle VsyncTog;
+    [HideInInspector]
     public List<ResItem> resolutions = new List<ResItem>();
     [HideInInspector]
     public int SelectedRes;
+    [HideInInspector]
     public Text CurrentRes;
-    public GameObject[] OptinionMessage;
+    [HideInInspector]
     public Text[] Records;
+    [HideInInspector]
     public Toggle[] autoShoot;
     [HideInInspector]
     public int Level;
@@ -64,10 +76,17 @@ public class TitleManager : MonoBehaviour
     public int Life;
     [HideInInspector]
     public int Drone;
+    [HideInInspector]
     public GameObject CheatObject;
+    [HideInInspector]
     public GameObject BossChoice;
     [HideInInspector]
     public int chooseBoss = 0;
+    #endregion   
+    public GameObject[] OptinionMessage;
+    public Image[] AchievementObject;
+    public Sprite[] AchievementsImage;
+    public bool[] Achievements = new bool[23];
     void Awake()
     {
         FullscreenTog.isOn = Screen.fullScreen;
@@ -99,7 +118,20 @@ public class TitleManager : MonoBehaviour
             CurrentRes.text = resolutions[SelectedRes].Width.ToString() + "x" + resolutions[SelectedRes].Height.ToString();
         }
     }
-
+    public void AchievementBtn()
+    {
+       for (int i = 0; i < AchievementObject.Length; i++)
+       {
+            if(Achievements[i])
+            {
+                AchievementObject[i].sprite = AchievementsImage[1];
+            }
+            else
+            {
+                AchievementObject[i].sprite = AchievementsImage[0];
+            }
+       }
+    }
     public void StartGame()
     {
         Save();
@@ -202,6 +234,10 @@ public class TitleManager : MonoBehaviour
         saveData.playerLevel = Level;
         saveData.playerLife = Life;
         saveData.droneCount = Drone;
+        for (int i = 0; i < Achievements.Length; i++)
+        {
+            saveData.Achievements[i] = Achievements[i];
+        }
         return saveData;
     }
     SaveVoiceData SavingData()
@@ -226,6 +262,10 @@ public class TitleManager : MonoBehaviour
         Bomb = saveData.playerBomb;
         Level = saveData.playerLevel;
         Life = saveData.playerLife;
+        for (int i = 0; i < Achievements.Length; i++)
+        {
+            Achievements[i] =saveData.Achievements[i];
+        }
     }
     void LoadData(SaveVoiceData saveData)
     {

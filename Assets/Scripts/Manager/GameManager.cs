@@ -38,6 +38,7 @@ public class SaveData
     public int GameStage = 1;
     public bool Invincible;
     public bool autoShoot;
+    public bool[] Achievements = new bool[23];
 }
 public class GameManager : MonoBehaviour
 {
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
+    public bool[] Achievements = new bool[23];
     [HideInInspector]
     public bool ReallyInvincible;
     [HideInInspector]
@@ -72,7 +74,7 @@ public class GameManager : MonoBehaviour
     public int GameStage = 1;
     [HideInInspector]
     public int playerExp;
-    // [HideInInspector]
+     [HideInInspector]
     public AudioSource[] BackMusic;
     [HideInInspector]
     public AudioSource[] MenuSound;
@@ -98,8 +100,7 @@ public class GameManager : MonoBehaviour
     public int thisMapBombCount = 0; //本關炸彈使用數
     [HideInInspector]
     public int thisMapHurtCount = 0; //本關死亡數
-
-    //[HideInInspector]
+    [HideInInspector]
     public AwardType awardType = AwardType.Bonus;
     [HideInInspector]
     public int lifeCount = 0;
@@ -111,19 +112,18 @@ public class GameManager : MonoBehaviour
     public Sprite[] LifeImages;//0 空心 1 實心
     [HideInInspector]
     public Sprite[] bombImages;//0 空心 1 實心
-                               //  [HideInInspector]
+    [HideInInspector]
     public Sprite[] bossImages;//0 空心 1 實心 
     [HideInInspector]
     public GameObject[] Triangles;
-    //public Animator BarUse;
     [HideInInspector]
     public Animator UIanimator;
     [HideInInspector]
     public Player playerScript;
     [HideInInspector]
     public GameObject[] bossStaire;
-    //[HideInInspector]
     //0 左上 1 右下
+    [HideInInspector]
     public GameObject[] mapPosition;
     [HideInInspector]
     public int allBomb;
@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] Lifes;
     [HideInInspector]
     public GameObject[] Bombs;
-    //[HideInInspector]
+    [HideInInspector]
     public GameObject[] Menus;//0 暫停 1 輸 2贏
     [HideInInspector]
     public Transform playerSpan;
@@ -151,8 +151,9 @@ public class GameManager : MonoBehaviour
     public GameObject Reciprocal;
     [HideInInspector]
     public int playerLevel;
+    [HideInInspector]
     public int ChoicePlayer;
-    //[HideInInspector]
+    [HideInInspector]
     public GameObject[] player;
     [HideInInspector]
     public GameObject EXP;
@@ -823,6 +824,10 @@ public class GameManager : MonoBehaviour
         saveData.GameStage = GameStage;
         saveData.playerScore = playerScore;
         saveData.HiPlayerScore = HiScore;
+        for (int i = 0; i < Achievements.Length; i++)
+        {
+            saveData.Achievements[i] = Achievements[i];
+        }
         return saveData;
     }
 
@@ -838,6 +843,10 @@ public class GameManager : MonoBehaviour
         GameStage = saveData.GameStage;
         ReallyInvincible = saveData.Invincible;
         canControlAttack = !saveData.autoShoot;
+        for (int i = 0; i < Achievements.Length; i++)
+        {
+            Achievements[i] =saveData.Achievements[i];
+        }
     }
     void LoadData(SaveVoiceData saveData)
     {
