@@ -39,6 +39,12 @@ public class SaveData
     public bool Invincible;
     public bool autoShoot;
     public bool[] Achievements = new bool[30];
+    public bool AllHurt = false;
+    public bool AllBomb = false;
+    public bool AllTimeBarrage = false;
+    public bool AllAttack = false;
+    public int enemyCount;
+    public int killEnemy;
 }
 public class GameManager : MonoBehaviour
 {
@@ -46,11 +52,13 @@ public class GameManager : MonoBehaviour
     static GameManager instance;
     public static GameManager Instance { get => instance; set => instance = value; }
     #region "Private"
+    bool isCheat = false;
     int totalExp = 1000;
     bool isOnButton = false;
     bool isRefreshed = false;
     float sideA;
     float sideB;
+    bool isOperate = false;
     #endregion
     #region "Public"
     public Coroutine coroutine;
@@ -58,6 +66,18 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
+    public int killEnemy;
+    [HideInInspector]
+    public int enemyCount;
+    [HideInInspector]
+    public bool AllHurt = false;
+    [HideInInspector]
+    public bool AllBomb = false;
+    [HideInInspector]
+    public bool AllTimeBarrage = false;
+    [HideInInspector]
+    public bool AllAttack = false;
+    [HideInInspector]
     public bool[] Achievements = new bool[30];
     [HideInInspector]
     public bool ReallyInvincible;
@@ -74,7 +94,7 @@ public class GameManager : MonoBehaviour
     public int GameStage = 1;
     [HideInInspector]
     public int playerExp;
-     [HideInInspector]
+    [HideInInspector]
     public AudioSource[] BackMusic;
     [HideInInspector]
     public AudioSource[] MenuSound;
@@ -95,7 +115,6 @@ public class GameManager : MonoBehaviour
     public bool thisMapBomb = false;
     [HideInInspector]
     public bool thisMapHurt = false;
-
     [HideInInspector]
     public int thisMapBombCount = 0; //本關炸彈使用數
     [HideInInspector]
@@ -184,9 +203,7 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
         Load();
-
         coroutine = StartCoroutine(Begin());
-
     }
     public IEnumerator Begin()
     {
@@ -254,8 +271,14 @@ public class GameManager : MonoBehaviour
         playerScript.canMove = true;
         Invoke("PlayerNotInvincible", AllInvincibleTime);
     }
-
-
+    public void FinishAchievement(int index)
+    {
+        if (!Achievements[index]  && !isRush)
+        {
+            Achievements[index] = true;
+            Save();
+        }
+    }
 
     void PlayerNotInvincible()
     {
@@ -265,7 +288,6 @@ public class GameManager : MonoBehaviour
     #region "吃東西"
     public void EatItem(Item item)
     {
-
         switch (item.itemType)
         {
             case ItemType.Life:
@@ -353,7 +375,6 @@ public class GameManager : MonoBehaviour
         {
             HiScore = playerScore;
             Hi_scoreText.text = HiScore.ToString();
-            //SaveSystem.LoadGame<SaveData>().HiPlayerScore = HiScore;
         }
     }
     public void SetScore(float value)
@@ -381,12 +402,9 @@ public class GameManager : MonoBehaviour
     public void AddLife(int value)
     {
         lifeCount += value;
-        /*  if (lifeCount <= 0)
-          {
-              lifeCount = 0;
-          }
-          不會gameover 死到底生命仍鎖在0不到-1
-           */
+        if (lifeCount >= 10)
+            FinishAchievement(14);
+        CheckUpperLimit();
         for (int i = 0; i < allLife; i++)
         {
             Lifes[i].gameObject.GetComponent<Image>().sprite = LifeImages[0];
@@ -411,6 +429,9 @@ public class GameManager : MonoBehaviour
     public void AddBomb(int value)
     {
         bombCount += value;
+        if (bombCount >= 10)
+            FinishAchievement(15);
+        CheckUpperLimit();
         if (bombCount <= 0)
         {
             bombCount = 0;
@@ -442,7 +463,6 @@ public class GameManager : MonoBehaviour
                     playerScript.VyleCreate();
                 }
             }
-            //  playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
             if (playerLevel < 3)
             {
                 playerExp -= totalExp;
@@ -450,6 +470,8 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                FinishAchievement(12);
+                CheckUpperLimit();
                 playerExp = totalExp;
                 playerLevel = 3;
                 Level.text = "Level Max".ToString();
@@ -462,7 +484,6 @@ public class GameManager : MonoBehaviour
     void SetExp(int value)
     {
         playerExp = value;
-        //  playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
         if (playerLevel < 3)
         {
             Level.text = "Level " + playerLevel.ToString();
@@ -476,18 +497,6 @@ public class GameManager : MonoBehaviour
         expBar.value = (float)playerExp / totalExp;
     }
     #endregion
-    /* void MinusLevel()
-    {
-        playerExp = 0;
-        if (playerLevel > 0)
-        {
-            playerLevel -= 1;
-            playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
-            expBar.value = (float)playerExp / totalExp;
-            Level.text = "Level " + playerLevel.ToString();
-        }
-    }
-    */
     public void MinusEXP() //每次死亡扣除經驗值總數的1/4
     {
         int exploss; //經驗值所失
@@ -625,10 +634,6 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < bossStaire.Length; i++)
         {
             bossStaire[i].GetComponent<Image>().sprite = bossImages[0];
-            /*   bossStaire[i].SetActive(false);
-               BossBar.gameObject.SetActive(false);
-               Triangles[0].SetActive(false);
-               Triangles[1].SetActive(false);*/
         }
 
         enemyManager.nowEveryStairTime = enemyManager.everyStairTime;
@@ -682,15 +687,13 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         DontDestroyOnLoad(AudioPlay(MenuSound[3], true));
         statusType = StatusType.Pause;
-        // SceneffaddManager.LoadScene("Game" + GameStage.ToString());
-        //  SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         StartCoroutine(Loadscene(SceneManager.GetActiveScene().buildIndex));
     }
     public void BackToMenu()
     {
         DontDestroyOnLoad(AudioPlay(MenuSound[3], true));
         statusType = StatusType.Pause;
-        isRush=false;
+        isRush = false;
         RefreshGame();
         StartCoroutine(Loadscene(0));
     }
@@ -707,7 +710,6 @@ public class GameManager : MonoBehaviour
     void WinGame()
     {
         playerScript.enabled = false;
-        // Menus[2].SetActive(true);
         Time.timeScale = 0;
     }
     void LoseGame()
@@ -787,10 +789,13 @@ public class GameManager : MonoBehaviour
         if (canDestroy)
             Destroy(temp, temp.GetComponent<AudioSource>().clip.length);
         return temp;
-
-
-
     }
+    public void CheckUpperLimit()
+    {
+        if (bombCount >= 10 && lifeCount >= 0 && playerLevel >= 3 && droneCount >= 6)
+            FinishAchievement(16);
+    }
+
     #region "存檔讀檔"
     public void Save()
     {
@@ -804,7 +809,7 @@ public class GameManager : MonoBehaviour
         {
             var saveData2 = SaveSystem.LoadGameVoice<SaveVoiceData>();
             LoadData(saveData2);
-            if (!saveData2.canCheat)
+            if (!saveData2.canCheat&&GameStage==1)
             {
                 RefreshGame();
             }
@@ -824,6 +829,12 @@ public class GameManager : MonoBehaviour
         saveData.GameStage = GameStage;
         saveData.playerScore = playerScore;
         saveData.HiPlayerScore = HiScore;
+        saveData.AllAttack = AllAttack;
+        saveData.AllBomb = AllBomb;
+        saveData.AllHurt = AllHurt;
+        saveData.AllTimeBarrage = AllTimeBarrage;
+        saveData.enemyCount = enemyCount;
+        saveData.killEnemy = killEnemy;
         for (int i = 0; i < Achievements.Length; i++)
         {
             saveData.Achievements[i] = Achievements[i];
@@ -843,9 +854,21 @@ public class GameManager : MonoBehaviour
         GameStage = saveData.GameStage;
         ReallyInvincible = saveData.Invincible;
         canControlAttack = !saveData.autoShoot;
+        AllAttack = saveData.AllAttack;
+        AllBomb = saveData.AllBomb;
+        AllHurt = saveData.AllHurt;
+        AllTimeBarrage = saveData.AllTimeBarrage;
+        killEnemy = saveData.killEnemy;
+        if(!isOperate)
+        {
+            enemyCount+=OperateEnemyCount();
+            enemyCount+=saveData.enemyCount;
+            Save();
+            isOperate = true;
+        }
         for (int i = 0; i < Achievements.Length; i++)
         {
-            Achievements[i] =saveData.Achievements[i];
+            Achievements[i] = saveData.Achievements[i];
         }
     }
     void LoadData(SaveVoiceData saveData)
@@ -865,6 +888,7 @@ public class GameManager : MonoBehaviour
             curinput[i] = saveData.curinput[i];
         }
         isRush = saveData.isRush;
+        isCheat = saveData.canCheat;
     }
 
 
@@ -881,12 +905,65 @@ public class GameManager : MonoBehaviour
         transform.position = new Vector3(0, 0, 0);
     }
 
-
+    int OperateEnemyCount()
+    {
+        int index = 0;
+        for (int i = 0; i < enemyManager.waveMonster.Length; i++)
+        {
+            index+=enemyManager.waveMonster[i].count;
+        }
+        for (int i = 0; i < enemyManager.waveBosses.Length; i++)
+        {
+            index+=enemyManager.waveBosses[i].bossPrefab.Length;
+        }
+        return index;
+    }
     public IEnumerator StageResults()
     {
 
-        GameStage += 1;
+        if (GameStage == 1)
+            FinishAchievement(0);
+        else if (GameStage == 2)
+            FinishAchievement(1);
+        else if (GameStage == 3)
+        {
+            FinishAchievement(2);
+            FinishAchievement(3);
+        }
 
+        if (difficulty == Difficulty.Hard)
+            FinishAchievement(4);
+        else if (difficulty == Difficulty.VerryHard)
+            FinishAchievement(5);
+        else if (difficulty == Difficulty.Hell)
+            FinishAchievement(6);
+
+        FinishAchievement(7 + ChoicePlayer);
+
+        if (!AllHurt)
+            FinishAchievement(19);
+        else if (!AllBomb)
+            FinishAchievement(20);
+        else if (!AllTimeBarrage)
+            FinishAchievement(21);
+        else if (!AllAttack)
+            FinishAchievement(22);
+
+        if(killEnemy>=enemyCount)
+            FinishAchievement(24);
+
+        Achievements[25] = true;
+        for (int i = 0; i < 25; i++)
+        {
+            if (!Achievements[i])
+            {
+                Achievements[25] = false;
+            }
+        }
+        if (Achievements[25])
+            FinishAchievement(25);
+
+        GameStage += 1;
         StartCoroutine(BGMchange(BackMusic[2]));
         MapBonusScores[0].text = thisMapScore.ToString();
         MapBonusScores[1].text = playerScore.ToString(); //尚未使用 
@@ -1001,7 +1078,6 @@ public class GameManager : MonoBehaviour
         Save();
         thisMapBomb = false;
         thisMapHurt = false;
-        //   MapBonusScores[1].text = playerScore.ToString();
         thisMapScore = 0;
         yield return new WaitForSeconds(5f);
         if (SceneManager.GetActiveScene().name == "Stage3" || isRush)

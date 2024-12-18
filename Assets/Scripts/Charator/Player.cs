@@ -199,6 +199,11 @@ public class Player : MonoBehaviour
     {
 
         GameManager.Instance.droneCount += value;
+        if(GameManager.Instance.droneCount>=6)
+        {
+            GameManager.Instance.FinishAchievement(13);
+            GameManager.Instance.CheckUpperLimit();
+        }
         if (GameManager.Instance.droneCount > 0)
         {
             isUseDrone = true;
@@ -231,7 +236,7 @@ public class Player : MonoBehaviour
             vertical = 1;
         GetComponent<Rigidbody2D>().velocity = new Vector2(speed * vertical, speed * horizontal); //�H���z���D�����ʡA������|���b����ݰʪ����D
 
-        if (isUseBomb&&playerType!=PlayerType.vyles)
+        if (isUseBomb && playerType != PlayerType.vyles)
             speed = nowspeed * myBomb.SlowSpeed;
         else
             speed = nowspeed;
@@ -242,6 +247,11 @@ public class Player : MonoBehaviour
         if ((Input.GetKeyDown(GameManager.Instance.curinput[8]) || Input.GetKeyDown(GameManager.Instance.curinput[9])) && !isAttack)
         {
             isAttack = true;
+            if (!GameManager.Instance.AllAttack)
+            {
+                GameManager.Instance.AllAttack = true;
+                GameManager.Instance.Save();
+            }
             coroutine = StartCoroutine(Attack());
         }
         if (Input.GetKeyUp(GameManager.Instance.curinput[8]) || Input.GetKeyUp(GameManager.Instance.curinput[9]) && coroutine != null)
@@ -437,12 +447,9 @@ public class Player : MonoBehaviour
             GameManager.Instance.thisMapBomb = true;
             GameManager.Instance.thisMapBombCount += 1;
             GameManager.Instance.AudioPlay(musicEffect[2], true);
-            if(GameManager.Instance.Achievements[10]==false)
-            {
-                GameManager.Instance.Achievements[10]=true;
-                GameManager.Instance.Save();
-            }
-            if(playerType!= PlayerType.vyles)
+            GameManager.Instance.AllBomb = true;
+            GameManager.Instance.FinishAchievement(17);
+            if (playerType != PlayerType.vyles)
             {
                 myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();
                 myBomb.gameObject.transform.parent = gameObject.transform;
@@ -450,9 +457,9 @@ public class Player : MonoBehaviour
             }
             else
             {
-                for(int i=0;i<BumbNums;i++)
+                for (int i = 0; i < BumbNums; i++)
                 {
-                   Instantiate(Bomb, BombPosition.position, Quaternion.Euler(0,0,Random.Range(0,360)));
+                    Instantiate(Bomb, BombPosition.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
                 }
             }
             isUseBomb = true;
@@ -463,23 +470,11 @@ public class Player : MonoBehaviour
             Invoke("againUseBomb", useBombTime);
         }
     }
-    /* 目前改成和白色機依樣跑動畫流程，時間到關掉
-      void BombLily()
-     {
-         Destroy(myBomb.gameObject);
-         myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();
-         myBomb.gameObject.transform.parent = gameObject.transform;
-         Invoke("againUseBomb", 4.5f);
-     }*/
     public void againUseBomb()
     {
         isUseBomb = false;
         BombAttack = true;
         gameObject.GetComponent<Death>().isInvincible = false;
-        //s if (playerType == PlayerType.Prismie)
-        // {
-        //    myBomb.gameObject.GetComponent<Animator>().SetTrigger("Bombover");
-        //}
         if (myBomb)
         {
             myBomb.gameObject.GetComponent<Animator>().SetTrigger("Bombover");
@@ -493,6 +488,8 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(GameManager.Instance.curinput[12]) || Input.GetKeyDown(GameManager.Instance.curinput[13]) && !isUseBomb && invokeTime > 0)
         {
             isUseTimeBarrage = true;
+            GameManager.Instance.AllTimeBarrage = true;
+            GameManager.Instance.FinishAchievement(18);
             StartCoroutine(Trails());
             this.GetComponent<Animator>().SetBool("AnimBulletTime", isUseTimeBarrage);
             Time.timeScale = SlowSpeed;

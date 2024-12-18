@@ -157,7 +157,6 @@ public class CharactorChoose : MonoBehaviour
     }
     int MinusCount(int index)
     {
-        Debug.Log(index);
         if (choiceType == ChoiceType.Drone)
         {
             index -= 2;

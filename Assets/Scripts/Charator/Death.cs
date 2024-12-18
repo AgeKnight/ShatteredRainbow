@@ -64,6 +64,8 @@ public class Death : MonoBehaviour
                 if (!GameManager.Instance.ReallyInvincible&&charatorType == CharatorType.Player && !isInvincible && !isDead && !GameManager.Instance.enemyManager.isWin)
                 {
                     isDead = true;
+                    GameManager.Instance.AllHurt = true;
+                    GameManager.Instance.FinishAchievement(23);
                     Die();
                 }
                 break;
@@ -81,10 +83,6 @@ public class Death : MonoBehaviour
                         this.GetComponent<Animator>().SetTrigger("Dead");
                         this.GetComponent<Enemy>().StopAllCoroutines();
                         isDead = true;
-
-                        //GetComponent<Enemy>().StopAllCoroutines();
-                        //Die();
-
                     }
                 }
                 break;
@@ -119,22 +117,19 @@ public class Death : MonoBehaviour
         }
         else
         {
+            GameManager.Instance.killEnemy+=1;
+            GameManager.Instance.Save();
             if (enemyType == EnemyType.Boss)
             {
-                GameManager.Instance.BossNext();
-               
+                GameManager.Instance.BossNext(); 
             }
             Enemydeath();
-            //   DeadEffect("Enemy",transform.position);
-
-
             if (GameManager.Instance.awardType == AwardType.Bonus)
                 GameManager.Instance.AddScore(bonusScore);
 
         }
         Destroy(this.gameObject, 1f);
     }
-
     public void DeadEffect(string ExplosionType) //物件死亡的畫面表現
     {
         Transform Spot = this.transform;
@@ -148,7 +143,6 @@ public class Death : MonoBehaviour
 
         GameObject effect = Instantiate(deadEffect, Spot.position, Quaternion.identity);
         effect.GetComponent<Animator>().SetTrigger(ExplosionType);
-   //     this.GetComponent<Animator>().SetTrigger("Dead");
        
         Destroy(effect, 0.5f);
         

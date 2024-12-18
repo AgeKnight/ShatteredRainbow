@@ -97,7 +97,7 @@ public class TitleManager : MonoBehaviour
 
         Instance = this;
         Load();
-
+        AchievementBtn();
         bool foundres = false;
         for (int i = 0; i < resolutions.Count; i++)
         {
@@ -204,21 +204,12 @@ public class TitleManager : MonoBehaviour
     }
     public void Load()
     {
-        bool noSave = false;
         if (!File.Exists(@"Assets\game_SaveData\Voice.game") || !File.Exists(@"Assets\game_SaveData\Game.game"))
         {
-            noSave = true;
-        }
-        if (!noSave)
-        {
-            var saveData = SaveSystem.LoadGameVoice<SaveVoiceData>();
-            LoadData(saveData);
-            var saveData2 = SaveSystem.LoadGame<SaveData>();
-            LoadData(saveData2);
+            RefreshGame();
         }
         else
         {
-            RefreshGame();
             var saveData = SaveSystem.LoadGameVoice<SaveVoiceData>();
             LoadData(saveData);
             var saveData2 = SaveSystem.LoadGame<SaveData>();
@@ -264,7 +255,7 @@ public class TitleManager : MonoBehaviour
         Life = saveData.playerLife;
         for (int i = 0; i < Achievements.Length; i++)
         {
-            Achievements[i] =saveData.Achievements[i];
+            Achievements[i] = saveData.Achievements[i];
         }
     }
     void LoadData(SaveVoiceData saveData)
