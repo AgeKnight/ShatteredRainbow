@@ -86,7 +86,7 @@ public class TitleManager : MonoBehaviour
     public GameObject[] OptinionMessage;
     public Image[] AchievementObject;
     public Sprite[] AchievementsImage;
-    public bool[] Achievements = new bool[23];
+    public bool[] Achievements = new bool[30];
     void Awake()
     {
         FullscreenTog.isOn = Screen.fullScreen;

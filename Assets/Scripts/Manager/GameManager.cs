@@ -38,7 +38,7 @@ public class SaveData
     public int GameStage = 1;
     public bool Invincible;
     public bool autoShoot;
-    public bool[] Achievements = new bool[23];
+    public bool[] Achievements = new bool[30];
 }
 public class GameManager : MonoBehaviour
 {
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
-    public bool[] Achievements = new bool[23];
+    public bool[] Achievements = new bool[30];
     [HideInInspector]
     public bool ReallyInvincible;
     [HideInInspector]
