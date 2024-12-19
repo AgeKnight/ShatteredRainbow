@@ -23,6 +23,7 @@ public class CharactorChoose : MonoBehaviour
     public Animator Menuanimator;
     public string[] chooseText;
     public Text nowChooseText;
+    public GameObject[] AchievementChar;
     void Update()
     {
         if (normalChoice)
@@ -69,6 +70,7 @@ public class CharactorChoose : MonoBehaviour
                 case ChoiceType.Charactor:
                     CharCount = AddCount(CharCount);
                     TitleManager.Instance.ChoicePlayer = CharCount;
+                    DisplayAchieveChar();
                     break;
                 case ChoiceType.Boss:
                     TitleManager.Instance.chooseBoss++;
@@ -101,6 +103,7 @@ public class CharactorChoose : MonoBehaviour
                 case ChoiceType.Charactor:
                     CharCount = MinusCount(CharCount);
                     TitleManager.Instance.ChoicePlayer = CharCount;
+                    DisplayAchieveChar();
                     break;
                 case ChoiceType.Boss:
                     TitleManager.Instance.chooseBoss--;
@@ -122,6 +125,28 @@ public class CharactorChoose : MonoBehaviour
                     TitleManager.Instance.Drone = MinusCount(TitleManager.Instance.Drone);
                     break;
             }
+        }
+    }
+    void DisplayAchieveChar()
+    {
+        if((CharCount==2&&TitleManager.Instance.Achievements[20])||(CharCount==3&&TitleManager.Instance.Achievements[19])||(CharCount==4&&TitleManager.Instance.Achievements[16]))
+        {
+            TitleManager.Instance.CharImage[CharCount].color = new Color(1,1,1,0.1f);
+            TitleManager.Instance.CharText[CharCount].SetActive(true);
+            AchievementChar[0].SetActive(false);
+            AchievementChar[1].SetActive(true);
+        }
+        else if((CharCount==2&&!TitleManager.Instance.Achievements[20])||(CharCount==3&&!TitleManager.Instance.Achievements[19])||(CharCount==4&&!TitleManager.Instance.Achievements[16]))
+        {
+            TitleManager.Instance.CharImage[CharCount].color = new Color(0,0,0,0.5f);
+            TitleManager.Instance.CharText[CharCount].SetActive(false);
+            AchievementChar[0].SetActive(true);
+            AchievementChar[1].SetActive(false);
+        }
+        else if (CharCount==0||CharCount==1)
+        {
+            AchievementChar[0].SetActive(false);
+            AchievementChar[1].SetActive(true);
         }
     }
     void DisplayText(int num)

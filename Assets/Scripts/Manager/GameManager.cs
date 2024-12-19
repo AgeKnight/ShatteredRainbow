@@ -273,7 +273,7 @@ public class GameManager : MonoBehaviour
     }
     public void FinishAchievement(int index)
     {
-        if (!Achievements[index]  && !isRush)
+        if (!Achievements[index]  && !isCheat && !isRush)
         {
             Achievements[index] = true;
             Save();

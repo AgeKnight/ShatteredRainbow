@@ -29,6 +29,8 @@ public class TitleManager : MonoBehaviour
     public static TitleManager Instance { get => instance; set => instance = value; }
     #region "Hide"
     [HideInInspector]
+    public bool[] Achievements = new bool[30];
+    [HideInInspector]
     public bool isRush = false;
     [HideInInspector]
     public AudioSource SelectSound;
@@ -83,10 +85,13 @@ public class TitleManager : MonoBehaviour
     [HideInInspector]
     public int chooseBoss = 0;
     #endregion   
+    public Image[] CharImage;
+    public GameObject[] CharText;
+    public GameObject[] ExtraObject;
     public GameObject[] OptinionMessage;
     public Image[] AchievementObject;
     public Sprite[] AchievementsImage;
-    public bool[] Achievements = new bool[30];
+
     void Awake()
     {
         FullscreenTog.isOn = Screen.fullScreen;
@@ -148,7 +153,33 @@ public class TitleManager : MonoBehaviour
     {
         Records[0].text = SaveSystem.LoadGame<SaveData>().HiPlayerScore.ToString();
     }
-    
+    public void AchievementCheat(GameObject hint)
+    {
+        if(Achievements[3] == true)
+        {
+            ExtraObject[0].SetActive(true);
+            hint.SetActive(false);
+        }
+        else
+        {
+            hint.SetActive(true);
+            ExtraObject[0].SetActive(false);
+        }
+    }
+    public void AchievementRush(GameObject hint)
+    {
+        if(Achievements[6] == true)
+        {
+            ExtraObject[1].SetActive(true);
+            hint.SetActive(false);
+        }
+        else
+        {
+            hint.SetActive(true);
+            ExtraObject[1].SetActive(false);
+        }
+    }
+
     public void ExitGame()
     {
         Application.Quit();
@@ -176,13 +207,7 @@ public class TitleManager : MonoBehaviour
     public void VoiceControllAll()
     {
         All_Text.text = ((int)(All.value * 100)).ToString();
-
-
-
         BackSound.volume = BGM.value * All.value;
-
-
-
         SelectSound.volume = Effect.value * All.value;
         ClickSound.volume = Effect.value * All.value;
     }
