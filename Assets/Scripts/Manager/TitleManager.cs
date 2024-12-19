@@ -15,6 +15,7 @@ public class SaveVoiceData
     public int ChoicePlayer;
     public bool canCheat = false;
     public bool isRush = false;
+    public int ChoiceDifficulty;
     public KeyCode[] curinput = new KeyCode[30];
 }
 
@@ -40,8 +41,6 @@ public class TitleManager : MonoBehaviour
     public AudioSource BackSound;
     [HideInInspector]
     public ControkKey[] controkKeys;
-    [HideInInspector]
-    public GameObject ChooseCharactor;
     [HideInInspector]
     public int ChoicePlayer = 0;
     [HideInInspector]
@@ -85,12 +84,14 @@ public class TitleManager : MonoBehaviour
     [HideInInspector]
     public int chooseBoss = 0;
     #endregion   
+    public int ChoiceDifficulty;
     public Image[] CharImage;
     public GameObject[] CharText;
     public GameObject[] ExtraObject;
     public GameObject[] OptinionMessage;
     public Image[] AchievementObject;
     public Sprite[] AchievementsImage;
+    public GameObject[] AchievementDifficulty;
 
     void Awake()
     {
@@ -122,6 +123,16 @@ public class TitleManager : MonoBehaviour
             SelectedRes = resolutions.Count - 1;
             CurrentRes.text = resolutions[SelectedRes].Width.ToString() + "x" + resolutions[SelectedRes].Height.ToString();
         }
+        if(Achievements[22])
+        {
+            AchievementDifficulty[0].SetActive(true);
+            AchievementDifficulty[1].SetActive(false);
+        }
+        else
+        {
+            AchievementDifficulty[0].SetActive(false);
+            AchievementDifficulty[1].SetActive(true);
+        }
     }
     public void AchievementBtn()
     {
@@ -137,12 +148,6 @@ public class TitleManager : MonoBehaviour
             }
        }
     }
-    public void StartGame()
-    {
-        Save();
-        ChooseCharactor.SetActive(true);
-    }
-
     public void Highscorereset()
     {
         Records[0].text = "0";
@@ -265,6 +270,7 @@ public class TitleManager : MonoBehaviour
         saveData.ChoicePlayer = ChoicePlayer;
         saveData.canCheat = autoShoot[2].isOn;
         saveData.isRush = isRush;
+        saveData.ChoiceDifficulty = ChoiceDifficulty;
         for (int i = 0; i < controkKeys.Length; i++)
         {
             saveData.curinput[i] = controkKeys[i].curinput;
@@ -300,6 +306,7 @@ public class TitleManager : MonoBehaviour
         All_Text.text = ((int)(saveData.All_num * 100)).ToString();
         autoShoot[2].isOn = saveData.canCheat;
         ChoicePlayer = saveData.ChoicePlayer;
+        ChoiceDifficulty = saveData.ChoiceDifficulty;
         for (int i = 0; i < controkKeys.Length; i++)
         {
             controkKeys[i].curinput = saveData.curinput[i];

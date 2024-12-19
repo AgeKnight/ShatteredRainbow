@@ -223,9 +223,6 @@ public class GameManager : MonoBehaviour
         playerScript.gameObject.GetComponent<CircleCollider2D>().isTrigger = false;
         playerScript.canMove = true;
 
-        //  AudioPlay(BackMusic[0], false);
-        //    BackgroundMusicChange(BackMusic[0]); //背景音樂的播放直接掛在gamemanager身上
-
         GetComponent<AudioSource>().PlayOneShot(BackMusic[0].clip);
 
         yield return new WaitForSeconds(4);
@@ -701,7 +698,6 @@ public class GameManager : MonoBehaviour
     {
         Menus[1].SetActive(false);
         statusType = StatusType.Pause;
-        //MinusLevel();
         SetLife(2);
         PlayerResurrection();
         AddScore(1);
@@ -889,6 +885,24 @@ public class GameManager : MonoBehaviour
         }
         isRush = saveData.isRush;
         isCheat = saveData.canCheat;
+        switch (saveData.ChoiceDifficulty)
+        {
+            case 0:
+                difficulty = Difficulty.easy;
+                break;
+            case 1:
+                difficulty = Difficulty.middle;
+                break;
+            case 2:
+                difficulty = Difficulty.Hard;
+                break;
+            case 3:
+                difficulty = Difficulty.VerryHard;
+                break;
+            case 4:
+                difficulty = Difficulty.Hell;
+                break;            
+        }
     }
 
 

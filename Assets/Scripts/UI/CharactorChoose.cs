@@ -12,6 +12,7 @@ public enum ChoiceType
     Level,
     Life,
     Drone,
+    Difficulty,
 }
 public class CharactorChoose : MonoBehaviour
 {
@@ -24,6 +25,18 @@ public class CharactorChoose : MonoBehaviour
     public string[] chooseText;
     public Text nowChooseText;
     public GameObject[] AchievementChar;
+    void Awake() 
+    {
+        if(choiceType==ChoiceType.Difficulty)
+        {
+            TitleManager.Instance.ChoiceDifficulty = 0;
+            DisplayText(TitleManager.Instance.ChoiceDifficulty);
+            if(TitleManager.Instance.Achievements[22])
+                maxCount = 5;
+            else
+                maxCount = 4;
+        }
+    }
     void Update()
     {
         if (normalChoice)
@@ -54,6 +67,9 @@ public class CharactorChoose : MonoBehaviour
                     break;
                 case ChoiceType.Drone:
                     DisplayText(TitleManager.Instance.Drone);
+                    break;
+                case ChoiceType.Difficulty:
+                    DisplayText(TitleManager.Instance.ChoiceDifficulty);
                     break;
             }
         }
@@ -91,6 +107,9 @@ public class CharactorChoose : MonoBehaviour
                 case ChoiceType.Drone:
                     TitleManager.Instance.Drone = AddCount(TitleManager.Instance.Drone);
                     break;
+                case ChoiceType.Difficulty:
+                    TitleManager.Instance.ChoiceDifficulty = AddCount(TitleManager.Instance.ChoiceDifficulty);
+                    break;
             }
         }
         else if (!next)
@@ -123,6 +142,9 @@ public class CharactorChoose : MonoBehaviour
                     break;
                 case ChoiceType.Drone:
                     TitleManager.Instance.Drone = MinusCount(TitleManager.Instance.Drone);
+                    break;
+                case ChoiceType.Difficulty:
+                    TitleManager.Instance.ChoiceDifficulty = MinusCount(TitleManager.Instance.ChoiceDifficulty);
                     break;
             }
         }
@@ -196,11 +218,22 @@ public class CharactorChoose : MonoBehaviour
         }
         return index;
     }
-    public void PlayGame()
+    public void ToDifficulty()
+    {
+        AchievementChar[2].SetActive(true);
+        AchievementChar[3].SetActive(false);
+    }
+    public void ToChar()
+    {
+        AchievementChar[2].SetActive(false);
+        AchievementChar[3].SetActive(true);
+    }
+    public void PlayGame(int index)
     {
         if (normalChoice)
         {
             TitleManager.Instance.isRush = false;
+            TitleManager.Instance.ChoiceDifficulty = index;
             TitleManager.Instance.Save();
             StartCoroutine(GameStart(1));
         }
