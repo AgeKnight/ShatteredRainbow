@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
     public bool[] Achievements = new bool[30];
     [HideInInspector]
     public bool ReallyInvincible;
-    [HideInInspector]
+  //  [HideInInspector]
     public GameObject[] expObject;
     //上:0,1 下:2,3 左:4,5 右6,7 攻擊:8 大招:9 子彈時間:10 菜單:11
     [HideInInspector]
@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
     public int GameStage = 1;
     [HideInInspector]
     public int playerExp;
-    [HideInInspector]
+   // [HideInInspector]
     public AudioSource[] BackMusic;
     [HideInInspector]
     public AudioSource[] MenuSound;
@@ -367,6 +367,7 @@ public class GameManager : MonoBehaviour
         thisMapScore += value;
 
         playerScore += value;
+        playerScore = Mathf.RoundToInt(playerScore);
         scoreText.text = playerScore.ToString();
         if (playerScore >= HiScore)
         {
@@ -532,7 +533,7 @@ public class GameManager : MonoBehaviour
     {
         var barrages = FindObjectsOfType<Bullet>();
         for (int i = 0; i < barrages.Length; i++)
-            if (barrages[i] != null)
+            if (barrages[i] != null&&barrages[i].GetComponent<Bullet>().Unerasable==false)
                 barrages[i].Die();
     }
     public void ChangeDifficulty(GameObject gameObject = null)
@@ -910,11 +911,11 @@ public class GameManager : MonoBehaviour
     {
         GetComponent<Rigidbody2D>().velocity = Vector3.up;
         yield return new WaitForSeconds(3f);
-        if (GetComponent<AudioSource>().clip)
-        {
+      //  if (GetComponent<AudioSource>().clip)
+       // {
             GetComponent<AudioSource>().Stop();
             GetComponent<AudioSource>().PlayOneShot(audio.clip);
-        }
+        //}
         GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
         transform.position = new Vector3(0, 0, 0);
     }
@@ -1077,11 +1078,13 @@ public class GameManager : MonoBehaviour
         AudioPlay(MenuSound[2], true);
         yield return new WaitForSeconds(1.2f);
         thisMapScore *= bombbonus;
+        thisMapScore = Mathf.RoundToInt(thisMapScore);
         MapBonusScores[0].text = thisMapScore.ToString();
         if (thisMapBombCount <= 1)
             AudioPlay(LevelupSound, true);
         yield return new WaitForSeconds(1.3f);
         thisMapScore *= deathbonus;
+        thisMapScore = Mathf.RoundToInt(thisMapScore);
         MapBonusScores[0].text = thisMapScore.ToString();
         if (thisMapHurtCount <= 1)
             AudioPlay(LevelupSound, true);

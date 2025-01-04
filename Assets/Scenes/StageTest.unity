@@ -1403,7 +1403,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 842818311
-  m_SortingLayer: 2
+  m_SortingLayer: 7
   m_SortingOrder: 50
   m_Sprite: {fileID: 21300000, guid: 069d6c743b9a1634e90bc0a760ecf997, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -10655,6 +10655,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllResurrectionTime: 2
+  killEnemy: 0
+  enemyCount: 0
+  AllHurt: 0
+  AllBomb: 0
+  AllTimeBarrage: 0
+  AllAttack: 0
+  Achievements: 000000000000000000000000000000000000000000000000000000000000
+  ReallyInvincible: 0
+  expObject:
+  - {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
+  - {fileID: 1249589248359841016, guid: 7df885e9fc8dff440a2f17a32004d5c5, type: 3}
+  - {fileID: 2086720431196615952, guid: 4f00f5fa2a6bc4146a9b61d1ed493298, type: 3}
   curinput: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   canControlAttack: 1
   HiScore: 0
@@ -10733,7 +10745,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 358f012c9d3602d46887711cad52df0a, type: 3}
   - {fileID: 21300000, guid: 424647d67290779429f6814e03005dd9, type: 3}
   - {fileID: 938090617307318634, guid: 78168ab98c9a79b46b0ae77d3f1b9365, type: 3}
-  playerStatus: {fileID: 1671982845}
   Lifes:
   - {fileID: 1388669365}
   - {fileID: 274916121}
@@ -10764,7 +10775,6 @@ MonoBehaviour:
   enemyManager: {fileID: 1716682022}
   Reciprocal: {fileID: 2094615335}
   playerLevel: 0
-  canTrack: 0
   ChoicePlayer: 0
   player:
   - {fileID: 6646415776259885055, guid: 219d3d6265477914e922e01cc667e33c, type: 3}
@@ -10778,6 +10788,7 @@ MonoBehaviour:
   Level: {fileID: 1099759180}
   expBar: {fileID: 1568846473}
   PlayerResurrectionPosition: {fileID: 474536401}
+  isRush: 0
   difficulty: 1
   default_playerBomb: 2
   default_playerLife: 2
@@ -11099,7 +11110,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 842818311
-  m_SortingLayer: 2
+  m_SortingLayer: 7
   m_SortingOrder: 50
   m_Sprite: {fileID: 21300000, guid: 069d6c743b9a1634e90bc0a760ecf997, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

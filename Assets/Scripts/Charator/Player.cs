@@ -37,15 +37,16 @@ public class Player : MonoBehaviour
     public GameObject TimeBarrageTrail;
     int trailnums = 0;
     float GatherTime = 0;
-    float LazerTime = 0;
+    float LazerTime = 0; //從前的LazerTime
+    int SlashUsed = 0;
     Color[] shade = { new Vector4(1, 1, 0.69f), new Vector4(0.69f, 0.97f, 1), new Vector4(1, 0.69f, 0.71f) };
     #endregion
     #region "Public"
     public bool BombAttack = true;
     public int BumbNums;
     public PlayerType playerType;
-    public float maxLazerTime;
     public float SlowSpeed;
+    public float MaxLazerTime;
     public float speed;
     public float MaxGatherTime;
     public float timeRegain;
@@ -90,7 +91,7 @@ public class Player : MonoBehaviour
         Annular = AnnularCircle.GetComponent<Image>();
         invokeTime = MaxBarrageTime;
         annular = SliderTime.GetComponent<AnnularSlider>();
-        if (playerType == PlayerType.Lily)
+        if (playerType == PlayerType.Lily|| playerType == PlayerType.Frostto)
             LilyGather = LilyGatherTime.GetComponent<AnnularSlider>();
         Annular.color = new Color(1, 1, 1, 0);
         if (playerType == PlayerType.vyles)
@@ -117,32 +118,57 @@ public class Player : MonoBehaviour
             UseButton();
         }
 
-        if (playerType == PlayerType.Lily)
+        if (playerType == PlayerType.Lily || playerType == PlayerType.Frostto)
         {
-            for (int i = 0; i < Drone.Length; i++)
+            if (playerType != PlayerType.Frostto || !isUseLazer)
+                for (int i = 0; i < Drone.Length; i++)
+                {
+                    LilyRotateDrone(Drone[i]);
+                }
+            if (isAttack && !isUseLazer && playerType == PlayerType.Lily || GameManager.Instance.droneCount !=0)
             {
-                LilyRotateDrone(Drone[i]);
-            }
-            if (isAttack && !isUseLazer)
-            {
+             
                 GatherTime += Time.deltaTime;
                 LilyGather.Value = GatherTime / MaxGatherTime;
                 if (GatherTime >= MaxGatherTime && !canControlAttack)
                 {
-                    LilyGathering();
+                    switch(playerType)
+                    {case PlayerType.Lily:
+                          LilyGathering();
+                          break;
+                      case PlayerType.Frostto:
+                          FrosttoCharged();
+                          break;
+                    }
                 }
             }
             if (isUseLazer)
             {
                 LazerTime += Time.deltaTime;
-                if (LazerTime >= maxLazerTime)
+                if (LazerTime >= MaxLazerTime)
                 {
+                   
+                    if(playerType == PlayerType.Frostto)
+                        {
+                        for (int i = 0; i < GameManager.Instance.droneCount; i++)
+                        {
+                            if (isUseDrone)
+                            {
+
+                                Drone[i].SetActive(true);
+                           
+                            }
+                            i++;
+
+                        }
+                    }
                     LilyGather.Value = GatherTime / MaxGatherTime;
                     isUseLazer = false;
                     LazerTime = 0;
                 }
             }
         }
+      
         if (playerType == PlayerType.vyles)
         {
             for (int i = 0; i < tempVyleBarrage.Length; i++)
@@ -259,13 +285,25 @@ public class Player : MonoBehaviour
             isAttack = false;
             if (DroneGroup.GetComponent<Animator>())
                 DroneGroup.GetComponent<Animator>().SetBool("Drone_attacking", false);
-            if (playerType == PlayerType.Lily)
-            {
                 if (GatherTime >= MaxGatherTime)
                 {
-                    LilyGathering();
+                    switch(playerType)
+                    {
+                    case PlayerType.Lily:
+                        LilyGathering();
+                        break;
+                    case PlayerType.Frostto:
+                        FrosttoCharged();
+                        break;
+                    }
                 }
-            }
+                else
+                {
+                    GatherTime=0;
+                }
+            
+           
+                
         }
     }
     IEnumerator Attack()
@@ -282,7 +320,7 @@ public class Player : MonoBehaviour
                     LilyAttack();
                     break;
                 case PlayerType.Frostto:
-                    PrismieAttack();
+                    FrosttoAttack();
                     break;
                 case PlayerType.vyles:
                     VylesAttack();
@@ -325,7 +363,7 @@ public class Player : MonoBehaviour
         float Right = -15;
         float Expansion = 1.5f;
         GatherTime = 0;
-
+        LilyGather.Value =0;
         // float lazerScaleY = lazerObject.transform.localScale.y * Expansion;
         // float lazerWidth = lazerObject.GetComponent<LineRenderer>().endWidth * Expansion;
         lazerObject = Instantiate(bulletPrefab[2], BombPosition.position, Quaternion.identity);
@@ -392,16 +430,74 @@ public class Player : MonoBehaviour
         }
     }
     public float around_speed = 60f; //公转环绕速度
+    
     void LilyRotateDrone(GameObject drone)
     {
         drone.transform.RotateAround(this.transform.position, Vector3.forward, around_speed * Time.deltaTime);
+    }
+
+    void FrosttoAttack()
+    {
+      
+
+        SlashUsed++;
+        if(SlashUsed==3)
+            bulletPrefab[GameManager.Instance.playerLevel].GetComponent<Bullet>().hurt *= 1.5f;
+        if (SlashUsed >= 4)
+        {
+            SlashUsed = 1;
+                bulletPrefab[GameManager.Instance.playerLevel].GetComponent<Bullet>().hurt /= 1.5f;
+        }
+        /* lazerObject = Instantiate(bulletPrefab[0], BombPosition.position, Quaternion.identity);
+         lazerObject.transform.parent = gameObject.transform;
+         lazerObject.GetComponent<Animator>().SetInteger("SlashNum",SlashUsed);*/
+        bulletPrefab[GameManager.Instance.playerLevel].GetComponent<Animator>().SetInteger("SlashNum", SlashUsed);
+       
+       
+
+
+
+
+    }
+    void FrosttoCharged()
+    {
+        
+        GatherTime = 0;
+        LilyGather.Value =0;
+        isUseLazer = true;
+          for (int i = 0; i < GameManager.Instance.droneCount; i++)
+        {
+            if (isUseDrone)
+            {
+
+                /*  LazerPrefab[i] = Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
+                  LazerPrefab[i].transform.rotation = Drone[i].transform.GetChild(0).transform.rotation;*/
+                var enemy = GameObject.FindWithTag("Enemy");
+                GameObject Star = Instantiate(bulletPrefab[4], Drone[i].transform.position, Quaternion.identity);
+                if (enemy)
+                {
+                    Vector3 vectorToTarget = enemy.transform.position - transform.position;
+                    float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90;
+                    Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+                    Star.transform.rotation = q;
+                   
+                }
+                Drone[i].SetActive(false);
+       
+                
+            }
+            i++;
+
+        }
     }
     void VylesAttack()
     {
         isAttack = false;
         AllVylesIndex = GameManager.Instance.playerLevel + 3;
-        if (VylesIndex <= AllVylesIndex - 1 && tempVyleBarrage[VylesIndex] == null)
+       
+        if (VylesIndex <= AllVylesIndex - 1 )//&& VyleBarrage[VylesIndex] == null)
         {
+            Debug.Log(VylesIndex);
             tempVyleBarrage[VylesIndex] = Instantiate(bulletPrefab[0], vivyBarrageTrans[GameManager.Instance.playerLevel].bulletTransform[VylesIndex].transform.position, Quaternion.identity);
             tempVyleBarrage[VylesIndex].GetComponent<Bullet>().VyleIndex = VylesIndex;
             VyleBarrage[VylesIndex].SetActive(false);
@@ -436,6 +532,7 @@ public class Player : MonoBehaviour
             VyleBarrage[i] = Instantiate(bulletPrefab[2], vivyBarrageTrans[GameManager.Instance.playerLevel].bulletTransform[i].transform.position, Quaternion.identity);
             VyleBarrage[i].transform.parent = this.gameObject.transform;
             VylesIndex = 0;
+           
         }
     }
     #endregion
@@ -447,6 +544,7 @@ public class Player : MonoBehaviour
             GameManager.Instance.thisMapBomb = true;
             GameManager.Instance.thisMapBombCount += 1;
             GameManager.Instance.AudioPlay(musicEffect[2], true);
+            Instantiate(GetComponent<Death>().deadEffect, this.transform.position, Quaternion.identity);
             GameManager.Instance.AllBomb = true;
             GameManager.Instance.FinishAchievement(17);
             if (playerType != PlayerType.vyles)

@@ -28,9 +28,11 @@ public class Bullet : MonoBehaviour
     [HideInInspector]
     public int VyleIndex;
     public bool canBounceWall = false;
+    public bool Unerasable = false;
     public float speed;
     public float hurt;
     public float BurnHurt;
+    
     public GameObject hitspark;
     public GameObject BurnSpark;
     public AudioSource Hitsound;
@@ -175,9 +177,19 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.GetComponent<Death>() && other.gameObject.tag != bulletType.GetType().GetEnumName(bulletType) && canAttack)
         {
             other.gameObject.GetComponent<Death>().Hurt(hurt);
-            if (hitspark)
-                Instantiate(hitspark, this.transform.position, Quaternion.Euler(0, 0, Random.Range(0, 180)));
-            if (bulletMoveType != BulletMoveType.Bounce)
+            Vector2 Spot;
+
+            if (hitspark && gameObject.name != "Sword")
+                Spot = this.transform.position;
+            else
+                Spot = other.transform.position;
+
+            GameObject Spark = Instantiate(hitspark, Spot, Quaternion.Euler(0, 0, Random.Range(0, 180)));
+            float point = Random.Range(0.12f, 0.08f);
+            Spark.transform.localScale = new Vector2(point,point);
+            
+
+            if (bulletMoveType != BulletMoveType.Bounce && !Unerasable)
                 Die();
             else
             {
@@ -224,7 +236,7 @@ public class Bullet : MonoBehaviour
                     Die();
                 }
             }
-            else
+            else if(!Unerasable)
             {
                 Die();
             }

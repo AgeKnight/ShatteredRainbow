@@ -187,6 +187,7 @@ public class TitleManager : MonoBehaviour
 
     public void ExitGame()
     {
+        Save();
         Application.Quit();
     }
 
