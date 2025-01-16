@@ -678,14 +678,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
   deathAudio: {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
   Hurtaudio: {fileID: 8946850152021610928, guid: 81cd98fd81d794e4d9457f24868465b2, type: 3}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
   totalHp: 800
   charatorType: 1
   enemyType: 1
-  expObject: {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
+  probability:
+  - 100
+  - 100
+  - 100
+  hp: 100
   hpBar: {fileID: 0}
   isInvincible: 0
   isInBomb: 0
@@ -702,14 +705,6 @@ MonoBehaviour:
     barrage:
     - {fileID: 7069583230088714788, guid: 0cdfcdf10e5f76147943c3082e805f4a, type: 3}
     Shootsound: {fileID: 2543941013093157386, guid: 22e905d0304e609449704f91b4d6e3aa, type: 3}
-  indexMax: 4
-  itemStruct:
-  - probability: 100
-    items: {fileID: 7518270170160341144, guid: 36e4f9a93861b6748b871b08339538aa, type: 3}
-  - probability: 100
-    items: {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
-  - probability: 100
-    items: {fileID: 7518270170160341144, guid: 64fa2ac8a88d4f241bdb5d26bb8e6daf, type: 3}
   minExp: 100
   maxExp: 200
   score: 5000
@@ -726,6 +721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b92334e8a8b8b547bcdf1983353b6a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  indexMax: 4
   DownTime: 0
   useBarrage: 0
   moveType: 0
@@ -739,6 +735,18 @@ MonoBehaviour:
   - {x: 1.27, y: 1.17, z: 0}
   - {x: 0, y: 3.5, z: 0}
   Allbullet: []
+  ultimateAttack:
+    count:
+    - 30
+    - 80
+    - -80
+    - 0.08
+    - 1
+    - 5
+    barrageType: 7
+    barrage:
+    - {fileID: 7069583230088714788, guid: 0cdfcdf10e5f76147943c3082e805f4a, type: 3}
+    Shootsound: {fileID: 2543941013093157386, guid: 22e905d0304e609449704f91b4d6e3aa, type: 3}
   enemyBarrageCounts:
   - count:
     - 10

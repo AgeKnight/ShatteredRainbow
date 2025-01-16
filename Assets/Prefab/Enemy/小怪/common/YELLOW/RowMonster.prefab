@@ -184,7 +184,10 @@ MonoBehaviour:
   totalHp: 9
   charatorType: 1
   enemyType: 0
-  expObject: {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
+  probability:
+  - 20
+  - 20
+  - 20
   hpBar: {fileID: 0}
   isInvincible: 0
   isInBomb: 0
@@ -195,14 +198,6 @@ MonoBehaviour:
     barrage:
     - {fileID: 0}
     Shootsound: {fileID: 0}
-  indexMax: 1
-  itemStruct:
-  - probability: 1
-    items: {fileID: 7518270170160341144, guid: 36e4f9a93861b6748b871b08339538aa, type: 3}
-  - probability: 1
-    items: {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
-  - probability: 100
-    items: {fileID: 7518270170160341144, guid: 64fa2ac8a88d4f241bdb5d26bb8e6daf, type: 3}
   minExp: 1
   maxExp: 5
   score: 500
@@ -219,6 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b92334e8a8b8b547bcdf1983353b6a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  indexMax: 1
   DownTime: 0
   useBarrage: 0
   moveType: 0

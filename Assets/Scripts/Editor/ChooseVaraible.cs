@@ -16,7 +16,6 @@ public class ChooseVaraible : Editor
             { "Status", CharatorType.Player},
             { "enemyType", CharatorType.Enemy},
             { "score", CharatorType.Enemy},
-            { "itemStruct", CharatorType.Enemy},
             { "Exps", CharatorType.Enemy},
             { "hpBar", CharatorType.Enemy},
             { "totalHp", CharatorType.Enemy},
@@ -24,7 +23,6 @@ public class ChooseVaraible : Editor
             { "minExp", CharatorType.Enemy},
             { "maxExp", CharatorType.Enemy},
             { "expObject", CharatorType.Enemy},
-            { "indexMax", CharatorType.Enemy},
             { "ultimateAttack", CharatorType.Enemy},
             { "bonusScore", CharatorType.Enemy},
         };

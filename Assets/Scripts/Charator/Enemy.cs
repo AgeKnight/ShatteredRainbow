@@ -58,6 +58,7 @@ public class Enemy : MonoBehaviour
     int nowIndex = 0;
     #endregion
     #region  "public"
+    public int indexMax = 1;
     public float DownTime;
     public AttackType useBarrage;
     public MoveType moveType;
@@ -75,6 +76,7 @@ public class Enemy : MonoBehaviour
     #endregion
     #region "調難度"
     [Header("調難度")]
+    public EnemyBarrageCount ultimateAttack;
     public EnemyBarrageCount[] enemyBarrageCounts;
     public float countTime;
     #endregion
@@ -96,11 +98,11 @@ public class Enemy : MonoBehaviour
             if (useBarrage == AttackType.useBarrage)
                 Attack();
         }
-        if (death.indexMax > enemyBarrageCounts.Length)
-            death.indexMax = enemyBarrageCounts.Length;
-        else if(death.indexMax<=0)
+        if (indexMax > enemyBarrageCounts.Length)
+            indexMax = enemyBarrageCounts.Length;
+        else if(indexMax<=0)
         {
-            death.indexMax=1;
+            indexMax=1;
         }
     }
     void Update()
@@ -218,10 +220,10 @@ public class Enemy : MonoBehaviour
         {
             isAttack = true;
             isUlimated = true;
-            string nowBarrage = System.Enum.GetName(typeof(BarrageType), death.ultimateAttack.barrageType);
-            enemyBarrageCounts[0].barrage = death.ultimateAttack.barrage;
-            enemyBarrageCounts[0].Shootsound = death.ultimateAttack.Shootsound;
-            StartCoroutine(nowBarrage, death.ultimateAttack.count);
+            string nowBarrage = System.Enum.GetName(typeof(BarrageType), ultimateAttack.barrageType);
+            enemyBarrageCounts[0].barrage = ultimateAttack.barrage;
+            enemyBarrageCounts[0].Shootsound = ultimateAttack.Shootsound;
+            StartCoroutine(nowBarrage, ultimateAttack.count);
         }
     }
     IEnumerator UseBarrage()
@@ -241,7 +243,7 @@ public class Enemy : MonoBehaviour
     }
     void changeBarrage()
     {
-        if (nowIndex >= death.indexMax - 1)
+        if (nowIndex >= indexMax - 1)
             nowIndex = 0;
         else
             nowIndex++;

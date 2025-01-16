@@ -11,17 +11,9 @@ public enum EnemyType
     Trash,
     Boss
 }
-//難度
-[System.Serializable]
-public struct ItemStruct //0 生命 1 炸彈 2 小弟 
-{
-    [Range(0f, 100f)] public float probability;
-    public GameObject items;
-}
 public class Death : MonoBehaviour
 {
     bool isDead = false;
-    public float hp;
     #region Public
     public AudioSource deathAudio;
     public AudioSource Hurtaudio;
@@ -29,8 +21,11 @@ public class Death : MonoBehaviour
     public float totalHp;
     public CharatorType charatorType;
     public EnemyType enemyType;
+    [Range(0f, 100f)] public float[] probability;//0 生命 1 炸彈 2 小弟 
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public float hp;
     [HideInInspector]
     public Slider hpBar;
     [HideInInspector]
@@ -42,9 +37,6 @@ public class Death : MonoBehaviour
     #endregion
     #region  "調難度"
     [Header("調難度")]
-    public EnemyBarrageCount ultimateAttack;
-    public int indexMax = 1;
-    public ItemStruct[] itemStruct;
     public int minExp;
     public int maxExp;
     public int score;
@@ -164,14 +156,14 @@ public class Death : MonoBehaviour
         if (GameManager.Instance.awardType != AwardType.Failed)
         {
             //0 生命 1 炸彈 2 滿等
-            for (int i = 0; i < itemStruct.Length; i++)
+            for (int i = 0; i < GameManager.Instance.items.Length; i++)
             {
                 if (i == 0 || GameManager.Instance.awardType == AwardType.Bonus) //Boss戰表現判定 獎勵依照遊戲設定
                 {
                     float tempProbability = Random.Range(1, 100);
-                    if (tempProbability <= itemStruct[i].probability)
+                    if (tempProbability <= probability[i])
                     {
-                        Instantiate(itemStruct[i].items,transform.position , Quaternion.identity);
+                        Instantiate(GameManager.Instance.items[i],transform.position , Quaternion.identity);
                     }
                 }
                 

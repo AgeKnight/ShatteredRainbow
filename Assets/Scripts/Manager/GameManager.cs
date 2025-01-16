@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
+    public GameObject[] items;//0 生命 1 炸彈 2 小弟 
     [HideInInspector]
     public int AllUseBT;
     [HideInInspector]
@@ -94,7 +95,7 @@ public class GameManager : MonoBehaviour
     public bool[] Achievements = new bool[30];
     [HideInInspector]
     public bool ReallyInvincible;
-    //  [HideInInspector]
+    [HideInInspector]
     public GameObject[] expObject;
     //上:0,1 下:2,3 左:4,5 右6,7 攻擊:8 大招:9 子彈時間:10 菜單:11
     [HideInInspector]
@@ -107,7 +108,7 @@ public class GameManager : MonoBehaviour
     public int GameStage = 1;
     [HideInInspector]
     public int playerExp;
-    // [HideInInspector]
+    [HideInInspector]
     public AudioSource[] BackMusic;
     [HideInInspector]
     public AudioSource[] MenuSound;
