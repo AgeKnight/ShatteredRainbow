@@ -13,7 +13,7 @@ public enum EnemyType
 }
 //難度
 [System.Serializable]
-public struct ItemStruct //0 生命 1 炸彈 2 小弟 3生命碎片
+public struct ItemStruct //0 生命 1 炸彈 2 小弟 
 {
     [Range(0f, 100f)] public float probability;
     public GameObject items;
@@ -65,6 +65,7 @@ public class Death : MonoBehaviour
                 {
                     isDead = true;
                     GameManager.Instance.AllHurt = true;
+                    GameManager.Instance.AllDeath+=1;
                     GameManager.Instance.FinishAchievement(23);
                     Die();
                 }
@@ -118,6 +119,7 @@ public class Death : MonoBehaviour
         else
         {
             GameManager.Instance.killEnemy+=1;
+            GameManager.Instance.AllKill+=1;
             GameManager.Instance.Save();
             if (enemyType == EnemyType.Boss)
             {

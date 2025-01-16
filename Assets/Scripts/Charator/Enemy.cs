@@ -98,6 +98,10 @@ public class Enemy : MonoBehaviour
         }
         if (death.indexMax > enemyBarrageCounts.Length)
             death.indexMax = enemyBarrageCounts.Length;
+        else if(death.indexMax<=0)
+        {
+            death.indexMax=1;
+        }
     }
     void Update()
     {

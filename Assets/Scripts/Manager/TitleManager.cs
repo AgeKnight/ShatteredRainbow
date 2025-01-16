@@ -30,6 +30,16 @@ public class TitleManager : MonoBehaviour
     public static TitleManager Instance { get => instance; set => instance = value; }
     #region "Hide"
     [HideInInspector]
+    public float HiScore = 0;
+    [HideInInspector]
+    public int HiKill;
+    [HideInInspector]
+    public int HiBomb;
+    [HideInInspector]
+    public int HiDeath;
+    [HideInInspector]
+    public int HiBT;
+    [HideInInspector]
     public bool[] Achievements = new bool[30];
     [HideInInspector]
     public bool isRush = false;
@@ -150,25 +160,45 @@ public class TitleManager : MonoBehaviour
     }
     public void Highscorereset()
     {
-        Records[0].text = "0";
-        SaveSystem.LoadGame<SaveData>().HiPlayerScore = 0;
+        HiScore = 0;
+        HiBomb = 0;
+        HiDeath = 0;
+        HiKill = 0;
+        HiBT = 0;
+        for (int i = 0; i < Records.Length; i++)
+        {
+            Records[i].text = "0";
+        }
+        for (int i = 0; i < Achievements.Length; i++)
+        {
+            Achievements[i]= false;
+        }
+        AchievementBtn();
+        Save();
     }
 
     public void ShowRecords()
     {
-        Records[0].text = SaveSystem.LoadGame<SaveData>().HiPlayerScore.ToString();
+        Load();
+        Records[0].text = HiScore.ToString();
+        Records[1].text = HiDeath.ToString();
+        Records[2].text = HiBomb.ToString();
+        Records[3].text = HiKill.ToString();
+        Records[4].text = HiBT.ToString();
     }
     public void AchievementCheat(GameObject hint)
     {
         if(Achievements[3] == true)
         {
             ExtraObject[0].SetActive(true);
+            ExtraObject[2].SetActive(true);
             hint.SetActive(false);
         }
         else
         {
             hint.SetActive(true);
             ExtraObject[0].SetActive(false);
+            ExtraObject[2].SetActive(false);
         }
     }
     public void AchievementRush(GameObject hint)
@@ -256,6 +286,11 @@ public class TitleManager : MonoBehaviour
         saveData.playerLevel = Level;
         saveData.playerLife = Life;
         saveData.droneCount = Drone;
+        saveData.HiPlayerScore = HiScore;
+        saveData.AllKill = HiKill;
+        saveData.AllDeath = HiDeath;
+        saveData.AllUseBomb = HiBomb;
+        saveData.AllUseBT = HiBT;
         for (int i = 0; i < Achievements.Length; i++)
         {
             saveData.Achievements[i] = Achievements[i];
@@ -285,6 +320,11 @@ public class TitleManager : MonoBehaviour
         Bomb = saveData.playerBomb;
         Level = saveData.playerLevel;
         Life = saveData.playerLife;
+        HiScore = saveData.HiPlayerScore;
+        HiBomb = saveData.AllUseBomb;
+        HiDeath = saveData.AllDeath;
+        HiKill = saveData.AllKill;
+        HiBT = saveData.AllUseBT;
         for (int i = 0; i < Achievements.Length; i++)
         {
             Achievements[i] = saveData.Achievements[i];

@@ -546,6 +546,7 @@ public class Player : MonoBehaviour
             GameManager.Instance.AudioPlay(musicEffect[2], true);
             Instantiate(GetComponent<Death>().deadEffect, this.transform.position, Quaternion.identity);
             GameManager.Instance.AllBomb = true;
+            GameManager.Instance.AllUseBomb+=1;
             GameManager.Instance.FinishAchievement(17);
             if (playerType != PlayerType.vyles)
             {
@@ -587,6 +588,7 @@ public class Player : MonoBehaviour
         {
             isUseTimeBarrage = true;
             GameManager.Instance.AllTimeBarrage = true;
+            GameManager.Instance.AllUseBT+=1;
             GameManager.Instance.FinishAchievement(18);
             StartCoroutine(Trails());
             this.GetComponent<Animator>().SetBool("AnimBulletTime", isUseTimeBarrage);
