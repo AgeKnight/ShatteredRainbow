@@ -145,28 +145,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathAudio: {fileID: 0}
-  deadEffect: {fileID: 0}
+  deathAudio: {fileID: 3387233106102494613, guid: 3e52ef3996671224aac4a3c6250d1dd0, type: 3}
+  Hurtaudio: {fileID: 8946850152021610928, guid: 81cd98fd81d794e4d9457f24868465b2, type: 3}
+  deadEffect: {fileID: 5731954289318693463, guid: 3e52ef3996671224aac4a3c6250d1dd0, type: 3}
   totalHp: 1
   charatorType: 1
   enemyType: 0
-  expObject: {fileID: 7518270170160341144, guid: 3ae8277c49bb24d4abe5ef76adc33a9b, type: 3}
+  Bonus: 1
+  probability:
+  - 0
+  - 0
+  - 0
+  hp: 0
   hpBar: {fileID: 0}
   isInvincible: 0
   isInBomb: 0
   canInBomb: 0
-  ultimateAttack:
-    count: 
-    barrageType: 0
-    barrage: {fileID: 0}
-  indexMax: 1
-  itemStruct:
-  - probability: 10
-    items: {fileID: 7518270170160341144, guid: 36e4f9a93861b6748b871b08339538aa, type: 3}
-  - probability: 10
-    items: {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
-  - probability: 10
-    items: {fileID: 7518270170160341144, guid: 64fa2ac8a88d4f241bdb5d26bb8e6daf, type: 3}
   minExp: 1
   maxExp: 5
   score: 500
@@ -183,6 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b92334e8a8b8b547bcdf1983353b6a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  indexMax: 1
   DownTime: 0
   useBarrage: 2
   moveType: 1
@@ -190,13 +185,19 @@ MonoBehaviour:
   Speed: 3
   deadUseBarrage: 0
   canTouch: 1
-  canCount: 0
-  Dot:
-  - {x: 0.000000010790747, y: 5.318565e+22, z: 8.5030156e+20}
-  - {x: 0.0000001689267, y: 1.6777952e+22, z: 0.000044153443}
+  Dot: []
   Allbullet: []
-  enemyBarrageCounts:
-  - count: 0500000005000000
+  ultimateAttack:
+    count: []
     barrageType: 0
-    barrage: {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    barrage: []
+    Shootsound: {fileID: 0}
+  enemyBarrageCounts:
+  - count: []
+    barrageType: 0
+    barrage:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    Shootsound: {fileID: 0}
   countTime: 0.6

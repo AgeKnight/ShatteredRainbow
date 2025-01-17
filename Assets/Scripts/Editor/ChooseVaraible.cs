@@ -25,12 +25,14 @@ public class ChooseVaraible : Editor
             { "expObject", CharatorType.Enemy},
             { "ultimateAttack", CharatorType.Enemy},
             { "bonusScore", CharatorType.Enemy},
+            { "Bonus", CharatorType.Enemy},
         };
     Dictionary<string,EnemyType> specialPropertys2= new Dictionary<string, EnemyType>
         {
             { "bonusScore", EnemyType.Boss},
             { "hpBar", EnemyType.Boss},
             { "ultimateAttack", EnemyType.Boss},
+            { "Bonus", EnemyType.Trash},
         };
     void OnEnable()
     {

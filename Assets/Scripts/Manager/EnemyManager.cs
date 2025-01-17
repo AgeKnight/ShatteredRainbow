@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
-using System;
 
 
 public enum Wave
@@ -12,6 +11,12 @@ public enum Wave
     TwoColumn,
     WholeLeftRow,
     WholeRightRow
+}
+[System.Serializable]
+public struct BonusMonster
+{
+    public GameObject BonusPrefab;
+    [Range(0f, 100f)] public float probability;
 }
 [System.Serializable]
 public struct WaveMonster
@@ -61,11 +66,82 @@ public class EnemyManager : MonoBehaviour
     #endregion
     public WaveMonster[] waveMonster;
     public WaveBoss[] waveBosses;
+    public BonusMonster[] BonusMonster;
     public float everyStairTime;
+    public int allEnemySpan;
     void Update()
     {
         if (!canGoNext && !isInBossAttack && !isSpanBoss)
             nowEveryStairTime += Time.deltaTime;
+    }
+    public void EnemySpanOper()
+    {
+        allEnemySpan +=GameManager.Instance.DifficulAllIndex;
+        if(allEnemySpan%2==1)
+        {
+            allEnemySpan -= 1;   
+        }
+        else if(allEnemySpan>waveMonster.Length)
+        {
+            allEnemySpan = waveMonster.Length;
+        }
+        else if(allEnemySpan<=0)
+        {
+            allEnemySpan = 2;
+        }
+
+    }
+    void SpanBonus()
+    {
+        int bonusE = Random.Range(0,BonusMonster.Length-1);
+        if(BonusMonster[bonusE].probability>=Random.Range(0,100))
+        {
+            //隨機生成出生點
+            int type = Random.Range(0,1);
+            float spanX = 0,spanY = 0,moveX=0,moveY=0,upDown=0,leftRight=0;
+            if(type==0)
+            {
+                spanX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x,GameManager.Instance.mapPosition[1].transform.position.x);
+                upDown = Random.Range(0,1);
+                if(upDown==0)
+                    spanY = GameManager.Instance.mapPosition[0].transform.position.y;
+                else
+                    spanY = GameManager.Instance.mapPosition[1].transform.position.y;
+            }
+            else
+            {
+                spanY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y,GameManager.Instance.mapPosition[1].transform.position.y);
+                leftRight = Random.Range(0,1);
+                if(leftRight==0)
+                    spanX = GameManager.Instance.mapPosition[0].transform.position.x;
+                else
+                    spanX = GameManager.Instance.mapPosition[1].transform.position.x;
+            }
+            GameObject BonusEnemy = Instantiate(BonusMonster[bonusE].BonusPrefab, new Vector2(spanX,spanY), Quaternion.identity);
+            if(type==0&&upDown==0)
+            {
+                moveX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x,GameManager.Instance.mapPosition[1].transform.position.x);
+                moveY = GameManager.Instance.mapPosition[1].transform.position.y-3;
+            }
+            else if(type==0&&upDown==1)
+            {
+                moveX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x,GameManager.Instance.mapPosition[1].transform.position.x);
+                moveY = GameManager.Instance.mapPosition[0].transform.position.y+3;
+            }
+            else if(type==1&&leftRight==0)
+            {
+                moveY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y,GameManager.Instance.mapPosition[1].transform.position.y);
+                moveX = GameManager.Instance.mapPosition[1].transform.position.x+3;
+            }
+            else if(type==1&&leftRight==1)
+            {
+                moveY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y,GameManager.Instance.mapPosition[1].transform.position.y);
+                moveX = GameManager.Instance.mapPosition[0].transform.position.x-3;
+            }
+            List<Vector3> list = new List<Vector3>(BonusEnemy.GetComponent<Enemy>().Dot.ToList());
+            list.Add(new Vector3(moveX,moveY,0));
+            BonusEnemy.GetComponent<Enemy>().Dot = list.ToArray();
+        }
     }
     public IEnumerator CreateEnemy()
     {
@@ -80,6 +156,7 @@ public class EnemyManager : MonoBehaviour
                     CreateNowEnemy(waveMonster[nowIndex].monsterPrefab, waveMonster[nowIndex].spanPosition, waveMonster[nowIndex].movePosition);
                     StartCoroutine(nowWave);
                     nowCount++;
+                    SpanBonus();
                     yield return new WaitForSeconds(waveMonster[nowIndex].spanTime);
                 }
             }
@@ -104,7 +181,6 @@ public class EnemyManager : MonoBehaviour
                     //是否可以前往下一階段
                     if ((isSpanBoss && !OtherStage) || !isSpanBoss)
                     {
-
                         allIndex++;
                         nowBossStage = 1;
                         if (isSpanBoss)
@@ -137,9 +213,9 @@ public class EnemyManager : MonoBehaviour
                         nowIndex = 0;
                     waveEnemy.Clear();
                     //開始進入boss戰
-                    if (allIndex % (waveMonster.Length / 2 + 1) == waveMonster.Length / 2)
-                    {
-                        
+                    //all index目前小怪+boss波數
+                    if (allIndex % (allEnemySpan / 2 + 1) == allEnemySpan / 2)
+                    {       
                         StartCoroutine(BossAppear());
                         break;
                     }
@@ -165,7 +241,6 @@ public class EnemyManager : MonoBehaviour
             tempEnemy.GetComponent<Enemy>().Dot = list.ToArray();
         }
         waveEnemy.Add(tempEnemy);
-        //GameManager.Instance.ChangeDifficulty(tempEnemy);
     }
     IEnumerator BossAppear()
     {

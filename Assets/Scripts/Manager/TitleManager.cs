@@ -93,16 +93,22 @@ public class TitleManager : MonoBehaviour
     public GameObject BossChoice;
     [HideInInspector]
     public int chooseBoss = 0;
-    #endregion   
+    [HideInInspector]
     public int ChoiceDifficulty;
+    [HideInInspector]
     public Image[] CharImage;
+    [HideInInspector]
     public GameObject[] CharText;
+    [HideInInspector]
     public GameObject[] ExtraObject;
+    [HideInInspector]
     public GameObject[] OptinionMessage;
+    [HideInInspector]
     public Image[] AchievementObject;
-    public Sprite[] AchievementsImage;
+    [HideInInspector]
     public GameObject[] AchievementDifficulty;
-
+    #endregion   
+    public Sprite[] AchievementsImage;
     void Awake()
     {
         FullscreenTog.isOn = Screen.fullScreen;

@@ -68,8 +68,8 @@ public class Enemy : MonoBehaviour
     #endregion
     #region "Hide"
     [HideInInspector]
-    //觸碰到會不會死
-    public bool canTouch = true;
+    public bool canTouch = true;    //觸碰到會不會死
+    //[HideInInspector]
     public Vector3[] Dot;
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();
@@ -82,6 +82,13 @@ public class Enemy : MonoBehaviour
     #endregion
     void Start()
     {
+        indexMax+=GameManager.Instance.DifficulBarrage;
+        if (indexMax > enemyBarrageCounts.Length)
+            indexMax = enemyBarrageCounts.Length;
+        else if(indexMax<=0)
+        {
+            indexMax=1;
+        }
         death = gameObject.GetComponent<Death>();
         temp = enemyBarrageCounts[0].barrage[0];
         tempsound = enemyBarrageCounts[0].Shootsound;
@@ -98,20 +105,9 @@ public class Enemy : MonoBehaviour
             if (useBarrage == AttackType.useBarrage)
                 Attack();
         }
-        if (indexMax > enemyBarrageCounts.Length)
-            indexMax = enemyBarrageCounts.Length;
-        else if(indexMax<=0)
-        {
-            indexMax=1;
-        }
     }
     void Update()
     {
-        // if(!isAttack&&nowMusic)
-        // {
-        //     Destroy(nowMusic);
-        //     isListenShoot = false;
-        // }
         if (!canMove)
         {
             nowDownTime += Time.deltaTime;
@@ -156,6 +152,7 @@ public class Enemy : MonoBehaviour
         {
             switch (moveType)
             {
+                //攻擊完再動
                 case MoveType.SomeTimesMove:
                     if (transform.position != targetPosition && canMove)
                     {
@@ -167,6 +164,7 @@ public class Enemy : MonoBehaviour
                         canChooseBarrage = false;
                     }
                     break;
+                //邊動邊攻擊
                 case MoveType.StayAttackMove:
                     if (transform.position != targetPosition)
                     {
@@ -195,8 +193,6 @@ public class Enemy : MonoBehaviour
             GameManager.Instance.Triangles[0].SetActive(true);
             GameManager.Instance.Triangles[1].SetActive(true);
             GameManager.Instance.ShowBossStaire(GameManager.Instance.enemyManager.AllBossStaire, GameManager.Instance.enemyManager.nowBossStage);
-
-            //GameManager.Instance.BarUse.Play("Open");  //播放血條動畫(開)
             GameManager.Instance.UIanimator.SetInteger("Boss", 0);
             canTouch = true;
             if (GameManager.Instance.enemyManager.nowBossStage > 1)
@@ -211,7 +207,6 @@ public class Enemy : MonoBehaviour
     {
         GameManager.Instance.BeginReciprocal();
         death.isInvincible = false;
-        // ClearBarrage();
         StartCoroutine(UseBarrage());
     }
     void UltimateAttack()
@@ -223,7 +218,7 @@ public class Enemy : MonoBehaviour
             string nowBarrage = System.Enum.GetName(typeof(BarrageType), ultimateAttack.barrageType);
             enemyBarrageCounts[0].barrage = ultimateAttack.barrage;
             enemyBarrageCounts[0].Shootsound = ultimateAttack.Shootsound;
-            StartCoroutine(nowBarrage, ultimateAttack.count);
+            otherCorotine[0] = StartCoroutine(nowBarrage, ultimateAttack.count);
         }
     }
     IEnumerator UseBarrage()
@@ -591,14 +586,6 @@ public class Enemy : MonoBehaviour
 
         for (int i = 0; i < count[0]; i++)
         {
-            /*
-            if (GameManager.Instance.playerScript)
-                eulerAngle = GetAngle(transform.position, GameManager.Instance.playerScript.transform.position);
-            else
-                eulerAngle = GetAngle(transform.position, GameManager.Instance.PlayerResurrectionPosition.transform.position);
-            Instantiate(enemyBarrageCounts[nowIndex].barrage, bulletTransform.position, Quaternion.Euler(0, 0, eulerAngle.z));
-            yield return new WaitForSeconds(count[1]);
-            */
             GameManager.Instance.AudioPlay(enemyBarrageCounts[nowIndex].Shootsound, true);
             //以玩家子彈跟蹤的基礎做的瞄準
             Vector3 vectorToTarget;

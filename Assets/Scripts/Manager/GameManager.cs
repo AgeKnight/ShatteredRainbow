@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
+    [HideInInspector]
     public GameObject[] items;//0 生命 1 炸彈 2 小弟 
     [HideInInspector]
     public int AllUseBT;
@@ -78,7 +79,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public int AllDeath;
     [HideInInspector]
-    public int AllUseBomb; 
+    public int AllUseBomb;
     [HideInInspector]
     public int killEnemy;
     [HideInInspector]
@@ -122,6 +123,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] LightSide;
     [HideInInspector]
     public Text[] MapBonusScores;//0 本關分數 1 加成分數 2 炸彈bonus名 3 炸彈bonus 4 生命bonus名 5 生命bonus
+    [HideInInspector]
     public GameObject[] BonusShine;
     [HideInInspector]
     public float thisMapScore = 0;
@@ -206,8 +208,10 @@ public class GameManager : MonoBehaviour
     #region "難度"
     [Header("調難度")]
     public Difficulty difficulty;
-    public int default_playerBomb = 2;
-    public int default_playerLife = 2;
+    public int DifficulBarrage = 0;
+    public int DifficulAllIndex;
+    public int default_playerBomb = 0;
+    public int default_playerLife = 0;
     public int default_droneCount = 0;
     public int default_playerLevel = 0;
     [Header("無敵時間")]
@@ -217,8 +221,14 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
         Load();
+        ChangeDifficulty();
+        if ((!isCheat  && GameStage == 1)||isRush)
+        {    
+            RefreshGame();
+        }
         coroutine = StartCoroutine(Begin());
     }
+    
     public IEnumerator Begin()
     {
 
@@ -240,7 +250,7 @@ public class GameManager : MonoBehaviour
         GetComponent<AudioSource>().PlayOneShot(BackMusic[0].clip);
 
         yield return new WaitForSeconds(4);
-
+        enemyManager.EnemySpanOper();
         StartCoroutine(enemyManager.CreateEnemy());
     }
     void Update()
@@ -537,8 +547,6 @@ public class GameManager : MonoBehaviour
 
         playerLevel = playerExp / 1000;    //處罰後等級
         playerExp = playerExp - playerLevel * 1000;    //處罰後的顯示經驗值    
-
-        // playerStatus.gameObject.GetComponent<Image>().sprite = playerFace[playerLevel];
         expBar.value = (float)playerExp / totalExp;
         Level.text = "Level " + playerLevel.ToString();
 
@@ -555,15 +563,34 @@ public class GameManager : MonoBehaviour
         switch (difficulty)
         {
             case Difficulty.easy:
-            break;
+                default_playerLife = 5;
+                default_playerBomb = 5;
+                DifficulBarrage = -100;
+                DifficulAllIndex-=2;
+                break;
             case Difficulty.middle:
-            break;
+                default_playerLife = 3;
+                default_playerBomb = 3;
+                DifficulBarrage = 0;
+                break;
             case Difficulty.Hard:
-            break;
+                default_playerLife = 2;
+                default_playerBomb = 2;
+                DifficulBarrage = 1;
+                DifficulAllIndex+=2;
+                break;
             case Difficulty.VerryHard:
-            break;
+                default_playerLife = 1;
+                default_playerBomb = 1;
+                DifficulBarrage = 2;
+                DifficulAllIndex+=4;
+                break;
             case Difficulty.Hell:
-            break;
+                default_playerLife = 0;
+                default_playerBomb = 0;
+                DifficulBarrage = 3;
+                DifficulAllIndex+=6;
+                break;
         }
     }
     #region "boss戰"
@@ -771,16 +798,8 @@ public class GameManager : MonoBehaviour
     {
         var saveData = SaveSystem.LoadGame<SaveData>();
         LoadData(saveData);
-        if (!isRefreshed)
-        {
-            var saveData2 = SaveSystem.LoadGameVoice<SaveVoiceData>();
-            LoadData(saveData2);
-            if (!saveData2.canCheat && GameStage == 1)
-            {
-                RefreshGame();
-            }
-            isRefreshed = true;
-        }
+        var saveData2 = SaveSystem.LoadGameVoice<SaveVoiceData>();
+        LoadData(saveData2);
     }
     #endregion
     #region "存檔幫助"
@@ -795,8 +814,8 @@ public class GameManager : MonoBehaviour
         saveData.GameStage = GameStage;
         saveData.playerScore = playerScore;
         saveData.HiPlayerScore = HiScore;
-        saveData.AllKill= AllKill;
-        saveData.AllUseBT= AllUseBT;
+        saveData.AllKill = AllKill;
+        saveData.AllUseBT = AllUseBT;
         saveData.AllUseBomb = AllUseBomb;
         saveData.AllDeath = AllDeath;
         saveData.AllAttack = AllAttack;
@@ -1085,7 +1104,7 @@ public class GameManager : MonoBehaviour
     public IEnumerator Loadscene(int SceneIndex) //帶入淡出動畫的轉場
     {
         Time.timeScale = 1;
-        if(playerScript)
+        if (playerScript)
             playerScript.GetComponent<Death>().isInvincible = true;
         StartCoroutine(BGMchange(null));
         UIanimator.SetBool("IsEnd", true);

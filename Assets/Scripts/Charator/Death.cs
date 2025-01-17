@@ -21,6 +21,7 @@ public class Death : MonoBehaviour
     public float totalHp;
     public CharatorType charatorType;
     public EnemyType enemyType;
+    public bool Bonus;
     [Range(0f, 100f)] public float[] probability;//0 生命 1 炸彈 2 小弟 
     #endregion
     #region "Hide"
@@ -53,11 +54,11 @@ public class Death : MonoBehaviour
         switch (charatorType)
         {
             case CharatorType.Player:
-                if (!GameManager.Instance.ReallyInvincible&&charatorType == CharatorType.Player && !isInvincible && !isDead && !GameManager.Instance.enemyManager.isWin)
+                if (!GameManager.Instance.ReallyInvincible && charatorType == CharatorType.Player && !isInvincible && !isDead && !GameManager.Instance.enemyManager.isWin)
                 {
                     isDead = true;
                     GameManager.Instance.AllHurt = true;
-                    GameManager.Instance.AllDeath+=1;
+                    GameManager.Instance.AllDeath += 1;
                     GameManager.Instance.FinishAchievement(23);
                     Die();
                 }
@@ -110,13 +111,14 @@ public class Death : MonoBehaviour
         }
         else
         {
-            GameManager.Instance.killEnemy+=1;
-            GameManager.Instance.AllKill+=1;
+            if (!Bonus)
+            {
+                GameManager.Instance.killEnemy += 1;
+            }
+            GameManager.Instance.AllKill += 1;
             GameManager.Instance.Save();
             if (enemyType == EnemyType.Boss)
-            {
-                GameManager.Instance.BossNext(); 
-            }
+                GameManager.Instance.BossNext();
             Enemydeath();
             if (GameManager.Instance.awardType == AwardType.Bonus)
                 GameManager.Instance.AddScore(bonusScore);
@@ -137,9 +139,9 @@ public class Death : MonoBehaviour
 
         GameObject effect = Instantiate(deadEffect, Spot.position, Quaternion.identity);
         effect.GetComponent<Animator>().SetTrigger(ExplosionType);
-       
+
         Destroy(effect, 0.5f);
-        
+
     }
     void Enemydeath()
     {
@@ -163,24 +165,24 @@ public class Death : MonoBehaviour
                     float tempProbability = Random.Range(1, 100);
                     if (tempProbability <= probability[i])
                     {
-                        Instantiate(GameManager.Instance.items[i],transform.position , Quaternion.identity);
+                        Instantiate(GameManager.Instance.items[i], transform.position, Quaternion.identity);
                     }
                 }
-                
+
             }
         }
         //   GameManager.Instance.awardType=AwardType.Bonus;
-      
+
     }
-    public IEnumerator BeBombDamage(float hurt,float time)
+    public IEnumerator BeBombDamage(float hurt, float time)
     {
         canInBomb = false;
         isInBomb = true;
-        while(isInBomb)
+        while (isInBomb)
         {
             Hurt(hurt);
             yield return new WaitForSeconds(time);
-        }       
+        }
     }
     public void ExitBomb()
     {

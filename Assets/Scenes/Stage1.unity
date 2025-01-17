@@ -10871,6 +10871,8 @@ MonoBehaviour:
   PlayerResurrectionPosition: {fileID: 474536401}
   isRush: 0
   difficulty: 1
+  DifficulBarrage: 0
+  DifficulAllIndex: 0
   default_playerBomb: 3
   default_playerLife: 3
   default_droneCount: 0
@@ -11107,7 +11109,11 @@ MonoBehaviour:
     spanPosition: {fileID: 640187956}
     movePosition:
     - {fileID: 1151811914}
+  BonusMonster:
+  - BonusPrefab: {fileID: 5601185290954460713, guid: a5c70d2acd42a3c47a4ecd4133c0cea2, type: 3}
+    probability: 100
   everyStairTime: 5
+  allEnemySpan: 4
 --- !u!4 &1716682023
 Transform:
   m_ObjectHideFlags: 0
