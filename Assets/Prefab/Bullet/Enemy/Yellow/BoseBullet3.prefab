@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 5487894805917023096}
   - component: {fileID: 496099935126841756}
   - component: {fileID: 9157887874870084517}
-  - component: {fileID: 2087952196215501767}
+  - component: {fileID: 6595672852900996563}
   m_Layer: 0
   m_Name: BoseBullet3
   m_TagString: Barrage
@@ -216,7 +216,7 @@ MonoBehaviour:
   canBounceWall: 0
   Unerasable: 0
   speed: 4
-  hurt: 0
+  hurt: 3
   BurnHurt: 0
   beAttract: 0
   hitspark: {fileID: 7037961734342237002, guid: b3d2b9f1944c0da4aab3c5b62a03ab25, type: 3}
@@ -247,7 +247,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!70 &2087952196215501767
+--- !u!70 &6595672852900996563
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -257,9 +257,9 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.009723842, y: -1.7474623}
-  m_Size: {x: 0.7969309, y: 6.5050755}
+  m_Offset: {x: -0.013685703, y: -1.3715994}
+  m_Size: {x: 0.80624056, y: 5.6510253}
   m_Direction: 0

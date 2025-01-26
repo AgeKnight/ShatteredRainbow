@@ -49,7 +49,6 @@ public class Enemy : MonoBehaviour
     AudioSource tempsound;
     float nowDownTime = 0;
     bool canMove = true;
-    Death death;
     Coroutine[] otherCorotine = new Coroutine[1];
     Vector3 targetPosition;
     bool canChooseBarrage = false;
@@ -68,8 +67,10 @@ public class Enemy : MonoBehaviour
     #endregion
     #region "Hide"
     [HideInInspector]
+    public Death death;
+    [HideInInspector]
     public bool canTouch = true;    //觸碰到會不會死
-    //[HideInInspector]
+    [HideInInspector]
     public Vector3[] Dot;
     [HideInInspector]
     public List<GameObject> Allbullet = new List<GameObject>();

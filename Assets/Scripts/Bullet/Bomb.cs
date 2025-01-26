@@ -11,7 +11,6 @@ public class Bomb : MonoBehaviour
     {
         if(other.gameObject.tag=="Barrage"&&other.gameObject.GetComponent<Bullet>().bulletType==BulletType.Enemy)
         {
-            //Destroy(other.gameObject);
             other.gameObject.GetComponent<Bullet>().Die();
         }
         if(other.gameObject.tag=="Enemy"&&other.gameObject.GetComponent<Death>().canInBomb&&Hurt>0)

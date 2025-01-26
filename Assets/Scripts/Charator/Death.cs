@@ -26,6 +26,8 @@ public class Death : MonoBehaviour
     [Range(0f, 100f)] public float[] probability;//0 生命 1 炸彈 2 小弟 
     #endregion
     #region "Hide"
+    //[HideInInspector]
+    public float tempHurt = 0;
     [HideInInspector]
     public float hp;
     //[HideInInspector]
@@ -80,10 +82,14 @@ public class Death : MonoBehaviour
                 }
                 break;
             case CharatorType.None:
-                if (!GameManager.Instance.ReallyInvincible && charatorType == CharatorType.Player && !isInvincible && !isDead && !GameManager.Instance.enemyManager.isWin)
+                if (!GameManager.Instance.ReallyInvincible && !isInvincible && !isDead && !GameManager.Instance.enemyManager.isWin)
                 {
                     GameManager.Instance.AllHurt = true;
                     hp -= value;
+                    if(GameManager.Instance.playerScript.isAttack)
+                    {
+                        tempHurt+= value;
+                    }
                     //hpBar.value = hp / totalHp;
                     if (hp <= 0)
                     {

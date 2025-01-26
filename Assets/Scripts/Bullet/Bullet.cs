@@ -76,7 +76,11 @@ public class Bullet : MonoBehaviour
     {
         if (GameManager.Instance.playerScript && bulletType == BulletType.Enemy)
         {
-            transform.position = Vector3.MoveTowards(transform.position, GameManager.Instance.playerScript.transform.position, speed * Time.deltaTime);
+            Vector3 vectorToTarget = GameManager.Instance.playerScript.transform.position - transform.position; //抓目標方向
+            float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90; //方位計算 後面的-90拯救了這個部分 沒有他子彈是往反方向飛離 >:(
+            Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);  //面對目標的rotation
+            transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 3); //開始轉向 每次update轉一點
+            transform.position = Vector3.MoveTowards(transform.position, GameManager.Instance.playerScript.transform.position, speed* 3 * Time.deltaTime);
         }
         else
         {
