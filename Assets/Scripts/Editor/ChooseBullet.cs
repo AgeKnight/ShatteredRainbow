@@ -10,9 +10,17 @@ public class ChooseBullet : Editor
     List<string> propertyNames;
     SerializedProperty iterator;
     BulletType bulletType;
+    BulletMoveType bulletMoveType;
     Dictionary<string,BulletType> specialPropertys= new Dictionary<string, BulletType>
         {
             { "canTrackEnemy", BulletType.Player},
+        };
+    Dictionary<string,BulletMoveType> specialPropertys2= new Dictionary<string, BulletMoveType>
+        {
+            { "canBounceWall", BulletMoveType.Bounce},
+            { "Unerasable", BulletMoveType.Bounce},
+            { "allBounceNum", BulletMoveType.Bounce},
+            { "MaxTrackTime", BulletMoveType.Bounce},
         };
      void OnEnable()
     {
@@ -34,6 +42,9 @@ public class ChooseBullet : Editor
         {
             if (specialPropertys.TryGetValue(name, out bulletType) 
                 && bulletType != bullet.bulletType)
+                continue;
+            if (specialPropertys2.TryGetValue(name, out bulletMoveType) 
+                && bulletMoveType != bullet.bulletMoveType)
                 continue;
             EditorGUILayout.PropertyField(obj.FindProperty(name));
             if (!GUI.enabled)

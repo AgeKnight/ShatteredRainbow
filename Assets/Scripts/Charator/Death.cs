@@ -26,7 +26,7 @@ public class Death : MonoBehaviour
     [Range(0f, 100f)] public float[] probability;//0 生命 1 炸彈 2 小弟 
     #endregion
     #region "Hide"
-    //[HideInInspector]
+    [HideInInspector]
     public float tempHurt = 0;
     [HideInInspector]
     public float hp;
@@ -90,7 +90,7 @@ public class Death : MonoBehaviour
                     {
                         tempHurt+= value;
                     }
-                    //hpBar.value = hp / totalHp;
+                    hpBar.value = hp / totalHp;
                     if (hp <= 0)
                     {
                         isDead = true;

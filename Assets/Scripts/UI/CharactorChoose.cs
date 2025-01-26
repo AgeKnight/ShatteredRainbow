@@ -234,6 +234,7 @@ public class CharactorChoose : MonoBehaviour
         {
             TitleManager.Instance.isRush = false;
             TitleManager.Instance.ChoiceDifficulty = index;
+            TitleManager.Instance.canSaveGameData = false;
             TitleManager.Instance.Save();
             StartCoroutine(GameStart(1));
         }
@@ -241,6 +242,7 @@ public class CharactorChoose : MonoBehaviour
         {
             //4 5 6 7 8 9
             TitleManager.Instance.isRush = true;
+            TitleManager.Instance.canSaveGameData = false;
             TitleManager.Instance.Save();
             if(TitleManager.Instance.chooseBoss==0)
             {

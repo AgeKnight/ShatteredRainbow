@@ -222,7 +222,7 @@ public class GameManager : MonoBehaviour
         instance = this;
         Load();
         ChangeDifficulty();
-        if ((!isCheat  && GameStage == 1)||isRush)
+        if ((!isCheat  && GameStage == 1)||!isRush)
         {    
             RefreshGame();
         }

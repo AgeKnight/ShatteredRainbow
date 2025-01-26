@@ -347,22 +347,24 @@ public class Player : MonoBehaviour
     }
     void Counterattack()
     {
-        float x = death.tempHurt * (death.totalHp / death.hp) * (GameManager.Instance.playerLevel+1);
+        float CounterHurt = death.tempHurt * (death.totalHp / death.hp) * (GameManager.Instance.playerLevel+1);
         death.tempHurt = 0;
         enemys = FindObjectsOfType<Enemy>();
         for (int i = 0; i < FindObjectsOfType<Enemy>().Length; i++)
         {
-            if (enemys[i].death.totalHp <= x)
+            if (enemys[i].death.totalHp <= CounterHurt)
             {
                 enemys[i].death.Die();
-                x -= enemys[i].death.totalHp;
+                CounterHurt -= enemys[i].death.totalHp;
             }
             else
             {
-                enemys[i].death.Hurt(x);
+                enemys[i].death.Hurt(CounterHurt);
+                CounterHurt -= CounterHurt;
                 break;
             }
         }
+        GameManager.Instance.AddScore(CounterHurt);
     }
     void PrismieAttack()
     {

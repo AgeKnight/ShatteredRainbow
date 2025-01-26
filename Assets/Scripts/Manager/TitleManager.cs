@@ -28,8 +28,9 @@ public class TitleManager : MonoBehaviour
 {
     static TitleManager instance;
     public static TitleManager Instance { get => instance; set => instance = value; }
-    bool canSaveGameData = false;
     #region "Hide"
+    [HideInInspector]
+    public bool canSaveGameData = false;
     [HideInInspector]
     public float HiScore = 0;
     [HideInInspector]

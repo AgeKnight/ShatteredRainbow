@@ -28,12 +28,13 @@ public class Bullet : MonoBehaviour
     public bool canWallDestroy = true;
     [HideInInspector]
     public int VyleIndex;
+    [HideInInspector]
+    public bool beAttract = false;
     public bool canBounceWall = false;
     public bool Unerasable = false;
     public float speed;
     public float hurt;
     public float BurnHurt;
-    public bool beAttract = false;
     public GameObject hitspark;
     public GameObject BurnSpark;
     public AudioSource Hitsound;
