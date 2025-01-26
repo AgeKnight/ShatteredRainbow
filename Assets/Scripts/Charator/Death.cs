@@ -48,7 +48,15 @@ public class Death : MonoBehaviour
     #endregion
     void Awake()
     {
-        hp = totalHp;
+        if (!GameManager.Instance.isRush && GameManager.Instance.GameStage != 1 && charatorType == CharatorType.None)
+        {
+            hp = GameManager.Instance.hp;
+            hpBar.value = hp / totalHp;
+        }
+        else
+        {
+            hp = totalHp;
+        }
         isInBomb = true;
         canInBomb = true;
     }
@@ -71,7 +79,7 @@ public class Death : MonoBehaviour
                     GameManager.Instance.playerScript.AddTimeBarrage(0.05f);
                     GameManager.Instance.AudioPlay(Hurtaudio, true);
                     hp -= value;
-                    if (enemyType==EnemyType.Boss)
+                    if (enemyType == EnemyType.Boss)
                         hpBar.value = hp / totalHp;
                     if (hp <= 0 && !isDead)
                     {
@@ -82,13 +90,16 @@ public class Death : MonoBehaviour
                 }
                 break;
             case CharatorType.None:
-                if (!GameManager.Instance.ReallyInvincible && !isInvincible && !isDead && !GameManager.Instance.enemyManager.isWin)
+                if (!isDead && !GameManager.Instance.enemyManager.isWin)
                 {
-                    GameManager.Instance.AllHurt = true;
-                    hp -= value;
-                    if(GameManager.Instance.playerScript.isAttack)
+                    if (!GameManager.Instance.ReallyInvincible && !isInvincible)
                     {
-                        tempHurt+= value;
+                        GameManager.Instance.AllHurt = true;
+                        hp -= value;
+                    }
+                    if (GameManager.Instance.playerScript.isAttack)
+                    {
+                        tempHurt += value;
                     }
                     hpBar.value = hp / totalHp;
                     if (hp <= 0)
@@ -131,6 +142,10 @@ public class Death : MonoBehaviour
             if (!Bonus)
             {
                 GameManager.Instance.killEnemy += 1;
+            }
+            if (isInBomb && GameManager.Instance.playerScript)
+            {
+                GameManager.Instance.playerScript.GetComponent<Death>().ExitBomb();
             }
             GameManager.Instance.AllKill += 1;
             GameManager.Instance.Save();
@@ -188,7 +203,6 @@ public class Death : MonoBehaviour
 
             }
         }
-        //   GameManager.Instance.awardType=AwardType.Bonus;
 
     }
     public IEnumerator BeBombDamage(float hurt, float time)

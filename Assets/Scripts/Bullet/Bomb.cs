@@ -6,7 +6,6 @@ public class Bomb : MonoBehaviour
     [Range(0f,1f)]public float SlowSpeed; 
     public float Hurt;
     public float Time;
-
     void OnTriggerStay2D(Collider2D other) 
     {
         if(other.gameObject.tag=="Barrage"&&other.gameObject.GetComponent<Bullet>().bulletType==BulletType.Enemy)

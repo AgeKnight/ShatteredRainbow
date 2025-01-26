@@ -30,6 +30,8 @@ public class TitleManager : MonoBehaviour
     public static TitleManager Instance { get => instance; set => instance = value; }
     #region "Hide"
     [HideInInspector]
+    public int GameStage;
+    [HideInInspector]
     public bool canSaveGameData = false;
     [HideInInspector]
     public float HiScore = 0;
@@ -307,6 +309,7 @@ public class TitleManager : MonoBehaviour
         saveData.AllDeath = HiDeath;
         saveData.AllUseBomb = HiBomb;
         saveData.AllUseBT = HiBT;
+        saveData.GameStage = GameStage;
         for (int i = 0; i < Achievements.Length; i++)
         {
             saveData.Achievements[i] = Achievements[i];

@@ -3,6 +3,14 @@ using UnityEngine;
 public class ItemUse : MonoBehaviour
 {
     public Sprite[] status;
+    public float Hurt;
+    public float Time;
+    Death death;
+    Enemy enemy;
+    void Awake()
+    {
+        death= this.transform.parent.gameObject.GetComponent<Death>();
+    }
     void Update() 
     {
         gameObject.GetComponent<SpriteRenderer>().sprite= status[GameManager.Instance.playerLevel];
@@ -17,14 +25,30 @@ public class ItemUse : MonoBehaviour
                 temp.Die();
                 break;
             case "Enemy":
-                var tempPlayer = this.transform.parent.gameObject.GetComponent<Death>();
                 var tempEnemy = other.gameObject.GetComponent<Enemy>();
                 var tempEnemy2 = other.gameObject.GetComponent<Death>();
                 if(tempEnemy.useBarrage==AttackType.suicideAttack)
                     tempEnemy2.Die();
-                if(!tempPlayer.isInvincible&&tempEnemy.canTouch&&!GameManager.Instance.ReallyInvincible)
-                    tempPlayer.Die();
+                if(!death.isInvincible&&tempEnemy.canTouch&&!GameManager.Instance.ReallyInvincible&&death.charatorType!=CharatorType.None)
+                    death.Die();
                 break;
+        }
+    }
+    void OnTriggerStay2D(Collider2D other) 
+    {
+        if(other.gameObject.tag=="Enemy"&&death.charatorType==CharatorType.None&&other.gameObject.GetComponent<Death>().canInBomb)
+        {
+            StartCoroutine(other.gameObject.GetComponent<Death>().BeBombDamage(Hurt,Time));
+            StartCoroutine(death.BeBombDamage(Hurt,Time));
+        }   
+    }
+    void OnTriggerExit2D(Collider2D other) 
+    {
+        if(other.gameObject.tag=="Enemy")
+        {
+            Debug.Log(1);
+            other.GetComponent<Death>().ExitBomb();
+            death.ExitBomb();
         }
     }
 }

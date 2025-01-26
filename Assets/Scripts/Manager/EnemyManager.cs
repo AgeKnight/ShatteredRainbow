@@ -93,55 +93,55 @@ public class EnemyManager : MonoBehaviour
     }
     void SpanBonus()
     {
-        int bonusE = Random.Range(0,BonusMonster.Length-1);
-        if(BonusMonster[bonusE].probability>=Random.Range(0,100))
-        {
-            //隨機生成出生點
-            int type = Random.Range(0,1);
-            float spanX = 0,spanY = 0,moveX=0,moveY=0,upDown=0,leftRight=0;
-            if(type==0)
-            {
-                spanX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x,GameManager.Instance.mapPosition[1].transform.position.x);
-                upDown = Random.Range(0,1);
-                if(upDown==0)
-                    spanY = GameManager.Instance.mapPosition[0].transform.position.y;
-                else
-                    spanY = GameManager.Instance.mapPosition[1].transform.position.y;
-            }
-            else
-            {
-                spanY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y,GameManager.Instance.mapPosition[1].transform.position.y);
-                leftRight = Random.Range(0,1);
-                if(leftRight==0)
-                    spanX = GameManager.Instance.mapPosition[0].transform.position.x;
-                else
-                    spanX = GameManager.Instance.mapPosition[1].transform.position.x;
-            }
-            GameObject BonusEnemy = Instantiate(BonusMonster[bonusE].BonusPrefab, new Vector2(spanX,spanY), Quaternion.identity);
-            if(type==0&&upDown==0)
-            {
-                moveX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x,GameManager.Instance.mapPosition[1].transform.position.x);
-                moveY = GameManager.Instance.mapPosition[1].transform.position.y-3;
-            }
-            else if(type==0&&upDown==1)
-            {
-                moveX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x,GameManager.Instance.mapPosition[1].transform.position.x);
-                moveY = GameManager.Instance.mapPosition[0].transform.position.y+3;
-            }
-            else if(type==1&&leftRight==0)
-            {
-                moveY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y,GameManager.Instance.mapPosition[1].transform.position.y);
-                moveX = GameManager.Instance.mapPosition[1].transform.position.x+3;
-            }
-            else if(type==1&&leftRight==1)
-            {
-                moveY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y,GameManager.Instance.mapPosition[1].transform.position.y);
-                moveX = GameManager.Instance.mapPosition[0].transform.position.x-3;
-            }
-            List<Vector3> list = new List<Vector3>(BonusEnemy.GetComponent<Enemy>().Dot.ToList());
-            list.Add(new Vector3(moveX,moveY,0));
-            BonusEnemy.GetComponent<Enemy>().Dot = list.ToArray();
-        }
+        // int bonusE = Random.Range(0,BonusMonster.Length-1);
+        // if(BonusMonster[bonusE].probability>=Random.Range(0,100))
+        // {
+        //     //隨機生成出生點
+        //     int type = Random.Range(0,1);
+        //     float spanX = 0,spanY = 0,moveX=0,moveY=0,upDown=0,leftRight=0;
+        //     if(type==0)
+        //     {
+        //         spanX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x,GameManager.Instance.mapPosition[1].transform.position.x);
+        //         upDown = Random.Range(0,1);
+        //         if(upDown==0)
+        //             spanY = GameManager.Instance.mapPosition[0].transform.position.y;
+        //         else
+        //             spanY = GameManager.Instance.mapPosition[1].transform.position.y;
+        //     }
+        //     else
+        //     {
+        //         spanY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y,GameManager.Instance.mapPosition[1].transform.position.y);
+        //         leftRight = Random.Range(0,1);
+        //         if(leftRight==0)
+        //             spanX = GameManager.Instance.mapPosition[0].transform.position.x;
+        //         else
+        //             spanX = GameManager.Instance.mapPosition[1].transform.position.x;
+        //     }
+        //     GameObject BonusEnemy = Instantiate(BonusMonster[bonusE].BonusPrefab, new Vector2(spanX,spanY), Quaternion.identity);
+        //     if(type==0&&upDown==0)
+        //     {
+        //         moveX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x,GameManager.Instance.mapPosition[1].transform.position.x);
+        //         moveY = GameManager.Instance.mapPosition[1].transform.position.y-3;
+        //     }
+        //     else if(type==0&&upDown==1)
+        //     {
+        //         moveX = Random.Range(GameManager.Instance.mapPosition[0].transform.position.x,GameManager.Instance.mapPosition[1].transform.position.x);
+        //         moveY = GameManager.Instance.mapPosition[0].transform.position.y+3;
+        //     }
+        //     else if(type==1&&leftRight==0)
+        //     {
+        //         moveY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y,GameManager.Instance.mapPosition[1].transform.position.y);
+        //         moveX = GameManager.Instance.mapPosition[1].transform.position.x+3;
+        //     }
+        //     else if(type==1&&leftRight==1)
+        //     {
+        //         moveY = Random.Range(GameManager.Instance.mapPosition[0].transform.position.y,GameManager.Instance.mapPosition[1].transform.position.y);
+        //         moveX = GameManager.Instance.mapPosition[0].transform.position.x-3;
+        //     }
+        //     List<Vector3> list = new List<Vector3>(BonusEnemy.GetComponent<Enemy>().Dot.ToList());
+        //     list.Add(new Vector3(moveX,moveY,0));
+        //     BonusEnemy.GetComponent<Enemy>().Dot = list.ToArray();
+        //}
     }
     public IEnumerator CreateEnemy()
     {

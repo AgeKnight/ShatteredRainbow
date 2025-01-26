@@ -458,7 +458,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.020884514, y: 0.21580553}
+  m_Offset: {x: 0.06845188, y: 0.26929545}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -469,7 +469,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.363171, y: 3.075622}
+  m_Size: {x: 4.2367983, y: 4.331837}
   m_EdgeRadius: 0
 --- !u!114 &5738360263470474122
 MonoBehaviour:
@@ -488,6 +488,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7ab4b1c0a48cb6f429b8810f60931ea6, type: 3}
   - {fileID: 21300000, guid: 7d332d0aed1314d4c9257e8ab044892f, type: 3}
   - {fileID: 21300000, guid: 389de28bbccd0214baee8d5115bad306, type: 3}
+  Hurt: 5
+  Time: 0.05
 --- !u!1 &1370245582699379664
 GameObject:
   m_ObjectHideFlags: 0
@@ -2011,7 +2013,7 @@ MonoBehaviour:
   deathAudio: {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
   Hurtaudio: {fileID: 0}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
-  totalHp: 100
+  totalHp: 10000
   charatorType: 2
   enemyType: 0
   Bonus: 0

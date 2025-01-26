@@ -39,6 +39,7 @@ public class SaveData
     public int AllDeath;
     public int AllUseBomb;
     public int AllUseBT;
+    public float hp;
     public int GameStage = 1;
     public bool Invincible;
     public bool autoShoot;
@@ -70,6 +71,8 @@ public class GameManager : MonoBehaviour
     public float AllResurrectionTime;
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public float hp;
     [HideInInspector]
     public GameObject[] items;//0 生命 1 炸彈 2 小弟 
     [HideInInspector]
@@ -222,7 +225,7 @@ public class GameManager : MonoBehaviour
         instance = this;
         Load();
         ChangeDifficulty();
-        if ((!isCheat  && GameStage == 1)||!isRush)
+        if ((!isCheat  && GameStage == 1)||isRush)
         {    
             RefreshGame();
         }
@@ -824,6 +827,8 @@ public class GameManager : MonoBehaviour
         saveData.AllTimeBarrage = AllTimeBarrage;
         saveData.enemyCount = enemyCount;
         saveData.killEnemy = killEnemy;
+        if(playerScript)
+            saveData.hp = playerScript.GetComponent<Death>().hp;
         for (int i = 0; i < Achievements.Length; i++)
         {
             saveData.Achievements[i] = Achievements[i];
@@ -852,6 +857,7 @@ public class GameManager : MonoBehaviour
         AllHurt = saveData.AllHurt;
         AllTimeBarrage = saveData.AllTimeBarrage;
         killEnemy = saveData.killEnemy;
+        hp = saveData.hp;
         for (int i = 0; i < Achievements.Length; i++)
         {
             Achievements[i] = saveData.Achievements[i];
