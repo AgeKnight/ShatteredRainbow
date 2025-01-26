@@ -28,6 +28,7 @@ public class TitleManager : MonoBehaviour
 {
     static TitleManager instance;
     public static TitleManager Instance { get => instance; set => instance = value; }
+    bool canSaveGameData = false;
     #region "Hide"
     [HideInInspector]
     public float HiScore = 0;
@@ -180,6 +181,7 @@ public class TitleManager : MonoBehaviour
             Achievements[i]= false;
         }
         AchievementBtn();
+        canSaveGameData = true;
         Save();
     }
 
@@ -239,12 +241,14 @@ public class TitleManager : MonoBehaviour
     {
         BGM_Text.text = ((int)(BGM.value * 100)).ToString();
         BackSound.volume = BGM.value * All.value;
+        Save();
     }
     public void VoiceControllEffect()
     {
         Effect_Text.text = ((int)(Effect.value * 100)).ToString();
         SelectSound.volume = Effect.value * All.value;
         ClickSound.volume = Effect.value * All.value;
+        Save();
     }
     public void VoiceControllAll()
     {
@@ -252,11 +256,16 @@ public class TitleManager : MonoBehaviour
         BackSound.volume = BGM.value * All.value;
         SelectSound.volume = Effect.value * All.value;
         ClickSound.volume = Effect.value * All.value;
+        Save();
     }
     public void Save()
     {
         SaveSystem.SaveGameVoice(SavingData());
-        SaveSystem.SaveGame(SavingGameData());
+        if(canSaveGameData)
+        {
+            canSaveGameData = false;
+            SaveSystem.SaveGame(SavingGameData());
+        }
     }
     void RefreshGame()
     {

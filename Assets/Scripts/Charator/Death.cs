@@ -4,7 +4,8 @@ using UnityEngine.UI;
 public enum CharatorType
 {
     Player,
-    Enemy
+    Enemy,
+    None
 }
 public enum EnemyType
 {
@@ -27,7 +28,7 @@ public class Death : MonoBehaviour
     #region "Hide"
     [HideInInspector]
     public float hp;
-    [HideInInspector]
+    //[HideInInspector]
     public Slider hpBar;
     [HideInInspector]
     public bool isInvincible = false;
@@ -58,8 +59,6 @@ public class Death : MonoBehaviour
                 {
                     isDead = true;
                     GameManager.Instance.AllHurt = true;
-                    GameManager.Instance.AllDeath += 1;
-                    GameManager.Instance.FinishAchievement(23);
                     Die();
                 }
                 break;
@@ -70,7 +69,7 @@ public class Death : MonoBehaviour
                     GameManager.Instance.playerScript.AddTimeBarrage(0.05f);
                     GameManager.Instance.AudioPlay(Hurtaudio, true);
                     hp -= value;
-                    if (hpBar != null)
+                    if (enemyType==EnemyType.Boss)
                         hpBar.value = hp / totalHp;
                     if (hp <= 0 && !isDead)
                     {
@@ -80,17 +79,29 @@ public class Death : MonoBehaviour
                     }
                 }
                 break;
+            case CharatorType.None:
+                if (!GameManager.Instance.ReallyInvincible && charatorType == CharatorType.Player && !isInvincible && !isDead && !GameManager.Instance.enemyManager.isWin)
+                {
+                    GameManager.Instance.AllHurt = true;
+                    hp -= value;
+                    //hpBar.value = hp / totalHp;
+                    if (hp <= 0)
+                    {
+                        isDead = true;
+                        Die();
+                    }
+                }
+                break;
         }
     }
     public void Die()
     {
-
-
         this.gameObject.SetActive(false);
-
         if (gameObject.tag == "Player")
         {
             Time.timeScale = 1;
+            GameManager.Instance.AllDeath += 1;
+            GameManager.Instance.FinishAchievement(23);
             if (GameManager.Instance.enemyManager.isSpanBoss)
                 GameManager.Instance.awardType = AwardType.Common;
             GameManager.Instance.thisMapHurt = true;

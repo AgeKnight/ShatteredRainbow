@@ -1,4 +1,4 @@
- using UnityEngine;
+using UnityEngine;
 public enum BulletType
 {
     Player,
@@ -18,6 +18,7 @@ public class Bullet : MonoBehaviour
     float speedtemp;
     bool isTracked = false;
     bool isExit = false;
+    bool isChooseed = false;
     float TrackTime;
     [HideInInspector]
     public float AllRainTime;
@@ -32,7 +33,7 @@ public class Bullet : MonoBehaviour
     public float speed;
     public float hurt;
     public float BurnHurt;
-    
+    public bool beAttract = false;
     public GameObject hitspark;
     public GameObject BurnSpark;
     public AudioSource Hitsound;
@@ -47,61 +48,60 @@ public class Bullet : MonoBehaviour
         speedtemp = speed;
         if (GetComponent<AudioSource>())
             GetComponent<AudioSource>().volume = SaveSystem.LoadGameVoice<SaveVoiceData>().Effect_num * SaveSystem.LoadGameVoice<SaveVoiceData>().All_num;
+
     }
     void Update()
     {
-        switch (bulletMoveType)
+        if (!beAttract)
         {
-            case BulletMoveType.Track:
-                Track();
-                break;
-            case BulletMoveType.Common:
-                Move();
-                break;
-            case BulletMoveType.Bounce:
-                Bounce();
-                break;
-        }
-    }
-    void Bounce()
-    {
-        var enemy = GameObject.FindWithTag("Enemy");
-        if (!canBounceWall)
-        {
-            if (enemy)
+            switch (bulletMoveType)
             {
-                if (!isTracked)
-                {
-                    Vector3 vectorToTarget = enemy.transform.position - transform.position; //抓目標方向
-                    float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90; //方位計算 後面的-90拯救了這個部分 沒有他子彈是往反方向飛離 >:(
-                    Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);  //面對目標的rotation
-                    transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * rotatespeed); //開始轉向 每次update轉一點
-                    transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
-                }
-                else
-                {
-                    transform.Translate(Vector3.down * speed * Time.deltaTime, Space.Self);
-                    if (isExit)
-                    {
-                        TrackTime += Time.deltaTime;
-                        if (TrackTime >= MaxTrackTime)
-                        {
-                            TrackTime = 0;
-                            isTracked = false;
-                            isExit = false;
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
+                case BulletMoveType.Track:
+                    Track();
+                    break;
+                case BulletMoveType.Common:
+                    Move();
+                    break;
+                case BulletMoveType.Bounce:
+                    Bounce();
+                    break;
             }
         }
         else
         {
+            TrackPlayer();
+        }
+    }
+    public void TrackPlayer()
+    {
+        if (GameManager.Instance.playerScript && bulletType == BulletType.Enemy)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, GameManager.Instance.playerScript.transform.position, speed * Time.deltaTime);
+        }
+        else
+        {
+            beAttract = false;
+        }
+    }
+    void Bounce()
+    {
+        if (!isTracked)
+        {
             transform.Translate(Vector3.up * speed * Time.deltaTime, Space.Self);
+        }
+        else
+        {
+            transform.Translate(Vector3.down * speed * Time.deltaTime, Space.Self);
+            if (isExit)
+            {
+                TrackTime += Time.deltaTime;
+                if (TrackTime >= MaxTrackTime)
+                {
+                    TrackTime = 0;
+                    isTracked = false;
+                    isExit = false;
+                }
+            }
         }
     }
     protected void Move()
@@ -156,7 +156,7 @@ public class Bullet : MonoBehaviour
     {
         if (GetComponent<Collider2D>())
             GetComponent<Collider2D>().enabled = false;
-        if (bulletMoveType != BulletMoveType.Bounce&&gameObject.GetComponent<Animator>())
+        if (bulletMoveType != BulletMoveType.Bounce && gameObject.GetComponent<Animator>())
             gameObject.GetComponent<Animator>().SetTrigger("Vanish");
         if (bulletMoveType == BulletMoveType.Bounce)
         {
@@ -186,8 +186,8 @@ public class Bullet : MonoBehaviour
 
             GameObject Spark = Instantiate(hitspark, Spot, Quaternion.Euler(0, 0, Random.Range(0, 180)));
             float point = Random.Range(0.12f, 0.08f);
-            Spark.transform.localScale = new Vector2(point,point);
-            
+            Spark.transform.localScale = new Vector2(point, point);
+
 
             if (bulletMoveType != BulletMoveType.Bounce && !Unerasable)
                 Die();
@@ -236,7 +236,7 @@ public class Bullet : MonoBehaviour
                     Die();
                 }
             }
-            else if(!Unerasable)
+            else if (!Unerasable)
             {
                 Die();
             }

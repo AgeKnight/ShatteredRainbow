@@ -5,7 +5,7 @@ public class Reciprocal : MonoBehaviour
 {
     [HideInInspector]
     public bool isDead = false;
-    //[HideInInspector]
+    [HideInInspector]
     public float allTime;
     void Update()
     {

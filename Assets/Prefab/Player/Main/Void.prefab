@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -768463889
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: a71b8278f1184674296d1aa7b9ee17bf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -431,10 +431,10 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -768463889
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: faae0e97e093e1f4ab6b078d89354aeb, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.78431374}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -483,10 +483,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status:
-  - {fileID: 21300000, guid: 6503198cd70f3d944808d497eebd59df, type: 3}
-  - {fileID: 21300000, guid: fb0b2d6d1ab7dc44dbae2f2dbe2bb7e4, type: 3}
-  - {fileID: 21300000, guid: 91d58d0f2366517408971913297adadf, type: 3}
-  - {fileID: 21300000, guid: 4930c1a884828e34f9d35c8de31a2648, type: 3}
+  - {fileID: 21300000, guid: 73bd7e1a6e0c9344d93cfa8ade4472cb, type: 3}
+  - {fileID: 21300000, guid: 7ab4b1c0a48cb6f429b8810f60931ea6, type: 3}
+  - {fileID: 21300000, guid: 7d332d0aed1314d4c9257e8ab044892f, type: 3}
+  - {fileID: 21300000, guid: 389de28bbccd0214baee8d5115bad306, type: 3}
 --- !u!1 &1370245582699379664
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,7 +683,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -768463889
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 9fa78883ea2335b45aaedf1102a30599, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -827,7 +827,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -768463889
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 6f9b7454ecd883b43be0ad516fbc02c9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1210,7 +1210,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -768463889
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 069d6c743b9a1634e90bc0a760ecf997, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1366,7 +1366,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -768463889
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 02b852c125ab33b4aa3b7adf66f6e650, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1450,7 +1450,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -768463889
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 8ee14953b818bd74d87349af9bbacaac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1534,7 +1534,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -768463889
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 66b5b85685ad52440af95ed786b2b592, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1777,13 +1777,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0561c701ecb0d94a91c77677f933e5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TimeBarrageTrail: {fileID: 6545830598083657615, guid: 174d4cf43c521b441b6962b3a097f713, type: 3}
   BombAttack: 1
+  BumbNums: 0
   playerType: 4
-  maxLazerTime: 0
   SlowSpeed: 0.1
+  MaxLazerTime: 0
   speed: 4
   MaxGatherTime: 0
-  TimeBarrageTrail: {fileID: 6545830598083657615, guid: 174d4cf43c521b441b6962b3a097f713, type: 3}
   timeRegain: 0.05
   canControlAttack: 1
   useBombTime: 9
@@ -1793,10 +1794,19 @@ MonoBehaviour:
   SliderTime: {fileID: 2887989388698943693}
   LilyGatherTime: {fileID: 0}
   BombPosition: {fileID: 5473399651417196600}
+  vivyBarrageTrans: []
   musicEffect:
   - {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
   - {fileID: 3387233106102494613, guid: 10549770619a246448ce6c4f013e764e, type: 3}
   - {fileID: 8950129573421394212, guid: 2f94d36c5d645bb44a54ab6319faedb4, type: 3}
+  AllVylesIndex: 0
+  VyleBarrage:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   isUseTimeBarrage: 0
   DroneGroup: {fileID: 1122854657387384679}
   AnnularCircle: {fileID: 2888811622229721021}
@@ -1833,26 +1843,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
   deathAudio: {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
   Hurtaudio: {fileID: 0}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
-  totalHp: 2
-  charatorType: 0
+  totalHp: 100
+  charatorType: 2
   enemyType: 0
-  expObject: {fileID: 0}
+  Bonus: 0
+  probability: []
+  hp: 0
   hpBar: {fileID: 0}
   isInvincible: 0
   isInBomb: 0
   canInBomb: 0
-  ultimateAttack:
-    count: []
-    barrageType: 0
-    barrage:
-    - {fileID: 0}
-    Shootsound: {fileID: 0}
-  indexMax: 1
-  itemStruct: []
   minExp: 0
   maxExp: 0
   score: 0
