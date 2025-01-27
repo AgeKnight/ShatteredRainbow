@@ -46,7 +46,6 @@ public class ItemUse : MonoBehaviour
     {
         if(other.gameObject.tag=="Enemy")
         {
-            Debug.Log(1);
             other.GetComponent<Death>().ExitBomb();
             death.ExitBomb();
         }

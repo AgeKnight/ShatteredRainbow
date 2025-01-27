@@ -27,6 +27,13 @@ public class Item : MonoBehaviour
     //[HideInInspector]
     public bool CanAttract = false;
     #endregion
+    void Awake() 
+    {
+        if(GameManager.Instance.ChoicePlayer==4)
+        {
+           CanAttract = true;
+        }
+    }
     private void Start()
     {   
         GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-5f, 5f), Random.Range(-5f, 5f)));
@@ -40,8 +47,6 @@ public class Item : MonoBehaviour
 
         if (GetComponent<Rigidbody2D>().velocity.y > -0.2f && GetComponent<Rigidbody2D>().velocity.y < 0.2f && GetComponent<Rigidbody2D>().velocity.x > -0.2f && GetComponent<Rigidbody2D>().velocity.x < 0.2f)
             Stopped = true;
-
-
     }
     void Move()
     {

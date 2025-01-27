@@ -482,7 +482,7 @@ public class GameManager : MonoBehaviour
             playerLevel += 1;
             if (playerScript)
             {
-                if (playerScript.playerType == PlayerType.vyles)
+                if (ChoicePlayer==3)
                 {
                     playerScript.AllVylesIndex = playerLevel + 3;
                     playerScript.VyleCreate();
@@ -542,7 +542,8 @@ public class GameManager : MonoBehaviour
             {
                 drop = Instantiate(expObject[i], playerScript.gameObject.GetComponent<Transform>().position, Quaternion.identity);
                 drop.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10f, 10f), Random.Range(-10f, 10f)));
-                drop.GetComponent<Item>().CanAttract = false;
+                if(ChoicePlayer!=4)
+                    drop.GetComponent<Item>().CanAttract = false;
             }
 
         }

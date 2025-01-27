@@ -52,7 +52,6 @@ public class Player : MonoBehaviour
     public float speed;
     public float MaxGatherTime;
     public float timeRegain;
-    public bool canControlAttack;
     public float useBombTime;
     public float MaxBarrageTime;
     public float AttackTime;
@@ -62,28 +61,29 @@ public class Player : MonoBehaviour
     public Transform BombPosition;
     public VivyBarrageTrans[] vivyBarrageTrans;
     public AudioSource[] musicEffect; //0射擊音 1炸彈音
-
+    public GameObject DroneGroup;
+    public GameObject[] bulletPrefab;
+    public Transform[] bulletTransform;
+    public GameObject[] Drone;
+    public Sprite[] DroneRLevil;
+    public Sprite[] DroneLLevil;
+    public float around_speed = 60f; //公转环绕速度
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public bool canControlAttack;
     [HideInInspector]
     public int AllVylesIndex = 0;
     [HideInInspector]
     public GameObject[] VyleBarrage = new GameObject[6];
     [HideInInspector]
     public bool isUseTimeBarrage = false;
-    //[HideInInspector]
-    public GameObject DroneGroup;
     [HideInInspector]
     public GameObject AnnularCircle;
     [HideInInspector]
     public bool canMove = false;
     [HideInInspector]
     public bool isAttack = false;
-    public GameObject[] bulletPrefab;
-    //[HideInInspector]
-    public Transform[] bulletTransform;
-    //[HideInInspector]
-    public GameObject[] Drone;
     #endregion
     void Awake()
     {
@@ -217,40 +217,84 @@ public class Player : MonoBehaviour
             GameManager.Instance.droneCount = 0;
             isUseDrone = false;
         }
-        for (int i = 0; i < 6; i++)
+        if (playerType != PlayerType.Lil_Void)
         {
-            Drone[i].SetActive(false);
+            for (int i = 0; i < 6; i++)
+            {
+                Drone[i].SetActive(false);
+            }
+            for (int i = 0; i <= GameManager.Instance.droneCount - 1; i++)
+            {
+                Drone[i].SetActive(true);
+            }
         }
-        for (int i = 0; i <= GameManager.Instance.droneCount - 1; i++)
+        else
         {
-            Drone[i].SetActive(true);
+            if (GameManager.Instance.droneCount >= 2)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    Drone[i].SetActive(true);
+                }
+                Drone[0].GetComponent<SpriteRenderer>().sprite = DroneRLevil[(GameManager.Instance.droneCount / 2) - 1];
+                Drone[1].GetComponent<SpriteRenderer>().sprite = DroneLLevil[(GameManager.Instance.droneCount / 2) - 1];
+            }
+            else
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    Drone[i].SetActive(false);
+                }
+            }
         }
     }
     public void AddBro(int value)
     {
-
         GameManager.Instance.droneCount += value;
-        if (GameManager.Instance.droneCount >= 6)
-        {
-            GameManager.Instance.FinishAchievement(13);
-            GameManager.Instance.CheckUpperLimit();
-        }
         if (GameManager.Instance.droneCount > 0)
         {
             isUseDrone = true;
+            if (GameManager.Instance.droneCount >= 6)
+            {
+                GameManager.Instance.FinishAchievement(13);
+                GameManager.Instance.CheckUpperLimit();
+            }
+
         }
         else
         {
             GameManager.Instance.droneCount = 0;
             isUseDrone = false;
         }
-        for (int i = 0; i < 6; i++)
+        if (playerType != PlayerType.Lil_Void)
         {
-            Drone[i].SetActive(false);
+            for (int i = 0; i < 6; i++)
+            {
+                Drone[i].SetActive(false);
+            }
+            for (int i = 0; i <= GameManager.Instance.droneCount - 1; i++)
+            {
+                Drone[i].SetActive(true);
+            }
         }
-        for (int i = 0; i <= GameManager.Instance.droneCount - 1; i++)
+        else
         {
-            Drone[i].SetActive(true);
+            if (GameManager.Instance.droneCount >= 2)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    Drone[i].SetActive(true);
+                }
+                Drone[0].GetComponent<SpriteRenderer>().sprite = DroneRLevil[(GameManager.Instance.droneCount / 2) - 1];
+                Drone[1].GetComponent<SpriteRenderer>().sprite = DroneLLevil[(GameManager.Instance.droneCount / 2) - 1];
+            }
+            else
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    Drone[i].SetActive(false);
+                }
+            }
         }
     }
     void Move()
@@ -267,7 +311,7 @@ public class Player : MonoBehaviour
             vertical = 1;
         GetComponent<Rigidbody2D>().velocity = new Vector2(speed * vertical, speed * horizontal); //�H���z���D�����ʡA������|���b����ݰʪ����D
 
-        if (isUseBomb && playerType != PlayerType.vyles)
+        if (isUseBomb && playerType != PlayerType.vyles &&  playerType != PlayerType.Lil_Void)
             speed = nowspeed * myBomb.SlowSpeed;
         else
             speed = nowspeed;
@@ -347,7 +391,7 @@ public class Player : MonoBehaviour
     }
     void Counterattack()
     {
-        float CounterHurt = death.tempHurt * (death.totalHp / death.hp) * (GameManager.Instance.playerLevel+1);
+        float CounterHurt = death.tempHurt * (death.totalHp / death.hp) * (GameManager.Instance.playerLevel + 1) * (GameManager.Instance.droneCount/2 + 1);
         death.tempHurt = 0;
         enemys = FindObjectsOfType<Enemy>();
         for (int i = 0; i < FindObjectsOfType<Enemy>().Length; i++)
@@ -436,8 +480,6 @@ public class Player : MonoBehaviour
             }
         }
     }
-    public float around_speed = 60f; //公转环绕速度
-
     void LilyRotateDrone(GameObject drone)
     {
         drone.transform.RotateAround(this.transform.position, Vector3.forward, around_speed * Time.deltaTime);
@@ -550,18 +592,17 @@ public class Player : MonoBehaviour
             GameManager.Instance.AllBomb = true;
             GameManager.Instance.AllUseBomb += 1;
             GameManager.Instance.FinishAchievement(17);
-            if (playerType != PlayerType.vyles)
+            switch (playerType)
             {
-                myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();
-                myBomb.gameObject.transform.parent = gameObject.transform;
-                BombAttack = myBomb.canUseAttack;
-            }
-            else
-            {
-                for (int i = 0; i < BumbNums; i++)
-                {
-                    Instantiate(Bomb, BombPosition.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
-                }
+                case PlayerType.vyles:
+                    vylesBomb();
+                    break;
+                case PlayerType.Lil_Void:
+                    //BlackHole();
+                    break;
+                default:
+                    DefaultBomb();
+                    break;
             }
             isUseBomb = true;
             if (GameManager.Instance.enemyManager.isSpanBoss)
@@ -569,6 +610,19 @@ public class Player : MonoBehaviour
             GameManager.Instance.AddBomb(-1);
             death.isInvincible = true;
             Invoke("againUseBomb", useBombTime);
+        }
+    }
+    void DefaultBomb()
+    {
+        myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();
+        myBomb.gameObject.transform.parent = gameObject.transform;
+        BombAttack = myBomb.canUseAttack;
+    }
+    void vylesBomb()
+    {
+        for (int i = 0; i < BumbNums; i++)
+        {
+            Instantiate(Bomb, BombPosition.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
         }
     }
     public void againUseBomb()

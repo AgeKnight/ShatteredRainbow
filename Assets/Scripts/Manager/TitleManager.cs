@@ -365,7 +365,7 @@ public class TitleManager : MonoBehaviour
 
         All_Text.text = ((int)(saveData.All_num * 100)).ToString();
         autoShoot[2].isOn = saveData.canCheat;
-        ChoicePlayer = saveData.ChoicePlayer;
+        ChoicePlayer = 0;
         ChoiceDifficulty = saveData.ChoiceDifficulty;
         for (int i = 0; i < controkKeys.Length; i++)
         {

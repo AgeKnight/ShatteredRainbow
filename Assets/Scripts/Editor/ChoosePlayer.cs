@@ -17,11 +17,17 @@ public class ChoosePlayer : Editor
             { "LilyGatherTime", PlayerType.Lily},
             {"MaxGatherTime", PlayerType.Lily},
             {"maxLazerTime", PlayerType.Lily},
-
+            {"around_speed", PlayerType.Lily},
+            {"DroneRLevil", PlayerType.Lil_Void},
+            {"DroneLLevil", PlayerType.Lil_Void},
         };
     Dictionary<string, PlayerType> specialPropertys2 = new Dictionary<string, PlayerType>
         {
-             { "bulletTransform", PlayerType.vyles},
+            { "bulletTransform", PlayerType.vyles},
+        };
+    Dictionary<string, PlayerType> specialPropertys3 = new Dictionary<string, PlayerType>
+        {
+            {"bulletTransform", PlayerType.Lil_Void},
         };
     void OnEnable()
     {
@@ -45,6 +51,9 @@ public class ChoosePlayer : Editor
                 && playerType != player.playerType)
                 continue;
             if (specialPropertys2.TryGetValue(name, out playerType)
+                && playerType == player.playerType)
+                continue;
+            if (specialPropertys3.TryGetValue(name, out playerType)
                 && playerType == player.playerType)
                 continue;
             EditorGUILayout.PropertyField(obj.FindProperty(name));
