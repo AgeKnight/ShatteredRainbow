@@ -73,7 +73,6 @@ public class Death : MonoBehaviour
                 }
                 break;
             case CharatorType.Enemy:
-
                 if (!isInvincible)
                 {
                     GameManager.Instance.playerScript.AddTimeBarrage(0.05f);
@@ -92,9 +91,13 @@ public class Death : MonoBehaviour
             case CharatorType.None:
                 if (!isDead && !GameManager.Instance.enemyManager.isWin)
                 {
-                    if (!GameManager.Instance.ReallyInvincible && !isInvincible)
+                    if (value >= 0 && !GameManager.Instance.ReallyInvincible && !isInvincible)
                     {
                         GameManager.Instance.AllHurt = true;
+                        hp -= value;
+                    }
+                    else if(value<0)
+                    {
                         hp -= value;
                     }
                     if (GameManager.Instance.playerScript.isAttack)
@@ -145,6 +148,7 @@ public class Death : MonoBehaviour
             }
             if (isInBomb && GameManager.Instance.playerScript)
             {
+                GameManager.Instance.isAddExp = false;
                 GameManager.Instance.playerScript.GetComponent<Death>().ExitBomb();
             }
             GameManager.Instance.AllKill += 1;

@@ -607,6 +607,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1f68d1d58ff1bb24c9fabcf18c01bc8f, type: 3}
   - {fileID: 21300000, guid: f4fa859de555e9241aadeb431f1a924b, type: 3}
   - {fileID: 21300000, guid: c71f93e8ba133f44d9b98daf9ddd68a4, type: 3}
+  Hurt: 0
+  Time: 0
 --- !u!1 &1370245582699379664
 GameObject:
   m_ObjectHideFlags: 0
@@ -2127,7 +2129,6 @@ MonoBehaviour:
   speed: 4
   MaxGatherTime: 0
   timeRegain: 0.05
-  canControlAttack: 1
   useBombTime: 1
   MaxBarrageTime: 6
   AttackTime: 0.5
@@ -2162,19 +2163,7 @@ MonoBehaviour:
   - {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
   - {fileID: 3387233106102494613, guid: 10549770619a246448ce6c4f013e764e, type: 3}
   - {fileID: 8950129573421394212, guid: 2f94d36c5d645bb44a54ab6319faedb4, type: 3}
-  AllVylesIndex: 0
-  VyleBarrage:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  isUseTimeBarrage: 0
   DroneGroup: {fileID: 1122854657387384679}
-  AnnularCircle: {fileID: 2888811622229721021}
-  canMove: 0
-  isAttack: 0
   bulletPrefab:
   - {fileID: 5165513135576572565, guid: a0de52ff929488e4081f80093468c27c, type: 3}
   - {fileID: 5165513135576572565, guid: d9cff28999c41f44ba89ea7c1997aed8, type: 3}
@@ -2194,7 +2183,22 @@ MonoBehaviour:
   - {fileID: 2026139377406827042}
   - {fileID: 6144791274722703782}
   - {fileID: 6188522969212027281}
+  DroneRLevil: []
+  DroneLLevil: []
   around_speed: 60
+  canControlAttack: 1
+  AllVylesIndex: 0
+  VyleBarrage:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  isUseTimeBarrage: 0
+  AnnularCircle: {fileID: 2888811622229721021}
+  canMove: 0
+  isAttack: 0
 --- !u!114 &4505463060847400331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2207,25 +2211,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
   deathAudio: {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
   Hurtaudio: {fileID: 0}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
   totalHp: 2
   charatorType: 0
   enemyType: 0
+  Bonus: 0
+  probability: []
+  tempHurt: 0
+  hp: 0
   hpBar: {fileID: 0}
   isInvincible: 0
   isInBomb: 0
   canInBomb: 0
-  ultimateAttack:
-    count: []
-    barrageType: 0
-    barrage:
-    - {fileID: 0}
-    Shootsound: {fileID: 0}
-  indexMax: 1
-  itemStruct: []
   minExp: 0
   maxExp: 0
   score: 0

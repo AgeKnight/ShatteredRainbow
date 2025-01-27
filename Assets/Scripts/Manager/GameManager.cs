@@ -72,6 +72,8 @@ public class GameManager : MonoBehaviour
     #endregion
     #region "Hide"
     [HideInInspector]
+    public bool isAddExp = false;
+    [HideInInspector]
     public float hp;
     [HideInInspector]
     public GameObject[] items;//0 生命 1 炸彈 2 小弟 
@@ -470,6 +472,16 @@ public class GameManager : MonoBehaviour
             Bombs[i].gameObject.GetComponent<Image>().sprite = bombImages[1];
         }
     }
+    public IEnumerator UninterruptedExp(int value, float time)
+    {
+        isAddExp = true;
+        while (isAddExp)
+        {
+            AddExp(value);
+            yield return new WaitForSeconds(time);
+        }
+    }
+
     void AddExp(int value)
     {
         playerExp += value;
@@ -621,9 +633,8 @@ public class GameManager : MonoBehaviour
     {
         BossBar.value = 1;
         Reciprocal.GetComponent<Reciprocal>().gameObject.SetActive(false);
-        GameManager.Instance.ClearBarrage();//Boss死亡後的畫面清理
+        ClearBarrage();//Boss死亡後的畫面清理
         //播放血條動畫<關>
-        //  BarUse.Play("Close");
         UIanimator.SetInteger("BossState", 1);
         if (!enemyManager.OtherStage)
         {

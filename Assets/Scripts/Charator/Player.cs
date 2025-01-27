@@ -22,7 +22,6 @@ public class Player : MonoBehaviour
     int VylesIndex = 0;
     float nowspeed;
     float[] annularColor = { 0.8f, 0.8f };
-    bool isUseBomb = false;
     bool isUseLazer = false;
     bool isUseDrone = false;
     float invokeTime;
@@ -70,6 +69,8 @@ public class Player : MonoBehaviour
     public float around_speed = 60f; //公转环绕速度
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public bool isUseBomb = false;
     [HideInInspector]
     public bool canControlAttack;
     [HideInInspector]
@@ -309,9 +310,8 @@ public class Player : MonoBehaviour
             vertical = -1;
         if (Input.GetKey(GameManager.Instance.curinput[6]) || Input.GetKey(GameManager.Instance.curinput[7]))
             vertical = 1;
-        GetComponent<Rigidbody2D>().velocity = new Vector2(speed * vertical, speed * horizontal); //�H���z���D�����ʡA������|���b����ݰʪ����D
-
-        if (isUseBomb && playerType != PlayerType.vyles &&  playerType != PlayerType.Lil_Void)
+        GetComponent<Rigidbody2D>().velocity = new Vector2(speed * vertical, speed * horizontal);
+        if (isUseBomb && playerType != PlayerType.vyles && playerType != PlayerType.Lil_Void)
             speed = nowspeed * myBomb.SlowSpeed;
         else
             speed = nowspeed;
@@ -391,21 +391,24 @@ public class Player : MonoBehaviour
     }
     void Counterattack()
     {
-        float CounterHurt = death.tempHurt * (death.totalHp / death.hp) * (GameManager.Instance.playerLevel + 1) * (GameManager.Instance.droneCount/2 + 1);
+        float CounterHurt = death.tempHurt * (death.totalHp / death.hp) * (GameManager.Instance.playerLevel + 1) * (GameManager.Instance.droneCount / 2 + 1);
         death.tempHurt = 0;
         enemys = FindObjectsOfType<Enemy>();
         for (int i = 0; i < FindObjectsOfType<Enemy>().Length; i++)
         {
-            if (enemys[i].death.totalHp <= CounterHurt)
+            if (!enemys[i].death.isInvincible)
             {
-                enemys[i].death.Die();
-                CounterHurt -= enemys[i].death.totalHp;
-            }
-            else
-            {
-                enemys[i].death.Hurt(CounterHurt);
-                CounterHurt -= CounterHurt;
-                break;
+                if (enemys[i].death.totalHp <= CounterHurt)
+                {
+                    enemys[i].death.Die();
+                    CounterHurt -= enemys[i].death.totalHp;
+                }
+                else
+                {
+                    enemys[i].death.Hurt(CounterHurt);
+                    CounterHurt -= CounterHurt;
+                    break;
+                }
             }
         }
         GameManager.Instance.AddScore(CounterHurt);
@@ -484,7 +487,6 @@ public class Player : MonoBehaviour
     {
         drone.transform.RotateAround(this.transform.position, Vector3.forward, around_speed * Time.deltaTime);
     }
-
     void FrosttoAttack()
     {
         SlashUsed++;
@@ -591,26 +593,31 @@ public class Player : MonoBehaviour
             Instantiate(death.deadEffect, this.transform.position, Quaternion.identity);
             GameManager.Instance.AllBomb = true;
             GameManager.Instance.AllUseBomb += 1;
+            death.isInvincible = true;
+            isUseBomb = true;
             GameManager.Instance.FinishAchievement(17);
+            if (GameManager.Instance.enemyManager.isSpanBoss)
+                GameManager.Instance.awardType = AwardType.Common;
+            GameManager.Instance.AddBomb(-1);
             switch (playerType)
             {
                 case PlayerType.vyles:
                     vylesBomb();
                     break;
                 case PlayerType.Lil_Void:
-                    //BlackHole();
+                    BlackHoleBomb();
                     break;
                 default:
                     DefaultBomb();
                     break;
             }
-            isUseBomb = true;
-            if (GameManager.Instance.enemyManager.isSpanBoss)
-                GameManager.Instance.awardType = AwardType.Common;
-            GameManager.Instance.AddBomb(-1);
-            death.isInvincible = true;
             Invoke("againUseBomb", useBombTime);
         }
+    }
+    void BlackHoleBomb()
+    {
+        //吃掉療機
+        //吸引敵人
     }
     void DefaultBomb()
     {
