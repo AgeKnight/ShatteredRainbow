@@ -95,16 +95,22 @@ public class Death : MonoBehaviour
                     {
                         GameManager.Instance.AllHurt = true;
                         hp -= value;
+
                     }
-                    else if(value<0)
+                    else if (value < 0)
                     {
                         hp -= value;
+                        if (hp >= totalHp)
+                        {
+                            hp = totalHp;
+                            GameManager.Instance.AddExp((int)-value);
+                        }
                     }
+                    hpBar.value = hp / totalHp;
                     if (GameManager.Instance.playerScript.isAttack)
                     {
                         tempHurt += value;
                     }
-                    hpBar.value = hp / totalHp;
                     if (hp <= 0)
                     {
                         isDead = true;
@@ -148,7 +154,6 @@ public class Death : MonoBehaviour
             }
             if (isInBomb && GameManager.Instance.playerScript)
             {
-                GameManager.Instance.isAddExp = false;
                 GameManager.Instance.playerScript.GetComponent<Death>().ExitBomb();
             }
             GameManager.Instance.AllKill += 1;

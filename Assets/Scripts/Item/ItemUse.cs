@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class ItemUse : MonoBehaviour
 {
@@ -6,7 +8,6 @@ public class ItemUse : MonoBehaviour
     public float Hurt;
     public float Time;
     Death death;
-    Enemy enemy;
     void Awake()
     {
         death = this.transform.parent.gameObject.GetComponent<Death>();
@@ -31,6 +32,7 @@ public class ItemUse : MonoBehaviour
                     tempEnemy2.Die();
                 if (!death.isInvincible && tempEnemy.canTouch && !GameManager.Instance.ReallyInvincible && death.charatorType != CharatorType.None)
                     death.Die();
+
                 break;
         }
     }
@@ -40,13 +42,12 @@ public class ItemUse : MonoBehaviour
         {
             StartCoroutine(other.gameObject.GetComponent<Death>().BeBombDamage(Hurt, Time));
             if (!GameManager.Instance.ReallyInvincible && !death.isInvincible && !GameManager.Instance.playerScript.isUseBomb)
+            {
                 StartCoroutine(death.BeBombDamage(Hurt, Time));
+            }
             if (GameManager.Instance.playerScript.isUseBomb)
             {
-                if (death.hp <= death.totalHp)
-                    StartCoroutine(death.BeBombDamage(-Hurt * (GameManager.Instance.droneCount / 2 + 1), Time));
-                else
-                    StartCoroutine(GameManager.Instance.UninterruptedExp((int)(-Hurt * (GameManager.Instance.droneCount / 2 + 1)),Time));
+                StartCoroutine(death.BeBombDamage(-Hurt * (GameManager.Instance.droneCount / 2 + 1), Time));
             }
         }
     }

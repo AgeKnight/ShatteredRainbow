@@ -72,8 +72,6 @@ public class GameManager : MonoBehaviour
     #endregion
     #region "Hide"
     [HideInInspector]
-    public bool isAddExp = false;
-    [HideInInspector]
     public float hp;
     [HideInInspector]
     public GameObject[] items;//0 生命 1 炸彈 2 小弟 
@@ -472,17 +470,7 @@ public class GameManager : MonoBehaviour
             Bombs[i].gameObject.GetComponent<Image>().sprite = bombImages[1];
         }
     }
-    public IEnumerator UninterruptedExp(int value, float time)
-    {
-        isAddExp = true;
-        while (isAddExp)
-        {
-            AddExp(value);
-            yield return new WaitForSeconds(time);
-        }
-    }
-
-    void AddExp(int value)
+    public void AddExp(int value)
     {
         playerExp += value;
         UIanimator.SetTrigger("EXPGain");
