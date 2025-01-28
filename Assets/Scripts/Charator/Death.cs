@@ -91,20 +91,20 @@ public class Death : MonoBehaviour
             case CharatorType.None:
                 if (!isDead && !GameManager.Instance.enemyManager.isWin)
                 {
-                    if (value >= 0 && !GameManager.Instance.ReallyInvincible && !isInvincible)
+                    if (GameManager.Instance.playerScript.isUseBomb)
                     {
-                        GameManager.Instance.AllHurt = true;
-                        hp -= value;
-
-                    }
-                    else if (value < 0)
-                    {
-                        hp -= value;
+                        float tempValue = value * (GameManager.Instance.droneCount / 2 + 1);
+                        hp += tempValue;
                         if (hp >= totalHp)
                         {
                             hp = totalHp;
-                            GameManager.Instance.AddExp((int)-value);
+                            GameManager.Instance.AddExp((int)tempValue);
                         }
+                    }
+                    if (!GameManager.Instance.playerScript.isUseBomb && !GameManager.Instance.ReallyInvincible && !isInvincible)
+                    {
+                        GameManager.Instance.AllHurt = true;
+                        hp -= value;
                     }
                     hpBar.value = hp / totalHp;
                     if (GameManager.Instance.playerScript.isAttack)

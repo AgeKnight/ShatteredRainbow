@@ -33,13 +33,13 @@ public class Player : MonoBehaviour
     GameObject shootEffect;
     GameObject lazerObject;
     GameObject[] LazerPrefab = new GameObject[6];
-    Death death;
     public GameObject TimeBarrageTrail;
     int trailnums = 0;
     float GatherTime = 0;
     float LazerTime = 0; //從前的LazerTime
     int SlashUsed = 0;
     Enemy[] enemys;
+    Death death;
     Color[] shade = { new Vector4(1, 1, 0.69f), new Vector4(0.69f, 0.97f, 1), new Vector4(1, 0.69f, 0.71f) };
     #endregion
     #region "Public"

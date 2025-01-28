@@ -41,14 +41,7 @@ public class ItemUse : MonoBehaviour
         if (other.gameObject.tag == "Enemy" && death.charatorType == CharatorType.None && other.gameObject.GetComponent<Death>().canInBomb)
         {
             StartCoroutine(other.gameObject.GetComponent<Death>().BeBombDamage(Hurt, Time));
-            if (!GameManager.Instance.ReallyInvincible && !death.isInvincible && !GameManager.Instance.playerScript.isUseBomb)
-            {
-                StartCoroutine(death.BeBombDamage(Hurt, Time));
-            }
-            if (GameManager.Instance.playerScript.isUseBomb)
-            {
-                StartCoroutine(death.BeBombDamage(-Hurt * (GameManager.Instance.droneCount / 2 + 1), Time));
-            }
+            StartCoroutine(death.BeBombDamage(Hurt, Time));
         }
     }
     void OnTriggerExit2D(Collider2D other)
