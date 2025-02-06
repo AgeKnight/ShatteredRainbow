@@ -32,7 +32,6 @@ public class ItemUse : MonoBehaviour
                     tempEnemy2.Die();
                 if (!death.isInvincible && tempEnemy.canTouch && !GameManager.Instance.ReallyInvincible && death.charatorType != CharatorType.None)
                     death.Die();
-
                 break;
         }
     }

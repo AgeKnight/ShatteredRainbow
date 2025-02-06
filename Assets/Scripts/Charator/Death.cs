@@ -93,7 +93,7 @@ public class Death : MonoBehaviour
                 {
                     if (GameManager.Instance.playerScript.isUseBomb)
                     {
-                        float tempValue = value * (GameManager.Instance.droneCount / 2 + 1);
+                        float tempValue = value * (GameManager.Instance.playerScript.eatDrone+1);
                         hp += tempValue;
                         if (hp >= totalHp)
                         {

@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public enum PlayerType
 {
@@ -69,6 +71,11 @@ public class Player : MonoBehaviour
     public float around_speed = 60f; //公转环绕速度
     #endregion
     #region "Hide"
+    [HideInInspector]
+    public GameObject[] tempDrone;
+    [HideInInspector]
+    public float eatDrone = 0;
+
     [HideInInspector]
     public bool isUseBomb = false;
     [HideInInspector]
@@ -185,6 +192,16 @@ public class Player : MonoBehaviour
             }
             RotateVyle();
         }
+        if (playerType == PlayerType.Lil_Void && isUseBomb && tempDrone[0]!=null&&tempDrone[1]!=null)
+        {
+            tempDrone[0].transform.position = Vector3.MoveTowards(tempDrone[0].transform.position, transform.position, Time.deltaTime);
+            tempDrone[1].transform.position = Vector3.MoveTowards(tempDrone[1].transform.position, transform.position, Time.deltaTime);
+            if((tempDrone[0].transform.position-transform.position).magnitude<=0.3f||(tempDrone[1].transform.position-transform.position).magnitude<=0.3f)
+            {
+                Destroy(tempDrone[0]);
+                Destroy(tempDrone[1]);
+            }
+        }
         if (!BombAttack)
         {
             isAttack = false;
@@ -276,6 +293,10 @@ public class Player : MonoBehaviour
             for (int i = 0; i <= GameManager.Instance.droneCount - 1; i++)
             {
                 Drone[i].SetActive(true);
+            }
+            if(isUseBomb)
+            {
+                EatDrone();
             }
         }
         else
@@ -616,8 +637,21 @@ public class Player : MonoBehaviour
     }
     void BlackHoleBomb()
     {
-        //吃掉療機
-        //吸引敵人
+        EatDrone();
+    }
+    public void EatDrone()
+    {
+        if (GameManager.Instance.droneCount > 0)
+        {
+            for (int i = 0; i < tempDrone.Length; i++)
+            {
+                tempDrone[i] = Instantiate(Drone[i],Drone[i].transform.position,Quaternion.identity);
+                tempDrone[i].transform.parent = gameObject.transform;
+                tempDrone[i].transform.localScale = new Vector3(1.5f, 1.5f,0);
+            }
+            eatDrone+=GameManager.Instance.droneCount;
+            GameManager.Instance.playerScript.SetBro(0);
+        }
     }
     void DefaultBomb()
     {
@@ -636,6 +670,7 @@ public class Player : MonoBehaviour
     {
         isUseBomb = false;
         BombAttack = true;
+        eatDrone = 0;
         death.isInvincible = false;
         if (myBomb)
         {
