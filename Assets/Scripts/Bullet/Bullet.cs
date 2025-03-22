@@ -46,6 +46,21 @@ public class Bullet : MonoBehaviour
     public float rotatespeed; //跟蹤時的旋轉速度
     private void Start()
     {
+        switch(GameManager.Instance.difficulty)
+        {
+            case Difficulty.easy:
+                speed *= 0.5f;
+                break;
+            case Difficulty.middle:
+                speed *= 0.8f;
+                break;
+            case Difficulty.Hard:
+                break;
+            default:
+                speed *= 1.15f;
+                break;
+
+        }
         speedtemp = speed;
         if (GetComponent<AudioSource>())
             GetComponent<AudioSource>().volume = SaveSystem.LoadGameVoice<SaveVoiceData>().Effect_num * SaveSystem.LoadGameVoice<SaveVoiceData>().All_num;
@@ -113,6 +128,7 @@ public class Bullet : MonoBehaviour
     {
         if (rain)
         {
+           
             speed = Random.Range(0.5f, 2f);
             rainTime += Time.deltaTime;
             if (rainTime >= AllRainTime)
@@ -165,9 +181,10 @@ public class Bullet : MonoBehaviour
             gameObject.GetComponent<Animator>().SetTrigger("Vanish");
         if (bulletMoveType == BulletMoveType.Bounce)
         {
-            if (GameManager.Instance.playerScript)
+            if (GameManager.Instance.playerScript&& GameManager.Instance.playerScript.VylesIndex > 0)
             {
                 GameManager.Instance.playerScript.VyleBarrage[VyleIndex].gameObject.SetActive(true);
+                GameManager.Instance.playerScript.VylesIndex -= 1;
             }
             Destroy(this.gameObject);
         }

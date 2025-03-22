@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 35348f5200000000
+  m_ApplyToSortingLayers: 35348f52000000008df152fc
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 35348f5200000000
+  m_ApplyToSortingLayers: 35348f52000000008df152fc
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 35348f5200000000
+  m_ApplyToSortingLayers: 35348f52000000008df152fc
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -295,7 +295,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 35348f5200000000
+  m_ApplyToSortingLayers: 35348f52000000008df152fc
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -452,24 +452,17 @@ MonoBehaviour:
   totalHp: 1000
   charatorType: 1
   enemyType: 1
+  Bonus: 0
   probability:
   - 100
   - 100
   - 100
+  tempHurt: 0
   hp: 0
   hpBar: {fileID: 0}
   isInvincible: 0
   isInBomb: 0
   canInBomb: 0
-  ultimateAttack:
-    count:
-    - 10
-    - 15
-    - 0.15
-    barrageType: 0
-    barrage:
-    - {fileID: 6506472692183266595, guid: 33932fbda78b919489b00a10a273760d, type: 3}
-    Shootsound: {fileID: 1106923319873254454, guid: fa59641cb3138824aa3393446232734c, type: 3}
   minExp: 26
   maxExp: 100
   score: 500
@@ -486,6 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b92334e8a8b8b547bcdf1983353b6a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PoweringEffect: {fileID: 0}
   indexMax: 3
   DownTime: 0
   useBarrage: 0
@@ -493,6 +487,7 @@ MonoBehaviour:
   bulletTransform: {fileID: 1476162366651522481}
   Speed: 3
   deadUseBarrage: 0
+  death: {fileID: 0}
   canTouch: 1
   Dot: []
   Allbullet: []
@@ -507,9 +502,9 @@ MonoBehaviour:
     Shootsound: {fileID: 1106923319873254454, guid: fa59641cb3138824aa3393446232734c, type: 3}
   enemyBarrageCounts:
   - count:
-    - 36
+    - 24
     - 5
-    - 0.3
+    - 0.8
     barrageType: 6
     barrage:
     - {fileID: 6506472692183266595, guid: 33932fbda78b919489b00a10a273760d, type: 3}
@@ -522,9 +517,11 @@ MonoBehaviour:
     - {fileID: 7346976807218948309, guid: 3a16f989428ec8946aeeab2a09a8a5eb, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   - count:
+    - 3
     - 6
-    - 0.3
-    barrageType: 12
+    - 6
+    - 0.6
+    barrageType: 3
     barrage:
     - {fileID: 6506472692183266595, guid: 33932fbda78b919489b00a10a273760d, type: 3}
     - {fileID: 1985683522891518422, guid: 0c1fe1b7340988c418e6f8c742474f46, type: 3}
@@ -615,7 +612,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 35348f5200000000
+  m_ApplyToSortingLayers: 35348f52000000008df152fc
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -687,7 +684,7 @@ MonoBehaviour:
   m_Color: {r: 0.5990566, g: 0.7453503, b: 1, a: 1}
   m_Intensity: 1
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 35348f5200000000
+  m_ApplyToSortingLayers: 35348f52000000008df152fc
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -759,7 +756,7 @@ MonoBehaviour:
   m_Color: {r: 0.5990566, g: 0.7453503, b: 1, a: 1}
   m_Intensity: 1
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 35348f5200000000
+  m_ApplyToSortingLayers: 35348f52000000008df152fc
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0

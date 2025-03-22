@@ -61,7 +61,6 @@
     <Compile Include="Assets\Scripts\BackGround\BackImageMove.cs" />
     <Compile Include="Assets\Scripts\Charator\Reciprocal.cs" />
     <Compile Include="Assets\Scripts\Item\ItemUse.cs" />
-    <Compile Include="Assets\Scripts\UI\Gradient.cs" />
     <Compile Include="Assets\Scripts\Charator\Player.cs" />
     <Compile Include="Assets\Scripts\UI\ControkKey.cs" />
     <Compile Include="Assets\Scripts\Manager\EnemyManager.cs" />
@@ -75,6 +74,7 @@
     <Compile Include="Assets\Scripts\Manager\SaveSystem.cs" />
     <Compile Include="Assets\Scripts\Charator\AnnularSlider.cs" />
     <Compile Include="Assets\Scripts\Charator\Enemy.cs" />
+    <Compile Include="Assets\Scripts\UI\ButtonReset.cs" />
     <Compile Include="Assets\Scripts\Charator\Death.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -482,14 +482,6 @@
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>Library\PackageCache\com.unity.analytics@3.6.12\AnalyticsStandardEvents\Unity.Analytics.StandardEvents.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>Library\PackageCache\com.unity.analytics@3.6.12\Unity.Analytics.Tracker.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">

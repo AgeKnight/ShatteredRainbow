@@ -326,7 +326,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1321190228428600328}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.3, z: 0}
+  m_LocalPosition: {x: 0, y: -0.2, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 2.1870182}
   m_Children:
   - {fileID: 1563719094849739904}
@@ -427,6 +427,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: dd400dc228ece8d4ea60e352c8eea169, type: 3}
   - {fileID: 21300000, guid: 7ca416a598e5b8849afebd0654443307, type: 3}
   - {fileID: 21300000, guid: d00c17a3da203b4448ca13c6a3791797, type: 3}
+  Hurt: 0
+  Time: 0
 --- !u!1 &1492982079953645506
 GameObject:
   m_ObjectHideFlags: 0
@@ -690,6 +692,7 @@ MonoBehaviour:
   rain: 0
   canWallDestroy: 1
   VyleIndex: 0
+  beAttract: 0
   canBounceWall: 0
   Unerasable: 1
   speed: 0
@@ -1331,6 +1334,7 @@ MonoBehaviour:
   rain: 0
   canWallDestroy: 1
   VyleIndex: 0
+  beAttract: 0
   canBounceWall: 0
   Unerasable: 1
   speed: 0
@@ -1532,6 +1536,7 @@ MonoBehaviour:
   rain: 0
   canWallDestroy: 1
   VyleIndex: 0
+  beAttract: 0
   canBounceWall: 0
   Unerasable: 1
   speed: 0
@@ -1807,32 +1812,20 @@ MonoBehaviour:
   speed: 4
   MaxGatherTime: 3
   timeRegain: 0.05
-  canControlAttack: 1
   useBombTime: 9
   MaxBarrageTime: 6
   AttackTime: 0.3
   Bomb: {fileID: 1712112157250610083, guid: 4115707a333eab34d8b4e0267fe359b7, type: 3}
   SliderTime: {fileID: 2887989388698943693}
   LilyGatherTime: {fileID: 969660149455157882}
+  VylesIndex: 0
   BombPosition: {fileID: 5473399651417196600}
   vivyBarrageTrans: []
   musicEffect:
   - {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
   - {fileID: 3387233106102494613, guid: 10549770619a246448ce6c4f013e764e, type: 3}
   - {fileID: 8950129573421394212, guid: 2f94d36c5d645bb44a54ab6319faedb4, type: 3}
-  AllVylesIndex: 0
-  VyleBarrage:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  isUseTimeBarrage: 0
   DroneGroup: {fileID: 1122854657387384679}
-  AnnularCircle: {fileID: 2888811622229721021}
-  canMove: 0
-  isAttack: 0
   bulletPrefab:
   - {fileID: 3421278751573443123}
   - {fileID: 7444501686835421961}
@@ -1849,7 +1842,25 @@ MonoBehaviour:
   - {fileID: 4176580411898107173}
   - {fileID: 6144791274722703782}
   - {fileID: 6144791274722703782}
+  DroneRLevil: []
+  DroneLLevil: []
   around_speed: 60
+  tempDrone: []
+  eatDrone: 0
+  isUseBomb: 0
+  canControlAttack: 1
+  AllVylesIndex: 0
+  VyleBarrage:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  isUseTimeBarrage: 0
+  AnnularCircle: {fileID: 2888811622229721021}
+  canMove: 0
+  isAttack: 0
 --- !u!114 &4505463060847400331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1862,25 +1873,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
   deathAudio: {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
   Hurtaudio: {fileID: 0}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
   totalHp: 2
   charatorType: 0
   enemyType: 0
+  Bonus: 0
+  probability: []
+  tempHurt: 0
+  hp: 0
   hpBar: {fileID: 0}
   isInvincible: 0
   isInBomb: 0
   canInBomb: 0
-  ultimateAttack:
-    count: []
-    barrageType: 0
-    barrage:
-    - {fileID: 0}
-    Shootsound: {fileID: 0}
-  indexMax: 1
-  itemStruct: []
   minExp: 0
   maxExp: 0
   score: 0
@@ -1914,12 +1920,12 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.007371977, y: -0.102576055}
+  m_Offset: {x: 0.0027804077, y: -0.02}
   serializedVersion: 2
-  m_Radius: 0.4681693
+  m_Radius: 0.36676762
 --- !u!1 &7110680931695532405
 GameObject:
   m_ObjectHideFlags: 0

@@ -113,10 +113,10 @@ GameObject:
   - component: {fileID: 2081775200673911797}
   - component: {fileID: 3457090665073962628}
   - component: {fileID: 7411533914391389450}
-  - component: {fileID: 7083428551486275251}
   - component: {fileID: 579622599504480604}
   - component: {fileID: 4542965659501710474}
   - component: {fileID: 557682332397064126}
+  - component: {fileID: 5987332259902382979}
   m_Layer: 7
   m_Name: BIGBossRED1
   m_TagString: Enemy
@@ -212,22 +212,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &7083428551486275251
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4772480976849531003}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 4.3520594, y: 10.664043}
-  serializedVersion: 2
-  m_Radius: 8.552971
 --- !u!114 &579622599504480604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,24 +230,17 @@ MonoBehaviour:
   totalHp: 1000
   charatorType: 1
   enemyType: 1
+  Bonus: 0
   probability:
   - 100
   - 100
   - 100
+  tempHurt: 0
   hp: 0
   hpBar: {fileID: 0}
   isInvincible: 0
   isInBomb: 0
   canInBomb: 0
-  ultimateAttack:
-    count:
-    - 3
-    - 6
-    - 0.3
-    barrageType: 4
-    barrage:
-    - {fileID: 6580881850010306664, guid: 5ff45ec35af7a2d4e8b94bc597f4c241, type: 3}
-    Shootsound: {fileID: 1106923319873254454, guid: fa59641cb3138824aa3393446232734c, type: 3}
   minExp: 200
   maxExp: 200
   score: 10000
@@ -280,6 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b92334e8a8b8b547bcdf1983353b6a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PoweringEffect: {fileID: 0}
   indexMax: 5
   DownTime: 0
   useBarrage: 0
@@ -287,14 +265,15 @@ MonoBehaviour:
   bulletTransform: {fileID: 2225709663121334371}
   Speed: 3
   deadUseBarrage: 0
+  death: {fileID: 0}
   canTouch: 1
   Dot:
   - {x: 0, y: 2.1, z: 0}
   Allbullet: []
   ultimateAttack:
     count:
-    - 3
     - 6
+    - 4
     - 0.3
     barrageType: 4
     barrage:
@@ -302,14 +281,15 @@ MonoBehaviour:
     Shootsound: {fileID: 1106923319873254454, guid: fa59641cb3138824aa3393446232734c, type: 3}
   enemyBarrageCounts:
   - count:
+    - 4
     - 6
-    - 0.4
-    barrageType: 4
+    - 0.9
+    barrageType: 1
     barrage:
     - {fileID: 4452791253019106727, guid: 861f5389f8e2b7e42b0494d5f91071d1, type: 3}
     Shootsound: {fileID: 1106923319873254454, guid: fa59641cb3138824aa3393446232734c, type: 3}
   - count:
-    - 8
+    - 12
     - 6
     - 0.3
     barrageType: 6
@@ -324,11 +304,11 @@ MonoBehaviour:
     - {fileID: 4076619304184187487, guid: a27a3632485862a4b8a8e259792ac7fd, type: 3}
     Shootsound: {fileID: 2543941013093157386, guid: 22e905d0304e609449704f91b4d6e3aa, type: 3}
   - count:
-    - 24
-    - 6
-    - 0.15
+    - 8
+    - 8
+    - 0.1
+    - 0.4
     - 0.8
-    - 0.25
     barrageType: 5
     barrage:
     - {fileID: 473210331354315025, guid: 0037769c33d6d034d9af6898d21aad51, type: 3}
@@ -364,3 +344,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!70 &5987332259902382979
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4772480976849531003}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 2.4460077, y: 4.842543}
+  m_Size: {x: 15.633461, y: 27.998924}
+  m_Direction: 0

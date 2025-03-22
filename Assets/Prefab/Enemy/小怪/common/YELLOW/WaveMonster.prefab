@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3320111845715336476}
   - component: {fileID: 5240528303161632813}
   - component: {fileID: -3946211424402444999}
+  - component: {fileID: 3329064113224769344}
   m_Layer: 7
   m_Name: WaveMonster
   m_TagString: Enemy
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: bae6fa5978e7c8b409ab757e0dad2dd9, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.9490196}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -150,14 +151,14 @@ MonoBehaviour:
   deathAudio: {fileID: 3387233106102494613, guid: 3e52ef3996671224aac4a3c6250d1dd0, type: 3}
   Hurtaudio: {fileID: 8946850152021610928, guid: 81cd98fd81d794e4d9457f24868465b2, type: 3}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
-  totalHp: 9
+  totalHp: 6
   charatorType: 1
   enemyType: 0
   Bonus: 0
   probability:
-  - 100
-  - 100
-  - 100
+  - 2
+  - 2
+  - 5
   tempHurt: 0
   hp: 0
   hpBar: {fileID: 0}
@@ -199,12 +200,21 @@ MonoBehaviour:
   enemyBarrageCounts:
   - count:
     - 3
+    - 1
     - 0.6
-    barrageType: 4
+    barrageType: 1
     barrage:
     - {fileID: 2279851410649871175, guid: eaed50cd5da63194880ce4aca2623d36, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
-  countTime: 0.1
+  - count:
+    - 0
+    - 2
+    - 1
+    barrageType: 1
+    barrage:
+    - {fileID: 2279851410649871175, guid: eaed50cd5da63194880ce4aca2623d36, type: 3}
+    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
+  countTime: 1
 --- !u!95 &-3946211424402444999
 Animator:
   serializedVersion: 3
@@ -224,6 +234,47 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3329064113224769344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5601185290954460713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LightType: 0
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 0.8584906, g: 0.3521605, b: 0, a: 1}
+  m_Intensity: 2.02
+  m_LightVolumeOpacity: 0
+  m_ApplyToSortingLayers: 000000008df152fc
+  m_LightCookieSprite: {fileID: 0}
+  m_UseNormalMap: 0
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_ShadowIntensity: 0
+  m_ShadowVolumeIntensity: 0
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_PointLightDistance: 3
+  m_PointLightQuality: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 2.13
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
 --- !u!1 &5962880450976580193
 GameObject:
   m_ObjectHideFlags: 0

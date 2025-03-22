@@ -681,27 +681,20 @@ MonoBehaviour:
   deathAudio: {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
   Hurtaudio: {fileID: 8946850152021610928, guid: 81cd98fd81d794e4d9457f24868465b2, type: 3}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
-  totalHp: 2000
+  totalHp: 1500
   charatorType: 1
   enemyType: 1
+  Bonus: 0
   probability:
   - 100
   - 100
   - 100
+  tempHurt: 0
   hp: 0
   hpBar: {fileID: 0}
   isInvincible: 0
   isInBomb: 0
   canInBomb: 0
-  ultimateAttack:
-    count:
-    - 6
-    - 18
-    - 0.8
-    barrageType: 6
-    barrage:
-    - {fileID: 883328560427933555, guid: a8ef8097f78869f408f663a992683d43, type: 3}
-    Shootsound: {fileID: 1106923319873254454, guid: fa59641cb3138824aa3393446232734c, type: 3}
   minExp: 26
   maxExp: 100
   score: 500
@@ -718,13 +711,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b92334e8a8b8b547bcdf1983353b6a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  indexMax: 3
+  PoweringEffect: {fileID: 0}
+  indexMax: 4
   DownTime: 0
   useBarrage: 0
   moveType: 0
   bulletTransform: {fileID: 3734851542950068774}
   Speed: 3
   deadUseBarrage: 0
+  death: {fileID: 0}
   canTouch: 1
   Dot:
   - {x: 0, y: 2.36, z: 0}

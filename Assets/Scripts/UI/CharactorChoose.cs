@@ -239,7 +239,7 @@ public class CharactorChoose : MonoBehaviour
             TitleManager.Instance.Save();
             StartCoroutine(GameStart(1));
         }
-        else
+        if(index==4)
         {
             //4 5 6 7 8 9
             TitleManager.Instance.isRush = true;

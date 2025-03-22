@@ -74,7 +74,9 @@ public class EnemyManager : MonoBehaviour
         if (!canGoNext && !isInBossAttack && !isSpanBoss)
             nowEveryStairTime += Time.deltaTime;
     }
-    public void EnemySpanOper()
+  
+    /*    難度控制波數會導致選擇簡單的難度反倒更難
+     * public void EnemySpanOper()
     {
         allEnemySpan +=GameManager.Instance.DifficulAllIndex;
         if(allEnemySpan%2==1)
@@ -90,7 +92,7 @@ public class EnemyManager : MonoBehaviour
             allEnemySpan = 2;
         }
 
-    }
+    }*/
     void SpanBonus()
     {
         // int bonusE = Random.Range(0,BonusMonster.Length-1);

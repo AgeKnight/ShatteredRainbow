@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720801776038930812}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.75, y: -3.17, z: 0}
+  m_LocalPosition: {x: -0.08, y: -0.96, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2081775200673911797}
@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1.5
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 35348f5200000000
+  m_ApplyToSortingLayers: 8df152fc35348f52
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -64,8 +64,8 @@ MonoBehaviour:
   m_PointLightQuality: 1
   m_ShapeLightParametricSides: 48
   m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 0.53
-  m_ShapeLightFalloffSize: 8.16
+  m_ShapeLightParametricRadius: 1.16
+  m_ShapeLightFalloffSize: 3.36
   m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
   - {x: -0.5, y: -0.5, z: 0}
@@ -177,8 +177,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -61673075
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 72a026d7f97f06b428579b22be2c23bb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -246,24 +246,17 @@ MonoBehaviour:
   totalHp: 700
   charatorType: 1
   enemyType: 1
+  Bonus: 0
   probability:
   - 100
   - 100
   - 100
+  tempHurt: 0
   hp: 100
   hpBar: {fileID: 0}
   isInvincible: 0
   isInBomb: 0
   canInBomb: 0
-  ultimateAttack:
-    count:
-    - 10
-    - 6
-    - 0.8
-    barrageType: 6
-    barrage:
-    - {fileID: 883328560427933555, guid: a8ef8097f78869f408f663a992683d43, type: 3}
-    Shootsound: {fileID: 1106923319873254454, guid: fa59641cb3138824aa3393446232734c, type: 3}
   minExp: 26
   maxExp: 100
   score: 500
@@ -280,6 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b92334e8a8b8b547bcdf1983353b6a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PoweringEffect: {fileID: 8793574798411561267, guid: bb3d187a199cfd9469548b78af683100, type: 3}
   indexMax: 3
   DownTime: 0
   useBarrage: 0
@@ -287,6 +281,7 @@ MonoBehaviour:
   bulletTransform: {fileID: 2225709663121334371}
   Speed: 3
   deadUseBarrage: 0
+  death: {fileID: 0}
   canTouch: 1
   Dot:
   - {x: 0, y: 2.36, z: 0}
@@ -311,7 +306,7 @@ MonoBehaviour:
     barrageType: 1
     barrage:
     - {fileID: 883328560427933555, guid: a8ef8097f78869f408f663a992683d43, type: 3}
-    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
+    Shootsound: {fileID: 1106923319873254454, guid: fa59641cb3138824aa3393446232734c, type: 3}
   - count:
     - 20
     - 90
@@ -334,12 +329,12 @@ MonoBehaviour:
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   - count:
     - 1
-    - 10
-    - 0
-    - 3
+    - 6
+    - 120
+    - 0.03
     barrageType: 10
     barrage:
-    - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    - {fileID: 6506472692183266595, guid: 33932fbda78b919489b00a10a273760d, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   countTime: 3
 --- !u!95 &557682332397064126

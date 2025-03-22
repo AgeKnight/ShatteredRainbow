@@ -69,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 618312245
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 20
   m_Sprite: {fileID: 21300000, guid: fdefaaf7af3069e478b84336da504b18, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -114,7 +114,7 @@ Transform:
   m_GameObject: {fileID: 1220572358922161827}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 0.18952, z: 1}
+  m_LocalScale: {x: 1.5, y: 0.1, z: 1}
   m_Children:
   - {fileID: 6779363987160879610}
   m_Father: {fileID: 0}
@@ -132,15 +132,15 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!120 &3810771061904328926
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -179,11 +179,11 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 618312245
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 10
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 10, y: 0, z: 1}
+  - {x: 10, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 3.2907178
@@ -246,13 +246,13 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1220572358922161827}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 5.7775555, y: 0.00095979497}
+  m_Offset: {x: 5.76, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -278,7 +278,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: e897a723cd8269548950ffd1b2ee59db, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -291,24 +291,30 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1220572358922161827}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e61cbb7a3991def4ea024c93d488023c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cantMove: 1
+  AllRainTime: 0
   rain: 1
+  canWallDestroy: 1
+  VyleIndex: 0
+  beAttract: 0
+  canBounceWall: 0
+  Unerasable: 0
   speed: 0
   hurt: 0
+  BurnHurt: 0
   hitspark: {fileID: 7037961734342237002, guid: b3d2b9f1944c0da4aab3c5b62a03ab25, type: 3}
+  BurnSpark: {fileID: 0}
   Hitsound: {fileID: 0}
-  canTrackEnemy: 0
+  canAttack: 1
+  allBounceNum: 0
+  MaxTrackTime: 0
   bulletType: 1
-  focusDistance: 0
+  bulletMoveType: 0
   rotatespeed: 0
-  AllRainTime: 0
-  canDestroy: 0
-  canAttack: 0
 --- !u!114 &2511039759958507582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,7 +333,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_Intensity: 0.5
   m_LightVolumeOpacity: 0.02
-  m_ApplyToSortingLayers: 000000008df152fc35348f5265c10347ef2b32d2
+  m_ApplyToSortingLayers: 65c10347539a9e2f000000008df152fc13d2aac01935576def2b32d235b2da2435348f5207633c326d3d3c11
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -343,7 +349,7 @@ MonoBehaviour:
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 1.2
+  m_ShapeLightFalloffSize: 0.11
   m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
   - {x: -0.5206216, y: -0.04638444, z: 0}

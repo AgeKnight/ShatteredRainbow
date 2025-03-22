@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 3320111845715336476}
   - component: {fileID: 5240528303161632813}
   - component: {fileID: 348845512161190527}
+  - component: {fileID: 3848142595375120332}
   m_Layer: 7
   m_Name: EliteMonster
   m_TagString: Enemy
@@ -177,27 +178,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
   deathAudio: {fileID: 3387233106102494613, guid: 3e52ef3996671224aac4a3c6250d1dd0, type: 3}
   Hurtaudio: {fileID: 8946850152021610928, guid: 81cd98fd81d794e4d9457f24868465b2, type: 3}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
   totalHp: 90
   charatorType: 1
   enemyType: 0
+  Bonus: 0
   probability:
-  - 20
-  - 20
-  - 20
+  - 5
+  - 5
+  - 10
+  tempHurt: 0
+  hp: 0
   hpBar: {fileID: 0}
   isInvincible: 0
   isInBomb: 0
   canInBomb: 0
-  ultimateAttack:
-    count: []
-    barrageType: 0
-    barrage:
-    - {fileID: 0}
-    Shootsound: {fileID: 0}
   minExp: 5
   maxExp: 20
   score: 500
@@ -221,9 +218,15 @@ MonoBehaviour:
   bulletTransform: {fileID: 6794284691884387670}
   Speed: 7
   deadUseBarrage: 0
+  death: {fileID: 0}
   canTouch: 1
   Dot: []
   Allbullet: []
+  ultimateAttack:
+    count: []
+    barrageType: 0
+    barrage: []
+    Shootsound: {fileID: 0}
   enemyBarrageCounts:
   - count:
     - 10
@@ -254,3 +257,44 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3848142595375120332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5601185290954460713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LightType: 0
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_LightVolumeOpacity: 0
+  m_ApplyToSortingLayers: 000000008df152fc
+  m_LightCookieSprite: {fileID: 0}
+  m_UseNormalMap: 0
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_ShadowIntensity: 0
+  m_ShadowVolumeIntensity: 0
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_PointLightDistance: 3
+  m_PointLightQuality: 1
+  m_ShapeLightParametricSides: 48
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1.05
+  m_ShapeLightFalloffSize: 2.9
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}

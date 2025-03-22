@@ -678,33 +678,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 100
   deathAudio: {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
   Hurtaudio: {fileID: 8946850152021610928, guid: 81cd98fd81d794e4d9457f24868465b2, type: 3}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
   totalHp: 600
   charatorType: 1
   enemyType: 1
+  Bonus: 0
   probability:
   - 100
   - 100
   - 100
+  tempHurt: 0
+  hp: 100
   hpBar: {fileID: 0}
   isInvincible: 0
   isInBomb: 0
   canInBomb: 0
-  ultimateAttack:
-    count:
-    - 24
-    - 18
-    - 5
-    - 0.5
-    barrageType: 2
-    barrage:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    Shootsound: {fileID: 1106923319873254454, guid: fa59641cb3138824aa3393446232734c, type: 3}
   minExp: 100
   maxExp: 200
   score: 5000
@@ -721,6 +711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b92334e8a8b8b547bcdf1983353b6a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PoweringEffect: {fileID: 8793574798411561267, guid: bb3d187a199cfd9469548b78af683100, type: 3}
   indexMax: 4
   DownTime: 0
   useBarrage: 0
@@ -728,6 +719,7 @@ MonoBehaviour:
   bulletTransform: {fileID: 3734851542950068774}
   Speed: 3
   deadUseBarrage: 0
+  death: {fileID: 0}
   canTouch: 1
   Dot:
   - {x: 0, y: 1.5, z: 0}
@@ -735,6 +727,11 @@ MonoBehaviour:
   - {x: -3, y: 2.4, z: 0}
   - {x: 0, y: 0.36, z: 0}
   Allbullet: []
+  ultimateAttack:
+    count: []
+    barrageType: 0
+    barrage: []
+    Shootsound: {fileID: 0}
   enemyBarrageCounts:
   - count:
     - 1
@@ -748,14 +745,14 @@ MonoBehaviour:
   - count:
     - 12
     - 12
-    - 0.7
+    - 0.4
     barrageType: 1
     barrage:
     - {fileID: 5158847953587803535, guid: f3e74bb16f60180479812973dca892ca, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   - count:
     - 10
-    - 0.7
+    - 0.5
     barrageType: 4
     barrage:
     - {fileID: 922245963755450683, guid: 00bfb8a3128612844b4ea5ea10bf1ec7, type: 3}

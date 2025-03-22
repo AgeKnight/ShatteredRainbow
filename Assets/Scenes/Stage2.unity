@@ -1902,6 +1902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllResurrectionTime: 2
+  hp: 0
   items:
   - {fileID: 7518270170160341144, guid: 36e4f9a93861b6748b871b08339538aa, type: 3}
   - {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
@@ -2046,6 +2047,8 @@ MonoBehaviour:
   PlayerResurrectionPosition: {fileID: 752541158}
   isRush: 0
   difficulty: 1
+  DifficulBarrage: 0
+  DifficulAllIndex: 0
   default_playerBomb: 2
   default_playerLife: 2
   default_droneCount: 0
@@ -2150,7 +2153,7 @@ MonoBehaviour:
     movePosition:
     - {fileID: 1407830996}
     - {fileID: 220743499}
-  - monsterPrefab: {fileID: 4251172748177828862, guid: f0276956f560a0f4daa084abfa4d0569, type: 3}
+  - monsterPrefab: {fileID: 1383492069217346285, guid: e515d48a08a6b6242891b867eb720c63, type: 3}
     count: 5
     spanTime: 0.5
     wave: 2
@@ -2158,7 +2161,7 @@ MonoBehaviour:
     movePosition:
     - {fileID: 1924092105}
     - {fileID: 556996192}
-  - monsterPrefab: {fileID: 8803912893060238576, guid: 77e29fc56ed95c648b3364e62db105a4, type: 3}
+  - monsterPrefab: {fileID: 4251172748177828862, guid: f0276956f560a0f4daa084abfa4d0569, type: 3}
     count: 5
     spanTime: 0.3
     wave: 3
@@ -2179,7 +2182,9 @@ MonoBehaviour:
     spanPosition: {fileID: 376989966}
     movePosition:
     - {fileID: 564432931}
+  BonusMonster: []
   everyStairTime: 8
+  allEnemySpan: 10
 --- !u!82 &331282132
 AudioSource:
   m_ObjectHideFlags: 0

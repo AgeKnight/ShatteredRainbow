@@ -75,8 +75,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -61673075
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a980c59ae3c5f23429d40ab37b51ac4c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -138,32 +138,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f5c1f778b6d8f499c451a11ae7a233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 100
   deathAudio: {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
   Hurtaudio: {fileID: 8946850152021610928, guid: 81cd98fd81d794e4d9457f24868465b2, type: 3}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
   totalHp: 500
   charatorType: 1
   enemyType: 1
+  Bonus: 0
   probability:
   - 100
   - 100
   - 100
+  tempHurt: 0
+  hp: 100
   hpBar: {fileID: 0}
   isInvincible: 0
   isInBomb: 0
   canInBomb: 0
-  ultimateAttack:
-    count:
-    - 10
-    - 15
-    - 0.15
-    barrageType: 0
-    barrage:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    Shootsound: {fileID: 0}
   minExp: 26
   maxExp: 100
   score: 500
@@ -180,6 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b92334e8a8b8b547bcdf1983353b6a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PoweringEffect: {fileID: 0}
   indexMax: 3
   DownTime: 0
   useBarrage: 0
@@ -187,14 +179,20 @@ MonoBehaviour:
   bulletTransform: {fileID: 8210984451838248385}
   Speed: 3
   deadUseBarrage: 0
+  death: {fileID: 0}
   canTouch: 1
   Dot:
   - {x: 0, y: 2.36, z: 0}
   Allbullet: []
+  ultimateAttack:
+    count: []
+    barrageType: 0
+    barrage: []
+    Shootsound: {fileID: 0}
   enemyBarrageCounts:
   - count:
     - 12
-    - 8
+    - 4
     - 0.6
     barrageType: 0
     barrage:
@@ -202,9 +200,9 @@ MonoBehaviour:
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   - count:
     - 10
+    - 10
     - 20
-    - 20
-    - 0.3
+    - 0.6
     barrageType: 2
     barrage:
     - {fileID: 4579488354998484835, guid: 6b9ca9b23ff5a3148ae5b962c023e21f, type: 3}
@@ -285,7 +283,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 2
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 35348f5200000000
+  m_ApplyToSortingLayers: 35348f52000000008df152fc
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -300,8 +298,8 @@ MonoBehaviour:
   m_PointLightQuality: 1
   m_ShapeLightParametricSides: 48
   m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 0.17
-  m_ShapeLightFalloffSize: 5.08
+  m_ShapeLightParametricRadius: 0.8
+  m_ShapeLightFalloffSize: 3.14
   m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
   - {x: -0.5, y: -0.5, z: 0}

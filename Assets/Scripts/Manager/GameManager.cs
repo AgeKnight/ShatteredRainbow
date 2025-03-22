@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
     public int GameStage = 1;
     [HideInInspector]
     public int playerExp;
-    [HideInInspector]
+   // [HideInInspector]
     public AudioSource[] BackMusic;
     [HideInInspector]
     public AudioSource[] MenuSound;
@@ -161,7 +161,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public GameObject[] bossStaire;
     //0 左上 1 右下
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject[] mapPosition;
     [HideInInspector]
     public int allBomb;
@@ -253,7 +253,7 @@ public class GameManager : MonoBehaviour
         GetComponent<AudioSource>().PlayOneShot(BackMusic[0].clip);
 
         yield return new WaitForSeconds(4);
-        enemyManager.EnemySpanOper();
+       // enemyManager.EnemySpanOper();
         StartCoroutine(enemyManager.CreateEnemy());
     }
     void Update()
@@ -485,6 +485,7 @@ public class GameManager : MonoBehaviour
                 if (ChoicePlayer==3)
                 {
                     playerScript.AllVylesIndex = playerLevel + 3;
+                    playerScript.VylesIndex = 0;
                     playerScript.VyleCreate();
                 }
             }
@@ -575,6 +576,7 @@ public class GameManager : MonoBehaviour
             case Difficulty.middle:
                 default_playerLife = 3;
                 default_playerBomb = 3;
+                DifficulBarrage = 0;
                 DifficulBarrage = 0;
                 break;
             case Difficulty.Hard:
@@ -913,11 +915,10 @@ public class GameManager : MonoBehaviour
     {
         GetComponent<Rigidbody2D>().velocity = Vector3.up;
         yield return new WaitForSeconds(3f);
-        if (GetComponent<AudioSource>().clip)
-        {
+    
             GetComponent<AudioSource>().Stop();
             GetComponent<AudioSource>().PlayOneShot(audio.clip);
-        }
+        
         GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
         transform.position = new Vector3(0, 0, 0);
     }
@@ -1026,13 +1027,13 @@ public class GameManager : MonoBehaviour
                     MapBonusScores[3].text = "x1";
                     break;
                 }
-            case 8:
-            case 9:
+            default:
                 {
                     MapBonusScores[2].text += "  YOU CHEESED IT!";
                     MapBonusScores[3].text = "x1";
                     break;
                 }
+               
 
         }
 
@@ -1055,18 +1056,28 @@ public class GameManager : MonoBehaviour
                     deathbonus = 1.2f;
                     break;
                 }
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                {
+                    MapBonusScores[4].text += "";
+                    MapBonusScores[5].text = "x1";
+                    break;
+                }
+
             case 6:
             case 7:
             case 8:
                 {
-                    MapBonusScores[2].text += "  Try harder.";
-                    MapBonusScores[3].text = "x1";
+                    MapBonusScores[4].text += "  Try harder.";
+                    MapBonusScores[5].text = "x1";
                     break;
                 }
-            case 9:
+            default:
                 {
-                    MapBonusScores[2].text += "  Well... You made it!";
-                    MapBonusScores[3].text = "x1";
+                    MapBonusScores[4].text += "  Well... You made it!";
+                    MapBonusScores[5].text = "x1";
                     break;
                 }
 
@@ -1114,7 +1125,7 @@ public class GameManager : MonoBehaviour
             playerScript.GetComponent<Death>().isInvincible = true;
         StartCoroutine(BGMchange(null));
         UIanimator.SetBool("IsEnd", true);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
         SceneManager.LoadScene(SceneIndex);
     }
 

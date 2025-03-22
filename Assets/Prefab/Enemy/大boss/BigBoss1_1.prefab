@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6921743423912708975}
   - component: {fileID: 6272978152685014713}
   - component: {fileID: 8219671772056985587}
+  - component: {fileID: 5352402467720396672}
   m_Layer: 7
   m_Name: BigBoss1_1
   m_TagString: Enemy
@@ -143,23 +144,17 @@ MonoBehaviour:
   totalHp: 1000
   charatorType: 1
   enemyType: 1
+  Bonus: 0
   probability:
   - 100
   - 100
   - 100
+  tempHurt: 0
   hp: 0
   hpBar: {fileID: 0}
   isInvincible: 0
   isInBomb: 0
   canInBomb: 0
-  ultimateAttack:
-    count: []
-    barrageType: 1
-    barrage:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    Shootsound: {fileID: 0}
   minExp: 50
   maxExp: 100
   score: 500
@@ -176,13 +171,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b92334e8a8b8b547bcdf1983353b6a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  indexMax: 3
+  PoweringEffect: {fileID: 0}
+  indexMax: 4
   DownTime: 0
   useBarrage: 0
   moveType: 0
   bulletTransform: {fileID: 8567689766675817040}
   Speed: 3
   deadUseBarrage: 0
+  death: {fileID: 0}
   canTouch: 1
   Dot: []
   Allbullet: []
@@ -214,9 +211,17 @@ MonoBehaviour:
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   - count:
     - 3
-    - 30
+    - 12
     - 0.6
     barrageType: 1
+    barrage:
+    - {fileID: 2900848498099905109, guid: 078250e05e4ccce418b8415d9cf3ad6c, type: 3}
+    Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
+  - count:
+    - 12
+    - 4
+    - 0.4
+    barrageType: 6
     barrage:
     - {fileID: 2900848498099905109, guid: 078250e05e4ccce418b8415d9cf3ad6c, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
@@ -240,6 +245,47 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5352402467720396672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3044012784260657736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LightType: 0
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 2
+  m_LightVolumeOpacity: 0
+  m_ApplyToSortingLayers: 000000008df152fc
+  m_LightCookieSprite: {fileID: 0}
+  m_UseNormalMap: 0
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_ShadowIntensity: 0
+  m_ShadowVolumeIntensity: 0
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_PointLightDistance: 3
+  m_PointLightQuality: 1
+  m_ShapeLightParametricSides: 48
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 5
+  m_ShapeLightFalloffSize: 45.3
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
 --- !u!1 &9065009563149562638
 GameObject:
   m_ObjectHideFlags: 0

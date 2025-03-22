@@ -20,8 +20,8 @@ public struct VivyBarrageTrans
 public class Player : MonoBehaviour
 {
     #region "Private"
-    GameObject[] tempVyleBarrage = new GameObject[6];
-    int VylesIndex = 0;
+    GameObject[] tempVyleBarrage = new GameObject[20];
+   
     float nowspeed;
     float[] annularColor = { 0.8f, 0.8f };
     bool isUseLazer = false;
@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
     Color[] shade = { new Vector4(1, 1, 0.69f), new Vector4(0.69f, 0.97f, 1), new Vector4(1, 0.69f, 0.71f) };
     #endregion
     #region "Public"
+   
     public bool BombAttack = true;
     public int BumbNums;
     public PlayerType playerType;
@@ -59,6 +60,7 @@ public class Player : MonoBehaviour
     public GameObject Bomb;
     public GameObject SliderTime;
     public GameObject LilyGatherTime;
+    public int VylesIndex = 0;
     public Transform BombPosition;
     public VivyBarrageTrans[] vivyBarrageTrans;
     public AudioSource[] musicEffect; //0射擊音 1炸彈音
@@ -340,7 +342,7 @@ public class Player : MonoBehaviour
     #region "Attack"
     void UseAttack()
     {
-        if ((Input.GetKeyDown(GameManager.Instance.curinput[8]) || Input.GetKeyDown(GameManager.Instance.curinput[9])) && !isAttack)
+        if (Input.GetKeyDown(GameManager.Instance.curinput[8]) || Input.GetKeyDown(GameManager.Instance.curinput[9]))// && !isAttack)
         {
             isAttack = true;
             if (!GameManager.Instance.AllAttack)
@@ -355,6 +357,8 @@ public class Player : MonoBehaviour
             isAttack = false;
             if (playerType == PlayerType.Lil_Void)
             {
+              
+              
                 Counterattack();
             }
             if (DroneGroup.GetComponent<Animator>())
@@ -412,7 +416,9 @@ public class Player : MonoBehaviour
     }
     void Counterattack()
     {
+
         float CounterHurt = death.tempHurt * (death.totalHp / death.hp) * (GameManager.Instance.playerLevel + 1) * (GameManager.Instance.droneCount / 2 + 1);
+        death.DeadEffect("Player");
         death.tempHurt = 0;
         enemys = FindObjectsOfType<Enemy>();
         for (int i = 0; i < FindObjectsOfType<Enemy>().Length; i++)
@@ -558,17 +564,13 @@ public class Player : MonoBehaviour
     {
         isAttack = false;
         AllVylesIndex = GameManager.Instance.playerLevel + 3;
-
-        if (VylesIndex <= AllVylesIndex - 1)//&& VyleBarrage[VylesIndex] == null)
+        Debug.Log(VylesIndex);
+        if (VylesIndex <= AllVylesIndex - 1)
         {
             tempVyleBarrage[VylesIndex] = Instantiate(bulletPrefab[0], vivyBarrageTrans[GameManager.Instance.playerLevel].bulletTransform[VylesIndex].transform.position, Quaternion.identity);
             tempVyleBarrage[VylesIndex].GetComponent<Bullet>().VyleIndex = VylesIndex;
             VyleBarrage[VylesIndex].SetActive(false);
             VylesIndex += 1;
-            if (VylesIndex >= AllVylesIndex)
-            {
-                VylesIndex = 0;
-            }
         }
         if (isUseDrone)
         {
@@ -611,7 +613,8 @@ public class Player : MonoBehaviour
             GameManager.Instance.thisMapBomb = true;
             GameManager.Instance.thisMapBombCount += 1;
             GameManager.Instance.AudioPlay(musicEffect[2], true);
-            Instantiate(death.deadEffect, this.transform.position, Quaternion.identity);
+            // Instantiate(death.deadEffect, this.transform.position, Quaternion.identity);
+            death.DeadEffect("Player");
             GameManager.Instance.AllBomb = true;
             GameManager.Instance.AllUseBomb += 1;
             death.isInvincible = true;
@@ -650,6 +653,7 @@ public class Player : MonoBehaviour
                 tempDrone[i].transform.localScale = new Vector3(1.5f, 1.5f,0);
             }
             eatDrone+=GameManager.Instance.droneCount;
+            death.DeadEffect("Enemy");
             GameManager.Instance.playerScript.SetBro(0);
         }
     }

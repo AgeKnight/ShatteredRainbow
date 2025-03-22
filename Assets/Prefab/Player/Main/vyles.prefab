@@ -2135,6 +2135,7 @@ MonoBehaviour:
   Bomb: {fileID: 5165513135576572565, guid: 59c5a004e1f68d64d8cfc8478af6dd0c, type: 3}
   SliderTime: {fileID: 2887989388698943693}
   LilyGatherTime: {fileID: 0}
+  VylesIndex: 0
   BombPosition: {fileID: 5473399651417196600}
   vivyBarrageTrans:
   - bulletTransform:
@@ -2186,6 +2187,9 @@ MonoBehaviour:
   DroneRLevil: []
   DroneLLevil: []
   around_speed: 60
+  tempDrone: []
+  eatDrone: 0
+  isUseBomb: 0
   canControlAttack: 1
   AllVylesIndex: 0
   VyleBarrage:
@@ -2261,9 +2265,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00040572137, y: -0.008583702}
+  m_Offset: {x: 0.0027804077, y: -0.02}
   serializedVersion: 2
-  m_Radius: 0.42824778
+  m_Radius: 0.36676762
 --- !u!1 &6772116701195927166
 GameObject:
   m_ObjectHideFlags: 0

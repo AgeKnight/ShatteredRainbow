@@ -47,9 +47,9 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7830189, g: 0, b: 0.22537212, a: 1}
-  m_Intensity: 1
+  m_Intensity: 2
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 0000000035b2da2435348f52
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -208,19 +208,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61cbb7a3991def4ea024c93d488023c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cantMove: 0
+  AllRainTime: 0
   rain: 0
+  canWallDestroy: 1
+  VyleIndex: 0
+  beAttract: 0
+  canBounceWall: 0
+  Unerasable: 0
   speed: 4
   hurt: 0
+  BurnHurt: 0
   hitspark: {fileID: 7037961734342237002, guid: b3d2b9f1944c0da4aab3c5b62a03ab25, type: 3}
+  BurnSpark: {fileID: 0}
   Hitsound: {fileID: 0}
-  canTrackEnemy: 0
-  bulletType: 1
-  focusDistance: 0
-  rotatespeed: 0
-  AllRainTime: 0
-  canDestroy: 1
   canAttack: 1
+  allBounceNum: 0
+  MaxTrackTime: 0
+  bulletType: 1
+  bulletMoveType: 0
+  rotatespeed: 0
 --- !u!95 &4030310012873533789
 Animator:
   serializedVersion: 3

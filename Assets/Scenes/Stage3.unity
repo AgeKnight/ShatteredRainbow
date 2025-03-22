@@ -1868,6 +1868,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllResurrectionTime: 2
+  hp: 0
   items:
   - {fileID: 7518270170160341144, guid: 36e4f9a93861b6748b871b08339538aa, type: 3}
   - {fileID: 7518270170160341144, guid: 9e488fc74ef005e4e90a1e435be76d25, type: 3}
@@ -2012,6 +2013,8 @@ MonoBehaviour:
   PlayerResurrectionPosition: {fileID: 752541158}
   isRush: 0
   difficulty: 1
+  DifficulBarrage: 0
+  DifficulAllIndex: 0
   default_playerBomb: 2
   default_playerLife: 2
   default_droneCount: 0
@@ -2129,7 +2132,9 @@ MonoBehaviour:
     spanPosition: {fileID: 822026697}
     movePosition:
     - {fileID: 28853550}
+  BonusMonster: []
   everyStairTime: 6
+  allEnemySpan: 8
 --- !u!82 &331282132
 AudioSource:
   m_ObjectHideFlags: 0

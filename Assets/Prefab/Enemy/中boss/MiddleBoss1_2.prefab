@@ -213,13 +213,15 @@ MonoBehaviour:
   deathAudio: {fileID: 3387233106102494613, guid: 209e73b317b7a04448514f6912724b98, type: 3}
   Hurtaudio: {fileID: 8946850152021610928, guid: 81cd98fd81d794e4d9457f24868465b2, type: 3}
   deadEffect: {fileID: 3147815338091960824, guid: 511db0edb9c67154db7ce77cb09b9d52, type: 3}
-  totalHp: 600
+  totalHp: 450
   charatorType: 1
   enemyType: 1
+  Bonus: 0
   probability:
   - 100
   - 100
   - 100
+  tempHurt: 0
   hp: 0
   hpBar: {fileID: 0}
   isInvincible: 0
@@ -241,6 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b92334e8a8b8b547bcdf1983353b6a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PoweringEffect: {fileID: 0}
   indexMax: 3
   DownTime: 0
   useBarrage: 0
@@ -248,6 +251,7 @@ MonoBehaviour:
   bulletTransform: {fileID: 8567689766675817040}
   Speed: 3
   deadUseBarrage: 0
+  death: {fileID: 0}
   canTouch: 1
   Dot:
   - {x: 0, y: 1.9, z: 0}
@@ -263,31 +267,29 @@ MonoBehaviour:
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   enemyBarrageCounts:
   - count:
-    - 10
     - 6
-    - 0.2
+    - 12
+    - 0.3
     barrageType: 6
     barrage:
     - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   - count:
-    - 20
-    - 5
-    - 1.5
+    - 14
+    - 8
+    - 0.7
     barrageType: 0
     barrage:
     - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
   - count:
-    - 3
-    - 6
-    - 0
-    - 1
-    barrageType: 10
+    - 20
+    - 0.1
+    barrageType: 4
     barrage:
-    - {fileID: 5165513135576572565, guid: 02beb967345c97e4fb006628ea366106, type: 3}
+    - {fileID: 2279851410649871175, guid: eaed50cd5da63194880ce4aca2623d36, type: 3}
     Shootsound: {fileID: 3387233106102494613, guid: bd1695f2708f5f1488d8bbbbff52c65e, type: 3}
-  countTime: 2
+  countTime: 3
 --- !u!95 &-8268031163747421557
 Animator:
   serializedVersion: 3

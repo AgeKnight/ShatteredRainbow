@@ -76,7 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 618312245
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: a75e4c88e8958c445b50a77c7159a2f9, type: 3}
   m_Color: {r: 1, g: 0, b: 0.1761365, a: 1}
@@ -122,19 +122,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61cbb7a3991def4ea024c93d488023c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cantMove: 0
+  AllRainTime: 0
   rain: 0
+  canWallDestroy: 1
+  VyleIndex: 0
+  beAttract: 0
+  canBounceWall: 0
+  Unerasable: 0
   speed: 3.25
   hurt: 0
+  BurnHurt: 0
   hitspark: {fileID: 7037961734342237002, guid: b3d2b9f1944c0da4aab3c5b62a03ab25, type: 3}
+  BurnSpark: {fileID: 0}
   Hitsound: {fileID: 0}
-  canTrackEnemy: 0
-  bulletType: 1
-  focusDistance: 0
-  rotatespeed: 0
-  AllRainTime: 0
-  canDestroy: 1
   canAttack: 1
+  allBounceNum: 0
+  MaxTrackTime: 0
+  bulletType: 1
+  bulletMoveType: 0
+  rotatespeed: 0
 --- !u!95 &4362565625301239658
 Animator:
   serializedVersion: 3
@@ -4899,7 +4905,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 618312245
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0
@@ -5006,9 +5012,9 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.6
   m_Color: {r: 0.7830189, g: 0, b: 0.22537212, a: 1}
-  m_Intensity: 1
+  m_Intensity: 2
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 0000000035b2da2435348f52
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
