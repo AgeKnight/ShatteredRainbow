@@ -29,6 +29,9 @@ public class TitleManager : MonoBehaviour
     static TitleManager instance;
     public static TitleManager Instance { get => instance; set => instance = value; }
     #region "Hide"
+    //[HideInInspector]
+    public int chooseStage;
+
     [HideInInspector]
     public int GameStage;
     [HideInInspector]
@@ -81,7 +84,7 @@ public class TitleManager : MonoBehaviour
     public Text CurrentRes;
     [HideInInspector]
     public Text[] Records;
-    //[HideInInspector]
+    [HideInInspector]
     public Toggle[] autoShoot;
     [HideInInspector]
     public int Level;
@@ -91,7 +94,7 @@ public class TitleManager : MonoBehaviour
     public int Life;
     [HideInInspector]
     public int Drone;
-    //[HideInInspector]
+    [HideInInspector]
     public GameObject CheatObject;
     [HideInInspector]
     public GameObject BossChoice;
@@ -103,7 +106,7 @@ public class TitleManager : MonoBehaviour
     public Image[] CharImage;
     [HideInInspector]
     public GameObject[] CharText;
-    //[HideInInspector]
+    [HideInInspector]
     public GameObject[] ExtraObject;
     [HideInInspector]
     public GameObject[] OptinionMessage;
@@ -202,7 +205,7 @@ public class TitleManager : MonoBehaviour
         if (Achievements[3] == true)
         {
             ExtraObject[0].SetActive(true);
-            ExtraObject[2].SetActive(false);
+            ExtraObject[2].SetActive(autoShoot[2].isOn);
             hint.SetActive(false);
         }
         else
@@ -211,9 +214,6 @@ public class TitleManager : MonoBehaviour
             ExtraObject[0].SetActive(false);
             ExtraObject[2].SetActive(false);
             CheatObject.SetActive(autoShoot[2].isOn);
-
-            Debug.Log(autoShoot[2].isOn);
-
         }
     }
     public void AchievementRush(GameObject hint)
@@ -409,8 +409,6 @@ public class TitleManager : MonoBehaviour
             autoShoot[1].isOn = false;
         }
         CheatObject.SetActive(autoShoot[2].isOn);
-        Debug.Log(autoShoot[2].isOn);
-
         Save();
     }
     public void VideoSetting()

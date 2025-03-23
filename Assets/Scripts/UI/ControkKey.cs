@@ -9,7 +9,6 @@ public class ControkKey : MonoBehaviour, IPointerExitHandler, IPointerClickHandl
     public bool isstart = false;//当前是否是修改状态
     public KeyCode curinput;
     public Text nowChooseText;
-    bool canChoose = true;
     public void OnPointerEnter(PointerEventData eventData)//選擇按鈕
     {
         gameObject.GetComponent<Image>().color = new Color(1, 0, 0,0.1f);

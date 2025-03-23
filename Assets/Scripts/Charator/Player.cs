@@ -1,8 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
+using System;
 
 public enum PlayerType
 {
@@ -41,11 +40,12 @@ public class Player : MonoBehaviour
     float LazerTime = 0; //從前的LazerTime
     int SlashUsed = 0;
     Enemy[] enemys;
+    Bullet[] bullets;
     Death death;
     Color[] shade = { new Vector4(1, 1, 0.69f), new Vector4(0.69f, 0.97f, 1), new Vector4(1, 0.69f, 0.71f) };
     #endregion
     #region "Public"
-   
+    public GameObject BlackHoleObject;
     public bool BombAttack = true;
     public int BumbNums;
     public PlayerType playerType;
@@ -350,6 +350,10 @@ public class Player : MonoBehaviour
                 GameManager.Instance.AllAttack = true;
                 GameManager.Instance.Save();
             }
+            if(playerType == PlayerType.Lil_Void&&!isUseBomb)
+            {
+                BlackHoleObject.SetActive(true);
+            }
             coroutine = StartCoroutine(Attack());
         }
         if (Input.GetKeyUp(GameManager.Instance.curinput[8]) || Input.GetKeyUp(GameManager.Instance.curinput[9]) && coroutine != null)
@@ -357,8 +361,8 @@ public class Player : MonoBehaviour
             isAttack = false;
             if (playerType == PlayerType.Lil_Void)
             {
-              
-              
+                if(!isUseBomb)
+                    BlackHoleObject.SetActive(false);
                 Counterattack();
             }
             if (DroneGroup.GetComponent<Animator>())
@@ -385,7 +389,6 @@ public class Player : MonoBehaviour
     {
         while (isAttack)
         {
-            GameManager.Instance.AudioPlay(musicEffect[1], true);
             switch (playerType)
             {
                 case PlayerType.Prismie:
@@ -416,28 +419,35 @@ public class Player : MonoBehaviour
     }
     void Counterattack()
     {
-
         float CounterHurt = death.tempHurt * (death.totalHp / death.hp) * (GameManager.Instance.playerLevel + 1) * (GameManager.Instance.droneCount / 2 + 1);
-        death.DeadEffect("Player");
         death.tempHurt = 0;
         enemys = FindObjectsOfType<Enemy>();
+        bullets = FindObjectsOfType<Bullet>();
         for (int i = 0; i < FindObjectsOfType<Enemy>().Length; i++)
         {
             if (!enemys[i].death.isInvincible)
             {
                 if (enemys[i].death.totalHp <= CounterHurt)
                 {
-                    enemys[i].death.Die();
+                    enemys[i].death.Hurt(enemys[i].death.totalHp);
                     CounterHurt -= enemys[i].death.totalHp;
                 }
                 else
                 {
                     enemys[i].death.Hurt(CounterHurt);
                     CounterHurt -= CounterHurt;
-                    break;
                 }
             }
         }
+        for (int i = 0; i < bullets.Length; i++)
+        {
+            if (bullets[i])
+            {
+               bullets[i].beAttract = false;
+            }
+        }
+        System.Array.Clear(enemys,0,enemys.Length);
+        System.Array.Clear(bullets,0,bullets.Length);
         GameManager.Instance.AddScore(CounterHurt);
     }
     void PrismieAttack()
@@ -524,9 +534,6 @@ public class Player : MonoBehaviour
             SlashUsed = 1;
             bulletPrefab[GameManager.Instance.playerLevel].GetComponent<Bullet>().hurt /= 1.5f;
         }
-        /* lazerObject = Instantiate(bulletPrefab[0], BombPosition.position, Quaternion.identity);
-         lazerObject.transform.parent = gameObject.transform;
-         lazerObject.GetComponent<Animator>().SetInteger("SlashNum",SlashUsed);*/
         bulletPrefab[GameManager.Instance.playerLevel].GetComponent<Animator>().SetInteger("SlashNum", SlashUsed);
     }
     void FrosttoCharged()
@@ -539,9 +546,6 @@ public class Player : MonoBehaviour
         {
             if (isUseDrone)
             {
-
-                /*  LazerPrefab[i] = Instantiate(bulletPrefab[1], Drone[i].transform.GetChild(0).transform.position, Quaternion.identity);
-                  LazerPrefab[i].transform.rotation = Drone[i].transform.GetChild(0).transform.rotation;*/
                 var enemy = GameObject.FindWithTag("Enemy");
                 GameObject Star = Instantiate(bulletPrefab[4], Drone[i].transform.position, Quaternion.identity);
                 if (enemy)
@@ -613,8 +617,6 @@ public class Player : MonoBehaviour
             GameManager.Instance.thisMapBomb = true;
             GameManager.Instance.thisMapBombCount += 1;
             GameManager.Instance.AudioPlay(musicEffect[2], true);
-            // Instantiate(death.deadEffect, this.transform.position, Quaternion.identity);
-            death.DeadEffect("Player");
             GameManager.Instance.AllBomb = true;
             GameManager.Instance.AllUseBomb += 1;
             death.isInvincible = true;
@@ -629,6 +631,7 @@ public class Player : MonoBehaviour
                     vylesBomb();
                     break;
                 case PlayerType.Lil_Void:
+                    BlackHoleObject.SetActive(true);
                     BlackHoleBomb();
                     break;
                 default:
@@ -661,17 +664,21 @@ public class Player : MonoBehaviour
     {
         myBomb = Instantiate(Bomb, BombPosition.position, Quaternion.identity).GetComponent<Bomb>();
         myBomb.gameObject.transform.parent = gameObject.transform;
-        BombAttack = myBomb.canUseAttack;
+        if(playerType!=PlayerType.Lil_Void)
+            BombAttack = myBomb.canUseAttack;
+        else
+            BombAttack = true;
     }
     void vylesBomb()
     {
         for (int i = 0; i < BumbNums; i++)
         {
-            Instantiate(Bomb, BombPosition.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
+            Instantiate(Bomb, BombPosition.position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)));
         }
     }
     public void againUseBomb()
     {
+        BlackHoleObject.SetActive(false);
         isUseBomb = false;
         BombAttack = true;
         eatDrone = 0;

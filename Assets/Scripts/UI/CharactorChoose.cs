@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 public enum ChoiceType
 {
     Charactor,
@@ -17,21 +18,20 @@ public enum ChoiceType
 public class CharactorChoose : MonoBehaviour
 {
     int CharCount = 0;
-    int chooseStage = 0;
-    public bool normalChoice;
+        public bool normalChoice;
     public int maxCount;
     public ChoiceType choiceType;
     public Animator Menuanimator;
     public string[] chooseText;
     public Text nowChooseText;
     public GameObject[] AchievementChar;
-    void Awake() 
+    void Awake()
     {
-        if(choiceType==ChoiceType.Difficulty)
+        if (choiceType == ChoiceType.Difficulty)
         {
             TitleManager.Instance.ChoiceDifficulty = 0;
             DisplayText(TitleManager.Instance.ChoiceDifficulty);
-            if(TitleManager.Instance.Achievements[22])
+            if (TitleManager.Instance.Achievements[22])
                 maxCount = 5;
             else
                 maxCount = 4;
@@ -48,7 +48,7 @@ public class CharactorChoose : MonoBehaviour
             switch (choiceType)
             {
                 case ChoiceType.Stage:
-                    DisplayText(chooseStage);
+                    DisplayText(TitleManager.Instance.chooseStage);
                     break;
                 case ChoiceType.Boss:
                     DisplayText(TitleManager.Instance.chooseBoss);
@@ -81,7 +81,7 @@ public class CharactorChoose : MonoBehaviour
             switch (choiceType)
             {
                 case ChoiceType.Stage:
-                    chooseStage = AddCount(chooseStage);
+                    TitleManager.Instance.chooseStage = AddCount(TitleManager.Instance.chooseStage);
                     break;
                 case ChoiceType.Charactor:
                     CharCount = AddCount(CharCount);
@@ -117,7 +117,7 @@ public class CharactorChoose : MonoBehaviour
             switch (choiceType)
             {
                 case ChoiceType.Stage:
-                    chooseStage = MinusCount(chooseStage);
+                    TitleManager.Instance.chooseStage = MinusCount(TitleManager.Instance.chooseStage);
                     break;
                 case ChoiceType.Charactor:
                     CharCount = MinusCount(CharCount);
@@ -126,7 +126,7 @@ public class CharactorChoose : MonoBehaviour
                     break;
                 case ChoiceType.Boss:
                     TitleManager.Instance.chooseBoss--;
-                    if (TitleManager.Instance.chooseBoss <1)
+                    if (TitleManager.Instance.chooseBoss < 1)
                     {
                         TitleManager.Instance.chooseBoss = 2;
                     }
@@ -151,21 +151,21 @@ public class CharactorChoose : MonoBehaviour
     }
     void DisplayAchieveChar()
     {
-        if((CharCount==2&&TitleManager.Instance.Achievements[20])||(CharCount==3&&TitleManager.Instance.Achievements[19])||(CharCount==4&&TitleManager.Instance.Achievements[16]))
+        if ((CharCount == 2 && TitleManager.Instance.Achievements[20]) || (CharCount == 3 && TitleManager.Instance.Achievements[19]) || (CharCount == 4 && TitleManager.Instance.Achievements[16]))
         {
-            TitleManager.Instance.CharImage[CharCount].color = new Color(1,1,1,0.1f);
+            TitleManager.Instance.CharImage[CharCount].color = new Color(1, 1, 1, 0.1f);
             TitleManager.Instance.CharText[CharCount].SetActive(true);
             AchievementChar[0].SetActive(false);
             AchievementChar[1].SetActive(true);
         }
-        else if((CharCount==2&&!TitleManager.Instance.Achievements[20])||(CharCount==3&&!TitleManager.Instance.Achievements[19])||(CharCount==4&&!TitleManager.Instance.Achievements[16]))
+        else if ((CharCount == 2 && !TitleManager.Instance.Achievements[20]) || (CharCount == 3 && !TitleManager.Instance.Achievements[19]) || (CharCount == 4 && !TitleManager.Instance.Achievements[16]))
         {
-            TitleManager.Instance.CharImage[CharCount].color = new Color(0,0,0,0.5f);
+            TitleManager.Instance.CharImage[CharCount].color = new Color(0, 0, 0, 0.5f);
             TitleManager.Instance.CharText[CharCount].SetActive(false);
             AchievementChar[0].SetActive(true);
             AchievementChar[1].SetActive(false);
         }
-        else if (CharCount==0||CharCount==1)
+        else if (CharCount == 0 || CharCount == 1)
         {
             AchievementChar[0].SetActive(false);
             AchievementChar[1].SetActive(true);
@@ -230,7 +230,7 @@ public class CharactorChoose : MonoBehaviour
     }
     public void PlayGame(int index)
     {
-        if (normalChoice)
+        if (index < 5)
         {
             TitleManager.Instance.isRush = false;
             TitleManager.Instance.ChoiceDifficulty = index;
@@ -239,20 +239,20 @@ public class CharactorChoose : MonoBehaviour
             TitleManager.Instance.Save();
             StartCoroutine(GameStart(1));
         }
-        if(index==4)
+        else
         {
             //4 5 6 7 8 9
             TitleManager.Instance.isRush = true;
             TitleManager.Instance.canSaveGameData = true;
-            TitleManager.Instance.GameStage = chooseStage + 1;
+            TitleManager.Instance.GameStage = TitleManager.Instance.chooseStage + 1;
             TitleManager.Instance.Save();
-            if(TitleManager.Instance.chooseBoss==0)
+            if (TitleManager.Instance.chooseBoss == 0)
             {
-                StartCoroutine(GameStart(chooseStage + 1));
+                StartCoroutine(GameStart(TitleManager.Instance.chooseStage + 1));
             }
             else
             {
-                StartCoroutine(GameStart(chooseStage*2 + 3+TitleManager.Instance.chooseBoss));
+                StartCoroutine(GameStart(TitleManager.Instance.chooseStage * 2 + 3 + TitleManager.Instance.chooseBoss));
             }
         }
     }

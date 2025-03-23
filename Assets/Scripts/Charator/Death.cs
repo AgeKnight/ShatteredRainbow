@@ -79,7 +79,9 @@ public class Death : MonoBehaviour
                     GameManager.Instance.AudioPlay(Hurtaudio, true);
                     hp -= value;
                     if (enemyType == EnemyType.Boss)
+                    {
                         hpBar.value = hp / totalHp;
+                    }
                     if (hp <= 0 && !isDead)
                     {
                         this.GetComponent<Animator>().SetTrigger("Dead");
@@ -93,7 +95,7 @@ public class Death : MonoBehaviour
                 {
                     if (GameManager.Instance.playerScript.isUseBomb)
                     {
-                        float tempValue = value * (GameManager.Instance.playerScript.eatDrone+1);
+                        float tempValue = value * (GameManager.Instance.playerScript.eatDrone + 1);
                         hp += tempValue;
                         if (hp >= totalHp)
                         {

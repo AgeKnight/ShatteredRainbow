@@ -18,7 +18,6 @@ public class Bullet : MonoBehaviour
     float speedtemp;
     bool isTracked = false;
     bool isExit = false;
-    bool isChooseed = false;
     float TrackTime;
     [HideInInspector]
     public float AllRainTime;
@@ -46,7 +45,7 @@ public class Bullet : MonoBehaviour
     public float rotatespeed; //跟蹤時的旋轉速度
     private void Start()
     {
-        switch(GameManager.Instance.difficulty)
+        switch (GameManager.Instance.difficulty)
         {
             case Difficulty.easy:
                 speed *= 0.5f;
@@ -96,7 +95,7 @@ public class Bullet : MonoBehaviour
             float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - 90; //方位計算 後面的-90拯救了這個部分 沒有他子彈是往反方向飛離 >:(
             Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);  //面對目標的rotation
             transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 3); //開始轉向 每次update轉一點
-            transform.position = Vector3.MoveTowards(transform.position, GameManager.Instance.playerScript.transform.position, speed* 3 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, GameManager.Instance.playerScript.transform.position, speed * 3 * Time.deltaTime);
         }
         else
         {
@@ -128,7 +127,7 @@ public class Bullet : MonoBehaviour
     {
         if (rain)
         {
-           
+
             speed = Random.Range(0.5f, 2f);
             rainTime += Time.deltaTime;
             if (rainTime >= AllRainTime)
@@ -175,24 +174,26 @@ public class Bullet : MonoBehaviour
     }
     public void Die()
     {
-        if (GetComponent<Collider2D>())
-            GetComponent<Collider2D>().enabled = false;
-        if (bulletMoveType != BulletMoveType.Bounce && gameObject.GetComponent<Animator>())
-            gameObject.GetComponent<Animator>().SetTrigger("Vanish");
-        if (bulletMoveType == BulletMoveType.Bounce)
+        if (gameObject.name != "Sword")
         {
-            if (GameManager.Instance.playerScript&& GameManager.Instance.playerScript.VylesIndex > 0)
+            if (GetComponent<Collider2D>())
+                GetComponent<Collider2D>().enabled = false;
+            if (bulletMoveType == BulletMoveType.Bounce)
             {
-                GameManager.Instance.playerScript.VyleBarrage[VyleIndex].gameObject.SetActive(true);
-                GameManager.Instance.playerScript.VylesIndex -= 1;
+                if (GameManager.Instance.playerScript && GameManager.Instance.playerScript.VylesIndex > 0)
+                {
+                    GameManager.Instance.playerScript.VyleBarrage[VyleIndex].gameObject.SetActive(true);
+                    GameManager.Instance.playerScript.VylesIndex -= 1;
+                }
+                Destroy(this.gameObject);
             }
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject, 0.4f);
+            else
+            {
+                Destroy(this.gameObject, 0.4f);
 
+            }
         }
+
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -205,10 +206,12 @@ public class Bullet : MonoBehaviour
                 Spot = this.transform.position;
             else
                 Spot = other.transform.position;
-
-            GameObject Spark = Instantiate(hitspark, Spot, Quaternion.Euler(0, 0, Random.Range(0, 180)));
-            float point = Random.Range(0.12f, 0.08f);
-            Spark.transform.localScale = new Vector2(point, point);
+            if (hitspark)
+            {
+                GameObject Spark = Instantiate(hitspark, Spot, Quaternion.Euler(0, 0, Random.Range(0, 180)));
+                float point = Random.Range(0.12f, 0.08f);
+                Spark.transform.localScale = new Vector2(point, point);
+            }
 
 
             if (bulletMoveType != BulletMoveType.Bounce && !Unerasable)
@@ -230,7 +233,6 @@ public class Bullet : MonoBehaviour
                     if (allBounceNum <= 0)
                     {
                         other.gameObject.GetComponent<Death>().Hurt(BurnHurt);
-                        Instantiate(BurnSpark, this.transform.position, Quaternion.identity);
                         Die();
                     }
                 }
@@ -239,6 +241,11 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.tag == "Barrage" && canBounceWall && other.gameObject.GetComponent<Bullet>().bulletType == BulletType.Enemy)
         {
             other.gameObject.GetComponent<Bullet>().Die();
+        }
+        if(other.gameObject.tag == "BlackHole" && GameManager.Instance.playerScript.playerType == PlayerType.Lil_Void)
+        {
+            other.gameObject.transform.parent.GetComponent<Death>().Hurt(hurt);
+            Die();
         }
     }
     void OnTriggerExit2D(Collider2D other)

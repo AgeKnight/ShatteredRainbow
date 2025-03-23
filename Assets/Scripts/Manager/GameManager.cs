@@ -60,7 +60,6 @@ public class GameManager : MonoBehaviour
     bool isCheat = false;
     int totalExp = 1000;
     bool isOnButton = false;
-    bool isRefreshed = false;
     float sideA;
     float sideB;
     bool isOperate = false;
@@ -112,7 +111,7 @@ public class GameManager : MonoBehaviour
     public int GameStage = 1;
     [HideInInspector]
     public int playerExp;
-   // [HideInInspector]
+    // [HideInInspector]
     public AudioSource[] BackMusic;
     [HideInInspector]
     public AudioSource[] MenuSound;
@@ -225,13 +224,13 @@ public class GameManager : MonoBehaviour
         instance = this;
         Load();
         ChangeDifficulty();
-        if ((!isCheat  && GameStage == 1)||isRush)
-        {    
+        if ((!isCheat && GameStage == 1) || (isRush && !isCheat))
+        {
             RefreshGame();
         }
         coroutine = StartCoroutine(Begin());
     }
-    
+
     public IEnumerator Begin()
     {
 
@@ -253,7 +252,7 @@ public class GameManager : MonoBehaviour
         GetComponent<AudioSource>().PlayOneShot(BackMusic[0].clip);
 
         yield return new WaitForSeconds(4);
-       // enemyManager.EnemySpanOper();
+        // enemyManager.EnemySpanOper();
         StartCoroutine(enemyManager.CreateEnemy());
     }
     void Update()
@@ -476,13 +475,14 @@ public class GameManager : MonoBehaviour
         UIanimator.SetTrigger("EXPGain");
         while (playerExp >= totalExp)
         {
-            playerScript.gameObject.GetComponent<Animator>().SetTrigger("Levelup");
+            if(playerLevel<3)
+                playerScript.gameObject.GetComponent<Animator>().SetTrigger("Levelup");
             UIanimator.SetTrigger("Levelup");
             AudioPlay(LevelupSound, true);
             playerLevel += 1;
             if (playerScript)
             {
-                if (ChoicePlayer==3)
+                if (ChoicePlayer == 3)
                 {
                     playerScript.AllVylesIndex = playerLevel + 3;
                     playerScript.VylesIndex = 0;
@@ -504,7 +504,6 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
-
         expBar.value = (float)playerExp / totalExp;
     }
     void SetExp(int value)
@@ -543,7 +542,7 @@ public class GameManager : MonoBehaviour
             {
                 drop = Instantiate(expObject[i], playerScript.gameObject.GetComponent<Transform>().position, Quaternion.identity);
                 drop.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10f, 10f), Random.Range(-10f, 10f)));
-                if(ChoicePlayer!=4)
+                if (ChoicePlayer != 4)
                     drop.GetComponent<Item>().CanAttract = false;
             }
 
@@ -571,7 +570,7 @@ public class GameManager : MonoBehaviour
                 default_playerLife = 5;
                 default_playerBomb = 5;
                 DifficulBarrage = -100;
-                DifficulAllIndex-=2;
+                DifficulAllIndex -= 2;
                 break;
             case Difficulty.middle:
                 default_playerLife = 3;
@@ -583,19 +582,19 @@ public class GameManager : MonoBehaviour
                 default_playerLife = 2;
                 default_playerBomb = 2;
                 DifficulBarrage = 1;
-                DifficulAllIndex+=2;
+                DifficulAllIndex += 2;
                 break;
             case Difficulty.VerryHard:
                 default_playerLife = 1;
                 default_playerBomb = 1;
                 DifficulBarrage = 2;
-                DifficulAllIndex+=4;
+                DifficulAllIndex += 4;
                 break;
             case Difficulty.Hell:
                 default_playerLife = 0;
                 default_playerBomb = 0;
                 DifficulBarrage = 3;
-                DifficulAllIndex+=6;
+                DifficulAllIndex += 6;
                 break;
         }
     }
@@ -686,6 +685,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         DontDestroyOnLoad(AudioPlay(MenuSound[3], true));
         statusType = StatusType.Pause;
+        RefreshGame();
         StartCoroutine(Loadscene(SceneManager.GetActiveScene().buildIndex));
     }
     public void BackToMenu()
@@ -829,7 +829,7 @@ public class GameManager : MonoBehaviour
         saveData.AllTimeBarrage = AllTimeBarrage;
         saveData.enemyCount = enemyCount;
         saveData.killEnemy = killEnemy;
-        if(playerScript)
+        if (playerScript)
             saveData.hp = playerScript.GetComponent<Death>().hp;
         for (int i = 0; i < Achievements.Length; i++)
         {
@@ -915,10 +915,10 @@ public class GameManager : MonoBehaviour
     {
         GetComponent<Rigidbody2D>().velocity = Vector3.up;
         yield return new WaitForSeconds(3f);
-    
-            GetComponent<AudioSource>().Stop();
-            GetComponent<AudioSource>().PlayOneShot(audio.clip);
-        
+
+        GetComponent<AudioSource>().Stop();
+        GetComponent<AudioSource>().PlayOneShot(audio.clip);
+
         GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
         transform.position = new Vector3(0, 0, 0);
     }
@@ -1033,7 +1033,7 @@ public class GameManager : MonoBehaviour
                     MapBonusScores[3].text = "x1";
                     break;
                 }
-               
+
 
         }
 
