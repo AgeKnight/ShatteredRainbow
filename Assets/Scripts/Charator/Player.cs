@@ -23,7 +23,6 @@ public class Player : MonoBehaviour
    
     float nowspeed;
     float[] annularColor = { 0.8f, 0.8f };
-    bool isUseLazer = false;
     bool isUseDrone = false;
     float invokeTime;
     Coroutine coroutine;
@@ -71,6 +70,7 @@ public class Player : MonoBehaviour
     public Sprite[] DroneRLevil;
     public Sprite[] DroneLLevil;
     public float around_speed = 60f; //公转环绕速度
+    public bool isUseLazer = false;
     #endregion
     #region "Hide"
     [HideInInspector]
@@ -94,6 +94,7 @@ public class Player : MonoBehaviour
     public bool canMove = false;
     [HideInInspector]
     public bool isAttack = false;
+    public float backlife;
     #endregion
     void Awake()
     {
@@ -193,6 +194,12 @@ public class Player : MonoBehaviour
                 }
             }
             RotateVyle();
+        }
+        if (playerType == PlayerType.Lil_Void && !isUseBomb && death.hp>0 && death.hp<death.totalHp)
+        {
+           
+            death.Hurt(-backlife*Time.deltaTime);
+             Debug.Log(death.hp);
         }
         if (playerType == PlayerType.Lil_Void && isUseBomb && tempDrone[0]!=null&&tempDrone[1]!=null)
         {
@@ -353,8 +360,16 @@ public class Player : MonoBehaviour
             if(playerType == PlayerType.Lil_Void&&!isUseBomb)
             {
                 BlackHoleObject.SetActive(true);
+                coroutine = StartCoroutine(Attack());
             }
-            coroutine = StartCoroutine(Attack());
+            else if(playerType == PlayerType.Lil_Void&&isUseBomb)
+            {
+                //這邊不執行
+            }
+            else
+            {
+                coroutine = StartCoroutine(Attack());
+            }
         }
         if (Input.GetKeyUp(GameManager.Instance.curinput[8]) || Input.GetKeyUp(GameManager.Instance.curinput[9]) && coroutine != null)
         {
@@ -678,7 +693,8 @@ public class Player : MonoBehaviour
     }
     public void againUseBomb()
     {
-        BlackHoleObject.SetActive(false);
+        if(BlackHoleObject)
+            BlackHoleObject.SetActive(false);
         isUseBomb = false;
         BombAttack = true;
         eatDrone = 0;

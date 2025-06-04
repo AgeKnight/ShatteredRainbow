@@ -109,7 +109,7 @@ public class Death : MonoBehaviour
                         hp -= value;
                     }
                     hpBar.value = hp / totalHp;
-                    if (GameManager.Instance.playerScript.isAttack)
+                    if (GameManager.Instance.playerScript.isAttack&&!GameManager.Instance.playerScript.isUseBomb)
                     {
                         tempHurt += value;
                     }
